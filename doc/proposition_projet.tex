@@ -34,25 +34,23 @@
 	\justify
 	
 	\section{Concept}
-		Suite au cours de GRE, l'idée nous est venu de créer une application dédiée à la résolution des problèmes classiques de graphes. Celle-ci permet à l'utilisateur de saisir des sommet et des arrêtes, puis après sélection du problème à résoudre, l'application rends une solution textuelle et éventuellement graphique.
+		Suite au cours de GRE, l'idée nous est venu de créer une application dédiée à la résolution des problèmes classiques de graphes. Celle-ci permet à l'utilisateur de saisir des sommets et des arrêtes, puis après sélection du problème à résoudre, l'application rend une solution textuelle et éventuellement graphique.
 		
 	\section{Spécifications}
 		\subsection{Saisie du graphe}
 			Le graphe doit être saisi au moyen d'un langage simple spécifique à l'application. Il sera donc nécessaire de \textit{parser} les commandes afin générer le graphe. Celles-ci pourront également être sauvées dans un fichier texte, afin de pouvoir reprendre son travail d'une session à la suivante.
 		
 		\subsection{Interface graphique}
-			La seconde partie de la fenêtre sera dédiée à la représentation graphique du graphe. Les sommets pourront être déplacés au moyen du curseur pour pouvoir mieux visualiser la résolution.
+			La seconde partie de l'application sera dédiée à la représentation graphique. Les sommets pourront être déplacés au moyen du curseur pour pouvoir mieux visualiser la résolution.
 		
 		\subsection{Résolution du graphe}
-			Selon le problème à résoudre, l'application déterminera automatiquement l'algorithme à utiliser.
+			Selon le problème à résoudre, l'application déterminera automatiquement l'algorithme à utiliser et l'appliquera.
 	
 	\section{Fonctions optionnelles}
 		\subsection{Interface graphique avancée}
 			Le graphe généré sera automatiquement disposé de manière simple à lire (de façon planaire lorsque cela est possible), indépendamment de l'ordre de saisie des sommets. 
 		
 		\subsection{Résolution du graphe avec plusieurs algorithmes}
-			Lorsque le problème peut être résolu avec différents algorithmes, l'application pourra les lancer en parallèle pour mettre à profit l'architecture multi-core de l'ordinateur. La résolution pourra alors soit s'arrêter lorsque une solution est trouvée ou compléter tous les algorithmes et noter le temps d'exécution de chacun, afin de comparer leur efficacité.
+			Lorsque le problème peut être résolu avec différents algorithmes, l'application pourra les lancer en parallèle pour mettre à profit l'architecture multi-core. La résolution pourra alors soit s'arrêter lorsqu'une solution est trouvée ou compléter tous les algorithmes et afficher le temps d'exécution de chacun, afin de comparer leur efficacité.
 			
-		
-	
 \end{document}
