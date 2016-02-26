@@ -42,15 +42,18 @@
 		
 		\subsection{Interface graphique}
 			La seconde partie de l'application sera dédiée à la représentation graphique. Les sommets pourront être déplacés au moyen du curseur pour pouvoir mieux visualiser la résolution.
+			
+		\subsection{Algorithmes sur les graphes}
+			L'application permettra d'appliquer les algorithmes classiques des graphes, et sera facilement extensible à de nouveaux algorithmes. 
 		
-		\subsection{Résolution du graphe}
-			Selon le problème à résoudre, l'application déterminera automatiquement l'algorithme à utiliser et l'appliquera.
-	
 	\section{Fonctions optionnelles}
+		\subsection{Résolution du graphe automatisée}
+			Selon le problème à résoudre, l'application déterminera automatiquement l'algorithme à utiliser et l'appliquera.
+		
 		\subsection{Interface graphique avancée}
 			Le graphe généré sera automatiquement disposé de manière simple à lire (de façon planaire lorsque cela est possible), indépendamment de l'ordre de saisie des sommets. 
 		
-		\subsection{Résolution du graphe avec plusieurs algorithmes}
-			Lorsque le problème peut être résolu avec différents algorithmes, l'application pourra les lancer en parallèle pour mettre à profit l'architecture multi-core. La résolution pourra alors soit s'arrêter lorsqu'une solution est trouvée ou compléter tous les algorithmes et afficher le temps d'exécution de chacun, afin de comparer leur efficacité.
+		\subsection{Parallélisation des traitements}
+			Lorsque cela est possible, soit pour générer un résultat, soit pour certains algorithmes, l'application utilisera de la programmation concurrente afin d'accélérer les différents traitements.
 			
 \end{document}
