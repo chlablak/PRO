@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="Planification PRO" company="Heig-vd" webLink="http://" view-date="2016-03-07" view-index="0" gantt-divider-location="599" resource-divider-location="300" version="2.0" locale="fr_CH">
+<?xml version="1.0" encoding="UTF-8"?><project name="Planification PRO" company="Heig-vd" webLink="http://" view-date="2016-03-07" view-index="0" gantt-divider-location="592" resource-divider-location="300" version="2.0" locale="fr_CH">
     <description/>
-    <view zooming-state="default:6" id="gantt-chart">
+    <view zooming-state="default:7" id="gantt-chart">
         <field id="tpd3" name="Nom" width="71" order="0"/>
         <field id="tpd4" name="Date de début" width="13" order="1"/>
         <field id="tpd5" name="Date de fin" width="15" order="2"/>
@@ -114,9 +114,9 @@
         <displaycolumn property-id="tpd9" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd8" order="-1" width="75" visible="false"/>
         <displaycolumn property-id="tpd0" order="-1" width="75" visible="false"/>
-        <displaycolumn property-id="tpd3" order="0" width="425" visible="true"/>
-        <displaycolumn property-id="tpd4" order="1" width="78" visible="true"/>
-        <displaycolumn property-id="tpd5" order="2" width="92" visible="true"/>
+        <displaycolumn property-id="tpd3" order="0" width="420" visible="true"/>
+        <displaycolumn property-id="tpd4" order="1" width="77" visible="true"/>
+        <displaycolumn property-id="tpd5" order="2" width="91" visible="true"/>
     </taskdisplaycolumns>
     <previous/>
     <roles roleset-name="Default"/>
