@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Planification PRO" company="Heig-vd" webLink="http://" view-date="2016-03-07" view-index="0" gantt-divider-location="599" resource-divider-location="300" version="2.0" locale="fr_CH">
+    <description/>
+    <view zooming-state="default:6" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="71" order="0"/>
+        <field id="tpd4" name="Date de début" width="13" order="1"/>
+        <field id="tpd5" name="Date de fin" width="15" order="2"/>
+        <timeline><![CDATA[1]]></timeline>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="35" order="0"/>
+        <field id="1" name="Rôle par défaut" width="31" order="1"/>
+        <field id="tpc0" name="Sous-chef" width="32" order="2"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <calendar id="1" name="default">
+                <default-week sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+                <only-show-weekends value="false"/>
+                <overriden-day-types/>
+                <days/>
+            </calendar>
+        </day-types>
+        <date year="2012" month="4" date="6"/>
+        <date year="2012" month="4" date="8"/>
+        <date year="2012" month="4" date="9"/>
+        <date year="2012" month="5" date="17"/>
+        <date year="2012" month="5" date="27"/>
+        <date year="2012" month="5" date="28"/>
+        <date year="" month="1" date="1"/>
+        <date year="" month="1" date="2"/>
+        <date year="" month="8" date="1"/>
+        <date year="" month="12" date="25"/>
+        <date year="" month="12" date="26"/>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="37" name="Conception" meeting="false" start="2016-03-07" duration="11" complete="0" expand="true">
+            <depend id="38" type="2" difference="0" hardness="Strong"/>
+            <task id="0" name="Définition du langage" color="#8cb6ce" meeting="false" start="2016-03-07" duration="6" complete="0" expand="true">
+                <depend id="1" type="2" difference="0" hardness="Strong"/>
+            </task>
+            <task id="24" name="Diagrammes UML" color="#8cb6ce" meeting="false" start="2016-03-07" duration="11" complete="0" expand="true"/>
+            <task id="40" name="Convention de codage" color="#8cb6ce" meeting="false" start="2016-03-07" duration="2" complete="0" expand="true"/>
+        </task>
+        <task id="38" name="Implémentation" color="#000000" meeting="false" start="2016-03-22" duration="41" complete="0" expand="true">
+            <depend id="41" type="2" difference="0" hardness="Strong"/>
+            <task id="1" name="Parseur (saisie, algos, import/export)" color="#8cb6ce" meeting="false" start="2016-03-22" duration="25" complete="0" expand="true"/>
+            <task id="6" name="Algorithmes" color="#8cb6ce" meeting="false" start="2016-03-22" duration="24" complete="0" expand="true"/>
+            <task id="10" name="GUI" meeting="false" start="2016-03-22" duration="26" complete="0" expand="true">
+                <task id="12" name="Création de la fenêtre, menus, onglets" color="#8cb6ce" meeting="false" start="2016-03-22" duration="15" complete="0" expand="true">
+                    <depend id="7" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="14" name="Documentation d'aide (avec recherche)" color="#8cb6ce" meeting="false" start="2016-03-22" duration="17" complete="0" expand="true"/>
+                <task id="11" name="Affichage des résultats de commande" color="#8cb6ce" meeting="false" start="2016-03-22" duration="18" complete="0" expand="true"/>
+                <task id="15" name="Edition d'un graphe à la souris" color="#8cb6ce" meeting="false" start="2016-03-22" duration="20" complete="0" expand="true"/>
+                <task id="7" name="sauvegarde/chargement des commandes depuis/vers fichier" color="#8cb6ce" meeting="false" start="2016-04-12" duration="11" complete="0" expand="true">
+                    <depend id="17" type="2" difference="0" hardness="Strong"/>
+                </task>
+            </task>
+            <task id="17" name="Exportation du dessin du graphe au format SVG (ou autre)" color="#8cb6ce" meeting="false" start="2016-04-27" duration="15" complete="0" expand="true"/>
+        </task>
+        <task id="41" name="Tests" color="#8cb6ce" meeting="false" start="2016-05-18" duration="9" complete="0" expand="true"/>
+        <task id="13" name="Documentation (Rédaction du rapport) en français" color="#8cb6ce" shape="1,0,1,0,0,1,0,1,1,0,1,0,0,1,0,1" meeting="false" start="2016-03-07" duration="61" complete="0" expand="true"/>
+    </tasks>
+    <resources>
+        <custom-property-definition id="tpc0" name="Sous-chef" type="text"/>
+        <resource id="0" name="Christopher Browne" function="Default:1" contacts="" phone=""/>
+        <resource id="1" name="Patrick Champion" function="Default:0" contacts="" phone=""/>
+        <resource id="2" name="Damien Rochat" function="Default:0" contacts="" phone=""/>
+        <resource id="3" name="Alain Hardy" function="Default:0" contacts="" phone=""/>
+        <resource id="4" name="Patrick Djomo" function="Default:0" contacts="" phone=""/>
+        <resource id="5" name="Sébastien Richoz" function="Default:0" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="13" resource-id="0" function="Default:1" responsible="true" load="0.0"/>
+        <allocation task-id="41" resource-id="0" function="Default:1" responsible="false" load="100.0"/>
+        <allocation task-id="11" resource-id="0" function="Default:1" responsible="true" load="50.0"/>
+        <allocation task-id="15" resource-id="0" function="Default:1" responsible="true" load="50.0"/>
+        <allocation task-id="1" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="41" resource-id="1" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="14" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="41" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="17" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="12" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="41" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="7" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="6" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="41" resource-id="4" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="6" resource-id="5" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="41" resource-id="5" function="Default:0" responsible="false" load="100.0"/>
+    </allocations>
+    <vacations/>
+    <taskdisplaycolumns>
+        <displaycolumn property-id="tpd2" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd7" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd6" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd10" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd11" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd1" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd9" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd8" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd0" order="-1" width="75" visible="false"/>
+        <displaycolumn property-id="tpd3" order="0" width="425" visible="true"/>
+        <displaycolumn property-id="tpd4" order="1" width="78" visible="true"/>
+        <displaycolumn property-id="tpd5" order="2" width="92" visible="true"/>
+    </taskdisplaycolumns>
+    <previous/>
+    <roles roleset-name="Default"/>
+</project>
