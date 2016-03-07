@@ -1,0 +1,57 @@
+\documentclass[french]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{babel}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+
+\geometry{
+ 	a4paper,
+ 	total={210mm,297mm},
+ 	left=20mm,
+ 	right=20mm,
+ 	top=20mm,
+ 	bottom=20mm,
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlist[enumerate,1]{leftmargin=2cm}
+
+\lhead{Browne, Champion, Djomo,\\Hardy, Richoz, Rochat}
+\chead{}
+\rhead{03.03.2016}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+	 
+\begin{document}
+	\centering
+	\large{\textbf{PRO: cahier des charges}}
+	
+	\justify
+	
+	\section{Spécification}
+		L'objectif global de ce projet est la réalisation d'une application de résolution de problèmes classiques des graphes dans le cadre du cours PRO. Elle sera réalisée en Qt afin de pouvoir être déployée sur les plateformes Linux, Mac OS et Windows mais ne sera que testée sur cette dernière.
+	\section{Fonctionalités}
+		\subsection{Fixes}
+			Les fonctionnalités suivantes devront être réalisées avant le 30 mai (semaine 14 du semestre):
+			\begin{enumerate}
+				\item L'application permet la saisie de graphes orientés ou non et pondérés ou non au moyen d'un langage spécifique.
+				\item Les commandes peuvent être sauvées vers et chargées depuis un fichier texte.
+				\item Une interface graphique \textbf{-RAJOUTER UN LIEN SUR LA GUI ICI-} affiche le graphe et les sommets peuvent être déplacés au moyen de la souris (glisser-déposer).
+				\item Un menu propose les algorithmes de résolution et les problèmes à résoudre \textbf{-RAJOUTER LISTE EXHAUSTIVE ICI-} et détermine ensuite si la résolution est possible, puis démarre l'algorithme choisi.
+				\item Un bouton permet d'exporter le graphe dans différents formats: SVG, ... \textbf{-RAJOUTER LISTE EXHAUSTIVE ICI-}
+			\end{enumerate}
+		\subsection{Optionnelles}
+			Les fonctionnalités ci-dessous seront implémentées si le temps est suffisant:
+			\begin{enumerate}
+				\item ...
+			\end{enumerate}	
+	
+			
+\end{document}
