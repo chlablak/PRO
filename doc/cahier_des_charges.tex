@@ -42,34 +42,35 @@
 			\includegraphics[width=0.9\textwidth]{maquette}
 		
 	\section{Fonctionalités}
-		Les fonctionnalités suivantes devront être réalisées avant le 30 mai (semaine 14 du semestre). Les optionnelles seront à faire si le temps le permet, et les futures sont des améliorations de l'application non prévues dans le cadre du projet.
+		Les fonctionnalités suivantes devront être réalisées avant le 30 mai (semaine 14 du semestre). Les optionnelles seront faites si le temps le permet et les futures sont des améliorations de l'application non prévues dans le cadre du projet.
 		\begin{enumerate}
-			\item Saisie de graphes orientés ou non et pondérés ou non au moyen d'un langage spécifique.
+			\item Saisie de graphes orientés et/ou pondérés au moyen d'un langage spécifique.
 			\begin{enumerate}
-				\item Chargement d'un (grand) graphe depuis un fichier externe.
-				\item (optionnelle) Génération aléatoire de graphe.
+				\item Chargement d'un graphe depuis un fichier externe.
+				\item (Optionnelle) Génération aléatoire de graphe.
 			\end{enumerate}
 			
-			\item Appliquer les algorithmes classiques aux graphes et afficher leurs résultats.
+			\item Application des algorithmes classiques aux graphes et affichage leurs résultats.
 			\begin{enumerate}
-				\item Les commandes peuvent être sauvées vers et chargées depuis un fichier texte.
-				\item Plusieurs onglets peuvent être ouverts en parallèle.
-				\item (optionnelle) Auto-complétion des fonctions et des variables pendant une saisie.
-				\item (optionnelle) Historique des commandes avec les flèches HAUT et BAS.
-				\item (future) Exécution/affichage étape par étape des algorithmes.
+				\item Sauvegarde vers et chargement depuis un fichier texte.
+				\item Ouverture de plusieurs onglets en parallèle.
+				\item (Optionnelle) Auto-complétion des fonctions et des variables pendant une saisie.
+				\item (Optionnelle) Historique des commandes avec les flèches HAUT et BAS.
+				\item (Future) Exécution/affichage étape par étape des algorithmes.
 			\end{enumerate}
 			
-			\item Dessiner la représentation graphique d'un graphe défini précédemment.
+			\item Représentation graphique d'un graphe défini précédemment.
 			\begin{enumerate}
-				\item Édition à la souris de la représentation graphique, reprise sur tous les dessins.
+				\item Édition au curseur de la représentation graphique, reprise sur tous les dessins.
 				\item Exportation des dessins au format SVG.
-				\item (optionnelle) Exportation dans d'autres formats d'image.
-				\item (future) Dessiner le graphe directement de manière optimale (avec le moins de chevauchement au niveau des arcs/arêtes).
+				\item (Optionnelle) Exportation dans d'autres formats d'image.
+				\item (Optionnelle) Exportation de fichier CSV représentant le graphe.
+				\item (Future) Dessin du graphe directement de manière optimale (avec le moins de chevauchement au niveau des arcs/arêtes).
 			\end{enumerate}
 			
 			\item Un menu d'aide contenant les différentes entrées/fonctions possibles avec une documentation associée, ainsi qu'une option de recherche.
 			\begin{enumerate}
-				\item (future) Possibilité de lancer un algorithme via une fenêtre de dialogue.
+				\item (Future) Possibilité de lancer un algorithme via une fenêtre de dialogue.
 			\end{enumerate}
 		\end{enumerate}
 		
@@ -78,10 +79,10 @@
 			\begin{itemize}
 				\item Orienté / non-orienté
 				\item Biparti / classique
-				\item Sommet pondéré / non-pondéré
-				\item Sommet avec capacité (min et max)
-				\item Arête (arc) pondérée / non-pondérée
-				\item Arête (arc) avec capacité (min et max)
+				\item Sommets pondérés / non-pondérés
+				\item Sommets avec capacités min et max
+				\item Arcs/arêtes pondéré(e)s / non-pondéré(e)s
+				\item Arcs/arêtes avec capacité min et max
 			\end{itemize}
 			
 		\subsection{Algorithmes}
@@ -90,17 +91,17 @@
 				\item Parcours du graphe (DFS, BFS)
 				\item Tri topologique
 				\item Détection de cycle
-				\item Composante fortement connexe (Kosaraju, Tarjan) 
+				\item Composantes fortement connexes (Kosaraju, Tarjan) 
 				\item Arbre recouvrant de poids min (Kruskal, Prim)
 				\item Arborescence recouvrante de poids min (Chu-Liu)
 				\item Arborescence recouvrante de section min/max (Prim orienté)
 				\item Plus court chemin depuis un sommet (Acyclique, Bellman-Ford, Dijkstra)
 				\item Flot de capacité fixée (ou max) (Ford-Fulkerson)
 				\item Flot de capacité fixée (ou max) de poids min (Busacker-Gowen)
-				\item (optionnel) Problème de transbordement
-				\item (optionnel) Plus courts chemins depuis tous les sommets (Floyd-Warshall, Johnson)
-				\item (futur) Couplage max (de poids min)
-				\item (futur) Postier chinois
+				\item (Optionnel) Problème de transbordement
+				\item (Optionnel) Plus courts chemins depuis tous les sommets (Floyd-Warshall, Johnson)
+				\item (Futur) Couplage max (de poids min)
+				\item (Futur) Postier chinois
 			\end{itemize}
 			NB: les noms entre parenthèses sont des exemples d'algorithmes pouvant être implémentés.
 		
