@@ -25,7 +25,7 @@
 
 \lhead{Browne, Champion, Djomo,\\Hardy, Richoz, Rochat}
 \chead{}
-\rhead{03.03.2016}
+\rhead{07.03.2016}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 	 
@@ -37,21 +37,47 @@
 	
 	\section{Spécification}
 		L'objectif global de ce projet est la réalisation d'une application de résolution de problèmes classiques des graphes dans le cadre du cours PRO. Elle sera réalisée en Qt afin de pouvoir être déployée sur les plateformes Linux, Mac OS et Windows mais ne sera que testée sur cette dernière.
+		
+		\subsection{Maquette (pas définitive)}
+			\includegraphics[width=0.9\textwidth]{maquette}
+		
 	\section{Fonctionalités}
-		\subsection{Fixes}
-			Les fonctionnalités suivantes devront être réalisées avant le 30 mai (semaine 14 du semestre):
+		Les fonctionnalités suivantes devront être réalisées avant le 30 mai (semaine 14 du semestre). Les "optionnelles" seront à faire si le temps le permet, et les "futures" sont des améliorations de l'application non prévues dans le cadre du projet.
+		\begin{enumerate}
+			\item Saisie de graphes orientés ou non et pondérés ou non au moyen d'un langage spécifique.
 			\begin{enumerate}
-				\item L'application permet la saisie de graphes orientés ou non et pondérés ou non au moyen d'un langage spécifique.
-				\item Les commandes peuvent être sauvées vers et chargées depuis un fichier texte.
-				\item Une interface graphique \textbf{-RAJOUTER UN LIEN SUR LA GUI ICI-} affiche le graphe et les sommets peuvent être déplacés au moyen de la souris (glisser-déposer).
-				\item Un menu propose les algorithmes de résolution et les problèmes à résoudre \textbf{-RAJOUTER LISTE EXHAUSTIVE ICI-} et détermine ensuite si la résolution est possible, puis démarre l'algorithme choisi.
-				\item Un bouton permet d'exporter le graphe dans différents formats: SVG, ... \textbf{-RAJOUTER LISTE EXHAUSTIVE ICI-}
+				\item Chargement d'un (grand) graphe depuis un fichier externe.
 			\end{enumerate}
-		\subsection{Optionnelles}
-			Les fonctionnalités ci-dessous seront implémentées si le temps est suffisant:
+			
+			\item Appliquer les algorithmes classiques aux graphes et afficher leurs résultats.
 			\begin{enumerate}
-				\item ...
-			\end{enumerate}	
-	
+				\item Les commandes peuvent être sauvées vers et chargées depuis un fichier texte.
+				\item Plusieurs onglets peuvent être ouverts en parallèle.
+				\item (optionnelle) Auto-complétion des fonctions et des variables pendant une saisie.
+			\end{enumerate}
+			
+			\item Dessiner la représentation graphique d'un graphe défini précédemment.
+			\begin{enumerate}
+				\item Edition à la souris de la représentation graphique, reprise sur tous les dessins.
+				\item Exportation des dessins au format SVG.
+				\item (optionnelle) Exportation dans d'autres format d'image.
+				\item (future) Dessiner le graphe directement de manière "optimale" (avec le moins de chevauchement au niveau des edges).
+			\end{enumerate}
+			
+			\item Un menu d'aide contenant les différentes entrées/fonctions possibles avec une documentation associée, ainsi qu'une option de recherche.
+			\begin{enumerate}
+				\item (future) Possibilités de lancer un algorithme via une fenêtre de dialogue.
+			\end{enumerate}
+		
+			\item (...)
+		\end{enumerate}
+		
+		\section{Planification}
+			\subsection{Liste des tâches}
+				(listes des tâches avec leur durée estimée et leur dépendance)
+			\subsection{Graphe potientiels-tâches}
+				(éventuellement)
+			\subsection{Diagramme de Gantt}
+				(avec prise en compte des retards)
 			
 \end{document}
