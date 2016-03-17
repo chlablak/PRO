@@ -1,0 +1,77 @@
+\documentclass[french]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{babel}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage[normalem]{ulem}
+
+% Grammaire EBNF
+\usepackage{syntax}
+\setlength{\grammarparsep}{20pt plus 1pt minus 1pt}
+\setlength{\grammarindent}{10em}
+
+\geometry{
+ 	a4paper,
+ 	total={210mm,297mm},
+ 	left=20mm,
+ 	right=20mm,
+ 	top=20mm,
+ 	bottom=20mm,
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlist[enumerate,1]{leftmargin=2cm}
+
+% Entêtes
+\lhead{Browne Champion Djomo Hardy Richoz Rochat}
+\chead{}
+\rhead{PRO}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+	 
+\begin{document}
+	% Titre du document
+	\title{Rapport}
+	\author{GraphY\\ % ou un autre nom
+		Projet de semestre\\
+		Browne Champion Djomo Hardy Richoz Rochat\\
+		HEIG-VD}
+	\date{\today} % date du jour
+	\maketitle
+	
+	% Tables des matières
+	\tableofcontents
+	
+	% Pour tout le document
+	\justify
+	\normalsize
+	
+	\section{Normalisation du langage} % Champion
+		\subsection{Introduction} % Champion
+			Dans le cadre de l'application, l'utilisateur est amené à entrer des commandes lui permettant de créer et de modifier des graphes, tout autant que d'appeler des fonctions effectuant différents traitements (algorithmes, lecture depuis un fichier, ...). Il est donc nécessaire de définir une grammaire claire sur la syntaxe de ces commandes, ainsi que leur sémantique.
+			
+		\subsection{Analyse} % Champion
+			
+		\subsection{Conception} % Champion
+			
+		\subsection{Règles de production} % Champion
+			
+			\begin{grammar}
+				<statement> ::= <ident> '=' <expr>
+				\alt 'for' <ident> '=' <expr> 'to' <expr> 'do' <statement>
+				\alt '\{' <stat-list> '\}'
+				\alt <empty>
+				
+				<stat-list> ::= <statement> ';' <stat-list> | <statement>
+			\end{grammar}
+		
+		\subsection{Exemples} % Champion
+				
+\end{document}
