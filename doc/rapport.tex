@@ -9,6 +9,7 @@
 \usepackage{lastpage}
 \usepackage{ragged2e}
 \usepackage{enumitem}
+\usepackage{hyperref}
 
 \geometry{
  	a4paper,
@@ -31,12 +32,22 @@
 	 
 \begin{document}
 	\centering
-	\large{\textbf{PRO: cahier des charges}}
+	\large{\textbf{PRO: Rapport}}
 	
 	\justify
 	
-	\section{Spécification}
-		L'objectif global de ce projet est la réalisation d'une application de résolution de problèmes classiques des graphes dans le cadre du cours PRO. Elle sera réalisée en Qt afin de pouvoir être déployée sur les plateformes Linux, Mac OS et Windows mais ne sera que testée sur cette dernière.
+	\section{Conventions de codage}
+		Selon les conventions de Qt \url{https://wiki.qt.io/Qt_Coding_Style}.
+		
+	\section{Spécifications du langage}
+		\subsection{Saisie d'un graphe}
+			
+	
+	
+	
+	
+	
+	
 		
 		\subsection{Maquette (pas définitive)}
 			\includegraphics[width=0.9\textwidth]{maquette}
@@ -50,7 +61,7 @@
 				\item (Optionnelle) Génération aléatoire de graphe.
 			\end{enumerate}
 			
-			\item Application des algorithmes classiques aux graphes et affichage de leurs résultats.
+			\item Application des algorithmes classiques aux graphes et affichage leurs résultats.
 			\begin{enumerate}
 				\item Sauvegarde vers et chargement depuis un fichier texte.
 				\item Ouverture de plusieurs onglets en parallèle.
@@ -103,13 +114,7 @@
 				\item (Futur) Couplage max (de poids min)
 				\item (Futur) Postier chinois
 			\end{itemize}
-			NB: les noms entre parenthèses sont des exemples d'algorithmes pouvant être implémentés.\newline
-			
-			Il sera aussi possible de déterminer si un graphe est
-			\begin{itemize}
-				\item connexe, fortement connexe
-				\item vide
-			\end{itemize}
+			NB: les noms entre parenthèses sont des exemples d'algorithmes pouvant être implémentés.
 		
 	\section{Planification}
 		\subsection{Diagramme de Gantt}
