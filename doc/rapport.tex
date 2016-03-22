@@ -10,6 +10,10 @@
 \usepackage{ragged2e}
 \usepackage{enumitem}
 \usepackage[normalem]{ulem}
+\usepackage{hyperref} % pour \url{URL}
+\usepackage{color} % pour \textcolor{color}{text}
+\usepackage{listings} % pour afficher du code
+\usepackage{longtable} % pour l'environnement longtable
 
 % Grammaire EBNF
 \usepackage{syntax}
@@ -38,8 +42,8 @@
 	 
 \begin{document}
 	% Titre du document
-	\title{Rapport}
-	\author{GraphY\\ % ou un autre nom
+	\title{GraphY} % ou un autre nom
+	\author{Rapport\\ 
 		Projet de semestre\\
 		Browne Champion Djomo Hardy Richoz Rochat\\
 		HEIG-VD}
@@ -53,16 +57,85 @@
 	\justify
 	\normalsize
 	
+	\section{Cadre de développement} % Champion
+		L'application est développée à l'aide du langage C++ et de la bibliothèque Qt \textcolor{red}{(insérer les versions utilisées ainsi que les compilateurs ?)}. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décider d'utiliser le Coding Style de Qt qui correspond bien à nos besoins: \url{https://wiki.qt.io/Qt_Coding_Style}.
+	
 	\section{Normalisation du langage} % Champion
-		\subsection{Introduction} % Champion
-			Dans le cadre de l'application, l'utilisateur est amené à entrer des commandes lui permettant de créer et de modifier des graphes, tout autant que d'appeler des fonctions effectuant différents traitements (algorithmes, lecture depuis un fichier, ...). Il est donc nécessaire de définir une grammaire claire sur la syntaxe de ces commandes, ainsi que leur sémantique.
+		Dans le cadre de l'application, l'utilisateur est amené à entrer des commandes lui permettant de créer et de modifier des graphes, tout autant que d'appeler des fonctions effectuant différents traitements (algorithmes, lecture depuis un fichier, ...). Il est donc nécessaire de définir une grammaire claire sur la syntaxe de ces commandes, ainsi que leur sémantique.
 			
-		\subsection{Analyse} % Champion
+		\subsection{Analyse et conception} % Champion
+			Premièrement, il faut définir les types disponibles dans le langage. Pour cela il est intéressant de partir des algorithmes de graphe et de voir les types de résultats que nous attendons en sortie, ainsi que les types de paramètres dont nous aurons besoin:
+				
+				\begin{itemize}
+					\item Boolean: un graphe a-t-il un cycle? est-il eulérien? ...
+					\item Number: poids d'un arc, indice d'un sommet, ...
+					\begin{itemize}
+						\item Integer: pour les index, ...
+						\item Float: pour les poids, ...
+					\end{itemize}
+					\item String: label d'un sommet, nom d'une fonction, ...
+					\item Array: liste d'arêtes, matrices (Floyd-Warshall), ...
+					\item Graph: le graphe a proprement parler
+					\begin{itemize}
+						\item Vertex: un sommet, son indice, son poids, ...
+						\item Edge: une arête/arc, son poids, ...
+					\end{itemize}
+				\end{itemize} 
+				
+			A présent que nous avons une idée des types disponibles, il faut définir leur domaine ainsi que les opérations disponibles et leur syntaxe. On fait le choix délibéré de se concentrer sur les opérations concernant les graphes, les opérations simples comme additionner deux nombres ou les comparaisons ne sont pas prévues. Cependant la base du langage doit permettre de les définir plus tard. 
 			
-		\subsection{Conception} % Champion
+				\begin{longtable}{lll}
+					\textbf{\texttt{Boolean}}\\ \hline \hline
+					Domaine & \multicolumn{2}{l}{\texttt{True} ou \texttt{False}}\\ 
+					Opérations & Déclaration & \texttt{Boolean a = True;}\\
+							   & Affectation & \texttt{a = False; a = f();}\\
+							   & Lecture & \texttt{a; f(a); Boolean b = a;}\\ 
+					\\
+					\textbf{\texttt{Number}}\\ \hline \hline
+					Domaine & \multicolumn{2}{l}{\texttt{Integer} et \texttt{Float}}\\ 
+					\\
+					\textbf{\texttt{Integer}}\\ \hline \hline
+					Domaine & \multicolumn{2}{l}{Entier signé sur 32 bits}\\
+					Opérations & Déclaration & \texttt{Integer a = -20;}\\
+							   & Affectation & \texttt{a = 2; a = f();}\\
+							   & Lecture & \texttt{a; f(a); Integer b = a;}\\ 
+					\\
+					\textbf{\texttt{Float}}\\ \hline \hline
+					Domaine & \multicolumn{2}{l}{Nombre à virgule flottante sur 32 bits}\\
+					Opérations & Déclaration & \texttt{Float a = -32.4;}\\
+							   & Affectation & \texttt{a = 4.0; a = f();}\\
+							   & Lecture & \texttt{a; f(a); Float b = a;}\\ 
+					\\
+					\textbf{\texttt{String}}\\ \hline \hline
+					Domaine & \multicolumn{2}{l}{Ensemble de un ou plusieurs caractères ASCII}\\
+					Opérations & Déclaration & \texttt{String a = "Hello";}\\
+							   & Affectation & \texttt{a = "World"; a = f();}\\
+							   & Lecture & \texttt{a; f(a); String b = a;}\\ 
+					\\
+					\textbf{\texttt{Array}}\\ \hline \hline
+					Domaine & \multicolumn{2}{l}{Tableau dynamique hétérogène}\\
+					Opérations & Déclaration & \texttt{Array a = [1.0, "Salut", 3];}\\
+							   & Affectation & \texttt{a = [4, 5];}\\ 
+							   & Lecture & \texttt{f(a); Array b = a;}\\
+							   & Accès & \texttt{Integer c = a[1];}\\
+					\\
+					\textbf{\texttt{Graph}}\\ \hline \hline
+					Domaine & \multicolumn{2}{l}{}\\
+					Opérations &  & \texttt{}\\
+							   &  & \texttt{}\\ 
+					\\
+					\textbf{\texttt{Vertex}}\\ \hline \hline
+					Domaine & \multicolumn{2}{l}{}\\
+					Opérations &  & \texttt{}\\
+							   &  & \texttt{}\\ 
+					\\
+					\textbf{\texttt{Edge}}\\ \hline \hline
+					Domaine & \multicolumn{2}{l}{}\\
+					Opérations &  & \texttt{}\\
+							   &  & \texttt{}\\ 
+				\end{longtable}
 			
 		\subsection{Règles de production} % Champion
-			
 			\begin{grammar}
 				<statement> ::= <ident> '=' <expr>
 				\alt 'for' <ident> '=' <expr> 'to' <expr> 'do' <statement>
@@ -71,7 +144,5 @@
 				
 				<stat-list> ::= <statement> ';' <stat-list> | <statement>
 			\end{grammar}
-		
-		\subsection{Exemples} % Champion
 				
 \end{document}
