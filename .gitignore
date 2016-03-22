@@ -73,6 +73,7 @@ Temporary Items
 
 # Space saving
 *.pdf
+!doc/Planification/gantt.pdf
 
 *.class
 
