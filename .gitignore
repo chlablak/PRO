@@ -73,7 +73,6 @@ Temporary Items
 
 # Space saving
 *.pdf
-!doc/Planification/gantt.pdf
 
 *.class
 
@@ -97,3 +96,6 @@ hs_err_pid*
 
 # Dossier personnel
 perso/*
+
+# Exception
+!doc/Planification/gantt.pdf
