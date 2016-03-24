@@ -97,3 +97,6 @@ hs_err_pid*
 
 # Dossier personnel
 perso/*
+
+# Exception
+!doc/Planification/gantt.pdf
