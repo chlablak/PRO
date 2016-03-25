@@ -1,0 +1,129 @@
+\documentclass[french]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{babel}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage[normalem]{ulem}
+
+\geometry{
+ 	a4paper,
+ 	total={210mm,297mm},
+ 	left=20mm,
+ 	right=20mm,
+ 	top=20mm,
+ 	bottom=20mm,
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlist[enumerate,1]{leftmargin=2cm}
+
+\lhead{Djomo, Richoz}
+\chead{}
+\rhead{\today}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+	 
+\begin{document}
+	\centering
+	\large{\textbf{PRO: Enumération des algorithmes à traiter}}
+	
+	\justify
+		
+	\section{Concernant le graphe en soi}
+	\begin{itemize}
+		\item Graphe simple ?
+		\item Graphe r-régulier ? <=> tous ses sommets de degré r
+		\item Graphe est connexe, fortement connexe ?
+		\item Graphe vide ?
+		\item G est-il une forêt, un arbre ?
+		\item Graphe cyclique, acyclique ?
+		\item Graphe eulérien ? Chaine, chemin, cycle, circuit eulérien ?
+		\item Graphe est-il planaire ?
+		\item 
+		\item Arborescence et anti-arborescence de racine et d'anti-racine
+	\end{itemize}
+	
+	\section{Exploration d'un graphe}
+	\begin{itemize}
+		\item Parcours en largeur BFS $O(n+m)$
+		\item Parcours en profondeur DFS $O(n+m)$
+	\end{itemize}
+		\subsection{Recherche des composantes connexes}
+		\begin{itemize}
+			\item 
+		\end{itemize}
+		\subsection{Recherche des composantes fortement connexes }
+		\begin{itemize}
+			\item Tarjan $O(n+m)$
+			\item Kosaraju $O(n+m)$
+		\end{itemize}
+	
+	\section{Arbres et arborescences}
+		\subsection{Arbres recouvrants de poids total min/max}
+		\begin{itemize}
+			\item Kruskal $O(m^2)$
+			\item Prim $O(n^2)$
+			\item Boruvka
+		\end{itemize}
+		\subsection{Arborescences recouvrantes de poids total min/max}
+		\begin{itemize}
+			\item Chu-Liu (racine fixée, rajouter sinon)
+		\end{itemize}
+		\subsection{Arborescences recouvrantes de section min/max}
+		\begin{itemize}
+			\item Prim-orienté
+		\end{itemize}
+	
+	\section{Plus courts chemins}
+		\subsection{Depuis une source unique}
+		\begin{itemize}
+			\item Bellman-Ford $O(n*m)$
+			\item Dijksra $O(m + n*log(n))$
+		\end{itemize}
+		\subsection{Entre tous les couples de sommets}
+		\begin{itemize}
+			\item Floyd-Warshall $O(n^3)$
+			\item Johnson $O(n^3)$
+		\end{itemize}
+		\subsection{Entre deux sommets}
+		\begin{itemize}
+			\item Dijkstra bidirectionnel
+		\end{itemize}
+		
+	\section{Graphes sans circuit}
+	\begin{itemize}
+		\item Tri topologique $O(n+m)$
+		\item Plus court chemin dans un réseau sans circuit
+		\item Plus long chemin dans un réseau sans circuit
+	\end{itemize}
+	
+	\section{Familles et problèmes classiques de la théorie des graphes}
+	\begin{itemize}
+		\item Couplage max dans un graphe biparti => voir Flots
+		\item un recouvrement (toutes les arêtes sont touchées)
+		\item un transversal (tous les sommets sont touchés)
+	\end{itemize}
+	
+	\section{Graphes eulériens}
+	\begin{itemize}
+		\item Algorithme de construction d'un cycle/circuit eulérien
+		\item (futur) Problème du postier chinois
+	\end{itemize}
+	
+	\section{Flots}
+	\begin{itemize}
+		\item Flots de valeur max (algorithme de FFEK), avec capacité de la coupe $O(m^2 * n), O(n^5)$ pour un réseau dense.
+		\item Flot de valeur max à cout min (algo Busacket-Gowen)
+		\item Couplage max dans un graphe biparti
+		\item (optionnel) Problème de transbordement
+		\item (futur) Couplage max (de poids min)
+	\end{itemize}
+			
+\end{document}
