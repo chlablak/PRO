@@ -14,6 +14,7 @@
 \usepackage{color} % pour \textcolor{color}{text}
 \usepackage{listings} % pour afficher du code
 \usepackage{longtable} % pour l'environnement longtable
+\usepackage{float} % pour des figures non flottantes
 
 % Grammaire EBNF
 \usepackage{syntax}
@@ -23,10 +24,10 @@
 % Diagramme de flux
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows}
-\tikzstyle{decision} = [diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
-\tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=6em, text centered, rounded corners, minimum height=4em, node distance=3cm]
+\tikzstyle{decision} = [diamond, draw, fill=green!20, text width=5em, text badly centered, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=6em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{line} = [draw, -latex']
-\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm, minimum height=2em]
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, minimum height=2em]
 
 \geometry{
  	a4paper,
@@ -55,6 +56,7 @@
 	\author{Rapport\\ 
 		Projet de semestre\\
 		Browne Champion Djomo Hardy Richoz Rochat\\
+		Resp. René Rentsch\\
 		HEIG-VD}
 	\date{\today} % date du jour
 	\maketitle
@@ -69,15 +71,18 @@
 	\justify
 	\normalsize
 	
-	\section{Cadre de développement} % Champion
+	\section{Cadre de développement} 
 		L'application est développée à l'aide du langage C++ et de la bibliothèque Qt \textcolor{red}{(insérer les versions utilisées ainsi que les compilateurs ?)}. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décider d'utiliser le Coding Style de Qt qui correspond bien à nos besoins: \url{https://wiki.qt.io/Qt_Coding_Style}.
-	
-	\section{Normalisation du langage} % Champion
-		Dans le cadre de l'application, l'utilisateur est amené à entrer des commandes lui permettant de créer et de modifier des graphes, tout autant que d'appeler des fonctions effectuant différents traitements (algorithmes, lecture depuis un fichier, ...). Il est donc nécessaire de définir une grammaire claire sur la syntaxe de ces commandes, ainsi que leur sémantique.
 			
-		\subsection{Analyse des types et des opérations} % Champion
-			Premièrement, il faut définir les types disponibles dans le langage. Pour cela il est intéressant de partir des algorithmes de graphe et de voir les types de résultats que nous attendons en sortie, ainsi que les types de paramètres dont nous aurons besoin:
-				
+	\section{Conception de l'interpréteur} % Champion
+		Dans le cadre de l'application, l'utilisateur est amené à entrer des commandes lui permettant de créer et de modifier des graphes, tout autant que d'appeler des fonctions effectuant différents traitements (algorithmes, lecture depuis un fichier, ...). 
+	
+		\subsection{Normalisation du langage} 
+			Il est nécessaire de définir une grammaire claire sur la syntaxe des commandes, ainsi que leur sémantique.
+			
+			\subsubsection{Analyse des types et des opérations} 
+				Premièrement, il faut définir les types disponibles dans le langage. Pour cela il est intéressant de partir des algorithmes de graphe et de voir les types de résultats que nous attendons en sortie, ainsi que les types de paramètres dont nous aurons besoin:
+			
 				\begin{itemize}
 					\item Boolean: un graphe a-t-il un cycle? est-il eulérien? ...
 					\item Number: poids d'un arc, indice d'un sommet, ...
@@ -93,15 +98,15 @@
 						\item Edge: une arête/arc, son poids, ...
 					\end{itemize}
 				\end{itemize} 
-				
-			A présent que nous avons une idée des types disponibles, il faut définir leur domaine ainsi que les opérations disponibles et leur syntaxe. On fait le choix délibéré de se concentrer sur les opérations concernant les graphes, les opérations simples comme additionner deux nombres ou les comparaisons ne sont pas prévues. Cependant la base du langage doit permettre de les définir plus tard. 
+			
+				A présent que nous avons une idée des types disponibles, il faut définir leur domaine ainsi que les opérations disponibles et leur syntaxe. On fait le choix délibéré de se concentrer sur les opérations concernant les graphes, les opérations simples comme additionner deux nombres ou les comparaisons ne sont pas prévues. Cependant la base du langage doit permettre de les définir plus tard. 
 			
 				\begin{longtable}{lll}
 					\textbf{\texttt{Boolean}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{\texttt{True} ou \texttt{False}}\\ 
 					Opérations & Déclaration & \texttt{Boolean a = True;}\\
-							   & Affectation & \texttt{a = False; a = f();}\\
-							   & Lecture & \texttt{a; f(a); Boolean b = a;}\\ 
+					& Affectation & \texttt{a = False; a = f();}\\
+					& Lecture & \texttt{a; f(a); Boolean b = a;}\\ 
 					\\
 					\textbf{\texttt{Number}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{\texttt{Integer} et \texttt{Float}}\\ 
@@ -109,55 +114,55 @@
 					\textbf{\texttt{Integer}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{Entier signé sur 32 bits}\\
 					Opérations & Déclaration & \texttt{Integer a = -20;}\\
-							   & Affectation & \texttt{a = 2; a = f();}\\
-							   & Lecture & \texttt{a; f(a); Integer b = a;}\\ 
+					& Affectation & \texttt{a = 2; a = f();}\\
+					& Lecture & \texttt{a; f(a); Integer b = a;}\\ 
 					\\
 					\textbf{\texttt{Float}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{Nombre à virgule flottante sur 32 bits}\\
 					Opérations & Déclaration & \texttt{Float a = -32.4;}\\
-							   & Affectation & \texttt{a = 4.0; a = f();}\\
-							   & Lecture & \texttt{a; f(a); Float b = a;}\\ 
+					& Affectation & \texttt{a = 4.0; a = f();}\\
+					& Lecture & \texttt{a; f(a); Float b = a;}\\ 
 					\\
 					\textbf{\texttt{String}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{Ensemble de zéro ou plusieurs caractères ASCII}\\
 					Opérations & Déclaration & \texttt{String a = "Hello";}\\
-							   & Affectation & \texttt{a = "World"; a = f();}\\
-							   & Lecture & \texttt{a; f(a); String b = a;}\\ 
+					& Affectation & \texttt{a = "World"; a = f();}\\
+					& Lecture & \texttt{a; f(a); String b = a;}\\ 
 					\\
 					\textbf{\texttt{Array}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{Tableau dynamique hétérogène}\\
 					Opérations & Déclaration & \texttt{Array a = [1.0, "Salut", 3];}\\
-							   & Affectation & \texttt{a = [4, 5];}\\ 
-							   & Lecture & \texttt{a; f(a); Array b = a;}\\
-							   & Accès & \texttt{Integer c = a[1];}\\ 
+					& Affectation & \texttt{a = [4, 5];}\\ 
+					& Lecture & \texttt{a; f(a); Array b = a;}\\
+					& Accès & \texttt{Integer c = a[1];}\\ 
 					\\
 					\textbf{\texttt{Vertex}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{Sommet avec des informations supplémentaires facultatives}\\
 					Opérations & Déclaration & \texttt{Vertex a = (1); Vertex a2 = (2::3);}\\
-							   & & \texttt{(id:label:weight:max\_capacity:min\_capacity)}\\
-							   & Affectation & \texttt{a = (1:"Yverdon"); a = f();}\\
-							   & Lecture & \texttt{a; f(a); Vertex b = a;}\\ 
+					& & \texttt{(id:label:weight:max\_capacity:min\_capacity)}\\
+					& Affectation & \texttt{a = (1:"Yverdon"); a = f();}\\
+					& Lecture & \texttt{a; f(a); Vertex b = a;}\\ 
 					\\
 					\textbf{\texttt{Edge}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{Arête/arc avec des informations supplémentaires facultatives}\\
 					Opérations & Déclaration & \texttt{Edge a = (1--2); Edge a2 = (2<-3:5);}\\
-							   & & \texttt{(connexion[id]:weight:label:max\_capacity:min\_capacity)}\\
-							   & & \texttt{(arête: -- (tiret double) arcs: ->, <-)}\\
-							   & Affectation & \texttt{a = (1->2::"A1"); a = f();}\\
-							   & Lecture & \texttt{a; f(a); Vertex b = a;}\\ 
+					& & \texttt{(connexion[id]:weight:label:max\_capacity:min\_capacity)}\\
+					& & \texttt{(arête: -- (tiret double) arcs: ->, <-)}\\
+					& Affectation & \texttt{a = (1->2::"A1"); a = f();}\\
+					& Lecture & \texttt{a; f(a); Vertex b = a;}\\ 
 					\\
 					\textbf{\texttt{Graph}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{Ensemble de sommets et d'arêtes/arcs (les parenthèses ne sont plus obligatoires)}\\
 					Opérations & Déclaration & \texttt{Graph a = \{0, 1, 2:A, 1->2:3:::2]\};}\\
-							   & & (si on ne veut pas écrire tous les sommets: \texttt{a = \{\#3, 0->1, 0->2\};})\\
-							   & Affectation & \texttt{a = \{0, 1, 0--1\}; a = f();}\\
-							   & Lecture & \texttt{a; f(a); Graph b = a;}\\
-							   & Ajout/modification & \texttt{a += (1<-2:4)};\\
-							   & Suppression & \texttt{a -= [(3), (1->2)];}\\
+					& & (si on ne veut pas écrire tous les sommets: \texttt{a = \{\#3, 0->1, 0->2\};})\\
+					& Affectation & \texttt{a = \{0, 1, 0--1\}; a = f();}\\
+					& Lecture & \texttt{a; f(a); Graph b = a;}\\
+					& Ajout/modification & \texttt{a += (1<-2:4)};\\
+					& Suppression & \texttt{a -= [(3), (1->2)];}\\
 				\end{longtable}
 				
-			Ce tableau nous donne à présent une vue assez claire de nos besoins, cependant certaines opérations des types complexes (\texttt{Array, Vertex, Edge} et \texttt{Graph}) méritent d'être approfondies:
-			
+				Ce tableau nous donne à présent une vue assez claire de nos besoins, cependant certaines opérations des types complexes (\texttt{Array, Vertex, Edge} et \texttt{Graph}) méritent d'être approfondies:
+				
 				\begin{itemize}
 					\item \texttt{Array}: 
 					\begin{itemize}
@@ -200,25 +205,25 @@
 					\end{itemize}
 				\end{itemize}
 				
-			Notons que les erreurs sont gérées au travers d'exceptions.\\
+				Notons que les erreurs sont gérées au travers d'exceptions.\\
+				
+				Maintenant que les types des variables et leurs opérations de base sont définis, on veut pouvoir effectuer d'autres traitements sur ces variables (ajouter une nouvelle opération ou appliquer un algorithme). Cela va se faire via des fonctions prédéfinies (la définition de fonction n'est pas prévue).\\
+				
+				Prototype d'une fonction: \texttt{R f(T1, T2, ...);} avec \texttt{R} le type de retour, \texttt{f} le nom de la fonction et \texttt{Tn} le type du paramètre en position \texttt{n}.\\
+				
+				Appel d'une fonction: \texttt{Graph a = dijkstra(g, 1);} ou \texttt{g = removeAllPonderation(g);}.\\
+				
+				Le passage des paramètres se fait par copie (ou référence constante) et la correspondance est par position. On autorise la surcharge des fonctions.
 			
-			Maintenant que les types des variables et leurs opérations de base sont définis, on veut pouvoir effectuer d'autres traitements sur ces variables (ajouter une nouvelle opération ou appliquer un algorithme). Cela va se faire via des fonctions prédéfinies (la définition de fonction n'est pas prévue).\\
-			
-			Prototype d'une fonction: \texttt{R f(T1, T2, ...);} avec \texttt{R} le type de retour, \texttt{f} le nom de la fonction et \texttt{Tn} le type du paramètre en position \texttt{n}.\\
-			
-			Appel d'une fonction: \texttt{Graph a = dijkstra(g, 1);} ou \texttt{g = removeAllPonderation(g);}.\\
-			
-			Le passage des paramètres se fait par copie (ou référence constante) et la correspondance est par position.
-			
-		\subsection{Grammaire EBNF} % Champion
-			L'analyse étant finie, on peut à présent développer les règles de production EBNF du langage. On part des règles de haut niveau pour descendre dans la hiérarchie (inspiration: \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}).
-			
-			\subsubsection{Point de départ (entrée utilisateur)}
+			\subsubsection{Grammaire EBNF} 
+				L'analyse étant finie, on peut à présent développer les règles de production EBNF du langage. On part des règles de haut niveau pour descendre dans la hiérarchie (inspiration: \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}).\\
+				
+				\textbf{Point de départ (entrée utilisateur)}
 				\begin{grammar}
 					<start> ::= <statement> \{ <statement> \}
 				\end{grammar}
-			
-			\subsubsection{Déclarations (statements)}
+				
+				\textbf{Déclarations (statements)}
 				\begin{grammar}
 					<statement> ::= ( <function-call> | <declaration> | <assignment> ) \lit{;}
 					
@@ -232,13 +237,13 @@
 					
 					<parameter> ::= <constant> | <indexed-array> | <function-call>
 				\end{grammar}
-			
-			\subsubsection{Expressions et opérations}
+				
+				\textbf{Expressions et opérations}
 				\begin{grammar}
 					<indexed-array> ::= <variable> \lit{[} <digit-sequence> \lit{]}
 				\end{grammar}
-			
-			\subsubsection{Types de variable et d'enregistrement}
+				
+				\textbf{Types de variable et d'enregistrement}
 				\begin{grammar}
 					<type> ::= <simple-type> | <complex-type>
 					
@@ -276,8 +281,8 @@
 					
 					<id> ::= <digit-sequence>
 				\end{grammar}
-		
-			\subsubsection{Identifiants et définitions de bas niveau}
+				
+				\textbf{Identifiants et définitions de bas niveau}
 				\begin{grammar}
 					<simple-constant> ::= <sign> <variable> | <number> | <boolean> | <string>
 					
@@ -303,42 +308,108 @@
 					
 					<digit> ::= ? all digits from 0 to 9 ? 
 				\end{grammar}
-			
-		\subsection{Conception de l'interpréteur}
-			Le langage est à présent clairement définit, cependant il faut encore concevoir l'interpréteur qui permettra de vraiment l'utiliser:
-			
-			\begin{figure}[h!]
+		
+		\subsection{Flux des données}
+			\begin{figure}[H]
 				\centering
-				\begin{tikzpicture}[node distance = 1cm, auto]
-					\node [block] (preprocessor) {Preprocessor};
-					\node [block, right of=preprocessor] (parser) {Parser};
-					\node [block, below of=parser, right of=parser] (parameters) {Parameter};
-					\node [block, right of=parameters] (statement) {Statement};
-					\node [block, right of=statement] (return) {Result};
-					\node [block, below of=return] (clean) {Cleaner};
-					\node [cloud, right of=return, above of=return] (table) {Tables};
-					\node [cloud, above of=preprocessor] (input) {Input};
-					\node [cloud, above of=parser, above of=return] (output) {Output};
-					\path [line] (input) -- (preprocessor);
-					\path [line] (preprocessor) -- (parser);
-					\path [line] (parser) |- (parameters);
-					\path [line] (parameters) -- (statement);
-					\path [line] (statement) -- (return);
-					\path [line] (return) -- (output);
-					\path [line] (return) -- (clean);
-					\path [line] (clean) -| (preprocessor);
-					\path [line,dashed] (parameters) |- (table);
-					\path [line,dashed] (statement) |- (table);
-					\path [line,dashed] (return) -| (table);
-					\path [line,dashed] (clean) -| (table);
+				\begin{tikzpicture}[node distance = 2.7cm,auto]
+					\node[cloud] (input) {User input};
+					\node[block,below of=input] (preprocessor) {Input preprocessing};
+					\node[block,right of=preprocessor] (parser) {Parser validation};
+					\node[block,right of=parser] (identifier) {Identifier checking};
+					\node[cloud,above of=identifier] (exception) {Exception};
+					\node[block,right of=identifier] (transformation) {Transform};
+					\node[block,right of=transformation] (type) {Type checking};
+					\node[block,below of=type] (parameter) {Statement processing};
+					\node[decision,left of=parameter] (execute) {Branch statement};
+					\node[block,below of=execute] (assign) {Assignation Declaration};
+					\node[block,left of=assign] (function) {Function call};
+					\node[block,left of=function] (constant) {Constant};
+					\node[block,below of=assign] (result) {Save result};
+					\node[decision,below of=result] (clean) {Cleaning};
+					\node[cloud,right of=type,above of=type] (output) {User output};
+					
+					\path[line,dashed] (input) -- (preprocessor);
+					\path[line,dashed] (parser) |- (exception);
+					\path[line,dashed] (identifier) -- (exception);
+					\path[line,dashed] (type) |- (exception);
+					\path[line] (preprocessor) -- (parser);
+					\path[line] (parser) -- (identifier);
+					\path[line] (identifier) -- (transformation);
+					\path[line] (transformation) -- (type);
+					\path[line] (type) -- (parameter);
+					\path[line] (parameter) -- (execute);
+					\path[line] (execute) -| (function);
+					\path[line] (execute) -- (assign);
+					\path[line] (execute) -| (constant);
+					\path[line] (function) |- (result);
+					\path[line] (assign) -- (result);
+					\path[line] (constant) |- (result);
+					\path[line] (result) -- (clean);
+					\path[line] (clean) -| node[align=center,right] {sub-statement\\finished} (parameter);
+					\path[line] (clean) -| node[align=center] {full-statement\\finished} (preprocessor);
+					\path[line,dashed] (result) -| (output);
 				\end{tikzpicture}
 				\caption{Flux des données dans l'interpréteur}
 			\end{figure}
 			
-			bla bla TODO
+			Détaillons chacune de ces étapes:
+			\begin{enumerate}
+				\item \textbf{Input preprocessing} - On récupère les entrées utilisateur dans un tampon 
+				\begin{enumerate}
+					\item \textbf{Trim} - On enlève tous les espaces inutiles, c'est-à-dire tous les espaces sauf ceux dans les constantes littérales de type \textit{String}, et celui qui sépare le type de l'identifiant dans les déclarations
+					\item \textbf{Statement per statement} - On envoie au parser une commande à la fois (les traitements sont séparés par des ';') 
+				\end{enumerate}
+				\item \textbf{Parser validation} - On vérifie la syntaxe de la commande et on extrait des informations utiles pour la suite (tokens)
+				\item \textbf{Identifier checking} - On connaît les différents identifiants présents dans la commande (noms de variable, noms de fonction), on peut tout de suite vérifier leur existance 
+				\item \textbf{Transform} - On transforme la commande en arbre d'appel, plus de détails dans la section~\ref{subsec:regles-de-transformation}
+				\item \textbf{Type checking} - On vérifie la concordance des types, plus de détails dans la section~\ref{subsubsec:verification-des-types}
+				\item \textbf{Statement processing} - La commande a été décomposée en plusieurs sous-traitements (arbre d'appel, \ref{subsubsec:arbre-d-appel-des-traitements}), on effectue d'abord les feuilles avant de remonter
+				\begin{enumerate}
+					\item \textbf{Branch statement} - On sélectionne le bon traitement en fonction de son type
+					\begin{itemize}
+						\item \textbf{Constant} - On créé une variable temporaire avec la valeur de la constante, voir section~\ref{subsubsec:table-des-temporaires}
+						\item \textbf{Function call} - On appelle la fonction et on sauve son résultat dans une variable temporaire
+						\item \textbf{Assignation} - On assigne une valeur à une variable, voir section~\ref{subsubsec:table-des-variables}
+						\item \textbf{Declaration} - Pareil que l'assignation, mais avec création de l'identifiant au préalable 
+					\end{itemize}
+					\item \textbf{Save result} - On transforme l'arbre d'appel avec les nouvelles valeurs/variables. Si c'est la fin de la commande, on indique à l'utilisateur que le résultat de la commande est prêt
+					\item \textbf{Cleaning} - On supprime les variables temporaires qui ne sont plus utiles. Si c'était un sous-traitement, on passe au prochain sous-traitement (6), sinon on passe à la prochaine commande (1)
+				\end{enumerate}
+			\end{enumerate}
 		
-		\section{Annexes}
-			\subsection{Références}
-				...
+		\subsection{Mémoire virtuelle} 
+			\label{subsec:memoire-virtuelle}
+			Dans le flux de données, certaines étapes nécessitent l'utilisation d'une mémoire afin de gérer les variables (temporaires ou non). Dans cette section nous allons préciser comment cela va être géré.
+			
+			\subsubsection{Tableau dynamique hétérogène}
+			
+			\subsubsection{Table des variables}
+				\label{subsubsec:table-des-variables}
+				
+			\subsubsection{Table des temporaires}
+				\label{subsubsec:table-des-temporaires}
+				
+		\subsection{Table des fonctions}
+			Dans le flux de données, l'étape \textit{Function call} nécessite d'appeler, d'exécuter et de récupérer le résultat d'une fonction. Dans cette section nous allons préciser comment cela va être fait.
+		
+			\subsubsection{Interfaçage}
+				\label{subsubsec:interfacage}
+				
+		\subsection{Règles de transformation}
+			\label{subsec:regles-de-transformation}
+			Dans cette section nous allons préciser les règles de transformation de l'étape \textit{Transform} du flux de données, ainsi que ce que cela va apporter.
+			
+			\subsubsection{Arbre d'appel des traitements}
+				\label{subsubsec:arbre-d-appel-des-traitements}
+				
+			\subsubsection{Vérification des types}
+				\label{subsubsec:verification-des-types}
+				
+		\subsection{Exemples}
+	
+	\section{Annexes}
+		\subsection{Références}
+			...
 				
 \end{document}
