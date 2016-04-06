@@ -14,6 +14,7 @@
 \usepackage{color} % pour \textcolor{color}{text}
 \usepackage{listings} % pour afficher du code
 \usepackage{longtable} % pour l'environnement longtable
+\usepackage{float} % pour des figures non flottantes
 
 % Grammaire EBNF
 \usepackage{syntax}
@@ -23,10 +24,10 @@
 % Diagramme de flux
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows}
-\tikzstyle{decision} = [diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
-\tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=6em, text centered, rounded corners, minimum height=4em, node distance=3cm]
+\tikzstyle{decision} = [diamond, draw, fill=green!20, text width=5em, text badly centered, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=6em, text centered, rounded corners, minimum height=4em]
 \tikzstyle{line} = [draw, -latex']
-\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm, minimum height=2em]
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, minimum height=2em]
 
 \geometry{
 	a4paper,
@@ -55,6 +56,7 @@
 	\author{Rapport\\ 
 		Projet de semestre\\
 		Browne Champion Djomo Hardy Richoz Rochat\\
+		Resp. René Rentsch\\
 		HEIG-VD}
 	\date{\today} % date du jour
 	\maketitle
@@ -304,38 +306,104 @@
 		<digit> ::= ? all digits from 0 to 9 ? 
 	\end{grammar}
 	
-	\subsection{Conception de l'interpréteur}
-	Le langage est à présent clairement définit, cependant il faut encore concevoir l'interpréteur qui permettra de vraiment l'utiliser:
-	
-	\begin{figure}[h!]
-		\centering
-		\begin{tikzpicture}[node distance = 1cm, auto]
-		\node [block] (preprocessor) {Preprocessor};
-		\node [block, right of=preprocessor] (parser) {Parser};
-		\node [block, below of=parser, right of=parser] (parameters) {Parameter};
-		\node [block, right of=parameters] (statement) {Statement};
-		\node [block, right of=statement] (return) {Result};
-		\node [block, below of=return] (clean) {Cleaner};
-		\node [cloud, right of=return, above of=return] (table) {Tables};
-		\node [cloud, above of=preprocessor] (input) {Input};
-		\node [cloud, above of=parser, above of=return] (output) {Output};
-		\path [line] (input) -- (preprocessor);
-		\path [line] (preprocessor) -- (parser);
-		\path [line] (parser) |- (parameters);
-		\path [line] (parameters) -- (statement);
-		\path [line] (statement) -- (return);
-		\path [line] (return) -- (output);
-		\path [line] (return) -- (clean);
-		\path [line] (clean) -| (preprocessor);
-		\path [line,dashed] (parameters) |- (table);
-		\path [line,dashed] (statement) |- (table);
-		\path [line,dashed] (return) -| (table);
-		\path [line,dashed] (clean) -| (table);
-		\end{tikzpicture}
-		\caption{Flux des données dans l'interpréteur}
-	\end{figure}
-	
-	bla bla TODO
+			\subsection{Flux des données}
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}[node distance = 2.7cm,auto]
+				\node[cloud] (input) {User input};
+				\node[block,below of=input] (preprocessor) {Input preprocessing};
+				\node[block,right of=preprocessor] (parser) {Parser validation};
+				\node[block,right of=parser] (identifier) {Identifier checking};
+				\node[cloud,above of=identifier] (exception) {Exception};
+				\node[block,right of=identifier] (transformation) {Transform};
+				\node[block,right of=transformation] (type) {Type checking};
+				\node[block,below of=type] (parameter) {Statement processing};
+				\node[decision,left of=parameter] (execute) {Branch statement};
+				\node[block,below of=execute] (assign) {Assignation Declaration};
+				\node[block,left of=assign] (function) {Function call};
+				\node[block,left of=function] (constant) {Constant};
+				\node[block,below of=assign] (result) {Save result};
+				\node[decision,below of=result] (clean) {Cleaning};
+				\node[cloud,right of=type,above of=type] (output) {User output};
+				
+				\path[line,dashed] (input) -- (preprocessor);
+				\path[line,dashed] (parser) |- (exception);
+				\path[line,dashed] (identifier) -- (exception);
+				\path[line,dashed] (type) |- (exception);
+				\path[line] (preprocessor) -- (parser);
+				\path[line] (parser) -- (identifier);
+				\path[line] (identifier) -- (transformation);
+				\path[line] (transformation) -- (type);
+				\path[line] (type) -- (parameter);
+				\path[line] (parameter) -- (execute);
+				\path[line] (execute) -| (function);
+				\path[line] (execute) -- (assign);
+				\path[line] (execute) -| (constant);
+				\path[line] (function) |- (result);
+				\path[line] (assign) -- (result);
+				\path[line] (constant) |- (result);
+				\path[line] (result) -- (clean);
+				\path[line] (clean) -| node[align=center,right] {sub-statement\\finished} (parameter);
+				\path[line] (clean) -| node[align=center] {full-statement\\finished} (preprocessor);
+				\path[line,dashed] (result) -| (output);
+				\end{tikzpicture}
+				\caption{Flux des données dans l'interpréteur}
+			\end{figure}
+			
+			Détaillons chacune de ces étapes:
+			\begin{enumerate}
+				\item \textbf{Input preprocessing} - On récupère les entrées utilisateur dans un tampon 
+				\begin{enumerate}
+					\item \textbf{Trim} - On enlève tous les espaces inutiles, c'est-à-dire tous les espaces sauf ceux dans les constantes littérales de type \textit{String}, et celui qui sépare le type de l'identifiant dans les déclarations
+					\item \textbf{Statement per statement} - On envoie au parser une commande à la fois (les traitements sont séparés par des ';') 
+				\end{enumerate}
+				\item \textbf{Parser validation} - On vérifie la syntaxe de la commande et on extrait des informations utiles pour la suite (tokens)
+				\item \textbf{Identifier checking} - On connaît les différents identifiants présents dans la commande (noms de variable, noms de fonction), on peut tout de suite vérifier leur existance 
+				\item \textbf{Transform} - On transforme la commande en arbre d'appel, plus de détails dans la section~\ref{subsec:regles-de-transformation}
+				\item \textbf{Type checking} - On vérifie la concordance des types, plus de détails dans la section~\ref{subsubsec:verification-des-types}
+				\item \textbf{Statement processing} - La commande a été décomposée en plusieurs sous-traitements (arbre d'appel, \ref{subsubsec:arbre-d-appel-des-traitements}), on effectue d'abord les feuilles avant de remonter
+				\begin{enumerate}
+					\item \textbf{Branch statement} - On sélectionne le bon traitement en fonction de son type
+					\begin{itemize}
+						\item \textbf{Constant} - On créé une variable temporaire avec la valeur de la constante, voir section~\ref{subsubsec:table-des-temporaires}
+						\item \textbf{Function call} - On appelle la fonction et on sauve son résultat dans une variable temporaire
+						\item \textbf{Assignation} - On assigne une valeur à une variable, voir section~\ref{subsubsec:table-des-variables}
+						\item \textbf{Declaration} - Pareil que l'assignation, mais avec création de l'identifiant au préalable 
+					\end{itemize}
+					\item \textbf{Save result} - On transforme l'arbre d'appel avec les nouvelles valeurs/variables. Si c'est la fin de la commande, on indique à l'utilisateur que le résultat de la commande est prêt
+					\item \textbf{Cleaning} - On supprime les variables temporaires qui ne sont plus utiles. Si c'était un sous-traitement, on passe au prochain sous-traitement (6), sinon on passe à la prochaine commande (1)
+				\end{enumerate}
+			\end{enumerate}
+			
+			\subsection{Mémoire virtuelle} 
+			\label{subsec:memoire-virtuelle}
+			Dans le flux de données, certaines étapes nécessitent l'utilisation d'une mémoire afin de gérer les variables (temporaires ou non). Dans cette section nous allons préciser comment cela va être géré.
+			
+			\subsubsection{Tableau dynamique hétérogène}
+			
+			\subsubsection{Table des variables}
+			\label{subsubsec:table-des-variables}
+			
+			\subsubsection{Table des temporaires}
+			\label{subsubsec:table-des-temporaires}
+			
+			\subsection{Table des fonctions}
+			Dans le flux de données, l'étape \textit{Function call} nécessite d'appeler, d'exécuter et de récupérer le résultat d'une fonction. Dans cette section nous allons préciser comment cela va être fait.
+			
+			\subsubsection{Interfaçage}
+			\label{subsubsec:interfacage}
+			
+			\subsection{Règles de transformation}
+			\label{subsec:regles-de-transformation}
+			Dans cette section nous allons préciser les règles de transformation de l'étape \textit{Transform} du flux de données, ainsi que ce que cela va apporter.
+			
+			\subsubsection{Arbre d'appel des traitements}
+			\label{subsubsec:arbre-d-appel-des-traitements}
+			
+			\subsubsection{Vérification des types}
+			\label{subsubsec:verification-des-types}
+			
+			\subsection{Exemples}
 	
 	\section{Annexes}
 	
@@ -343,4 +411,5 @@
 		\bibitem{vutbr.cz} 
 		Faculty of Technology, Brno University of Technology, Réplublique tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
 	\end{thebibliography}			
+
 \end{document}
