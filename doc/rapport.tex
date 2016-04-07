@@ -42,12 +42,12 @@
 }
 
 \geometry{
- 	a4paper,
- 	total={210mm,297mm},
- 	left=20mm,
- 	right=20mm,
- 	top=20mm,
- 	bottom=20mm,
+	a4paper,
+	total={210mm,297mm},
+	left=20mm,
+	right=20mm,
+	top=20mm,
+	bottom=20mm,
 }
 
 \usepackage{fancyhdr}
@@ -60,9 +60,9 @@
 \rhead{PRO}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
-	 
-\begin{document}
 
+\begin{document}
+	
 	% Titre du document
 	\title{GraphY} % ou un autre nom
 	\author{Rapport\\ 
@@ -111,7 +111,7 @@
 					\end{itemize}
 				\end{itemize} 
 			
-				A présent que nous avons une idée des types disponibles, il faut définir leur domaine ainsi que les opérations disponibles et leur syntaxe. On fait le choix délibéré de se concentrer sur les opérations concernant les graphes, les opérations simples comme additionner deux nombres ou les comparaisons ne sont pas prévues. Cependant la base du langage doit permettre de les définir plus tard. 
+				Puisque nous avons à présent une idée des types disponibles, il faut définir leur domaine ainsi que les opérations disponibles et leur syntaxe. On fait le choix délibéré de se concentrer sur les opérations concernant les graphes, les opérations simples comme additionner deux nombres où les comparaisons ne sont pas prévues. Cependant la base du langage doit permettre de les définir plus tard. 
 			
 				\begin{longtable}{lll}
 					\textbf{\texttt{Boolean}}\\ \hline \hline
@@ -158,7 +158,7 @@
 					\textbf{\texttt{Edge}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{Arête/arc avec des informations supplémentaires facultatives}\\
 					Opérations & Déclaration & \texttt{Edge a = (1--2); Edge a2 = (2<-3:5);}\\
-					& & \texttt{(connexion[id]:weight:label:max\_capacity:min\_capacity)}\\
+					& & \texttt{(connection[id]:weight:label:max\_capacity:min\_capacity)}\\
 					& & \texttt{(arête: -- (tiret double) arcs: ->, <-)}\\
 					& Affectation & \texttt{a = (1->2::"A1"); a = f();}\\
 					& Lecture & \texttt{a; f(a); Vertex b = a;}\\ 
@@ -188,10 +188,10 @@
 					\end{itemize}
 					\item \texttt{Edge}: 
 					\begin{itemize}
-						\item Seul le premier paramètre (\texttt{connexion}) est obligatoire
+						\item Seul le premier paramètre (\texttt{connection}) est obligatoire
 						\item Le paramètre \texttt{id[Integer]} doit être positif ou nul et sa valeur par défaut est 0
 						\item Les valeurs par défaut sont \texttt{weight[Number]=0, label[String]="", max\_capacity[Number]=min\_capacity, min\_capacity[Number]=0}
-						\item L'\texttt{id} est un identifiant "local" à la \texttt{connexion}
+						\item L'\texttt{id} est un identifiant "local" à la \texttt{connection}
 					\end{itemize}
 					\item \texttt{Graph}: 
 					\begin{itemize}
@@ -204,7 +204,7 @@
 						\begin{itemize}
 							\item Les types acceptés en opérande de droite sont \texttt{Vertex, Edge} ou un \texttt{Array} de ces deux types
 							\item Pour les \texttt{Vertex}, si l'\texttt{id} existe déjà dans le graphe, c'est une modification, sinon c'est un ajout
-							\item Pour les \texttt{Edge}, si la \texttt{connexion} existe déjà dans le graphe mais que l'\texttt{id} est omis, alors c'est un ajout, sinon c'est une modification (sauf si l'\texttt{id} n'existe pas, dans ce cas c'est un ajout)
+							\item Pour les \texttt{Edge}, si la \texttt{connection} existe déjà dans le graphe mais que l'\texttt{id} est omis, alors c'est un ajout, sinon c'est une modification (sauf si l'\texttt{id} n'existe pas, dans ce cas c'est un ajout)
 							\item La modification est accumulative, par exemple si on fait \texttt{Graph g = \{0:"Yverdon"\}; g += (0::2);}, alors le \texttt{Vertex} résultant est \texttt{(0:"Yverdon":2)}
 						\end{itemize}
 						\item Suppressions:
@@ -212,7 +212,7 @@
 							\item Les types acceptés en opérande de droite sont \texttt{Vertex, Edge} ou un \texttt{Array} de ces deux types
 							\item S'il n'y a rien à supprimer, alors il ne se passe rien (pas d'exception)
 							\item La suppression d'un \texttt{Vertex} entraine la suppression des \texttt{Edge} associés
-							\item Pour les \texttt{Edge}, si l'\texttt{id} est omis, alors toutes les \texttt{connexion} sont supprimées
+							\item Pour les \texttt{Edge}, si l'\texttt{id} est omis, alors toutes les \texttt{connection} sont supprimées
 						\end{itemize}
 					\end{itemize}
 				\end{itemize}
@@ -278,11 +278,11 @@
 					
 					<graph-info> ::= <vertex-info> | <edge-info>
 					
-					<edge-info> ::= <connexion> 
-					\alt <connexion> \lit{:} <number>
-					\alt <connexion> \lit{:} [ <number> ] \lit{:} <string>
-					\alt <connexion> \lit{:} [ <number> ] \lit{:} [ <string> ] \lit{:} <number>
-					\alt <connexion> \lit{:} [ <number> ] \lit{:} [ <string> ] \lit{:} [ <number> ] \lit{:} <number>
+					<edge-info> ::= <connection> 
+					\alt <connection> \lit{:} <number>
+					\alt <connection> \lit{:} [ <number> ] \lit{:} <string>
+					\alt <connection> \lit{:} [ <number> ] \lit{:} [ <string> ] \lit{:} <number>
+					\alt <connection> \lit{:} [ <number> ] \lit{:} [ <string> ] \lit{:} [ <number> ] \lit{:} <number>
 					
 					<vertex-info> ::= <id> 
 					\alt <id> \lit{:} <string>
@@ -290,7 +290,7 @@
 					\alt <id> \lit{:} [ <string> ] \lit{:} [ <number> ] \lit{:} <number>
 					\alt <id> \lit{:} [ <string> ] \lit{:} [ <number> ] \lit{:} [ <number> ] \lit{:} <number>
 					
-					<connexion> ::= <id> ( \lit{\textendash\textemdash} | \lit{\textemdash\textgreater} | \lit{\textless\textemdash} ) <id>
+					<connection> ::= <id> ( \lit{\textendash\textemdash} | \lit{\textemdash\textgreater} | \lit{\textless\textemdash} ) <id>
 					
 					<id> ::= <digit-sequence>
 				\end{grammar}
@@ -419,7 +419,7 @@
 			
 			\subsubsection{Table des variables}
 				\label{subsubsec:table-des-variables}
-				
+			
 			\subsubsection{Table des temporaires}
 				\label{subsubsec:table-des-temporaires}
 				
@@ -509,24 +509,27 @@
 				
 		\subsection{Table des fonctions}
 			Dans le flux de données, l'étape \textit{Function call} nécessite d'appeler, d'exécuter et de récupérer le résultat d'une fonction. Dans cette section nous allons préciser comment cela va être fait.
-		
+			
 			\subsubsection{Interfaçage}
-				\label{subsubsec:interfacage}
-				
-		\subsection{Règles de transformation}
+			\label{subsubsec:interfacage}
+			
+			\subsection{Règles de transformation}
 			\label{subsec:regles-de-transformation}
 			Dans cette section nous allons préciser les règles de transformation de l'étape \textit{Transform} du flux de données, ainsi que ce que cela va apporter.
 			
 			\subsubsection{Arbre d'appel des traitements}
-				\label{subsubsec:arbre-d-appel-des-traitements}
-				
+			\label{subsubsec:arbre-d-appel-des-traitements}
+			
 			\subsubsection{Vérification des types}
-				\label{subsubsec:verification-des-types}
-				
-		\subsection{Exemples}
+			\label{subsubsec:verification-des-types}
+			
+			\subsection{Exemples}
 	
 	\section{Annexes}
-		\subsection{Références}
-			...
-				
+	
+	\begin{thebibliography}{9}
+		\bibitem{vutbr.cz} 
+		Faculty of Technology, Brno University of Technology, Réplublique tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
+	\end{thebibliography}			
+
 \end{document}
