@@ -29,6 +29,18 @@
 \tikzstyle{line} = [draw, -latex']
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, minimum height=2em]
 
+% Style C++
+\lstset{
+	language=C++,
+	tabsize=2,
+	basicstyle=\ttfamily,
+	keywordstyle=\color{blue}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	commentstyle=\color{black!40}\ttfamily,
+	morecomment=[l][\color{black!50}]{\#},
+	gobble=8
+}
+
 \geometry{
  	a4paper,
  	total={210mm,297mm},
@@ -74,7 +86,7 @@
 	\section{Cadre de développement} 
 		L'application est développée à l'aide du langage C++ et de la bibliothèque Qt \textcolor{red}{(insérer les versions utilisées ainsi que les compilateurs ?)}. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décider d'utiliser le Coding Style de Qt qui correspond bien à nos besoins: \url{https://wiki.qt.io/Qt_Coding_Style}.
 			
-	\section{Conception de l'interpréteur} % Champion
+	\section{Interpréteur} % Champion
 		Dans le cadre de l'application, l'utilisateur est amené à entrer des commandes lui permettant de créer et de modifier des graphes, tout autant que d'appeler des fonctions effectuant différents traitements (algorithmes, lecture depuis un fichier, ...). 
 	
 		\subsection{Normalisation du langage} 
@@ -258,6 +270,7 @@
 					<complex-constant> ::= <array-record> | <graph-record> | <edge-record> | <vertex-record>
 					
 					<graph-record> ::= \lit{\{} <graph-info> \{ \lit{,} <graph-info> \} \lit{\}}
+					\alt \lit{\{} \lit{\#} <digit-sequence> \{ \lit{,} <graph-info> \} \lit{\}}
 					
 					<edge-record> ::= \lit{(} <edge-info> \lit{)}
 					
@@ -333,6 +346,9 @@
 					\path[line,dashed] (parser) |- (exception);
 					\path[line,dashed] (identifier) -- (exception);
 					\path[line,dashed] (type) |- (exception);
+					\path[line,dashed] (transformation) -- (exception);
+					\path[line,dashed] (function) edge[bend left] (exception);
+					\path[line,dashed] (assign) edge[bend left] (exception);
 					\path[line] (preprocessor) -- (parser);
 					\path[line] (parser) -- (identifier);
 					\path[line] (identifier) -- (transformation);
@@ -360,10 +376,10 @@
 					\item \textbf{Trim} - On enlève tous les espaces inutiles, c'est-à-dire tous les espaces sauf ceux dans les constantes littérales de type \textit{String}, et celui qui sépare le type de l'identifiant dans les déclarations
 					\item \textbf{Statement per statement} - On envoie au parser une commande à la fois (les traitements sont séparés par des ';') 
 				\end{enumerate}
-				\item \textbf{Parser validation} - On vérifie la syntaxe de la commande et on extrait des informations utiles pour la suite (tokens)
+				\item \textbf{Parser validation} - On vérifie la syntaxe de la commande et on extrait des informations utiles pour la suite (tokens), voir section~\ref{subsec:implementation-du-parseur}
 				\item \textbf{Identifier checking} - On connaît les différents identifiants présents dans la commande (noms de variable, noms de fonction), on peut tout de suite vérifier leur existance 
 				\item \textbf{Transform} - On transforme la commande en arbre d'appel, plus de détails dans la section~\ref{subsec:regles-de-transformation}
-				\item \textbf{Type checking} - On vérifie la concordance des types, plus de détails dans la section~\ref{subsubsec:verification-des-types}
+				\item \textbf{Type checking} - On vérifie la concordance des types (statique), plus de détails dans la section~\ref{subsubsec:verification-des-types}
 				\item \textbf{Statement processing} - La commande a été décomposée en plusieurs sous-traitements (arbre d'appel, \ref{subsubsec:arbre-d-appel-des-traitements}), on effectue d'abord les feuilles avant de remonter
 				\begin{enumerate}
 					\item \textbf{Branch statement} - On sélectionne le bon traitement en fonction de son type
@@ -377,18 +393,119 @@
 					\item \textbf{Cleaning} - On supprime les variables temporaires qui ne sont plus utiles. Si c'était un sous-traitement, on passe au prochain sous-traitement (6), sinon on passe à la prochaine commande (1)
 				\end{enumerate}
 			\end{enumerate}
+			
+		\subsection{Implémentation du parseur}
+			\label{subsec:implementation-du-parseur}
+			Boost.Spirit toussa todo blabla ...
 		
 		\subsection{Mémoire virtuelle} 
 			\label{subsec:memoire-virtuelle}
-			Dans le flux de données, certaines étapes nécessitent l'utilisation d'une mémoire afin de gérer les variables (temporaires ou non). Dans cette section nous allons préciser comment cela va être géré.
+			Dans le flux de données, certaines étapes nécessitent l'utilisation d'une mémoire afin de gérer les variables (temporaires ou non). Dans cette section nous allons préciser comment cela va être géré.\\
 			
-			\subsubsection{Tableau dynamique hétérogène}
+			Chaque type du langage possède son pendant en C++, voici un tableau résumant cela:\\
+			
+			\begin{tabular}{r|l}
+				Type & Equivalent C++\\ \hline\hline
+				\texttt{Boolean} & \texttt{bool}\\
+				\texttt{Integer} & \texttt{int}\\
+				\texttt{Float} & \texttt{float}\\
+				\texttt{String} & \texttt{std::string}\\
+				\texttt{Number} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
+				\texttt{Array} & voir section~\ref{subsubsec:tableau-dynamique-heterogene}\\
+				\texttt{Graph} & voir section~\textcolor{red}{ajouter ref}\\
+				\texttt{Vertex} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
+				\texttt{Edge} & voir section~\ref{subsubsec:number-edge-et-vertex}
+			\end{tabular}
 			
 			\subsubsection{Table des variables}
 				\label{subsubsec:table-des-variables}
 				
 			\subsubsection{Table des temporaires}
 				\label{subsubsec:table-des-temporaires}
+				
+			\subsubsection{Tableau dynamique hétérogène}
+				\label{subsubsec:tableau-dynamique-heterogene}
+				Le tableau dynamique hétérogène (TDH dans la suite de cette section) pose un gros problème majeur: le C++ est un langage fortement typé. Cependant plusieurs solutions s'offrent à nous pour créer un TDH:
+				
+				\begin{enumerate}
+					\item Un \texttt{std::vector<boost::any>} (\texttt{std::any} étant prévu pour C++17)
+					\item Un \texttt{std::vector<std::pair<std::type\_index, void*> >}
+					\item Un \texttt{std::vector<std::pair<TypeEnum, void*> >}
+				\end{enumerate}
+				
+				La solution (1) est sans doute la plus propre ainsi que la plus facile, cependant elle ajoute une dépendance avec Boost et elle partage plusieurs problèmes avec la solution (2) que l'on va voir tout de suite.\\
+				
+				La solution (2) utilise un mécanisme de C++ (l'opérateur \texttt{typeid}) afin de savoir quel est le type réel caché derrière le \texttt{void*}, cela permet un code assez générique. Cependant pour chaque valeur, on doit attacher un objet \texttt{std::type\_index} (lui-même composé d'un \texttt{std::type\_info}), et faire des appels à \texttt{typeid}, cela ajoute un surcoût en temps et en mémoire par rapport à la solution (3).\\
+				
+				La solution (3) est donc celle retenue pour implémenter un TDH. On créé simplement une énumération contenant les types acceptés dans le TDH, et chaque \texttt{void*} est associé à une valeur de cette énumération.
+				
+				\begin{lstlisting}[language=C++]
+					class Array {
+					public:
+						enum class Type { Boolean, Integer, String /*, ...*/ };
+						typedef std::pair<Type, void*> value_type;
+						
+						// constructeur de copie, etc.
+						// ...
+						
+						~Array() {
+							for(value_type& value : values) {
+								switch(value.first) {
+									case Type::Boolean:
+										delete (bool*)value.second;
+										break;
+									case Type::Integer:
+										delete (int*)value.second;
+										break;
+									case Type::String:
+										delete (std::string*)value.second;
+										break;
+									// ...
+								}
+							}
+						}
+						
+						size_t size() const {
+							return values.size();
+						}
+						
+						void add(int *value) { 
+							// value doit provenir d'un 'new'
+							values.push_back(std::make_pair(Type::Integer, (void*)value));
+						}
+						
+						void add(int value) {
+							add(new int(value));
+						}
+						// ...
+						
+						Type typeOf(size_t i) const {
+							return values.at(i).first;
+						}
+						
+						int getInteger(size_t i) const {
+							if(typeOf(i) != Type::Integer)
+								throw /* cast exception */;
+							return *(int*)values.at(i).second;
+						}
+						// ...
+						
+					private:
+					
+						std::vector<value_type> values;
+					};
+				\end{lstlisting}
+				
+				Cette solution est assez verbeuse, cependant la complexité en temps et en mémoire est très bonne. En ce qui concerne les \texttt{delete}, il est obligatoire de faire le cast avant, sinon le destructeur de l'objet détruit n'est pas appelé.\\
+				
+				Evidemment l'utilisateur du TDH est obligé de faire des \texttt{switch/if-else} dans son code, cependant ce problème vaut pour chacune des trois solutions et est inhérent au C++.  
+				
+			\subsubsection{Number, Edge et Vertex}
+				\label{subsubsec:number-edge-et-vertex}
+				Number
+				Optional
+				Vertex
+				Edge
 				
 		\subsection{Table des fonctions}
 			Dans le flux de données, l'étape \textit{Function call} nécessite d'appeler, d'exécuter et de récupérer le résultat d'une fonction. Dans cette section nous allons préciser comment cela va être fait.
