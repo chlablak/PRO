@@ -38,7 +38,8 @@
 	stringstyle=\color{red}\ttfamily,
 	commentstyle=\color{black!40}\ttfamily,
 	morecomment=[l][\color{black!50}]{\#},
-	gobble=8
+	gobble=10,
+	frame=single
 }
 
 \geometry{
@@ -437,9 +438,9 @@
 				
 				La solution (2) utilise un mécanisme de C++ (l'opérateur \texttt{typeid}) afin de savoir quel est le type réel caché derrière le \texttt{void*}, cela permet un code assez générique. Cependant pour chaque valeur, on doit attacher un objet \texttt{std::type\_index} (lui-même composé d'un \texttt{std::type\_info}), et faire des appels à \texttt{typeid}, cela ajoute un surcoût en temps et en mémoire par rapport à la solution (3).\\
 				
-				La solution (3) est donc celle retenue pour implémenter un TDH. On créé simplement une énumération contenant les types acceptés dans le TDH, et chaque \texttt{void*} est associé à une valeur de cette énumération.
+				La solution (3) est donc celle retenue pour implémenter un TDH. On créé simplement une énumération contenant les types acceptés dans le TDH, et chaque \texttt{void*} est associé à une valeur de cette énumération. Voici un exemple d'implémentation:
 				
-				\begin{lstlisting}[language=C++]
+				\begin{lstlisting}
 					class Array {
 					public:
 						enum class Type { Boolean, Integer, String /*, ...*/ };
@@ -502,28 +503,162 @@
 				
 			\subsubsection{Number, Edge et Vertex}
 				\label{subsubsec:number-edge-et-vertex}
-				Number
-				Optional
-				Vertex
-				Edge
+				\textbf{Number} - Selon la grammaire, certains nombres peuvent soit être un entier, soit un flottant. Il peut également être intéressant pour certains algorithmes de savoir si ces nombres sont entiers ou non (pour les flots notamment). Pour ces deux raisons il est nécessaire d'avoir un type \texttt{Number} pouvant stocker les deux types de représentations. Voici deux propositions (incomplètes):
+				
+				\begin{lstlisting}
+					// solution 1
+					struct Number {
+						enum : char { Integer, Float } tag;
+						union { int int_; float float_; };
+						Number() : Number(0) {}
+						Number(int i) : tag(Integer), int_(i) {}
+						Number(float f) : tag(Float), float_(f) {}
+						Number(double f) : tag(Float), float_(f) {}
+						// ...
+					};
+					
+					// solution 2
+					struct Number2 {
+						typedef float T;
+						T value;
+						Number2(T v = T(0)) : value(v) {}
+						operator T() const { return value; }
+						operator T&() { return value; }
+						explicit operator int() const { return value; }
+						bool isInt() const { return modf(value, nullptr) == 0.f; } // +/- epsilon
+						bool isFloat() const { return !isInt(); }
+						// ...
+					};
+				\end{lstlisting}
+				
+				La solution (1) a l'avantage d'être plus sûre au niveau du typage, cependant à l'utilisation elle demande d'utiliser davantage de condition. La solution (2) est plus naturelle à l'utilisation et utilise 2x moins de place en mémoire que la solution (1), mais le test \texttt{isInt()} prend plus de temps. A partir de là on a choisi la solution (2) pour ses avantages et car les accès à \texttt{value} seront plus courants que les tests \texttt{isInt()}.\\
+								
+				\textbf{Vertex} - Le type \texttt{Vertex} pose un problème majeur: certains de ses attributs sont optionnels. Voici donc une solution naturelle:
+				
+				\begin{lstlisting}
+					struct Vertex {
+						int id;
+						std::string label;
+						Number weight;
+						Number minCapacity;
+						Number maxCapacity;
+						bool active[4]; // ~ un bool par attribut optionnel
+						// ...
+					};
+				\end{lstlisting}
+				
+				Le soucis avec cette approche est que les attributs optionnels sont construits même s'il ne sont pas utilisés, par ailleurs sur mon ordinateur \texttt{sizeof(Vertex) == 36}. Cela implique une utilisation inutile en ressources pour des attributs qui ne seront pas forcément utilisés.\\
+				
+				Afin d'éviter ces problèmes, on peut approcher le problème avec des pointeurs (égaux à \texttt{nullptr} s'ils ne sont pas utilisés):
+				
+				\begin{lstlisting}
+					struct Vertex {
+						int id;
+						std::string* label;
+						Number* weight;
+						Number* minCapacity;
+						Number* maxCapacity;
+						// ...
+					};
+				\end{lstlisting}
+				
+				A présent, \texttt{sizeof(Vertex) == 20} (sur ma machine) et les objets ne sont plus construits inutilement. Le gain en ressource n'est pas négligeable, cependant cette structure n'est pas très agréable à utiliser telle quelle (gestion de l'allocation/désallocation, déréférencement). Pour palier à cela, on délègue la gestion du pointeur à une autre classe, dont voici un aperçu:
+				
+				\begin{lstlisting}
+					template<typename T>
+					struct Optional {
+						T* value;
+						
+						// constructeur/destructeur
+						Optional() : value(nullptr) {}
+						~Optional() { delete value; }
+						
+						// operations de copie
+						Optional(const Optional &o) : value(nullptr) { 
+							if(o.value) value = new T(*o.value); 
+						}
+						Optional(Optional &&o) : value(move(o.value)) {}
+						Optional &operator=(const Optional &o) {
+							if(this != &o) {
+								delete value;
+								value = nullptr;
+								if(o.value) value = new T(*o.value);
+							}
+							return *this;
+						}
+						Optional &operator=(Optional &&o) {
+							if(this != &o) {
+								delete value;
+								value = move(o.value);
+							}
+							return *this;
+						}
+						
+						// affectations et constructions
+						Optional(const T& v) { value = new T(v); }
+						Optional(T&& v) : value(new T(move(v))) {}
+						Optional &operator=(const T &v) {
+							if(value) *value = v;
+							else value = new T(v);
+							return *this;
+						}
+						Optional &operator=(T &&v) {
+							if(value) *value = move(v);
+							else value = new T(move(v));
+							return *this;
+						}
+						
+						// ...
+						// operateurs d'acces, etc.
+						// ...
+					};
+					
+					struct Vertex {
+						int id;
+						Optional<string> label;
+						Optional<Number> weight;
+						Optional<Number> minCapacity;
+						Optional<Number> maxCapacity;
+						// ...
+					};
+				\end{lstlisting} 
+				
+				Notre type \texttt{Vertex} est à présent élégant, et efficace en terme de ressources.\\
+				
+				\textbf{Edge} - En ce qui concerne le type \texttt{Edge}, on peut utiliser la même démarche que pour le type \texttt{Vertex}:
+				
+				\begin{lstlisting}
+					struct Edge {
+						enum Connection : char { Unidirectional, Bidirectional };
+						int a, b;
+						Connection conn;
+						Optional<Number> weight;
+						Optional<string> label;
+						Optional<Number> minCapacity;
+						Optional<Number> maxCapacity;
+						// ...
+					};
+				\end{lstlisting}
+				
+				Nos types "simples" sont maintenant définit, notons que les exemples d'implémentation ci-dessous ne sont pas complets, mais ils montrent clairement l'approche générale.
 				
 		\subsection{Table des fonctions}
 			Dans le flux de données, l'étape \textit{Function call} nécessite d'appeler, d'exécuter et de récupérer le résultat d'une fonction. Dans cette section nous allons préciser comment cela va être fait.
 			
 			\subsubsection{Interfaçage}
-			\label{subsubsec:interfacage}
+				\label{subsubsec:interfacage}
 			
-			\subsection{Règles de transformation}
+		\subsection{Règles de transformation}
 			\label{subsec:regles-de-transformation}
 			Dans cette section nous allons préciser les règles de transformation de l'étape \textit{Transform} du flux de données, ainsi que ce que cela va apporter.
 			
 			\subsubsection{Arbre d'appel des traitements}
-			\label{subsubsec:arbre-d-appel-des-traitements}
+				\label{subsubsec:arbre-d-appel-des-traitements}
 			
 			\subsubsection{Vérification des types}
-			\label{subsubsec:verification-des-types}
+				\label{subsubsec:verification-des-types}
 			
-			\subsection{Exemples}
+		\subsection{Exemples}
 	
 	\section{Annexes}
 	
