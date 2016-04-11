@@ -29,13 +29,26 @@
 \tikzstyle{line} = [draw, -latex']
 \tikzstyle{cloud} = [draw, ellipse,fill=red!20, minimum height=2em]
 
+% Style C++
+\lstset{
+	language=C++,
+	tabsize=2,
+	basicstyle=\ttfamily,
+	keywordstyle=\color{blue}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	commentstyle=\color{black!40}\ttfamily,
+	morecomment=[l][\color{black!50}]{\#},
+	gobble=10,
+	frame=single
+}
+
 \geometry{
- 	a4paper,
- 	total={210mm,297mm},
- 	left=20mm,
- 	right=20mm,
- 	top=20mm,
- 	bottom=20mm,
+	a4paper,
+	total={210mm,297mm},
+	left=20mm,
+	right=20mm,
+	top=20mm,
+	bottom=20mm,
 }
 
 \usepackage{fancyhdr}
@@ -48,9 +61,9 @@
 \rhead{PRO}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
-	 
-\begin{document}
 
+\begin{document}
+	
 	% Titre du document
 	\title{GraphY} % ou un autre nom
 	\author{Rapport\\ 
@@ -74,7 +87,7 @@
 	\section{Cadre de développement} 
 		L'application est développée à l'aide du langage C++ et de la bibliothèque Qt \textcolor{red}{(insérer les versions utilisées ainsi que les compilateurs ?)}. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décider d'utiliser le Coding Style de Qt qui correspond bien à nos besoins: \url{https://wiki.qt.io/Qt_Coding_Style}.
 			
-	\section{Conception de l'interpréteur} % Champion
+	\section{Interpréteur} % Champion
 		Dans le cadre de l'application, l'utilisateur est amené à entrer des commandes lui permettant de créer et de modifier des graphes, tout autant que d'appeler des fonctions effectuant différents traitements (algorithmes, lecture depuis un fichier, ...). 
 	
 		\subsection{Normalisation du langage} 
@@ -99,7 +112,7 @@
 					\end{itemize}
 				\end{itemize} 
 			
-				A présent que nous avons une idée des types disponibles, il faut définir leur domaine ainsi que les opérations disponibles et leur syntaxe. On fait le choix délibéré de se concentrer sur les opérations concernant les graphes, les opérations simples comme additionner deux nombres ou les comparaisons ne sont pas prévues. Cependant la base du langage doit permettre de les définir plus tard. 
+				Puisque nous avons à présent une idée des types disponibles, il faut définir leur domaine ainsi que les opérations disponibles et leur syntaxe. On fait le choix délibéré de se concentrer sur les opérations concernant les graphes, les opérations simples comme additionner deux nombres où les comparaisons ne sont pas prévues. Cependant la base du langage doit permettre de les définir plus tard. 
 			
 				\begin{longtable}{lll}
 					\textbf{\texttt{Boolean}}\\ \hline \hline
@@ -146,7 +159,7 @@
 					\textbf{\texttt{Edge}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{Arête/arc avec des informations supplémentaires facultatives}\\
 					Opérations & Déclaration & \texttt{Edge a = (1--2); Edge a2 = (2<-3:5);}\\
-					& & \texttt{(connexion[id]:weight:label:max\_capacity:min\_capacity)}\\
+					& & \texttt{(connection[id]:weight:label:max\_capacity:min\_capacity)}\\
 					& & \texttt{(arête: -- (tiret double) arcs: ->, <-)}\\
 					& Affectation & \texttt{a = (1->2::"A1"); a = f();}\\
 					& Lecture & \texttt{a; f(a); Vertex b = a;}\\ 
@@ -176,10 +189,10 @@
 					\end{itemize}
 					\item \texttt{Edge}: 
 					\begin{itemize}
-						\item Seul le premier paramètre (\texttt{connexion}) est obligatoire
+						\item Seul le premier paramètre (\texttt{connection}) est obligatoire
 						\item Le paramètre \texttt{id[Integer]} doit être positif ou nul et sa valeur par défaut est 0
 						\item Les valeurs par défaut sont \texttt{weight[Number]=0, label[String]="", max\_capacity[Number]=min\_capacity, min\_capacity[Number]=0}
-						\item L'\texttt{id} est un identifiant "local" à la \texttt{connexion}
+						\item L'\texttt{id} est un identifiant "local" à la \texttt{connection}
 					\end{itemize}
 					\item \texttt{Graph}: 
 					\begin{itemize}
@@ -192,7 +205,7 @@
 						\begin{itemize}
 							\item Les types acceptés en opérande de droite sont \texttt{Vertex, Edge} ou un \texttt{Array} de ces deux types
 							\item Pour les \texttt{Vertex}, si l'\texttt{id} existe déjà dans le graphe, c'est une modification, sinon c'est un ajout
-							\item Pour les \texttt{Edge}, si la \texttt{connexion} existe déjà dans le graphe mais que l'\texttt{id} est omis, alors c'est un ajout, sinon c'est une modification (sauf si l'\texttt{id} n'existe pas, dans ce cas c'est un ajout)
+							\item Pour les \texttt{Edge}, si la \texttt{connection} existe déjà dans le graphe mais que l'\texttt{id} est omis, alors c'est un ajout, sinon c'est une modification (sauf si l'\texttt{id} n'existe pas, dans ce cas c'est un ajout)
 							\item La modification est accumulative, par exemple si on fait \texttt{Graph g = \{0:"Yverdon"\}; g += (0::2);}, alors le \texttt{Vertex} résultant est \texttt{(0:"Yverdon":2)}
 						\end{itemize}
 						\item Suppressions:
@@ -200,7 +213,7 @@
 							\item Les types acceptés en opérande de droite sont \texttt{Vertex, Edge} ou un \texttt{Array} de ces deux types
 							\item S'il n'y a rien à supprimer, alors il ne se passe rien (pas d'exception)
 							\item La suppression d'un \texttt{Vertex} entraine la suppression des \texttt{Edge} associés
-							\item Pour les \texttt{Edge}, si l'\texttt{id} est omis, alors toutes les \texttt{connexion} sont supprimées
+							\item Pour les \texttt{Edge}, si l'\texttt{id} est omis, alors toutes les \texttt{connection} sont supprimées
 						\end{itemize}
 					\end{itemize}
 				\end{itemize}
@@ -258,6 +271,7 @@
 					<complex-constant> ::= <array-record> | <graph-record> | <edge-record> | <vertex-record>
 					
 					<graph-record> ::= \lit{\{} <graph-info> \{ \lit{,} <graph-info> \} \lit{\}}
+					\alt \lit{\{} \lit{\#} <digit-sequence> \{ \lit{,} <graph-info> \} \lit{\}}
 					
 					<edge-record> ::= \lit{(} <edge-info> \lit{)}
 					
@@ -265,11 +279,11 @@
 					
 					<graph-info> ::= <vertex-info> | <edge-info>
 					
-					<edge-info> ::= <connexion> 
-					\alt <connexion> \lit{:} <number>
-					\alt <connexion> \lit{:} [ <number> ] \lit{:} <string>
-					\alt <connexion> \lit{:} [ <number> ] \lit{:} [ <string> ] \lit{:} <number>
-					\alt <connexion> \lit{:} [ <number> ] \lit{:} [ <string> ] \lit{:} [ <number> ] \lit{:} <number>
+					<edge-info> ::= <connection> 
+					\alt <connection> \lit{:} <number>
+					\alt <connection> \lit{:} [ <number> ] \lit{:} <string>
+					\alt <connection> \lit{:} [ <number> ] \lit{:} [ <string> ] \lit{:} <number>
+					\alt <connection> \lit{:} [ <number> ] \lit{:} [ <string> ] \lit{:} [ <number> ] \lit{:} <number>
 					
 					<vertex-info> ::= <id> 
 					\alt <id> \lit{:} <string>
@@ -277,7 +291,7 @@
 					\alt <id> \lit{:} [ <string> ] \lit{:} [ <number> ] \lit{:} <number>
 					\alt <id> \lit{:} [ <string> ] \lit{:} [ <number> ] \lit{:} [ <number> ] \lit{:} <number>
 					
-					<connexion> ::= <id> ( \lit{\textendash\textemdash} | \lit{\textemdash\textgreater} | \lit{\textless\textemdash} ) <id>
+					<connection> ::= <id> ( \lit{\textendash\textemdash} | \lit{\textemdash\textgreater} | \lit{\textless\textemdash} ) <id>
 					
 					<id> ::= <digit-sequence>
 				\end{grammar}
@@ -333,6 +347,9 @@
 					\path[line,dashed] (parser) |- (exception);
 					\path[line,dashed] (identifier) -- (exception);
 					\path[line,dashed] (type) |- (exception);
+					\path[line,dashed] (transformation) -- (exception);
+					\path[line,dashed] (function) edge[bend left] (exception);
+					\path[line,dashed] (assign) edge[bend left] (exception);
 					\path[line] (preprocessor) -- (parser);
 					\path[line] (parser) -- (identifier);
 					\path[line] (identifier) -- (transformation);
@@ -360,10 +377,10 @@
 					\item \textbf{Trim} - On enlève tous les espaces inutiles, c'est-à-dire tous les espaces sauf ceux dans les constantes littérales de type \textit{String}, et celui qui sépare le type de l'identifiant dans les déclarations
 					\item \textbf{Statement per statement} - On envoie au parser une commande à la fois (les traitements sont séparés par des ';') 
 				\end{enumerate}
-				\item \textbf{Parser validation} - On vérifie la syntaxe de la commande et on extrait des informations utiles pour la suite (tokens)
+				\item \textbf{Parser validation} - On vérifie la syntaxe de la commande et on extrait des informations utiles pour la suite (tokens), voir section~\ref{subsec:implementation-du-parseur}
 				\item \textbf{Identifier checking} - On connaît les différents identifiants présents dans la commande (noms de variable, noms de fonction), on peut tout de suite vérifier leur existance 
 				\item \textbf{Transform} - On transforme la commande en arbre d'appel, plus de détails dans la section~\ref{subsec:regles-de-transformation}
-				\item \textbf{Type checking} - On vérifie la concordance des types, plus de détails dans la section~\ref{subsubsec:verification-des-types}
+				\item \textbf{Type checking} - On vérifie la concordance des types (statique), plus de détails dans la section~\ref{subsubsec:verification-des-types}
 				\item \textbf{Statement processing} - La commande a été décomposée en plusieurs sous-traitements (arbre d'appel, \ref{subsubsec:arbre-d-appel-des-traitements}), on effectue d'abord les feuilles avant de remonter
 				\begin{enumerate}
 					\item \textbf{Branch statement} - On sélectionne le bon traitement en fonction de son type
@@ -377,39 +394,277 @@
 					\item \textbf{Cleaning} - On supprime les variables temporaires qui ne sont plus utiles. Si c'était un sous-traitement, on passe au prochain sous-traitement (6), sinon on passe à la prochaine commande (1)
 				\end{enumerate}
 			\end{enumerate}
+			
+		\subsection{Implémentation du parseur}
+			\label{subsec:implementation-du-parseur}
+			Boost.Spirit toussa todo blabla ...
 		
 		\subsection{Mémoire virtuelle} 
 			\label{subsec:memoire-virtuelle}
-			Dans le flux de données, certaines étapes nécessitent l'utilisation d'une mémoire afin de gérer les variables (temporaires ou non). Dans cette section nous allons préciser comment cela va être géré.
+			Dans le flux de données, certaines étapes nécessitent l'utilisation d'une mémoire afin de gérer les variables (temporaires ou non). Dans cette section nous allons préciser comment cela va être géré.\\
 			
-			\subsubsection{Tableau dynamique hétérogène}
+			Chaque type du langage possède son pendant en C++, voici un tableau résumant cela:\\
+			
+			\begin{tabular}{r|l}
+				Type & Equivalent C++\\ \hline\hline
+				\texttt{Boolean} & \texttt{bool}\\
+				\texttt{Integer} & \texttt{int}\\
+				\texttt{Float} & \texttt{float}\\
+				\texttt{String} & \texttt{std::string}\\
+				\texttt{Number} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
+				\texttt{Array} & voir section~\ref{subsubsec:tableau-dynamique-heterogene}\\
+				\texttt{Graph} & voir section~\textcolor{red}{ajouter ref}\\
+				\texttt{Vertex} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
+				\texttt{Edge} & voir section~\ref{subsubsec:number-edge-et-vertex}
+			\end{tabular}
 			
 			\subsubsection{Table des variables}
 				\label{subsubsec:table-des-variables}
-				
+			
 			\subsubsection{Table des temporaires}
 				\label{subsubsec:table-des-temporaires}
 				
+			\subsubsection{Tableau dynamique hétérogène}
+				\label{subsubsec:tableau-dynamique-heterogene}
+				Le tableau dynamique hétérogène (TDH dans la suite de cette section) pose un gros problème majeur: le C++ est un langage fortement typé. Cependant plusieurs solutions s'offrent à nous pour créer un TDH:
+				
+				\begin{enumerate}
+					\item Un \texttt{std::vector<boost::any>} (\texttt{std::any} étant prévu pour C++17)
+					\item Un \texttt{std::vector<std::pair<std::type\_index, void*> >}
+					\item Un \texttt{std::vector<std::pair<TypeEnum, void*> >}
+				\end{enumerate}
+				
+				La solution (1) est sans doute la plus propre ainsi que la plus facile, cependant elle ajoute une dépendance avec Boost et elle partage plusieurs problèmes avec la solution (2) que l'on va voir tout de suite.\\
+				
+				La solution (2) utilise un mécanisme de C++ (l'opérateur \texttt{typeid}) afin de savoir quel est le type réel caché derrière le \texttt{void*}, cela permet un code assez générique. Cependant pour chaque valeur, on doit attacher un objet \texttt{std::type\_index} (lui-même composé d'un \texttt{std::type\_info}), et faire des appels à \texttt{typeid}, cela ajoute un surcoût en temps et en mémoire par rapport à la solution (3).\\
+				
+				La solution (3) est donc celle retenue pour implémenter un TDH. On créé simplement une énumération contenant les types acceptés dans le TDH, et chaque \texttt{void*} est associé à une valeur de cette énumération. Voici un exemple d'implémentation:
+				
+				\begin{lstlisting}
+					class Array {
+					public:
+						enum class Type { Boolean, Integer, String /*, ...*/ };
+						typedef std::pair<Type, void*> value_type;
+						
+						// constructeur de copie, etc.
+						// ...
+						
+						~Array() {
+							for(value_type& value : values) {
+								switch(value.first) {
+									case Type::Boolean:
+										delete (bool*)value.second;
+										break;
+									case Type::Integer:
+										delete (int*)value.second;
+										break;
+									case Type::String:
+										delete (std::string*)value.second;
+										break;
+									// ...
+								}
+							}
+						}
+						
+						size_t size() const {
+							return values.size();
+						}
+						
+						void add(int *value) { 
+							// value doit provenir d'un 'new'
+							values.push_back(std::make_pair(Type::Integer, (void*)value));
+						}
+						
+						void add(int value) {
+							add(new int(value));
+						}
+						// ...
+						
+						Type typeOf(size_t i) const {
+							return values.at(i).first;
+						}
+						
+						int getInteger(size_t i) const {
+							if(typeOf(i) != Type::Integer)
+								throw /* cast exception */;
+							return *(int*)values.at(i).second;
+						}
+						// ...
+						
+					private:
+					
+						std::vector<value_type> values;
+					};
+				\end{lstlisting}
+				
+				Cette solution est assez verbeuse, cependant la complexité en temps et en mémoire est très bonne. En ce qui concerne les \texttt{delete}, il est obligatoire de faire le cast avant, sinon le destructeur de l'objet détruit n'est pas appelé.\\
+				
+				Evidemment l'utilisateur du TDH est obligé de faire des \texttt{switch/if-else} dans son code, cependant ce problème vaut pour chacune des trois solutions et est inhérent au C++.  
+				
+			\subsubsection{Number, Edge et Vertex}
+				\label{subsubsec:number-edge-et-vertex}
+				\textbf{Number} - Selon la grammaire, certains nombres peuvent soit être un entier, soit un flottant. Il peut également être intéressant pour certains algorithmes de savoir si ces nombres sont entiers ou non (pour les flots notamment). Pour ces deux raisons il est nécessaire d'avoir un type \texttt{Number} pouvant stocker les deux types de représentations. Voici deux propositions (incomplètes):
+				
+				\begin{lstlisting}
+					// solution 1
+					struct Number {
+						enum : char { Integer, Float } tag;
+						union { int int_; float float_; };
+						Number() : Number(0) {}
+						Number(int i) : tag(Integer), int_(i) {}
+						Number(float f) : tag(Float), float_(f) {}
+						Number(double f) : tag(Float), float_(f) {}
+						// ...
+					};
+					
+					// solution 2
+					struct Number2 {
+						typedef float T;
+						T value;
+						Number2(T v = T(0)) : value(v) {}
+						operator T() const { return value; }
+						operator T&() { return value; }
+						explicit operator int() const { return value; }
+						bool isInt() const { return modf(value, nullptr) == 0.f; } // +/- epsilon
+						bool isFloat() const { return !isInt(); }
+						// ...
+					};
+				\end{lstlisting}
+				
+				La solution (1) a l'avantage d'être plus sûre au niveau du typage, cependant à l'utilisation elle demande d'utiliser davantage de condition. La solution (2) est plus naturelle à l'utilisation et utilise 2x moins de place en mémoire que la solution (1), mais le test \texttt{isInt()} prend plus de temps. A partir de là on a choisi la solution (2) pour ses avantages et car les accès à \texttt{value} seront plus courants que les tests \texttt{isInt()}.\\
+								
+				\textbf{Vertex} - Le type \texttt{Vertex} pose un problème majeur: certains de ses attributs sont optionnels. Voici donc une solution naturelle:
+				
+				\begin{lstlisting}
+					struct Vertex {
+						int id;
+						std::string label;
+						Number weight;
+						Number minCapacity;
+						Number maxCapacity;
+						bool active[4]; // ~ un bool par attribut optionnel
+						// ...
+					};
+				\end{lstlisting}
+				
+				Le soucis avec cette approche est que les attributs optionnels sont construits même s'il ne sont pas utilisés, par ailleurs sur mon ordinateur \texttt{sizeof(Vertex) == 36}. Cela implique une utilisation inutile en ressources pour des attributs qui ne seront pas forcément utilisés.\\
+				
+				Afin d'éviter ces problèmes, on peut approcher le problème avec des pointeurs (égaux à \texttt{nullptr} s'ils ne sont pas utilisés):
+				
+				\begin{lstlisting}
+					struct Vertex {
+						int id;
+						std::string* label;
+						Number* weight;
+						Number* minCapacity;
+						Number* maxCapacity;
+						// ...
+					};
+				\end{lstlisting}
+				
+				A présent, \texttt{sizeof(Vertex) == 20} (sur ma machine) et les objets ne sont plus construits inutilement. Le gain en ressource n'est pas négligeable, cependant cette structure n'est pas très agréable à utiliser telle quelle (gestion de l'allocation/désallocation, déréférencement). Pour palier à cela, on délègue la gestion du pointeur à une autre classe, dont voici un aperçu:
+				
+				\begin{lstlisting}
+					template<typename T>
+					struct Optional {
+						T* value;
+						
+						// constructeur/destructeur
+						Optional() : value(nullptr) {}
+						~Optional() { delete value; }
+						
+						// operations de copie
+						Optional(const Optional &o) : value(nullptr) { 
+							if(o.value) value = new T(*o.value); 
+						}
+						Optional(Optional &&o) : value(move(o.value)) {}
+						Optional &operator=(const Optional &o) {
+							if(this != &o) {
+								delete value;
+								value = nullptr;
+								if(o.value) value = new T(*o.value);
+							}
+							return *this;
+						}
+						Optional &operator=(Optional &&o) {
+							if(this != &o) {
+								delete value;
+								value = move(o.value);
+							}
+							return *this;
+						}
+						
+						// affectations et constructions
+						Optional(const T& v) { value = new T(v); }
+						Optional(T&& v) : value(new T(move(v))) {}
+						Optional &operator=(const T &v) {
+							if(value) *value = v;
+							else value = new T(v);
+							return *this;
+						}
+						Optional &operator=(T &&v) {
+							if(value) *value = move(v);
+							else value = new T(move(v));
+							return *this;
+						}
+						
+						// ...
+						// operateurs d'acces, etc.
+						// ...
+					};
+					
+					struct Vertex {
+						int id;
+						Optional<string> label;
+						Optional<Number> weight;
+						Optional<Number> minCapacity;
+						Optional<Number> maxCapacity;
+						// ...
+					};
+				\end{lstlisting} 
+				
+				Notre type \texttt{Vertex} est à présent élégant, et efficace en terme de ressources.\\
+				
+				\textbf{Edge} - En ce qui concerne le type \texttt{Edge}, on peut utiliser la même démarche que pour le type \texttt{Vertex}:
+				
+				\begin{lstlisting}
+					struct Edge {
+						enum Connection : char { Unidirectional, Bidirectional };
+						int a, b;
+						Connection conn;
+						Optional<Number> weight;
+						Optional<string> label;
+						Optional<Number> minCapacity;
+						Optional<Number> maxCapacity;
+						// ...
+					};
+				\end{lstlisting}
+				
+				Nos types "simples" sont maintenant définit, notons que les exemples d'implémentation ci-dessous ne sont pas complets, mais ils montrent clairement l'approche générale.
+				
 		\subsection{Table des fonctions}
 			Dans le flux de données, l'étape \textit{Function call} nécessite d'appeler, d'exécuter et de récupérer le résultat d'une fonction. Dans cette section nous allons préciser comment cela va être fait.
-		
+			
 			\subsubsection{Interfaçage}
 				\label{subsubsec:interfacage}
-				
+			
 		\subsection{Règles de transformation}
 			\label{subsec:regles-de-transformation}
 			Dans cette section nous allons préciser les règles de transformation de l'étape \textit{Transform} du flux de données, ainsi que ce que cela va apporter.
 			
 			\subsubsection{Arbre d'appel des traitements}
 				\label{subsubsec:arbre-d-appel-des-traitements}
-				
+			
 			\subsubsection{Vérification des types}
 				\label{subsubsec:verification-des-types}
-				
+			
 		\subsection{Exemples}
 	
 	\section{Annexes}
-		\subsection{Références}
-			...
-				
+	
+	\begin{thebibliography}{9}
+		\bibitem{vutbr.cz} 
+		Faculty of Technology, Brno University of Technology, Réplublique tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
+	\end{thebibliography}			
+
 \end{document}
