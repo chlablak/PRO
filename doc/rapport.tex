@@ -33,13 +33,14 @@
 \lstset{
 	language=C++,
 	tabsize=2,
-	basicstyle=\ttfamily,
-	keywordstyle=\color{blue}\ttfamily,
-	stringstyle=\color{red}\ttfamily,
-	commentstyle=\color{black!40}\ttfamily,
+	basicstyle=\small\ttfamily,
+	keywordstyle=\color{blue},
+	stringstyle=\color{red},
+	commentstyle=\color{black!40},
 	morecomment=[l][\color{black!50}]{\#},
 	gobble=10,
-	frame=single
+	frame=single,
+	otherkeywords={std,string,vector,map,pair,size\_t,function,remove\_const,remove\_reference}
 }
 
 \geometry{
@@ -420,9 +421,78 @@
 			
 			\subsubsection{Table des variables}
 				\label{subsubsec:table-des-variables}
+				Notre interpréteur a besoin de créer des variables afin de pouvoir les manipuler au fur et à mesure des traitement. Une variable est définie par trois informations:
+				
+				\begin{enumerate}
+					\item un type
+					\item un identifiant
+					\item une valeur
+				\end{enumerate}
+				
+				Pour stocker ces informations, on va utiliser une table de variables qui nous permettra de répondre à différentes questions:
+				
+				\begin{itemize}
+					\item Quelles sont les variables déjà créées?
+					\item Quel est le type d'une variable?
+					\item Une variable existe-t-elle?
+					\item Quelle est la valeur d'une variable?
+				\end{itemize}
+				
+				Le C++ étant un langage fortement typé, on est obligé d'utiliser une approche à base de \texttt{if-else/switch}. Voici un exemple d'implémentation (qui pourrait être \textit{templatisé}):
+				
+				\begin{lstlisting}
+					struct Table {
+						enum class Type { Integer, String /* , ... */ };
+						map<string, Type> names;
+						map<string, int> ints;
+						map<string, string> strings;
+						// ...
+						
+						void set(string const &name, int value) {
+							if(exists(name) && typeOf(name) != Type::Integer)
+								/* bad type exception */;
+							names[name] = Type::Integer;
+							ints[name] = value;
+						}
+						
+						void set(string const &name, string const &value) {
+							// ...
+						}
+						// ...
+						
+						bool exists(string const &name) const {
+							return names.find(name) != names.end();
+						}
+						
+						Type typeOf(string const &name) const {
+							if(!exists(name))
+								/* not found exception */;
+							return names.find(name)->second;
+						}
+						
+						void erase(string const &name) {
+							switch(typeOf(name)) {
+								case Type::Integer: ints.erase(name); break;
+								case Type::String: strings.erase(name); break;
+							}
+						}
+						
+						int getInteger(string const &name) const {
+							if(typeOf(name) != Type::Integer)
+								/* cast exception */;
+							return ints.find(name)->second;
+						}
+						// ...
+					};
+				\end{lstlisting}
+				
+				Cette solution répond à toutes nos questions et a l'avantage d'être assez simple (et typée), une autre approche à base de \texttt{void*} est possible et est présentée dans la section~\ref{subsubsec:tableau-dynamique-heterogene} sur les tableaux dynamiques hétérogènes. Notons qu'il peut être pertinent d'utiliser une autre structure que \texttt{map} pour le stockage des identifiants, par exemple un ternary search tries qui faciliterait l'auto-complétion pour les variables.
 			
 			\subsubsection{Table des temporaires}
 				\label{subsubsec:table-des-temporaires}
+				Certains traitements seront composés de plusieurs sous-traitements, les résultats de ceux-ci seront stockés dans des variables qui doivent avoir une durée de vie limitée à la durée du traitement. Une approche simple et efficace est d'utiliser une \texttt{std::stack<Table>} (voir section~\ref{subsubsec:table-des-variables}) sur laquelle on \textit{push} à l'entrée du traitement et on \textit{pop} à sa sortie.\\
+				
+				Ici nous développons juste l'idée générale, mais concrètement les variables temporaires et non temporaires doivent être accessible de la même manière indépendamment de leur genre. Par conséquent une tables des variables générale englobera les deux genres, et fournira une interface commune permettant de manipuler les deux.
 				
 			\subsubsection{Tableau dynamique hétérogène}
 				\label{subsubsec:tableau-dynamique-heterogene}
@@ -643,10 +713,182 @@
 				Nos types "simples" sont maintenant définis, notons que les exemples d'implémentation ci-dessus ne sont pas complets, mais ils montrent l'approche générale.
 				
 		\subsection{Table des fonctions}
-			Dans le flux de données, l'étape \textit{Function call} nécessite d'appeler, d'exécuter et de récupérer le résultat d'une fonction. Dans cette section nous allons préciser comment cela va être fait.
+			\label{subsec:table-des-fonctions}
+			Dans le flux de données, l'étape \textit{Function call} nécessite d'appeler, d'exécuter et de récupérer le résultat d'une fonction. Dans cette section nous allons préciser comment cela va être fait.\\
+			
+			Voici l'idée avec un bout de code qui devrait pouvoir être exécuté:
+			
+			\begin{lstlisting}
+					// algorithme independant de l'interpreteur
+					Graph dijkstra(const Graph &graph, const Vertex &origin) {
+						// ...
+					}
+			
+					// interfacage dans la table des fonctions
+					functions.add("dijkstra", &dijkstra);
+					
+					// appel a la fonction depuis l'interpreteur
+					functions.call("dijkstra", "pcc", {"g", "v1"});
+			\end{lstlisting}
+			
+			Ce \texttt{call} va chercher les variables \textit{g} et \textit{v1} dans la table des variables, puis appelle la fonction \texttt{dijkstra} avant de sauver le résultat dans la table des variables sous le nom \textit{pcc}.\\
+			
+			La difficulté, comme d'habitude, est de lié le côté dynamique de l'interpréteur avec le côté fortement typé de C++. Le deuxième problème est d'avoir un interfaçage facile à faire côté utilisateur, afin que l'ajout de nouvelle fonction soit rapide et élégant.
 			
 			\subsubsection{Interfaçage}
 				\label{subsubsec:interfacage}
+				Afin de répondre aux demandes de la table des fonctions (voir section~\ref{subsec:table-des-fonctions}), on va utilise deux outils que le C++ nous offre: l'héritage (avec polymorphisme) et la spécialisation des \texttt{template}.\\
+				
+				Un exemple d'implémentation vaut plus qu'un long discours:
+				
+				\begin{lstlisting}
+					// Types geres
+					enum class Type { Integer, String /* , ... */ };
+					
+					// Table des variables (simplifiee)
+					struct VarTable {
+						map<string, Type> names;
+						map<string, int> ints;
+						map<string, string> strings;
+						
+						void set(string const &name, int value) {
+							names[name] = Type::Integer;
+							ints[name] = value;
+						}
+						
+						void set(string const &name, string const &value) {
+							names[name] = Type::String;
+							strings[name] = value;
+						}
+					};
+					
+					// Acces aux variables specialise
+					template<typename> struct Fetcher;
+					
+					template<> struct Fetcher<int> {
+						static int get(string const &name, VarTable &var) {
+							return var.ints[name];
+						}
+					};
+					
+					template<> struct Fetcher<string> {
+						static string const &get(string const &name, VarTable &var) {
+							return var.strings[name];
+						}
+					};
+					
+					// Enleve les 'const' et les '&' sur un type
+					template<typename T> struct RemoveAll {
+						typedef typename remove_const<typename remove_reference<T>::type>::type type;
+					};
+					
+					// Classe abstraite pour l'appel a une fonction
+					struct FuncBase {
+						virtual ~FuncBase() {}
+						virtual void execute(string const&, vector<string> const&, VarTable&) = 0;
+					};
+					
+					// Type inutile pour les specialisations de la classe Func
+					struct Empty {};
+					
+					// Classe appelant notre fonction
+					// (ici avec 2 parametres max, mais peut etre etendu)
+					template<typename R, typename P1 = Empty, typename P2 = Empty>
+					struct Func : FuncBase {
+						function<R(P1, P2)> f;
+						Func(R(*f)(P1, P2)) : f(f) {}
+						virtual ~Func() {}
+						
+						// on appelle la fonction avec ses parametres
+						void execute(string const &dst, vector<string> const &params, VarTable &var) {
+							P1 p1 = Fetcher<typename RemoveAll<P1>::type>::get(params[0], var);
+							P2 p2 = Fetcher<typename RemoveAll<P2>::type>::get(params[1], var);
+							var.set(dst, f(p1, p2));
+						}
+					};
+					
+					// Meme chose mais pour 1 parametre
+					template<typename R, typename P1>
+					struct Func<R, P1, Empty> : FuncBase {
+						function<R(P1)> f;
+						Func(R(*f)(P1)) : f(f) {}
+						virtual ~Func() {}
+						void execute(string const &dst, vector<string> const &params, VarTable &var) {
+							P1 p1 = Fetcher<typename RemoveAll<P1>::type>::get(params[0], var);
+							var.set(dst, f(p1));
+						}
+					};
+					
+					// Meme chose pour 0 parametre
+					template<typename R>
+					struct Func<R, Empty, Empty> : FuncBase {
+						function<R()> f;
+						Func(R(*f)()) : f(f) {}
+						virtual ~Func() {}
+						void execute(string const &dst, vector<string> const &params, VarTable &var) {
+							var.set(dst, f());
+						}
+					};
+					
+					// Table des fonctions (simplifiee)
+					struct FuncTable {
+						VarTable &var;
+						map<string, FuncBase*> names;
+						
+						FuncTable(VarTable &var) : var(var) {}
+						~FuncTable() { 
+							for(auto p : names) 
+								delete p.second; 
+						}
+						
+						// on appelle la fonction 'name'
+						void execute(string const &name, string const &dst, vector<string> const &params) {
+							// verifications eventuelles
+							// ...
+							
+							names[name]->execute(dst, p, var);
+						}
+					};
+					
+					// Fonctions de test
+					int add(int a, int b) { return a + b; }
+					int inv(int a) { return -a; }
+					int len(string const &s) { return s.size(); }
+					string hw() { return "helloworld"; }
+					
+					int main()
+					{
+						// On cree des variables
+						VarTable var;
+						var.names["a"] = Type::Integer;
+						var.ints["a"] = 2;
+						var.names["b"] = Type::Integer;
+						var.ints["b"] = 3;
+						
+						// On interface les fonctions
+						FuncTable func(var);
+						func.names["add"] = new Func<int, int, int>(&add);
+						func.names["inv"] = new Func<int, int>(&inv);
+						func.names["len"] = new Func<int, string const&>(&len);
+						func.names["hw"] = new Func<string>(&hw);
+						
+						// Affichera: -5
+						func.execute("add", "c", {"a", "b"});
+						func.execute("inv", "c", {"c"});
+						cout << var.ints["c"] << endl;
+						
+						// Affichera: helloworld/10
+						func.execute("hw", "s", {});
+						func.execute("len", "l", {"s"});
+						cout << var.strings["s"] << "/" << var.ints["l"] << endl;
+						
+						return 0;
+					}
+				\end{lstlisting}
+				
+				Le coeur de la solution est la classe de base abstraite \texttt{FuncBase} dont hérite la classe \textit{templatisée} \texttt{Func} qui effectue l'appel effectif à la fonction interfacée.\\
+				
+				On remarque que cela fonctionne bien, et que côté utilisateur l'ajout d'une nouvelle fonction est très agréable (un peu moins que ce qui était attendu, mais ça reste très correct).
 			
 		\subsection{Règles de transformation}
 			\label{subsec:regles-de-transformation}
