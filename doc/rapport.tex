@@ -85,7 +85,7 @@
 	\normalsize
 	
 	\section{Cadre de développement} 
-		L'application est développée à l'aide du langage C++ et de la bibliothèque Qt \textcolor{red}{(insérer les versions utilisées ainsi que les compilateurs ?)}. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décider d'utiliser le Coding Style de Qt qui correspond bien à nos besoins: \url{https://wiki.qt.io/Qt_Coding_Style}.
+		L'application est développée à l'aide du langage C++ et de la bibliothèque Qt \textcolor{red}{(insérer les versions utilisées ainsi que les compilateurs ?)}. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décidé d'utiliser le Coding Style de Qt \cite{qtStyle} qui correspond bien à nos besoins.
 			
 	\section{Interpréteur} % Champion
 		Dans le cadre de l'application, l'utilisateur est amené à entrer des commandes lui permettant de créer et de modifier des graphes, tout autant que d'appeler des fonctions effectuant différents traitements (algorithmes, lecture depuis un fichier, ...). 
@@ -94,7 +94,7 @@
 			Il est nécessaire de définir une grammaire claire sur la syntaxe des commandes, ainsi que leur sémantique.
 			
 			\subsubsection{Analyse des types et des opérations} 
-				Premièrement, il faut définir les types disponibles dans le langage. Pour cela il est intéressant de partir des algorithmes de graphe et de voir les types de résultats que nous attendons en sortie, ainsi que les types de paramètres dont nous aurons besoin:
+				Premièrement, il faut définir les types disponibles dans le langage. Pour cela, il est intéressant de partir des algorithmes de graphe et de voir les types de résultats que nous attendons en sortie, ainsi que les types de paramètres dont nous aurons besoin:
 			
 				\begin{itemize}
 					\item Boolean: un graphe a-t-il un cycle? est-il eulérien? ...
@@ -137,7 +137,7 @@
 					& Lecture & \texttt{a; f(a); Float b = a;}\\ 
 					\\
 					\textbf{\texttt{String}}\\ \hline \hline
-					Domaine & \multicolumn{2}{l}{Ensemble de zéro ou plusieurs caractères ASCII}\\
+					Domaine & \multicolumn{2}{l}{Ensemble de zéros ou plusieurs caractères ASCII}\\
 					Opérations & Déclaration & \texttt{String a = "Hello";}\\
 					& Affectation & \texttt{a = "World"; a = f();}\\
 					& Lecture & \texttt{a; f(a); String b = a;}\\ 
@@ -196,17 +196,17 @@
 					\end{itemize}
 					\item \texttt{Graph}: 
 					\begin{itemize}
-						\item La création d'un graphe vide est permis (\texttt{Graph g = \{\};})
-						\item Le raccourci d'écriture pour le nombre de sommet (\texttt{\#3}) doit se trouver au début
+						\item La création d'un graphe vide est permise (\texttt{Graph g = \{\};})
+						\item Le raccourci d'écriture pour le nombre de sommets (\texttt{\#3}) doit se trouver au début
 						\item Pour que le \texttt{Vertex} d'\texttt{id n} soit créé, il faut que tous les \texttt{id} de \texttt{0} à \texttt{n-1} existent déjà, sinon $\rightarrow$ Exception 
 						\item Dans le cas d'arêtes/arcs multiples, par exemple \texttt{\{\#2, 0->1, 0->1\}}, le paramètre \texttt{id} du second \texttt{Edge} est incrémenté $\rightarrow$ \texttt{0->1[0]} et \texttt{0->1[1]}
-						\item Pour qu'un \texttt{Edge} soit créé, il est nécessaire que les deux \texttt{Vertex} soit déjà créés, sinon $\rightarrow$ Exception
+						\item Pour qu'un \texttt{Edge} soit créé, il est nécessaire que les deux \texttt{Vertex} soient déjà créés, sinon $\rightarrow$ Exception
 						\item Ajouts / modifications:
 						\begin{itemize}
 							\item Les types acceptés en opérande de droite sont \texttt{Vertex, Edge} ou un \texttt{Array} de ces deux types
 							\item Pour les \texttt{Vertex}, si l'\texttt{id} existe déjà dans le graphe, c'est une modification, sinon c'est un ajout
 							\item Pour les \texttt{Edge}, si la \texttt{connection} existe déjà dans le graphe mais que l'\texttt{id} est omis, alors c'est un ajout, sinon c'est une modification (sauf si l'\texttt{id} n'existe pas, dans ce cas c'est un ajout)
-							\item La modification est accumulative, par exemple si on fait \texttt{Graph g = \{0:"Yverdon"\}; g += (0::2);}, alors le \texttt{Vertex} résultant est \texttt{(0:"Yverdon":2)}
+							\item La modification est cumulative, par exemple si on fait \texttt{Graph g = \{0:"Yverdon"\}; g += (0::2);}, alors le \texttt{Vertex} résultant est \texttt{(0:"Yverdon":2)}
 						\end{itemize}
 						\item Suppressions:
 						\begin{itemize}
@@ -229,7 +229,7 @@
 				Le passage des paramètres se fait par copie (ou référence constante) et la correspondance est par position. On autorise la surcharge des fonctions.
 			
 			\subsubsection{Grammaire EBNF} 
-				L'analyse étant finie, on peut à présent développer les règles de production EBNF du langage. On part des règles de haut niveau pour descendre dans la hiérarchie (inspiration: \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}).\\
+				L'analyse étant finie, on peut à présent développer les règles de production EBNF du langage. On part des règles de haut niveau pour descendre dans la hiérarchie (inspiration: \cite{vutbr.cz}).\\
 				
 				\textbf{Point de départ (entrée utilisateur)}
 				\begin{grammar}
@@ -372,25 +372,25 @@
 			
 			Détaillons chacune de ces étapes:
 			\begin{enumerate}
-				\item \textbf{Input preprocessing} - On récupère les entrées utilisateur dans un tampon 
+				\item \textbf{Input preprocessing} - On récupère les entrées utilisateur dans un tampon.
 				\begin{enumerate}
-					\item \textbf{Trim} - On enlève tous les espaces inutiles, c'est-à-dire tous les espaces sauf ceux dans les constantes littérales de type \textit{String}, et celui qui sépare le type de l'identifiant dans les déclarations
-					\item \textbf{Statement per statement} - On envoie au parser une commande à la fois (les traitements sont séparés par des ';') 
+					\item \textbf{Trim} - On enlève tous les espaces inutiles, c'est-à-dire tous les espaces sauf ceux dans les constantes littérales de type \textit{String}, et celui qui sépare le type de l'identifiant dans les déclarations.
+					\item \textbf{Statement per statement} - On envoie au parseur une commande à la fois (les traitements sont séparés par des ';').
 				\end{enumerate}
-				\item \textbf{Parser validation} - On vérifie la syntaxe de la commande et on extrait des informations utiles pour la suite (tokens), voir section~\ref{subsec:implementation-du-parseur}
-				\item \textbf{Identifier checking} - On connaît les différents identifiants présents dans la commande (noms de variable, noms de fonction), on peut tout de suite vérifier leur existance 
-				\item \textbf{Transform} - On transforme la commande en arbre d'appel, plus de détails dans la section~\ref{subsec:regles-de-transformation}
-				\item \textbf{Type checking} - On vérifie la concordance des types (statique), plus de détails dans la section~\ref{subsubsec:verification-des-types}
-				\item \textbf{Statement processing} - La commande a été décomposée en plusieurs sous-traitements (arbre d'appel, \ref{subsubsec:arbre-d-appel-des-traitements}), on effectue d'abord les feuilles avant de remonter
+				\item \textbf{Parser validation} - On vérifie la syntaxe de la commande et on extrait des informations utiles pour la suite (tokens), voir section~\ref{subsec:implementation-du-parseur}.
+				\item \textbf{Identifier checking} - On connaît les différents identifiants présents dans la commande (noms de variable, noms de fonction), on peut tout de suite vérifier leur existence.
+				\item \textbf{Transform} - On transforme la commande en arbre d'appels, plus de détails dans la section~\ref{subsec:regles-de-transformation}.
+				\item \textbf{Type checking} - On vérifie la concordance des types (statique), plus de détails dans la section~\ref{subsubsec:verification-des-types}.
+				\item \textbf{Statement processing} - La commande a été décomposée en plusieurs sous-traitements (arbre d'appels, \ref{subsubsec:arbre-d-appel-des-traitements}), on effectue d'abord les feuilles avant de remonter.
 				\begin{enumerate}
-					\item \textbf{Branch statement} - On sélectionne le bon traitement en fonction de son type
+					\item \textbf{Branch statement} - On sélectionne le bon traitement en fonction de son type.
 					\begin{itemize}
-						\item \textbf{Constant} - On créé une variable temporaire avec la valeur de la constante, voir section~\ref{subsubsec:table-des-temporaires}
-						\item \textbf{Function call} - On appelle la fonction et on sauve son résultat dans une variable temporaire
-						\item \textbf{Assignation} - On assigne une valeur à une variable, voir section~\ref{subsubsec:table-des-variables}
-						\item \textbf{Declaration} - Pareil que l'assignation, mais avec création de l'identifiant au préalable 
+						\item \textbf{Constant} - On créé une variable temporaire avec la valeur de la constante, voir section~\ref{subsubsec:table-des-temporaires}.
+						\item \textbf{Function call} - On appelle la fonction et on sauve son résultat dans une variable temporaire.
+						\item \textbf{Assignation} - On assigne une valeur à une variable, voir section~\ref{subsubsec:table-des-variables}.
+						\item \textbf{Declaration} - Pareil que l'assignation, mais avec création de l'identifiant au préalable.
 					\end{itemize}
-					\item \textbf{Save result} - On transforme l'arbre d'appel avec les nouvelles valeurs/variables. Si c'est la fin de la commande, on indique à l'utilisateur que le résultat de la commande est prêt
+					\item \textbf{Save result} - On transforme l'arbre d'appels avec les nouvelles valeurs/variables. Si c'est la fin de la commande, on indique à l'utilisateur que le résultat de la commande est prêt
 					\item \textbf{Cleaning} - On supprime les variables temporaires qui ne sont plus utiles. Si c'était un sous-traitement, on passe au prochain sous-traitement (6), sinon on passe à la prochaine commande (1)
 				\end{enumerate}
 			\end{enumerate}
@@ -426,7 +426,7 @@
 				
 			\subsubsection{Tableau dynamique hétérogène}
 				\label{subsubsec:tableau-dynamique-heterogene}
-				Le tableau dynamique hétérogène (TDH dans la suite de cette section) pose un gros problème majeur: le C++ est un langage fortement typé. Cependant plusieurs solutions s'offrent à nous pour créer un TDH:
+				Le tableau dynamique hétérogène (TDH dans la suite de cette section) pose un problème majeur: le C++ est un langage fortement typé. Cependant plusieurs solutions s'offrent à nous pour créer un TDH:
 				
 				\begin{enumerate}
 					\item Un \texttt{std::vector<boost::any>} (\texttt{std::any} étant prévu pour C++17)
@@ -499,11 +499,11 @@
 				
 				Cette solution est assez verbeuse, cependant la complexité en temps et en mémoire est très bonne. En ce qui concerne les \texttt{delete}, il est obligatoire de faire le cast avant, sinon le destructeur de l'objet détruit n'est pas appelé.\\
 				
-				Evidemment l'utilisateur du TDH est obligé de faire des \texttt{switch/if-else} dans son code, cependant ce problème vaut pour chacune des trois solutions et est inhérent au C++.  
+				Évidemment l'utilisateur du TDH est obligé de faire des \texttt{switch/if-else} dans son code, cependant ce problème vaut pour chacune des trois solutions et est inhérent au C++.  
 				
 			\subsubsection{Number, Edge et Vertex}
 				\label{subsubsec:number-edge-et-vertex}
-				\textbf{Number} - Selon la grammaire, certains nombres peuvent soit être un entier, soit un flottant. Il peut également être intéressant pour certains algorithmes de savoir si ces nombres sont entiers ou non (pour les flots notamment). Pour ces deux raisons il est nécessaire d'avoir un type \texttt{Number} pouvant stocker les deux types de représentations. Voici deux propositions (incomplètes):
+				\textbf{Number} - Selon la grammaire, certains nombres peuvent soit être un entier, soit un flottant. Il peut également être intéressant pour certains algorithmes de savoir si ces nombres sont entiers ou non (pour les flots notamment). Pour ces deux raisons, il est nécessaire d'avoir un type \texttt{Number} pouvant stocker les deux types de représentations. Voici deux propositions (incomplètes):
 				
 				\begin{lstlisting}
 					// solution 1
@@ -531,7 +531,7 @@
 					};
 				\end{lstlisting}
 				
-				La solution (1) a l'avantage d'être plus sûre au niveau du typage, cependant à l'utilisation elle demande d'utiliser davantage de condition. La solution (2) est plus naturelle à l'utilisation et utilise 2x moins de place en mémoire que la solution (1), mais le test \texttt{isInt()} prend plus de temps. A partir de là on a choisi la solution (2) pour ses avantages et car les accès à \texttt{value} seront plus courants que les tests \texttt{isInt()}.\\
+				La solution (1) a l'avantage d'être plus sûre au niveau du typage, cependant à l'utilisation elle demande davantage de conditions. La solution (2) est plus naturelle à l'utilisation et utilise deux fois moins de place en mémoire que la solution (1), mais le test \texttt{isInt()} prend plus de temps. A partir de là, on a choisi la solution (2) pour ses avantages et car les accès à \texttt{value} seront plus courants que les tests \texttt{isInt()}.\\
 								
 				\textbf{Vertex} - Le type \texttt{Vertex} pose un problème majeur: certains de ses attributs sont optionnels. Voici donc une solution naturelle:
 				
@@ -547,7 +547,7 @@
 					};
 				\end{lstlisting}
 				
-				Le soucis avec cette approche est que les attributs optionnels sont construits même s'il ne sont pas utilisés, par ailleurs sur mon ordinateur \texttt{sizeof(Vertex) == 36}. Cela implique une utilisation inutile en ressources pour des attributs qui ne seront pas forcément utilisés.\\
+				Le souci avec cette approche est que les attributs optionnels sont construits même s'ils ne sont pas utilisés, par ailleurs sur mon ordinateur \texttt{sizeof(Vertex) == 36}. Cela implique une utilisation inutile en ressources pour des attributs qui ne seront pas forcément utilisés.\\
 				
 				Afin d'éviter ces problèmes, on peut approcher le problème avec des pointeurs (égaux à \texttt{nullptr} s'ils ne sont pas utilisés):
 				
@@ -640,7 +640,7 @@
 					};
 				\end{lstlisting}
 				
-				Nos types "simples" sont maintenant définit, notons que les exemples d'implémentation ci-dessous ne sont pas complets, mais ils montrent clairement l'approche générale.
+				Nos types "simples" sont maintenant définis, notons que les exemples d'implémentation ci-dessus ne sont pas complets, mais ils montrent l'approche générale.
 				
 		\subsection{Table des fonctions}
 			Dans le flux de données, l'étape \textit{Function call} nécessite d'appeler, d'exécuter et de récupérer le résultat d'une fonction. Dans cette section nous allons préciser comment cela va être fait.
@@ -663,8 +663,11 @@
 	\section{Annexes}
 	
 	\begin{thebibliography}{9}
+		\bibitem{qtStyle}
+		Qt wiki, Qt coding style,\\ \url{https://wiki.qt.io/Qt_Coding_Style}
+		
 		\bibitem{vutbr.cz} 
-		Faculty of Technology, Brno University of Technology, Réplublique tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
+		Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
 	\end{thebibliography}			
 
 \end{document}
