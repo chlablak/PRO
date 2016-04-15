@@ -23,11 +23,8 @@
 
 % Diagramme de flux
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows}
-\tikzstyle{decision} = [diamond, draw, fill=green!20, text width=5em, text badly centered, inner sep=0pt]
-\tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=6em, text centered, rounded corners, minimum height=4em]
-\tikzstyle{line} = [draw, -latex']
-\tikzstyle{cloud} = [draw, ellipse,fill=red!20, minimum height=2em]
+\usepackage{forest}
+\usetikzlibrary{shapes,arrows,positioning,shadows}
 
 % Style C++
 \lstset{
@@ -327,7 +324,7 @@
 		\subsection{Flux des données}
 			\begin{figure}[H]
 				\centering
-				\begin{tikzpicture}[node distance = 2.7cm,auto]
+				\begin{tikzpicture}[decision/.style = {diamond, draw, fill=green!20, text width=5em, text badly centered, inner sep=0pt}, block/.style = {rectangle, draw, fill=blue!20, text width=6em, text centered, rounded corners, minimum height=4em}, line/.style = {draw, -latex'}, cloud/.style = {draw, ellipse,fill=red!20, minimum height=2em}, node distance = 2.7cm,auto]
 					\node[cloud] (input) {User input};
 					\node[block,below of=input] (preprocessor) {Input preprocessing};
 					\node[block,right of=preprocessor] (parser) {Parser validation};
@@ -406,18 +403,21 @@
 			
 			Chaque type du langage possède son pendant en C++, voici un tableau résumant cela:\\
 			
-			\begin{tabular}{r|l}
-				Type & Equivalent C++\\ \hline\hline
-				\texttt{Boolean} & \texttt{bool}\\
-				\texttt{Integer} & \texttt{int}\\
-				\texttt{Float} & \texttt{float}\\
-				\texttt{String} & \texttt{std::string}\\
-				\texttt{Number} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
-				\texttt{Array} & voir section~\ref{subsubsec:tableau-dynamique-heterogene}\\
-				\texttt{Graph} & voir section~\textcolor{red}{ajouter ref}\\
-				\texttt{Vertex} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
-				\texttt{Edge} & voir section~\ref{subsubsec:number-edge-et-vertex}
-			\end{tabular}
+			\begin{figure}[H]
+				\centering
+				\begin{tabular}{r|l}
+					Type & Equivalent C++\\ \hline\hline
+					\texttt{Boolean} & \texttt{bool}\\
+					\texttt{Integer} & \texttt{int}\\
+					\texttt{Float} & \texttt{float}\\
+					\texttt{String} & \texttt{std::string}\\
+					\texttt{Number} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
+					\texttt{Array} & voir section~\ref{subsubsec:tableau-dynamique-heterogene}\\
+					\texttt{Graph} & voir section~\textcolor{red}{ajouter ref}\\
+					\texttt{Vertex} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
+					\texttt{Edge} & voir section~\ref{subsubsec:number-edge-et-vertex}
+				\end{tabular}
+			\end{figure}
 			
 			\subsubsection{Table des variables}
 				\label{subsubsec:table-des-variables}
@@ -830,6 +830,20 @@
 						}
 					};
 					
+					// On rend la creation de Func simple pour l'utilisateur
+					template<typename R, typename P1, typename P2>
+					FuncBase *makeFunc(R(*f)(P1, P2)) {
+						return new Func<R, P1, P2>(f);
+					}
+					template<typename R, typename P1>
+					FuncBase *makeFunc(R(*f)(P1)) {
+						return new Func<R, P1>(f);
+					}
+					template<typename R>
+					FuncBase *makeFunc(R(*f)()) {
+						return new Func<R>(f);
+					}
+					
 					// Table des fonctions (simplifiee)
 					struct FuncTable {
 						VarTable &var;
@@ -867,10 +881,10 @@
 						
 						// On interface les fonctions
 						FuncTable func(var);
-						func.names["add"] = new Func<int, int, int>(&add);
-						func.names["inv"] = new Func<int, int>(&inv);
-						func.names["len"] = new Func<int, string const&>(&len);
-						func.names["hw"] = new Func<string>(&hw);
+						func.names["add"] = makeFunc(&add);
+						func.names["inv"] = makeFunc(&inv);
+						func.names["len"] = makeFunc(&len);
+						func.names["hw"] = makeFunc(&hw);
 						
 						// Affichera: -5
 						func.execute("add", "c", {"a", "b"});
@@ -886,19 +900,176 @@
 					}
 				\end{lstlisting}
 				
-				Le coeur de la solution est la classe de base abstraite \texttt{FuncBase} dont hérite la classe \textit{templatisée} \texttt{Func} qui effectue l'appel effectif à la fonction interfacée.\\
+				Le coeur de la solution est la classe de base abstraite \texttt{FuncBase} dont hérite la classe \textit{templatisée} \texttt{Func} qui effectue l'appel effectif à la fonction interfacée. On remarque que cela fonctionne bien, et que côté utilisateur l'ajout d'une nouvelle fonction est très agréable . Il est de plus encore possible d'ajouter des informations (nom, arité, types, ...) sur chacune des fonctions interfacée.\\
 				
-				On remarque que cela fonctionne bien, et que côté utilisateur l'ajout d'une nouvelle fonction est très agréable (un peu moins que ce qui était attendu, mais ça reste très correct).
+				Remarque: L'implémentation ci-dessus utilise la spécialisation des \textit{template} et est limitée en terme de nombre de paramètres que les fonctions interfacées peuvent avoir (même si c'est facilement extensible). Une autre approche, plus générique encore, est d'utiliser les \textit{variadic template} de C++11, cependant cette solution est plus compliquée à développer, le choix est donc laissé au développeur.
 			
 		\subsection{Règles de transformation}
 			\label{subsec:regles-de-transformation}
-			Dans cette section nous allons préciser les règles de transformation de l'étape \textit{Transform} du flux de données, ainsi que ce que cela va apporter.
+			Dans cette section nous allons préciser les règles de transformation de l'étape \textit{Transform} du flux de données, ainsi que ce que cela va apporter. Pour commencer, voici quelques exemples de transformations possibles:
 			
-			\subsubsection{Arbre d'appel des traitements}
-				\label{subsubsec:arbre-d-appel-des-traitements}
+			\begin{figure}[H]
+				\centering
+				\begin{tabular}{rcl}
+					\texttt{(1::3)} & $\rightarrow$ & \texttt{\_vertex\_create(1,-,3)}\\
+					\texttt{(0->1:2::3)} & $\rightarrow$ & \texttt{\_edge\_create\_unidirectional(0,1,2,-,3)}\\
+					\texttt{[1,2,3]} & $\rightarrow$ & \texttt{\_array\_add(\_array\_add(\_array\_add(\_array\_create(),1),2),3)}\\
+					\texttt{\{\#3,0->1,1->2:6\}} & $\rightarrow$ & \texttt{\{1,2,3,0->1,1->2:6\}}\\
+												 & $\rightarrow$ & \texttt{\{[(1),(2),(3),(0->1),(1->2:6)]\}}\\
+												 & $\rightarrow$ & \texttt{\_graph\_create(\_array\_add(...))}\\
+					\texttt{g+=(3)} & $\rightarrow$ & \texttt{g=\_graph\_add(g,\_vertex\_create(3,-,-,-,-))}\\
+				\end{tabular}
+				\caption{Exemples de transformations}
+			\end{figure}
+			
+			Comme on le voit, le but est de passer de la syntaxe du langage à une représentation sous forme de fonctions. Plus précisément sous une forme d'arbre représentant la hiérarchie d'appel des différents traitements et sous-traitements.\\
+			
+			On va prendre un exemple de départ complet, et on va développer l'arbre correspondant. Voici notre exemple qui contient tout ce qui nous intéresse:\\
+			
+			\centering
+			\texttt{Graph pcc=dijkstra(\{v0,1:Yverdon,e01,2,0->2:9,1<-2:3\},v0)} (avec \texttt{v0=(0)} et \texttt{e01=(0->1)})
+			\justify
+			
+			\begin{itemize}
+				\item assignation (avec déclaration)
+				\item appel de fonction
+				\item identifiant passé en paramètre
+				\item temporaires passés en paramètre
+				\item constantes littérales\\
+			\end{itemize}
+			
+			Et voici l'arbre correspondant:
+			
+			\begin{figure}[H]
+				\centering
+				\begin{forest}
+				value/.style={rectangle,draw=none,rounded corners=1mm,fill=gray!10,drop shadow,text centered, anchor=north,text=black}, 
+				type/.style={circle,draw=none,fill=orange,circular drop shadow,text centered,anchor=north,text=white}
+					[{D},type
+						[{pcc},value] 
+						[{F},type
+							[{dijkstra},value]
+							[{F},type
+								[{\_g\_c},value]
+								[{F},type
+									[{\_a\_a},value]
+									[{F},type
+										[{\_a\_a},value]
+										[{F},type
+											[{\_a\_a},value]
+											[{F},type
+												[{\_a\_a},value]
+												[{F},type
+													[{\_a\_a},value]
+													[{F},type
+														[{\_a\_a},value]
+														[{F},type
+															[{\_a\_c},value]
+														]
+														[{V},type
+															[{v0},value]
+														]
+													]
+													[{F},type
+														[{\_v\_c},value]
+														[{C},type
+															[{1},value]
+														]
+														[{C},type
+															[{Yverdon},value]
+														]
+													]
+												]
+												[{V},type
+													[{e01},value]
+												]
+											]
+											[{F},type
+												[{\_v\_c},value]
+												[{C},type
+													[{2},value]
+												]
+											]
+										]
+										[{F},type
+											[{\_e\_c\_u},value]
+											[{C},type
+												[{0},value]
+											]
+											[{C},type
+												[{2},value]
+											]
+											[{C},type
+												[{9},value]
+											]
+										]
+									]
+									[{F},type
+										[{\_e\_c\_u},value]
+										[{C},type
+											[{2},value]
+										]
+										[{C},type
+											[{1},value]
+										]
+										[{C},type
+											[{3},value]
+										]
+									]
+								]
+							]
+							[{V},type
+								[{v0},value]
+							]
+						]
+					]	
+				\end{forest}
+				\caption{Exemple d'arbre d'appels de traitements}
+			\end{figure}
+			
+			NB: on a simplifié les noms des fonctions afin que l'image ne soit pas trop large (\texttt{\_g\_c=\_graph\_create}, \texttt{\_a\_a=\_array\_add}, \texttt{\_a\_c=\_array\_create}, \texttt{\_v\_c=\_vertex\_create} et \texttt{\_e\_c\_u=\_edge\_create\_unidirectional}).\\
+			
+			Dans ce graphe on a deux types de noeuds, les ronds qui représentent des traitements, et les rectangles qui représentent des valeurs. On remarque qu'on a plusieurs types de traitements:
+			
+			\begin{figure}[H]
+				\centering
+				\begin{tabular}{cccc}
+					Type & Nom complet & Valeur & Nombre de paramètres\\
+					\hline
+					D & Déclaration & Nom de la variable & 1\\
+					A & Assignation & Nom de la variable & 1\\
+					F & Fonction & Nom de la fonction & *\\
+					C & Constante & Valeur littérale & 0\\
+					V & Variable & Nom de la variable & 0\\
+				\end{tabular}
+			\end{figure}
+			
+			D'un point de vue structure de données cet arbre est très simple, voici un exemple:
+			
+			\begin{lstlisting}
+					struct Statement {
+						enum class Type { D, A, F, C, V };
+						Type type;
+						string value;
+						vector<Statement> parameters;
+					};
+			\end{lstlisting}
+			
+			La création de cet arbre se fait grâce aux \textit{tokens} générés dans la partie \textit{Parser validation} (voir section~\ref{subsec:implementation-du-parseur}), \textcolor{red}{bla bla bla à compléter}
+			
+			\subsubsection{Arbre d'appels des traitements}
+				\label{subsubsec:arbre-d-appels-des-traitements}
+				Maintenant que nous avons un arbre d'appels hiérarchique des traitements, reste à savoir comment nous allons l'utiliser. Le principe est très simple: 
+				
+				\begin{enumerate}
+					\item On prend le traitement racine
+					
+				\end{enumerate}
 			
 			\subsubsection{Vérification des types}
 				\label{subsubsec:verification-des-types}
+			
+		\subsection{Diagramme de classes}
 			
 		\subsection{Exemples}
 	
