@@ -379,7 +379,7 @@
 				\item \textbf{Identifier checking} - On connaît les différents identifiants présents dans la commande (noms de variable, noms de fonction), on peut tout de suite vérifier leur existence.
 				\item \textbf{Transform} - On transforme la commande en arbre d'appels, plus de détails dans la section~\ref{subsec:regles-de-transformation}.
 				\item \textbf{Type checking} - On vérifie la concordance des types (statique), plus de détails dans la section~\ref{subsubsec:verification-des-types}.
-				\item \textbf{Statement processing} - La commande a été décomposée en plusieurs sous-traitements (arbre d'appels, \ref{subsubsec:arbre-d-appel-des-traitements}), on effectue d'abord les feuilles avant de remonter.
+				\item \textbf{Statement processing} - La commande a été décomposée en plusieurs sous-traitements (arbre d'appels, \ref{subsubsec:arbre-d-appels-des-traitements}), on effectue d'abord les feuilles avant de remonter.
 				\begin{enumerate}
 					\item \textbf{Branch statement} - On sélectionne le bon traitement en fonction de son type.
 					\begin{itemize}
@@ -1059,12 +1059,154 @@
 			
 			\subsubsection{Arbre d'appels des traitements}
 				\label{subsubsec:arbre-d-appels-des-traitements}
-				Maintenant que nous avons un arbre d'appels hiérarchique des traitements, reste à savoir comment nous allons l'utiliser. Le principe est très simple: 
+				Maintenant que nous avons un arbre d'appels hiérarchique des traitements, reste à savoir comment nous allons l'utiliser (étapes \textit{Statement processing} et \textit{Save result} du flux de données). Le principe est très simple: 
 				
 				\begin{enumerate}
 					\item On prend le traitement racine
-					
+					\item On parcours les paramètres:
+					\begin{itemize}
+						\item Si c'est un V, on passe
+						\item Sinon on effectue le sous-traitement (récursion)
+					\end{itemize}
+					\item On effectue le traitement racine
 				\end{enumerate}
+				
+				Concrètement on voit que tous les traitements ont besoin d'accéder aux valeurs de leur paramètres, cela ne peut se faire que si le paramètre est une variable. Donc si ce n'est pas une variable, on effectue le traitement associé avant de le sauver dans une variable (temporaire). L'arbre va donc raccourcir au fur et à mesure de l'avancement des sous-traitements.\\
+				
+				Prenons un exemple simple \texttt{a=1+max(-b,2)} (avec \texttt{b=-3}), qui devient donc \texttt{a=add(1,max(neg(b),2))}. L'arbre va évoluer ainsi (avec en orange le paramètre à traiter, en rouge sa variable résultante et en jaune la récursion):
+				
+				\begin{figure}[H]
+					\centering
+					\begin{tabular}{c|c|c}
+						\begin{forest}
+							[{A},fill=yellow
+								[{a}]
+								[{F},fill=yellow
+									[{add}]
+									[{C},fill=orange
+										[{1}]
+									]
+									[{F}
+										[{max}]
+										[{F}
+											[{neg}]
+											[{V}
+												[{b}]
+											]
+										]
+										[{C}
+											[{2}]
+										]
+									]
+								]
+							]
+						\end{forest}
+						&
+						\begin{forest}
+							[{A},fill=yellow
+								[{a}]
+								[{F},fill=yellow
+									[{add}]
+									[{V},fill=red
+										[{t0}]
+									]
+									[{F},fill=yellow
+										[{max}]
+										[{F},fill=orange
+											[{neg}]
+											[{V}
+												[{b}]
+											]
+										]
+										[{C}
+											[{2}]
+										]
+									]
+								]
+							]
+						\end{forest}
+						&
+						\begin{forest}
+							[{A},fill=yellow
+								[{a}]
+								[{F},fill=yellow
+									[{add}]
+									[{V}
+										[{t0}]
+									]
+									[{F},fill=yellow
+										[{max}]
+										[{V},fill=red
+											[{t1}]
+										]
+										[{C},fill=orange
+											[{2}]
+										]
+									]
+								]
+							]
+						\end{forest}
+						\\
+						\textbf{début} & \textbf{étape 1} & \textbf{étape 2}\\
+						\hline
+						\begin{forest}
+							[{A},fill=yellow
+								[{a}]
+								[{F},fill=yellow
+									[{add}]
+									[{V}
+										[{t0}]
+									]
+									[{F},fill=orange
+										[{max}]
+										[{V}
+											[{t1}]
+										]
+										[{V},fill=red
+											[{t2}]
+										]
+									]
+								]
+							]
+						\end{forest}
+						&
+						\begin{forest}
+							[{A},fill=yellow
+								[{a}]
+								[{F},fill=orange
+									[{add}]
+									[{V}
+										[{t0}]
+									]
+									[{V},fill=red
+										[{t3}]
+									]
+								]
+							]
+						\end{forest}
+						&
+						\begin{forest}
+							[,phantom
+								[{A},fill=orange
+									[{a}]
+									[{V},fill=red
+										[{t4}]
+									]
+								]
+								[{V},fill=red
+									[{a}]
+								]
+							]
+						\end{forest}
+						\\
+						\textbf{étape 3} & \textbf{étape 4} & \textbf{étapes 5 et fin}\\ 
+					\end{tabular}
+					\caption{Évolution d'un arbre d'appels des traitements}
+				\end{figure} 
+				
+				NB: les variables \texttt{tX} sont des variables temporaires, elles seront supprimées à la fin du (sous-)traitement qui en avait besoin.\\
+				
+				On voit que cette approche récursive nous permet de bien arriver au résultat escompté, et ce, depuis un traitement qui à la base était très complexe avant sa transformation.
 			
 			\subsubsection{Vérification des types}
 				\label{subsubsec:verification-des-types}
