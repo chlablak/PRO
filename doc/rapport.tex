@@ -236,13 +236,13 @@
 				
 				\textbf{Déclarations (statements)}
 				\begin{grammar}
-					<statement> ::= ( <function-call> | <declaration> | <assignment> ) \lit{;}
+					<statement> ::= ( <function-call> | <declaration> | <assignation> ) \lit{;}
 					
 					<function-call> ::= <identifier> <parameter-list>
 					
 					<declaration> ::= <type> <identifier> \lit{=} <parameter>
 					
-					<assignment> ::= <variable> \lit{=} <parameter>
+					<assignation> ::= <variable> \lit{=} <parameter>
 					
 					<parameter-list> ::= \lit{(} <parameter> \{ \lit{,} <parameter> \} \lit{)}
 					
@@ -320,6 +320,14 @@
 					
 					<digit> ::= ? all digits from 0 to 9 ? 
 				\end{grammar}
+				
+			\subsubsection{Modifications}
+				Après réflexion, il est apparu que les opérations d'assignation et de déclaration de variables pouvaient être mises ensemble. Concrètement dans une déclaration il n'est pas nécessaire de définir le type de la variable car celui-ci peut être déduit de l'opérande de droite. Et comme les tableaux sont des collections hétérogènes, il semble évident que les variables doivent elles aussi être à typage dynamique. Par conséquent la grammaire est modifiée ainsi:
+				\begin{itemize}
+					\item Suppression des règles \textit{<declaration>}, \textit{<type>}, \textit{<simple-type>} et \textit{<complex-type>}
+					\item La règle \textit{<assignation>} vaut désormais: \textit{( <variable> | <identifier> ) '=' <parameter>}
+					\item La règle \textit{<statement>} vaut désormais: \textit{( <function-call> | <assignation> ) ';'}
+				\end{itemize} 
 		
 		\subsection{Flux des données}
 			\begin{figure}[H]
@@ -395,7 +403,7 @@
 			
 		\subsection{Implémentation du parseur}
 			\label{subsec:implementation-du-parseur}
-			Boost.Spirit toussa todo blabla ...
+			\textcolor{red}{Boost.Spirit toussa todo blabla ...}
 		
 		\subsection{Mémoire virtuelle} 
 			\label{subsec:memoire-virtuelle}
@@ -733,7 +741,9 @@
 			
 			Ce \texttt{call} va chercher les variables \textit{g} et \textit{v1} dans la table des variables, puis appelle la fonction \texttt{dijkstra} avant de sauver le résultat dans la table des variables sous le nom \textit{pcc}.\\
 			
-			La difficulté, comme d'habitude, est de lié le côté dynamique de l'interpréteur avec le côté fortement typé de C++. Le deuxième problème est d'avoir un interfaçage facile à faire côté utilisateur, afin que l'ajout de nouvelle fonction soit rapide et élégant.
+			La difficulté, comme d'habitude, est de lié le côté dynamique de l'interpréteur avec le côté fortement typé de C++. Le deuxième problème est d'avoir un interfaçage facile à faire côté utilisateur, afin que l'ajout de nouvelle fonction soit rapide et élégant.\\
+			
+			Une liste des fonctions interfacées dans l'application se trouve dans l'annexe~\ref{subsec:annexes-fonctions-incluses}. 
 			
 			\subsubsection{Interfaçage}
 				\label{subsubsec:interfacage}
@@ -903,6 +913,11 @@
 				Le coeur de la solution est la classe de base abstraite \texttt{FuncBase} dont hérite la classe \textit{templatisée} \texttt{Func} qui effectue l'appel effectif à la fonction interfacée. On remarque que cela fonctionne bien, et que côté utilisateur l'ajout d'une nouvelle fonction est très agréable . Il est de plus encore possible d'ajouter des informations (nom, arité, types, ...) sur chacune des fonctions interfacée.\\
 				
 				Remarque: L'implémentation ci-dessus utilise la spécialisation des \textit{template} et est limitée en terme de nombre de paramètres que les fonctions interfacées peuvent avoir (même si c'est facilement extensible). Une autre approche, plus générique encore, est d'utiliser les \textit{variadic template} de C++11, cependant cette solution est plus compliquée à développer, le choix est donc laissé au développeur.
+				
+			\subsubsection{Surcharge}
+				Nous avons vu comment interfacer des fonctions simplement, cependant il n'est pour l'instant pas possible d'interfacer plusieurs fonctions ayant le même nom mais une signature différente. Nous allons voir à présent comment cela va être géré.\\
+				
+				\textcolor{red}{bla bla bla TODO }
 			
 		\subsection{Règles de transformation}
 			\label{subsec:regles-de-transformation}
@@ -927,7 +942,7 @@
 			On va prendre un exemple de départ complet, et on va développer l'arbre correspondant. Voici notre exemple qui contient tout ce qui nous intéresse:\\
 			
 			\centering
-			\texttt{Graph pcc=dijkstra(\{v0,1:Yverdon,e01,2,0->2:9,1<-2:3\},v0)} (avec \texttt{v0=(0)} et \texttt{e01=(0->1)})
+			\texttt{pcc=dijkstra(\{v0,1:Yverdon,e01,2,0->2:9,1<-2:3\},v0)} (avec \texttt{v0=(0)} et \texttt{e01=(0->1)})
 			\justify
 			
 			\begin{itemize}
@@ -945,7 +960,7 @@
 				\begin{forest}
 				value/.style={rectangle,draw=none,rounded corners=1mm,fill=gray!10,drop shadow,text centered, anchor=north,text=black}, 
 				type/.style={circle,draw=none,fill=orange,circular drop shadow,text centered,anchor=north,text=white}
-					[{D},type
+					[{A},type
 						[{pcc},value] 
 						[{F},type
 							[{dijkstra},value]
@@ -1036,7 +1051,6 @@
 				\begin{tabular}{cccc}
 					Type & Nom complet & Valeur & Nombre de paramètres\\
 					\hline
-					D & Déclaration & Nom de la variable & 1\\
 					A & Assignation & Nom de la variable & 1\\
 					F & Fonction & Nom de la fonction & *\\
 					C & Constante & Valeur littérale & 0\\
@@ -1048,7 +1062,7 @@
 			
 			\begin{lstlisting}
 					struct Statement {
-						enum class Type { D, A, F, C, V };
+						enum class Type { A, F, C, V };
 						Type type;
 						string value;
 						vector<Statement> parameters;
@@ -1056,6 +1070,20 @@
 			\end{lstlisting}
 			
 			La création de cet arbre se fait grâce aux \textit{tokens} générés dans la partie \textit{Parser validation} (voir section~\ref{subsec:implementation-du-parseur}), \textcolor{red}{bla bla bla à compléter}
+			
+			\subsubsection{Fonctions internes}
+				La transformation nécessite plusieurs fonctions pour que la suite puisse correctement fonctionner. Nous allons lister ici toutes ces fonctions qui seront par la suite interfacées dans la table des fonctions.\\
+				
+				Note: les paramètres de type \texttt{T} indiquent qu'il existe une surcharge de la fonction pour chacun des types disponible dans le langage.
+				
+				\begin{figure}[H]
+					\centering
+					\begin{tabular}{lll}
+						Prototype & Description\\
+						\hline
+						\texttt{} & \\
+					\end{tabular}
+				\end{figure}
 			
 			\subsubsection{Arbre d'appels des traitements}
 				\label{subsubsec:arbre-d-appels-des-traitements}
@@ -1149,6 +1177,7 @@
 						\\
 						\textbf{début} & \textbf{étape 1} & \textbf{étape 2}\\
 						\hline
+						&&\\ % pour faire joli
 						\begin{forest}
 							[{A},fill=yellow
 								[{a}]
@@ -1186,7 +1215,7 @@
 						\end{forest}
 						&
 						\begin{forest}
-							[,phantom
+							[,phantom,s sep=1cm
 								[{A},fill=orange
 									[{a}]
 									[{V},fill=red
@@ -1206,7 +1235,7 @@
 				
 				NB: les variables \texttt{tX} sont des variables temporaires, elles seront supprimées à la fin du (sous-)traitement qui en avait besoin.\\
 				
-				On voit que cette approche récursive nous permet de bien arriver au résultat escompté, et ce, depuis un traitement qui à la base était très complexe avant sa transformation.
+				Premièrement on voit que cette approche récursive nous permet de bien arriver au résultat escompté, et ce, depuis un traitement qui à la base était très complexe avant sa transformation. Deuxièmement il est important de noter que tout traitement finira toujours par retourner une valeur dans une variable (temporaire ou pas).
 			
 			\subsubsection{Vérification des types}
 				\label{subsubsec:verification-des-types}
@@ -1216,6 +1245,22 @@
 		\subsection{Exemples}
 	
 	\section{Annexes}
+	
+		\subsection{Fonctions incluses}
+			\label{subsec:annexes-fonctions-incluses}
+			Cet annexe recense les fonctions incluses dans l'interpréteur et disponibles pour l'utilisateur de l'application. Les fonctions \textit{built-in} viennent de l'interpréteur directement, et les fonctions \textit{algo} proviennent de la couche sur les graphes et ses algorithmes.\\
+			
+			Note: les paramètres de type \texttt{T} indiquent qu'il existe une surcharge de la fonction pour chacun des types disponible dans le langage.
+			
+			\begin{figure}[H]
+				\centering
+				\begin{tabular}{lll}
+					Prototype & Description & Origine\\
+					\hline
+					\texttt{String toString(T a)} & Retourne la représentation sous forme de chaîne de \texttt{a} & \textit{built-in}\\
+					\texttt{} & & \textit{}\\
+				\end{tabular}
+			\end{figure}
 	
 	\begin{thebibliography}{9}
 		\bibitem{qtStyle}
