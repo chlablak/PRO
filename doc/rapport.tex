@@ -23,23 +23,21 @@
 
 % Diagramme de flux
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows}
-\tikzstyle{decision} = [diamond, draw, fill=green!20, text width=5em, text badly centered, inner sep=0pt]
-\tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=6em, text centered, rounded corners, minimum height=4em]
-\tikzstyle{line} = [draw, -latex']
-\tikzstyle{cloud} = [draw, ellipse,fill=red!20, minimum height=2em]
+\usepackage{forest}
+\usetikzlibrary{shapes,arrows,positioning,shadows}
 
 % Style C++
 \lstset{
 	language=C++,
 	tabsize=2,
-	basicstyle=\ttfamily,
-	keywordstyle=\color{blue}\ttfamily,
-	stringstyle=\color{red}\ttfamily,
-	commentstyle=\color{black!40}\ttfamily,
+	basicstyle=\small\ttfamily,
+	keywordstyle=\color{blue},
+	stringstyle=\color{red},
+	commentstyle=\color{black!40},
 	morecomment=[l][\color{black!50}]{\#},
 	gobble=10,
-	frame=single
+	frame=single,
+	otherkeywords={std,string,vector,map,pair,size\_t,function,remove\_const,remove\_reference}
 }
 
 \geometry{
@@ -85,7 +83,7 @@
 	\normalsize
 	
 	\section{Cadre de développement} 
-		L'application est développée à l'aide du langage C++ et de la bibliothèque Qt \textcolor{red}{(insérer les versions utilisées ainsi que les compilateurs ?)}. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décider d'utiliser le Coding Style de Qt qui correspond bien à nos besoins: \url{https://wiki.qt.io/Qt_Coding_Style}.
+		L'application est développée à l'aide du langage C++ et de la bibliothèque Qt \textcolor{red}{(insérer les versions utilisées ainsi que les compilateurs ?)}. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décidé d'utiliser le Coding Style de Qt \cite{qtStyle} qui correspond bien à nos besoins.
 			
 	\section{Interpréteur} % Champion
 		Dans le cadre de l'application, l'utilisateur est amené à entrer des commandes lui permettant de créer et de modifier des graphes, tout autant que d'appeler des fonctions effectuant différents traitements (algorithmes, lecture depuis un fichier, ...). 
@@ -94,7 +92,7 @@
 			Il est nécessaire de définir une grammaire claire sur la syntaxe des commandes, ainsi que leur sémantique.
 			
 			\subsubsection{Analyse des types et des opérations} 
-				Premièrement, il faut définir les types disponibles dans le langage. Pour cela il est intéressant de partir des algorithmes de graphe et de voir les types de résultats que nous attendons en sortie, ainsi que les types de paramètres dont nous aurons besoin:
+				Premièrement, il faut définir les types disponibles dans le langage. Pour cela, il est intéressant de partir des algorithmes de graphe et de voir les types de résultats que nous attendons en sortie, ainsi que les types de paramètres dont nous aurons besoin:
 			
 				\begin{itemize}
 					\item Boolean: un graphe a-t-il un cycle? est-il eulérien? ...
@@ -137,7 +135,7 @@
 					& Lecture & \texttt{a; f(a); Float b = a;}\\ 
 					\\
 					\textbf{\texttt{String}}\\ \hline \hline
-					Domaine & \multicolumn{2}{l}{Ensemble de zéro ou plusieurs caractères ASCII}\\
+					Domaine & \multicolumn{2}{l}{Ensemble de zéros ou plusieurs caractères ASCII}\\
 					Opérations & Déclaration & \texttt{String a = "Hello";}\\
 					& Affectation & \texttt{a = "World"; a = f();}\\
 					& Lecture & \texttt{a; f(a); String b = a;}\\ 
@@ -196,17 +194,17 @@
 					\end{itemize}
 					\item \texttt{Graph}: 
 					\begin{itemize}
-						\item La création d'un graphe vide est permis (\texttt{Graph g = \{\};})
-						\item Le raccourci d'écriture pour le nombre de sommet (\texttt{\#3}) doit se trouver au début
+						\item La création d'un graphe vide est permise (\texttt{Graph g = \{\};})
+						\item Le raccourci d'écriture pour le nombre de sommets (\texttt{\#3}) doit se trouver au début
 						\item Pour que le \texttt{Vertex} d'\texttt{id n} soit créé, il faut que tous les \texttt{id} de \texttt{0} à \texttt{n-1} existent déjà, sinon $\rightarrow$ Exception 
 						\item Dans le cas d'arêtes/arcs multiples, par exemple \texttt{\{\#2, 0->1, 0->1\}}, le paramètre \texttt{id} du second \texttt{Edge} est incrémenté $\rightarrow$ \texttt{0->1[0]} et \texttt{0->1[1]}
-						\item Pour qu'un \texttt{Edge} soit créé, il est nécessaire que les deux \texttt{Vertex} soit déjà créés, sinon $\rightarrow$ Exception
+						\item Pour qu'un \texttt{Edge} soit créé, il est nécessaire que les deux \texttt{Vertex} soient déjà créés, sinon $\rightarrow$ Exception
 						\item Ajouts / modifications:
 						\begin{itemize}
 							\item Les types acceptés en opérande de droite sont \texttt{Vertex, Edge} ou un \texttt{Array} de ces deux types
 							\item Pour les \texttt{Vertex}, si l'\texttt{id} existe déjà dans le graphe, c'est une modification, sinon c'est un ajout
 							\item Pour les \texttt{Edge}, si la \texttt{connection} existe déjà dans le graphe mais que l'\texttt{id} est omis, alors c'est un ajout, sinon c'est une modification (sauf si l'\texttt{id} n'existe pas, dans ce cas c'est un ajout)
-							\item La modification est accumulative, par exemple si on fait \texttt{Graph g = \{0:"Yverdon"\}; g += (0::2);}, alors le \texttt{Vertex} résultant est \texttt{(0:"Yverdon":2)}
+							\item La modification est cumulative, par exemple si on fait \texttt{Graph g = \{0:"Yverdon"\}; g += (0::2);}, alors le \texttt{Vertex} résultant est \texttt{(0:"Yverdon":2)}
 						\end{itemize}
 						\item Suppressions:
 						\begin{itemize}
@@ -229,7 +227,7 @@
 				Le passage des paramètres se fait par copie (ou référence constante) et la correspondance est par position. On autorise la surcharge des fonctions.
 			
 			\subsubsection{Grammaire EBNF} 
-				L'analyse étant finie, on peut à présent développer les règles de production EBNF du langage. On part des règles de haut niveau pour descendre dans la hiérarchie (inspiration: \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}).\\
+				L'analyse étant finie, on peut à présent développer les règles de production EBNF du langage. On part des règles de haut niveau pour descendre dans la hiérarchie (inspiration: \cite{vutbr.cz}).\\
 				
 				\textbf{Point de départ (entrée utilisateur)}
 				\begin{grammar}
@@ -238,13 +236,13 @@
 				
 				\textbf{Déclarations (statements)}
 				\begin{grammar}
-					<statement> ::= ( <function-call> | <declaration> | <assignment> ) \lit{;}
+					<statement> ::= ( <function-call> | <declaration> | <assignation> ) \lit{;}
 					
 					<function-call> ::= <identifier> <parameter-list>
 					
 					<declaration> ::= <type> <identifier> \lit{=} <parameter>
 					
-					<assignment> ::= <variable> \lit{=} <parameter>
+					<assignation> ::= <variable> \lit{=} <parameter>
 					
 					<parameter-list> ::= \lit{(} <parameter> \{ \lit{,} <parameter> \} \lit{)}
 					
@@ -322,11 +320,19 @@
 					
 					<digit> ::= ? all digits from 0 to 9 ? 
 				\end{grammar}
+				
+			\subsubsection{Modifications}
+				Après réflexion, il est apparu que les opérations d'assignation et de déclaration de variables pouvaient être mises ensemble. Concrètement dans une déclaration il n'est pas nécessaire de définir le type de la variable car celui-ci peut être déduit de l'opérande de droite. Et comme les tableaux sont des collections hétérogènes, il semble évident que les variables doivent elles aussi être à typage dynamique. Par conséquent la grammaire est modifiée ainsi:
+				\begin{itemize}
+					\item Suppression des règles \textit{<declaration>}, \textit{<type>}, \textit{<simple-type>} et \textit{<complex-type>}
+					\item La règle \textit{<assignation>} vaut désormais: \textit{( <variable> | <identifier> ) '=' <parameter>}
+					\item La règle \textit{<statement>} vaut désormais: \textit{( <function-call> | <assignation> ) ';'}
+				\end{itemize} 
 		
 		\subsection{Flux des données}
 			\begin{figure}[H]
 				\centering
-				\begin{tikzpicture}[node distance = 2.7cm,auto]
+				\begin{tikzpicture}[decision/.style = {diamond, draw, fill=green!20, text width=5em, text badly centered, inner sep=0pt}, block/.style = {rectangle, draw, fill=blue!20, text width=6em, text centered, rounded corners, minimum height=4em}, line/.style = {draw, -latex'}, cloud/.style = {draw, ellipse,fill=red!20, minimum height=2em}, node distance = 2.7cm,auto]
 					\node[cloud] (input) {User input};
 					\node[block,below of=input] (preprocessor) {Input preprocessing};
 					\node[block,right of=preprocessor] (parser) {Parser validation};
@@ -372,32 +378,32 @@
 			
 			Détaillons chacune de ces étapes:
 			\begin{enumerate}
-				\item \textbf{Input preprocessing} - On récupère les entrées utilisateur dans un tampon 
+				\item \textbf{Input preprocessing} - On récupère les entrées utilisateur dans un tampon.
 				\begin{enumerate}
-					\item \textbf{Trim} - On enlève tous les espaces inutiles, c'est-à-dire tous les espaces sauf ceux dans les constantes littérales de type \textit{String}, et celui qui sépare le type de l'identifiant dans les déclarations
-					\item \textbf{Statement per statement} - On envoie au parser une commande à la fois (les traitements sont séparés par des ';') 
+					\item \textbf{Trim} - On enlève tous les espaces inutiles, c'est-à-dire tous les espaces sauf ceux dans les constantes littérales de type \textit{String}, et celui qui sépare le type de l'identifiant dans les déclarations.
+					\item \textbf{Statement per statement} - On envoie au parseur une commande à la fois (les traitements sont séparés par des ';').
 				\end{enumerate}
-				\item \textbf{Parser validation} - On vérifie la syntaxe de la commande et on extrait des informations utiles pour la suite (tokens), voir section~\ref{subsec:implementation-du-parseur}
-				\item \textbf{Identifier checking} - On connaît les différents identifiants présents dans la commande (noms de variable, noms de fonction), on peut tout de suite vérifier leur existance 
-				\item \textbf{Transform} - On transforme la commande en arbre d'appel, plus de détails dans la section~\ref{subsec:regles-de-transformation}
-				\item \textbf{Type checking} - On vérifie la concordance des types (statique), plus de détails dans la section~\ref{subsubsec:verification-des-types}
-				\item \textbf{Statement processing} - La commande a été décomposée en plusieurs sous-traitements (arbre d'appel, \ref{subsubsec:arbre-d-appel-des-traitements}), on effectue d'abord les feuilles avant de remonter
+				\item \textbf{Parser validation} - On vérifie la syntaxe de la commande et on extrait des informations utiles pour la suite (tokens), voir section~\ref{subsec:implementation-du-parseur}.
+				\item \textbf{Identifier checking} - On connaît les différents identifiants présents dans la commande (noms de variable, noms de fonction), on peut tout de suite vérifier leur existence.
+				\item \textbf{Transform} - On transforme la commande en arbre d'appels, plus de détails dans la section~\ref{subsec:regles-de-transformation}.
+				\item \textbf{Type checking} - On vérifie la concordance des types (statique), plus de détails dans la section~\ref{subsubsec:verification-des-types}.
+				\item \textbf{Statement processing} - La commande a été décomposée en plusieurs sous-traitements (arbre d'appels, \ref{subsubsec:arbre-d-appels-des-traitements}), on effectue d'abord les feuilles avant de remonter.
 				\begin{enumerate}
-					\item \textbf{Branch statement} - On sélectionne le bon traitement en fonction de son type
+					\item \textbf{Branch statement} - On sélectionne le bon traitement en fonction de son type.
 					\begin{itemize}
-						\item \textbf{Constant} - On créé une variable temporaire avec la valeur de la constante, voir section~\ref{subsubsec:table-des-temporaires}
-						\item \textbf{Function call} - On appelle la fonction et on sauve son résultat dans une variable temporaire
-						\item \textbf{Assignation} - On assigne une valeur à une variable, voir section~\ref{subsubsec:table-des-variables}
-						\item \textbf{Declaration} - Pareil que l'assignation, mais avec création de l'identifiant au préalable 
+						\item \textbf{Constant} - On créé une variable temporaire avec la valeur de la constante, voir section~\ref{subsubsec:table-des-temporaires}.
+						\item \textbf{Function call} - On appelle la fonction et on sauve son résultat dans une variable temporaire.
+						\item \textbf{Assignation} - On assigne une valeur à une variable, voir section~\ref{subsubsec:table-des-variables}.
+						\item \textbf{Declaration} - Pareil que l'assignation, mais avec création de l'identifiant au préalable.
 					\end{itemize}
-					\item \textbf{Save result} - On transforme l'arbre d'appel avec les nouvelles valeurs/variables. Si c'est la fin de la commande, on indique à l'utilisateur que le résultat de la commande est prêt
+					\item \textbf{Save result} - On transforme l'arbre d'appels avec les nouvelles valeurs/variables. Si c'est la fin de la commande, on indique à l'utilisateur que le résultat de la commande est prêt
 					\item \textbf{Cleaning} - On supprime les variables temporaires qui ne sont plus utiles. Si c'était un sous-traitement, on passe au prochain sous-traitement (6), sinon on passe à la prochaine commande (1)
 				\end{enumerate}
 			\end{enumerate}
 			
 		\subsection{Implémentation du parseur}
 			\label{subsec:implementation-du-parseur}
-			Boost.Spirit toussa todo blabla ...
+			\textcolor{red}{Boost.Spirit toussa todo blabla ...}
 		
 		\subsection{Mémoire virtuelle} 
 			\label{subsec:memoire-virtuelle}
@@ -405,28 +411,100 @@
 			
 			Chaque type du langage possède son pendant en C++, voici un tableau résumant cela:\\
 			
-			\begin{tabular}{r|l}
-				Type & Equivalent C++\\ \hline\hline
-				\texttt{Boolean} & \texttt{bool}\\
-				\texttt{Integer} & \texttt{int}\\
-				\texttt{Float} & \texttt{float}\\
-				\texttt{String} & \texttt{std::string}\\
-				\texttt{Number} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
-				\texttt{Array} & voir section~\ref{subsubsec:tableau-dynamique-heterogene}\\
-				\texttt{Graph} & voir section~\textcolor{red}{ajouter ref}\\
-				\texttt{Vertex} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
-				\texttt{Edge} & voir section~\ref{subsubsec:number-edge-et-vertex}
-			\end{tabular}
+			\begin{figure}[H]
+				\centering
+				\begin{tabular}{r|l}
+					Type & Equivalent C++\\ \hline\hline
+					\texttt{Boolean} & \texttt{bool}\\
+					\texttt{Integer} & \texttt{int}\\
+					\texttt{Float} & \texttt{float}\\
+					\texttt{String} & \texttt{std::string}\\
+					\texttt{Number} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
+					\texttt{Array} & voir section~\ref{subsubsec:tableau-dynamique-heterogene}\\
+					\texttt{Graph} & voir section~\textcolor{red}{ajouter ref}\\
+					\texttt{Vertex} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
+					\texttt{Edge} & voir section~\ref{subsubsec:number-edge-et-vertex}
+				\end{tabular}
+			\end{figure}
 			
 			\subsubsection{Table des variables}
 				\label{subsubsec:table-des-variables}
+				Notre interpréteur a besoin de créer des variables afin de pouvoir les manipuler au fur et à mesure des traitement. Une variable est définie par trois informations:
+				
+				\begin{enumerate}
+					\item un type
+					\item un identifiant
+					\item une valeur
+				\end{enumerate}
+				
+				Pour stocker ces informations, on va utiliser une table de variables qui nous permettra de répondre à différentes questions:
+				
+				\begin{itemize}
+					\item Quelles sont les variables déjà créées?
+					\item Quel est le type d'une variable?
+					\item Une variable existe-t-elle?
+					\item Quelle est la valeur d'une variable?
+				\end{itemize}
+				
+				Le C++ étant un langage fortement typé, on est obligé d'utiliser une approche à base de \texttt{if-else/switch}. Voici un exemple d'implémentation (qui pourrait être \textit{templatisé}):
+				
+				\begin{lstlisting}
+					struct Table {
+						enum class Type { Integer, String /* , ... */ };
+						map<string, Type> names;
+						map<string, int> ints;
+						map<string, string> strings;
+						// ...
+						
+						void set(string const &name, int value) {
+							if(exists(name) && typeOf(name) != Type::Integer)
+								/* bad type exception */;
+							names[name] = Type::Integer;
+							ints[name] = value;
+						}
+						
+						void set(string const &name, string const &value) {
+							// ...
+						}
+						// ...
+						
+						bool exists(string const &name) const {
+							return names.find(name) != names.end();
+						}
+						
+						Type typeOf(string const &name) const {
+							if(!exists(name))
+								/* not found exception */;
+							return names.find(name)->second;
+						}
+						
+						void erase(string const &name) {
+							switch(typeOf(name)) {
+								case Type::Integer: ints.erase(name); break;
+								case Type::String: strings.erase(name); break;
+							}
+						}
+						
+						int getInteger(string const &name) const {
+							if(typeOf(name) != Type::Integer)
+								/* cast exception */;
+							return ints.find(name)->second;
+						}
+						// ...
+					};
+				\end{lstlisting}
+				
+				Cette solution répond à toutes nos questions et a l'avantage d'être assez simple (et typée), une autre approche à base de \texttt{void*} est possible et est présentée dans la section~\ref{subsubsec:tableau-dynamique-heterogene} sur les tableaux dynamiques hétérogènes. Notons qu'il peut être pertinent d'utiliser une autre structure que \texttt{map} pour le stockage des identifiants, par exemple un ternary search tries qui faciliterait l'auto-complétion pour les variables.
 			
 			\subsubsection{Table des temporaires}
 				\label{subsubsec:table-des-temporaires}
+				Certains traitements seront composés de plusieurs sous-traitements, les résultats de ceux-ci seront stockés dans des variables qui doivent avoir une durée de vie limitée à la durée du traitement. Une approche simple et efficace est d'utiliser une \texttt{std::stack<Table>} (voir section~\ref{subsubsec:table-des-variables}) sur laquelle on \textit{push} à l'entrée du traitement et on \textit{pop} à sa sortie.\\
+				
+				Ici nous développons juste l'idée générale, mais concrètement les variables temporaires et non temporaires doivent être accessible de la même manière indépendamment de leur genre. Par conséquent une tables des variables générale englobera les deux genres, et fournira une interface commune permettant de manipuler les deux.
 				
 			\subsubsection{Tableau dynamique hétérogène}
 				\label{subsubsec:tableau-dynamique-heterogene}
-				Le tableau dynamique hétérogène (TDH dans la suite de cette section) pose un gros problème majeur: le C++ est un langage fortement typé. Cependant plusieurs solutions s'offrent à nous pour créer un TDH:
+				Le tableau dynamique hétérogène (TDH dans la suite de cette section) pose un problème majeur: le C++ est un langage fortement typé. Cependant plusieurs solutions s'offrent à nous pour créer un TDH:
 				
 				\begin{enumerate}
 					\item Un \texttt{std::vector<boost::any>} (\texttt{std::any} étant prévu pour C++17)
@@ -499,11 +577,11 @@
 				
 				Cette solution est assez verbeuse, cependant la complexité en temps et en mémoire est très bonne. En ce qui concerne les \texttt{delete}, il est obligatoire de faire le cast avant, sinon le destructeur de l'objet détruit n'est pas appelé.\\
 				
-				Evidemment l'utilisateur du TDH est obligé de faire des \texttt{switch/if-else} dans son code, cependant ce problème vaut pour chacune des trois solutions et est inhérent au C++.  
+				Évidemment l'utilisateur du TDH est obligé de faire des \texttt{switch/if-else} dans son code, cependant ce problème vaut pour chacune des trois solutions et est inhérent au C++.  
 				
 			\subsubsection{Number, Edge et Vertex}
 				\label{subsubsec:number-edge-et-vertex}
-				\textbf{Number} - Selon la grammaire, certains nombres peuvent soit être un entier, soit un flottant. Il peut également être intéressant pour certains algorithmes de savoir si ces nombres sont entiers ou non (pour les flots notamment). Pour ces deux raisons il est nécessaire d'avoir un type \texttt{Number} pouvant stocker les deux types de représentations. Voici deux propositions (incomplètes):
+				\textbf{Number} - Selon la grammaire, certains nombres peuvent soit être un entier, soit un flottant. Il peut également être intéressant pour certains algorithmes de savoir si ces nombres sont entiers ou non (pour les flots notamment). Pour ces deux raisons, il est nécessaire d'avoir un type \texttt{Number} pouvant stocker les deux types de représentations. Voici deux propositions (incomplètes):
 				
 				\begin{lstlisting}
 					// solution 1
@@ -531,7 +609,7 @@
 					};
 				\end{lstlisting}
 				
-				La solution (1) a l'avantage d'être plus sûre au niveau du typage, cependant à l'utilisation elle demande d'utiliser davantage de condition. La solution (2) est plus naturelle à l'utilisation et utilise 2x moins de place en mémoire que la solution (1), mais le test \texttt{isInt()} prend plus de temps. A partir de là on a choisi la solution (2) pour ses avantages et car les accès à \texttt{value} seront plus courants que les tests \texttt{isInt()}.\\
+				La solution (1) a l'avantage d'être plus sûre au niveau du typage, cependant à l'utilisation elle demande davantage de conditions. La solution (2) est plus naturelle à l'utilisation et utilise deux fois moins de place en mémoire que la solution (1), mais le test \texttt{isInt()} prend plus de temps. A partir de là, on a choisi la solution (2) pour ses avantages et car les accès à \texttt{value} seront plus courants que les tests \texttt{isInt()}.\\
 								
 				\textbf{Vertex} - Le type \texttt{Vertex} pose un problème majeur: certains de ses attributs sont optionnels. Voici donc une solution naturelle:
 				
@@ -547,7 +625,7 @@
 					};
 				\end{lstlisting}
 				
-				Le soucis avec cette approche est que les attributs optionnels sont construits même s'il ne sont pas utilisés, par ailleurs sur mon ordinateur \texttt{sizeof(Vertex) == 36}. Cela implique une utilisation inutile en ressources pour des attributs qui ne seront pas forcément utilisés.\\
+				Le souci avec cette approche est que les attributs optionnels sont construits même s'ils ne sont pas utilisés, par ailleurs sur mon ordinateur \texttt{sizeof(Vertex) == 36}. Cela implique une utilisation inutile en ressources pour des attributs qui ne seront pas forcément utilisés.\\
 				
 				Afin d'éviter ces problèmes, on peut approcher le problème avec des pointeurs (égaux à \texttt{nullptr} s'ils ne sont pas utilisés):
 				
@@ -623,7 +701,7 @@
 					};
 				\end{lstlisting} 
 				
-				Notre type \texttt{Vertex} est à présent élégant, et efficace en terme de ressources.\\
+				Notre type \texttt{Vertex} est à présent élégant, et plus efficace en terme de ressources. Notons que \texttt{std::optional<>} sera disponible en C++17.\\
 				
 				\textbf{Edge} - En ce qui concerne le type \texttt{Edge}, on peut utiliser la même démarche que pour le type \texttt{Vertex}:
 				
@@ -640,31 +718,556 @@
 					};
 				\end{lstlisting}
 				
-				Nos types "simples" sont maintenant définit, notons que les exemples d'implémentation ci-dessous ne sont pas complets, mais ils montrent clairement l'approche générale.
+				Nos types "simples" sont maintenant définis, notons que les exemples d'implémentation ci-dessus ne sont pas complets, mais ils montrent l'approche générale.
 				
 		\subsection{Table des fonctions}
-			Dans le flux de données, l'étape \textit{Function call} nécessite d'appeler, d'exécuter et de récupérer le résultat d'une fonction. Dans cette section nous allons préciser comment cela va être fait.
+			\label{subsec:table-des-fonctions}
+			Dans le flux de données, l'étape \textit{Function call} nécessite d'appeler, d'exécuter et de récupérer le résultat d'une fonction. Dans cette section nous allons préciser comment cela va être fait.\\
+			
+			Voici l'idée avec un bout de code qui devrait pouvoir être exécuté:
+			
+			\begin{lstlisting}
+					// algorithme independant de l'interpreteur
+					Graph dijkstra(const Graph &graph, const Vertex &origin) {
+						// ...
+					}
+			
+					// interfacage dans la table des fonctions
+					functions.add("dijkstra", &dijkstra);
+					
+					// appel a la fonction depuis l'interpreteur
+					functions.call("dijkstra", "pcc", {"g", "v1"});
+			\end{lstlisting}
+			
+			Ce \texttt{call} va chercher les variables \textit{g} et \textit{v1} dans la table des variables, puis appelle la fonction \texttt{dijkstra} avant de sauver le résultat dans la table des variables sous le nom \textit{pcc}.\\
+			
+			La difficulté, comme d'habitude, est de lié le côté dynamique de l'interpréteur avec le côté fortement typé de C++. Le deuxième problème est d'avoir un interfaçage facile à faire côté utilisateur, afin que l'ajout de nouvelle fonction soit rapide et élégant.\\
+			
+			Une liste des fonctions interfacées dans l'application se trouve dans l'annexe~\ref{subsec:annexes-fonctions-incluses}. 
 			
 			\subsubsection{Interfaçage}
 				\label{subsubsec:interfacage}
+				Afin de répondre aux demandes de la table des fonctions (voir section~\ref{subsec:table-des-fonctions}), on va utilise deux outils que le C++ nous offre: l'héritage (avec polymorphisme) et la spécialisation des \texttt{template}.\\
+				
+				Un exemple d'implémentation vaut plus qu'un long discours:
+				
+				\begin{lstlisting}
+					// Types geres
+					enum class Type { Integer, String /* , ... */ };
+					
+					// Table des variables (simplifiee)
+					struct VarTable {
+						map<string, Type> names;
+						map<string, int> ints;
+						map<string, string> strings;
+						
+						void set(string const &name, int value) {
+							names[name] = Type::Integer;
+							ints[name] = value;
+						}
+						
+						void set(string const &name, string const &value) {
+							names[name] = Type::String;
+							strings[name] = value;
+						}
+					};
+					
+					// Acces aux variables specialise
+					template<typename> struct Fetcher;
+					
+					template<> struct Fetcher<int> {
+						static int get(string const &name, VarTable &var) {
+							return var.ints[name];
+						}
+					};
+					
+					template<> struct Fetcher<string> {
+						static string const &get(string const &name, VarTable &var) {
+							return var.strings[name];
+						}
+					};
+					
+					// Enleve les 'const' et les '&' sur un type
+					template<typename T> struct RemoveAll {
+						typedef typename remove_const<typename remove_reference<T>::type>::type type;
+					};
+					
+					// Classe abstraite pour l'appel a une fonction
+					struct FuncBase {
+						virtual ~FuncBase() {}
+						virtual void execute(string const&, vector<string> const&, VarTable&) = 0;
+					};
+					
+					// Type inutile pour les specialisations de la classe Func
+					struct Empty {};
+					
+					// Classe appelant notre fonction
+					// (ici avec 2 parametres max, mais peut etre etendu)
+					template<typename R, typename P1 = Empty, typename P2 = Empty>
+					struct Func : FuncBase {
+						function<R(P1, P2)> f;
+						Func(R(*f)(P1, P2)) : f(f) {}
+						virtual ~Func() {}
+						
+						// on appelle la fonction avec ses parametres
+						void execute(string const &dst, vector<string> const &params, VarTable &var) {
+							P1 p1 = Fetcher<typename RemoveAll<P1>::type>::get(params[0], var);
+							P2 p2 = Fetcher<typename RemoveAll<P2>::type>::get(params[1], var);
+							var.set(dst, f(p1, p2));
+						}
+					};
+					
+					// Meme chose mais pour 1 parametre
+					template<typename R, typename P1>
+					struct Func<R, P1, Empty> : FuncBase {
+						function<R(P1)> f;
+						Func(R(*f)(P1)) : f(f) {}
+						virtual ~Func() {}
+						void execute(string const &dst, vector<string> const &params, VarTable &var) {
+							P1 p1 = Fetcher<typename RemoveAll<P1>::type>::get(params[0], var);
+							var.set(dst, f(p1));
+						}
+					};
+					
+					// Meme chose pour 0 parametre
+					template<typename R>
+					struct Func<R, Empty, Empty> : FuncBase {
+						function<R()> f;
+						Func(R(*f)()) : f(f) {}
+						virtual ~Func() {}
+						void execute(string const &dst, vector<string> const &params, VarTable &var) {
+							var.set(dst, f());
+						}
+					};
+					
+					// On rend la creation de Func simple pour l'utilisateur
+					template<typename R, typename P1, typename P2>
+					FuncBase *makeFunc(R(*f)(P1, P2)) {
+						return new Func<R, P1, P2>(f);
+					}
+					template<typename R, typename P1>
+					FuncBase *makeFunc(R(*f)(P1)) {
+						return new Func<R, P1>(f);
+					}
+					template<typename R>
+					FuncBase *makeFunc(R(*f)()) {
+						return new Func<R>(f);
+					}
+					
+					// Table des fonctions (simplifiee)
+					struct FuncTable {
+						VarTable &var;
+						map<string, FuncBase*> names;
+						
+						FuncTable(VarTable &var) : var(var) {}
+						~FuncTable() { 
+							for(auto p : names) 
+								delete p.second; 
+						}
+						
+						// on appelle la fonction 'name'
+						void execute(string const &name, string const &dst, vector<string> const &params) {
+							// verifications eventuelles
+							// ...
+							
+							names[name]->execute(dst, p, var);
+						}
+					};
+					
+					// Fonctions de test
+					int add(int a, int b) { return a + b; }
+					int inv(int a) { return -a; }
+					int len(string const &s) { return s.size(); }
+					string hw() { return "helloworld"; }
+					
+					int main()
+					{
+						// On cree des variables
+						VarTable var;
+						var.names["a"] = Type::Integer;
+						var.ints["a"] = 2;
+						var.names["b"] = Type::Integer;
+						var.ints["b"] = 3;
+						
+						// On interface les fonctions
+						FuncTable func(var);
+						func.names["add"] = makeFunc(&add);
+						func.names["inv"] = makeFunc(&inv);
+						func.names["len"] = makeFunc(&len);
+						func.names["hw"] = makeFunc(&hw);
+						
+						// Affichera: -5
+						func.execute("add", "c", {"a", "b"});
+						func.execute("inv", "c", {"c"});
+						cout << var.ints["c"] << endl;
+						
+						// Affichera: helloworld/10
+						func.execute("hw", "s", {});
+						func.execute("len", "l", {"s"});
+						cout << var.strings["s"] << "/" << var.ints["l"] << endl;
+						
+						return 0;
+					}
+				\end{lstlisting}
+				
+				Le coeur de la solution est la classe de base abstraite \texttt{FuncBase} dont hérite la classe \textit{templatisée} \texttt{Func} qui effectue l'appel effectif à la fonction interfacée. On remarque que cela fonctionne bien, et que côté utilisateur l'ajout d'une nouvelle fonction est très agréable . Il est de plus encore possible d'ajouter des informations (nom, arité, types, ...) sur chacune des fonctions interfacée.\\
+				
+				Remarque: L'implémentation ci-dessus utilise la spécialisation des \textit{template} et est limitée en terme de nombre de paramètres que les fonctions interfacées peuvent avoir (même si c'est facilement extensible). Une autre approche, plus générique encore, est d'utiliser les \textit{variadic template} de C++11, cependant cette solution est plus compliquée à développer, le choix est donc laissé au développeur.
+				
+			\subsubsection{Surcharge}
+				Nous avons vu comment interfacer des fonctions simplement, cependant il n'est pour l'instant pas possible d'interfacer plusieurs fonctions ayant le même nom mais une signature différente. Nous allons voir à présent comment cela va être géré.\\
+				
+				\textcolor{red}{bla bla bla TODO }
 			
 		\subsection{Règles de transformation}
 			\label{subsec:regles-de-transformation}
-			Dans cette section nous allons préciser les règles de transformation de l'étape \textit{Transform} du flux de données, ainsi que ce que cela va apporter.
+			Dans cette section nous allons préciser les règles de transformation de l'étape \textit{Transform} du flux de données, ainsi que ce que cela va apporter. Pour commencer, voici quelques exemples de transformations possibles:
 			
-			\subsubsection{Arbre d'appel des traitements}
-				\label{subsubsec:arbre-d-appel-des-traitements}
+			\begin{figure}[H]
+				\centering
+				\begin{tabular}{rcl}
+					\texttt{(1::3)} & $\rightarrow$ & \texttt{\_vertex\_create(1,-,3)}\\
+					\texttt{(0->1:2::3)} & $\rightarrow$ & \texttt{\_edge\_create\_unidirectional(0,1,2,-,3)}\\
+					\texttt{[1,2,3]} & $\rightarrow$ & \texttt{\_array\_add(\_array\_add(\_array\_add(\_array\_create(),1),2),3)}\\
+					\texttt{\{\#3,0->1,1->2:6\}} & $\rightarrow$ & \texttt{\{1,2,3,0->1,1->2:6\}}\\
+												 & $\rightarrow$ & \texttt{\{[(1),(2),(3),(0->1),(1->2:6)]\}}\\
+												 & $\rightarrow$ & \texttt{\_graph\_create(\_array\_add(...))}\\
+					\texttt{g+=(3)} & $\rightarrow$ & \texttt{g=\_graph\_add(g,\_vertex\_create(3,-,-,-,-))}\\
+				\end{tabular}
+				\caption{Exemples de transformations}
+			\end{figure}
+			
+			Comme on le voit, le but est de passer de la syntaxe du langage à une représentation sous forme de fonctions. Plus précisément sous une forme d'arbre représentant la hiérarchie d'appel des différents traitements et sous-traitements.\\
+			
+			On va prendre un exemple de départ complet, et on va développer l'arbre correspondant. Voici notre exemple qui contient tout ce qui nous intéresse:\\
+			
+			\centering
+			\texttt{pcc=dijkstra(\{v0,1:Yverdon,e01,2,0->2:9,1<-2:3\},v0)} (avec \texttt{v0=(0)} et \texttt{e01=(0->1)})
+			\justify
+			
+			\begin{itemize}
+				\item assignation (avec déclaration)
+				\item appel de fonction
+				\item identifiant passé en paramètre
+				\item temporaires passés en paramètre
+				\item constantes littérales\\
+			\end{itemize}
+			
+			Et voici l'arbre correspondant:
+			
+			\begin{figure}[H]
+				\centering
+				\begin{forest}
+				value/.style={rectangle,draw=none,rounded corners=1mm,fill=gray!10,drop shadow,text centered, anchor=north,text=black}, 
+				type/.style={circle,draw=none,fill=orange,circular drop shadow,text centered,anchor=north,text=white}
+					[{A},type
+						[{pcc},value] 
+						[{F},type
+							[{dijkstra},value]
+							[{F},type
+								[{\_g\_c},value]
+								[{F},type
+									[{\_a\_a},value]
+									[{F},type
+										[{\_a\_a},value]
+										[{F},type
+											[{\_a\_a},value]
+											[{F},type
+												[{\_a\_a},value]
+												[{F},type
+													[{\_a\_a},value]
+													[{F},type
+														[{\_a\_a},value]
+														[{F},type
+															[{\_a\_c},value]
+														]
+														[{V},type
+															[{v0},value]
+														]
+													]
+													[{F},type
+														[{\_v\_c},value]
+														[{C},type
+															[{1},value]
+														]
+														[{C},type
+															[{Yverdon},value]
+														]
+													]
+												]
+												[{V},type
+													[{e01},value]
+												]
+											]
+											[{F},type
+												[{\_v\_c},value]
+												[{C},type
+													[{2},value]
+												]
+											]
+										]
+										[{F},type
+											[{\_e\_c\_u},value]
+											[{C},type
+												[{0},value]
+											]
+											[{C},type
+												[{2},value]
+											]
+											[{C},type
+												[{9},value]
+											]
+										]
+									]
+									[{F},type
+										[{\_e\_c\_u},value]
+										[{C},type
+											[{2},value]
+										]
+										[{C},type
+											[{1},value]
+										]
+										[{C},type
+											[{3},value]
+										]
+									]
+								]
+							]
+							[{V},type
+								[{v0},value]
+							]
+						]
+					]	
+				\end{forest}
+				\caption{Exemple d'arbre d'appels de traitements}
+			\end{figure}
+			
+			NB: on a simplifié les noms des fonctions afin que l'image ne soit pas trop large (\texttt{\_g\_c=\_graph\_create}, \texttt{\_a\_a=\_array\_add}, \texttt{\_a\_c=\_array\_create}, \texttt{\_v\_c=\_vertex\_create} et \texttt{\_e\_c\_u=\_edge\_create\_unidirectional}).\\
+			
+			Dans ce graphe on a deux types de noeuds, les ronds qui représentent des traitements, et les rectangles qui représentent des valeurs. On remarque qu'on a plusieurs types de traitements:
+			
+			\begin{figure}[H]
+				\centering
+				\begin{tabular}{cccc}
+					Type & Nom complet & Valeur & Nombre de paramètres\\
+					\hline
+					A & Assignation & Nom de la variable & 1\\
+					F & Fonction & Nom de la fonction & *\\
+					C & Constante & Valeur littérale & 0\\
+					V & Variable & Nom de la variable & 0\\
+				\end{tabular}
+			\end{figure}
+			
+			D'un point de vue structure de données cet arbre est très simple, voici un exemple:
+			
+			\begin{lstlisting}
+					struct Statement {
+						enum class Type { A, F, C, V };
+						Type type;
+						string value;
+						vector<Statement> parameters;
+					};
+			\end{lstlisting}
+			
+			La création de cet arbre se fait grâce aux \textit{tokens} générés dans la partie \textit{Parser validation} (voir section~\ref{subsec:implementation-du-parseur}), \textcolor{red}{bla bla bla à compléter}
+			
+			\subsubsection{Fonctions internes}
+				La transformation nécessite plusieurs fonctions pour que la suite puisse correctement fonctionner. Nous allons lister ici toutes ces fonctions qui seront par la suite interfacées dans la table des fonctions.\\
+				
+				Note: les paramètres de type \texttt{T} indiquent qu'il existe une surcharge de la fonction pour chacun des types disponible dans le langage.
+				
+				\begin{figure}[H]
+					\centering
+					\begin{tabular}{lll}
+						Prototype & Description\\
+						\hline
+						\texttt{} & \\
+					\end{tabular}
+				\end{figure}
+			
+			\subsubsection{Arbre d'appels des traitements}
+				\label{subsubsec:arbre-d-appels-des-traitements}
+				Maintenant que nous avons un arbre d'appels hiérarchique des traitements, reste à savoir comment nous allons l'utiliser (étapes \textit{Statement processing} et \textit{Save result} du flux de données). Le principe est très simple: 
+				
+				\begin{enumerate}
+					\item On prend le traitement racine
+					\item On parcours les paramètres:
+					\begin{itemize}
+						\item Si c'est un V, on passe
+						\item Sinon on effectue le sous-traitement (récursion)
+					\end{itemize}
+					\item On effectue le traitement racine
+				\end{enumerate}
+				
+				Concrètement on voit que tous les traitements ont besoin d'accéder aux valeurs de leur paramètres, cela ne peut se faire que si le paramètre est une variable. Donc si ce n'est pas une variable, on effectue le traitement associé avant de le sauver dans une variable (temporaire). L'arbre va donc raccourcir au fur et à mesure de l'avancement des sous-traitements.\\
+				
+				Prenons un exemple simple \texttt{a=1+max(-b,2)} (avec \texttt{b=-3}), qui devient donc \texttt{a=add(1,max(neg(b),2))}. L'arbre va évoluer ainsi (avec en orange le paramètre à traiter, en rouge sa variable résultante et en jaune la récursion):
+				
+				\begin{figure}[H]
+					\centering
+					\begin{tabular}{c|c|c}
+						\begin{forest}
+							[{A},fill=yellow
+								[{a}]
+								[{F},fill=yellow
+									[{add}]
+									[{C},fill=orange
+										[{1}]
+									]
+									[{F}
+										[{max}]
+										[{F}
+											[{neg}]
+											[{V}
+												[{b}]
+											]
+										]
+										[{C}
+											[{2}]
+										]
+									]
+								]
+							]
+						\end{forest}
+						&
+						\begin{forest}
+							[{A},fill=yellow
+								[{a}]
+								[{F},fill=yellow
+									[{add}]
+									[{V},fill=red
+										[{t0}]
+									]
+									[{F},fill=yellow
+										[{max}]
+										[{F},fill=orange
+											[{neg}]
+											[{V}
+												[{b}]
+											]
+										]
+										[{C}
+											[{2}]
+										]
+									]
+								]
+							]
+						\end{forest}
+						&
+						\begin{forest}
+							[{A},fill=yellow
+								[{a}]
+								[{F},fill=yellow
+									[{add}]
+									[{V}
+										[{t0}]
+									]
+									[{F},fill=yellow
+										[{max}]
+										[{V},fill=red
+											[{t1}]
+										]
+										[{C},fill=orange
+											[{2}]
+										]
+									]
+								]
+							]
+						\end{forest}
+						\\
+						\textbf{début} & \textbf{étape 1} & \textbf{étape 2}\\
+						\hline
+						&&\\ % pour faire joli
+						\begin{forest}
+							[{A},fill=yellow
+								[{a}]
+								[{F},fill=yellow
+									[{add}]
+									[{V}
+										[{t0}]
+									]
+									[{F},fill=orange
+										[{max}]
+										[{V}
+											[{t1}]
+										]
+										[{V},fill=red
+											[{t2}]
+										]
+									]
+								]
+							]
+						\end{forest}
+						&
+						\begin{forest}
+							[{A},fill=yellow
+								[{a}]
+								[{F},fill=orange
+									[{add}]
+									[{V}
+										[{t0}]
+									]
+									[{V},fill=red
+										[{t3}]
+									]
+								]
+							]
+						\end{forest}
+						&
+						\begin{forest}
+							[,phantom,s sep=1cm
+								[{A},fill=orange
+									[{a}]
+									[{V},fill=red
+										[{t4}]
+									]
+								]
+								[{V},fill=red
+									[{a}]
+								]
+							]
+						\end{forest}
+						\\
+						\textbf{étape 3} & \textbf{étape 4} & \textbf{étapes 5 et fin}\\ 
+					\end{tabular}
+					\caption{Évolution d'un arbre d'appels des traitements}
+				\end{figure} 
+				
+				NB: les variables \texttt{tX} sont des variables temporaires, elles seront supprimées à la fin du (sous-)traitement qui en avait besoin.\\
+				
+				Premièrement on voit que cette approche récursive nous permet de bien arriver au résultat escompté, et ce, depuis un traitement qui à la base était très complexe avant sa transformation. Deuxièmement il est important de noter que tout traitement finira toujours par retourner une valeur dans une variable (temporaire ou pas).
 			
 			\subsubsection{Vérification des types}
 				\label{subsubsec:verification-des-types}
+			
+		\subsection{Diagramme de classes}
 			
 		\subsection{Exemples}
 	
 	\section{Annexes}
 	
+		\subsection{Fonctions incluses}
+			\label{subsec:annexes-fonctions-incluses}
+			Cet annexe recense les fonctions incluses dans l'interpréteur et disponibles pour l'utilisateur de l'application. Les fonctions \textit{built-in} viennent de l'interpréteur directement, et les fonctions \textit{algo} proviennent de la couche sur les graphes et ses algorithmes.\\
+			
+			Note: les paramètres de type \texttt{T} indiquent qu'il existe une surcharge de la fonction pour chacun des types disponible dans le langage.
+			
+			\begin{figure}[H]
+				\centering
+				\begin{tabular}{lll}
+					Prototype & Description & Origine\\
+					\hline
+					\texttt{String toString(T a)} & Retourne la représentation sous forme de chaîne de \texttt{a} & \textit{built-in}\\
+					\texttt{} & & \textit{}\\
+				\end{tabular}
+			\end{figure}
+	
 	\begin{thebibliography}{9}
+		\bibitem{qtStyle}
+		Qt wiki, Qt coding style,\\ \url{https://wiki.qt.io/Qt_Coding_Style}
+		
 		\bibitem{vutbr.cz} 
-		Faculty of Technology, Brno University of Technology, Réplublique tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
+		Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
 	\end{thebibliography}			
 
 \end{document}
