@@ -100,3 +100,6 @@ perso/*
 
 # Exception
 !doc/Planification/gantt.pdf
+
+build
+*.user
