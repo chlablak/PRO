@@ -1,5 +1,5 @@
-#ifndef GRAPHY_IGRAPH_H
-#define GRAPHY_IGRAPH_H
+#ifndef VISUALIZATION_IGRAPH_H
+#define VISUALIZATION_IGRAPH_H
 
 #include <QLinkedList>
 
@@ -47,4 +47,4 @@ public:
     }
 };
 
-#endif // GRAPHY_IGRAPH_H
+#endif // VISUALIZATION_IGRAPH_H

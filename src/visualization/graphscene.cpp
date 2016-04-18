@@ -1,22 +1,25 @@
-#include <qdebug>
-#include <qtime>
+#include <QDebug>
 
 #include "graphscene.h"
 
 GraphScene::GraphScene(IGraph *graph)
 {
-    QTime now = QTime::currentTime();
-    qsrand(now.msec());
+    const int GRID_WIDTH = 4;
+    int x = 1;
+    int y = 1;
 
     for (IVertex *vertex : graph->getVertex()) {
 
         // Création du nouvel élément graphique
         VertexItem *vertexItem = new VertexItem(vertex);
 
-        // Position aléatoire
-        int x = qrand() % (int)(graph->getVertex().size() * 100);
-        int y = qrand() % (int)(graph->getVertex().size() * 50);
-        vertexItem->setPos(x, y);
+        // Sommets positionnés sur une grille
+        if (x == 5) {
+            x = 1;
+            y++;
+        }
+        vertexItem->setPos(x * 50, y * 50);
+        x++;
 
         // Ajout de l'élément graphique à la liste
         vertexItems.push_back(vertexItem);

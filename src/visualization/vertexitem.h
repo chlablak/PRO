@@ -1,5 +1,5 @@
-#ifndef GRAPHY_VERTEXITEM_H
-#define GRAPHY_VERTEXITEM_H
+#ifndef VISUALIZATION_VERTEXITEM_H
+#define VISUALIZATION_VERTEXITEM_H
 
 #include <QGraphicsEllipseItem>
 
@@ -23,4 +23,4 @@ public:
                QWidget *widget = 0) Q_DECL_OVERRIDE;
 };
 
-#endif // GRAPHY_VERTEXITEM_H
+#endif // VISUALIZATION_VERTEXITEM_H

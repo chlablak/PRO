@@ -1,5 +1,5 @@
-#ifndef GRAPHY_GRAPHSCENE_H
-#define GRAPHY_GRAPHSCENE_H
+#ifndef VISUALIZATION_GRAPHSCENE_H
+#define VISUALIZATION_GRAPHSCENE_H
 
 #include <QLinkedList>
 #include <QGraphicsScene>
@@ -16,4 +16,4 @@ public:
     ~GraphScene();
 };
 
-#endif // GRAPHY_GRAPHSCENE_H
+#endif // VISUALIZATION_GRAPHSCENE_H

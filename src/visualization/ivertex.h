@@ -1,5 +1,5 @@
-#ifndef GRAPHY_IVERTEX_H
-#define GRAPHY_IVERTEX_H
+#ifndef VISUALIZATION_IVERTEX_H
+#define VISUALIZATION_IVERTEX_H
 
 #include <QString>
 
@@ -21,4 +21,4 @@ public:
     {}
 };
 
-#endif // GRAPHY_IVERTEX_H
+#endif // VISUALIZATION_IVERTEX_H

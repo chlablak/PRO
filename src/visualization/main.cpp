@@ -1,22 +1,29 @@
 #include <QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QWidget>
+#include <QVBoxLayout>
 
-#include "igraph.h"
 #include "graphscene.h"
+#include "igraph.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    QWidget window;
+    QVBoxLayout *layout = new QVBoxLayout;
 
     IGraph *graph = new IGraph();
 
     QGraphicsScene *scene = new GraphScene(graph);
-    scene->setSceneRect(QRectF(0, 0, 1000, 1000));
+    scene->setSceneRect(QRectF(0, 0, 500, 500));
 
     QGraphicsView *view = new QGraphicsView();
     view->setScene(scene);
-    view->show();
 
+    layout->addWidget(view);
+
+    window.setLayout(layout);
+    window.show();
     return app.exec();
 }

@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-04-04T15:28:51
+# Project created by QtCreator 2016-04-18T15:19:34
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = GraphY
+TARGET = visualization
 TEMPLATE = app
 
 
@@ -18,9 +18,7 @@ SOURCES += main.cpp\
 
 HEADERS  += \
     graphscene.h \
-    vertexitem.h \
-    ivertex.h \
+    iedge.h \
     igraph.h \
-    iedge.h
-
-FORMS    +=
+    ivertex.h \
+    vertexitem.h
