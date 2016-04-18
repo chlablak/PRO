@@ -37,7 +37,7 @@
 	morecomment=[l][\color{black!50}]{\#},
 	gobble=10,
 	frame=single,
-	otherkeywords={std,string,vector,map,pair,size\_t,function,remove\_const,remove\_reference}
+	otherkeywords={constexpr,std,string,vector,map,pair,size\_t,function,remove\_const,remove\_reference}
 }
 
 \geometry{
@@ -355,7 +355,7 @@
 					\path[line,dashed] (type) |- (exception);
 					\path[line,dashed] (transformation) -- (exception);
 					\path[line,dashed] (function) edge[bend left] (exception);
-					\path[line,dashed] (assign) edge[bend left] (exception);
+					\path[line,dashed] (constant) edge[bend left] (exception);
 					\path[line] (preprocessor) -- (parser);
 					\path[line] (parser) -- (identifier);
 					\path[line] (identifier) -- (transformation);
@@ -917,8 +917,39 @@
 			\subsubsection{Surcharge}
 				Nous avons vu comment interfacer des fonctions simplement, cependant il n'est pour l'instant pas possible d'interfacer plusieurs fonctions ayant le même nom mais une signature différente. Nous allons voir à présent comment cela va être géré.\\
 				
-				\textcolor{red}{bla bla bla TODO }
-			
+				Il existe sans doute plusieurs manières de faire cela, une solution simple consiste à: 
+				
+				\begin{itemize}
+					\item modifier la \texttt{map} dans \texttt{FuncTable} en une \texttt{multimap}
+					\item ajouter une méthode abstraite \texttt{bool match(vector<string> const \&params, VarTable \&var)} dans \texttt{FuncBase}
+					\item modifier la méthode \texttt{execute} de \texttt{FuncTable} afin qu'elle exécute la première \texttt{FuncBase} qui \texttt{match} les paramètres passés
+				\end{itemize}
+				
+				Un test de faisabilité a été fait et cela marche très bien, on ne mets pas le code entier ici car c'est le même que précédemment. Cependant la méthode \texttt{match} est quand même intéressante:
+				
+				\begin{lstlisting}
+					// ...
+					
+					template<typename T> struct TypeOf;
+					template<typename T> struct TypeOf<T&> : TypeOf<T> {};
+					template<typename T> struct TypeOf<const T> : TypeOf<T> {};
+					template<> struct TypeOf<int> { static constexpr Type value = Type::Integer; };
+					template<> struct TypeOf<string> { static constexpr Type value = Type::String; };
+					
+					// ...
+					
+						// dans la classe Func a deux parametres (heritant de FuncBase)
+						virtual bool match(vector<string> const& params, VarTable& var) {
+							return params.size() == 2
+								&& TypeOf<P1>::value == var.names[params[0]]
+								&& TypeOf<P2>::value == var.names[params[1]];
+						}
+					
+					// ...
+				\end{lstlisting}
+				
+				Une autre solution serait d'utiliser une \texttt{map<pair<string, vector<Type> >, FuncBase*>} et de construire la signature (\texttt{vector<Type>}) lors de l'interfaçage et lors de l'appel à une fonction.
+				
 		\subsection{Règles de transformation}
 			\label{subsec:regles-de-transformation}
 			Dans cette section nous allons préciser les règles de transformation de l'étape \textit{Transform} du flux de données, ainsi que ce que cela va apporter. Pour commencer, voici quelques exemples de transformations possibles:
@@ -934,7 +965,6 @@
 												 & $\rightarrow$ & \texttt{\_graph\_create(\_array\_add(...))}\\
 					\texttt{g+=(3)} & $\rightarrow$ & \texttt{g=\_graph\_add(g,\_vertex\_create(3,-,-,-,-))}\\
 				\end{tabular}
-				\caption{Exemples de transformations}
 			\end{figure}
 			
 			Comme on le voit, le but est de passer de la syntaxe du langage à une représentation sous forme de fonctions. Plus précisément sous une forme d'arbre représentant la hiérarchie d'appel des différents traitements et sous-traitements.\\
@@ -1239,8 +1269,61 @@
 			
 			\subsubsection{Vérification des types}
 				\label{subsubsec:verification-des-types}
+				L'arbre d'appel des traitements nous permet d'implémenter également la partie \textit{Type checking} du flux de données. Le but de cette partie est de faire une première vérification sur la concordance des types entre les fonctions et leurs paramètres. Ainsi on évite d'effectuer pleins de sous-traitements pour finalement tout annuler car il y a un problème ailleurs dans l'arbre, plus un soucis est détecté tôt, mieux c'est.\\
+				
+				Cela est possible car les tables des variables et des fonctions nous permet d'obtenir des informations sur leurs contenus. L'algorithme consiste à nouveau en une simple récursion dans l'arbre, et à chaque noeud on vérifie les types.\\
+				
+				NB: cette vérification ne verra pas tous les problèmes de types, typiquement à cause des tableaux dynamiques hétérogènes.
 			
-		\subsection{Diagramme de classes}
+		\subsection{Architecture}
+			Un des buts de l'application est de pouvoir travailler sur plusieurs onglets en même temps. Cela implique que chacun aura des variables différentes et indépendantes.\\
+			
+			L'approche de base est que chaque onglet aura une instance de l'interpréteur:
+			
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}
+					\draw (0,0) node[anchor=north] {interpretor \#1} rectangle (3,3);
+					\draw[fill=black] (1,1) node[anchor=north] {datas} rectangle (2,2);
+					
+					\draw (5,0) node[anchor=north] {interpretor \#2} rectangle (8,3);
+					\draw[fill=black] (6,1) node[anchor=north] {datas} rectangle (7,2);
+				\end{tikzpicture}
+			\end{figure}
+			
+			Cette approche a cependant le désavantage de dupliquer l'interpréteur dans la mémoire, alors que celui-ci est le même. Ce qui définit l'état dans lequel l'interpréteur est, c'est les données dans la mémoires virtuelle de celui-ci, c'est-à-dire la table des variables (voir éventuellement la table des fonctions). On peut donc développer une autre solution, très proche des processeurs et de leurs registres:
+			
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}
+					\draw (0,0) node[anchor=north] {interpretor} rectangle (3,3);
+					\draw[fill=black] (5,2) node[anchor=north] {datas \#1} rectangle (6,3);
+					\draw[fill=black] (5,0) node[anchor=north] {datas \#2} rectangle (6,1);
+					\draw[->] (3,2.5) -- (5,2.5);
+					\draw[->] (3,0.5) -- (5,0.5);
+				\end{tikzpicture}
+				\caption{Architecture générale de l'interpréteur}
+			\end{figure}
+			
+			A présent l'interpréteur n'est plus dupliqué, ainsi chaque onglet aura ses données et il suffira d'indiquer à l'interpréteur quel jeu de données il doit utiliser.
+			
+			\subsubsection{Interface utilisateur}
+				Avant de s'attaquer au diagramme de classes, on peut se poser la question de l'interface qui sera fournie à l'utilisateur de l'interpréteur. Très simplement, celui-ci a besoin de:
+				
+				\begin{itemize}
+					\item Instancier l'interpréteur
+					\item Instancier une ou des tables des variables
+					\item Connecter l'interpréteur à une table des variables
+					\item Interfacer des fonctions avec l'interpréteur (éventuellement)
+					\item Envoyer une commande (requête) à interpréter
+					\item Récupérer le résultat d'une commande
+					\item Connaître les fonctions disponibles
+					\item Connaître les variables disponibles
+				\end{itemize}
+				
+				Notons que les résultats peuvent être de plusieurs types: erreur avec message des détails, succès avec le nom de la variable de résultat.
+			
+			\subsubsection{Diagramme de classes}
 			
 		\subsection{Exemples}
 		
