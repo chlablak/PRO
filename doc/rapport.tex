@@ -21,9 +21,9 @@
 \setlength{\grammarparsep}{5pt plus 1pt minus 1pt}
 \setlength{\grammarindent}{11em}
 
-% Diagramme de flux
-\usepackage{tikz}
-\usepackage{forest}
+% Dessin avec tikz
+\usepackage{tikz} % figure en tout genre
+\usepackage{forest} % arbre
 \usetikzlibrary{shapes,arrows,positioning,shadows}
 
 % Style C++
@@ -356,6 +356,7 @@
 					\path[line,dashed] (transformation) -- (exception);
 					\path[line,dashed] (function) edge[bend left] (exception);
 					\path[line,dashed] (constant) edge[bend left] (exception);
+					\path[line,dashed] (assign) edge[bend left] (exception);
 					\path[line] (preprocessor) -- (parser);
 					\path[line] (parser) -- (identifier);
 					\path[line] (identifier) -- (transformation);
@@ -1283,10 +1284,10 @@
 			\begin{figure}[H]
 				\centering
 				\begin{tikzpicture}
-					\draw (0,0) node[anchor=north] {interpretor \#1} rectangle (3,3);
+					\draw (0,0) node[anchor=north] {interpreter \#1} rectangle (3,3);
 					\draw[fill=black] (1,1) node[anchor=north] {datas} rectangle (2,2);
 					
-					\draw (5,0) node[anchor=north] {interpretor \#2} rectangle (8,3);
+					\draw (5,0) node[anchor=north] {interpreter \#2} rectangle (8,3);
 					\draw[fill=black] (6,1) node[anchor=north] {datas} rectangle (7,2);
 				\end{tikzpicture}
 			\end{figure}
@@ -1296,7 +1297,7 @@
 			\begin{figure}[H]
 				\centering
 				\begin{tikzpicture}
-					\draw (0,0) node[anchor=north] {interpretor} rectangle (3,3);
+					\draw (0,0) node[anchor=north] {interpreter} rectangle (3,3);
 					\draw[fill=black] (5,2) node[anchor=north] {datas \#1} rectangle (6,3);
 					\draw[fill=black] (5,0) node[anchor=north] {datas \#2} rectangle (6,1);
 					\draw[->] (3,2.5) -- (5,2.5);
@@ -1305,7 +1306,9 @@
 				\caption{Architecture générale de l'interpréteur}
 			\end{figure}
 			
-			A présent l'interpréteur n'est plus dupliqué, ainsi chaque onglet aura ses données et il suffira d'indiquer à l'interpréteur quel jeu de données il doit utiliser.
+			A présent l'interpréteur n'est plus dupliqué, ainsi chaque onglet aura ses données et il suffira d'indiquer à l'interpréteur quel jeu de données il doit utiliser.\\
+			
+			L'interpréteur étant une couche indépendante de l'application GUI, nous avons décidé de mettre tout ce qui le concerne dans un \texttt{namespace} du nom de \texttt{egli}, pour \textit{Embeeded GraphY Language Interpreter}.
 			
 			\subsubsection{Interface utilisateur}
 				Avant de s'attaquer au diagramme de classes, on peut se poser la question de l'interface qui sera fournie à l'utilisateur de l'interpréteur. Très simplement, celui-ci a besoin de:
@@ -1324,6 +1327,14 @@
 				Notons que les résultats peuvent être de plusieurs types: erreur avec message des détails, succès avec le nom de la variable de résultat.
 			
 			\subsubsection{Diagramme de classes}
+			
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.9\textheight,angle=90]{Conception/UMLEGLI}
+					\caption{Diagramme de classes de l'interpréteur  \cite{plantuml}}
+				\end{figure}
+				
+				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée comme on a pu le voir dans les sections précédentes. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur.
 			
 		\subsection{Exemples}
 	
@@ -1351,6 +1362,9 @@
 		
 		\bibitem{vutbr.cz} 
 		Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
+		
+		\bibitem{plantuml}
+		PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
 	\end{thebibliography}			
 
 \end{document}
