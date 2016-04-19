@@ -15,6 +15,7 @@
 \usepackage{listings} % pour afficher du code
 \usepackage{longtable} % pour l'environnement longtable
 \usepackage{float} % pour des figures non flottantes
+\usepackage{amsmath}
 
 % Grammaire EBNF
 \usepackage{syntax}
@@ -22,9 +23,12 @@
 \setlength{\grammarindent}{11em}
 
 % Dessin avec tikz
-\usepackage{tikz} % figure en tout genre
-\usepackage{forest} % arbre
-\usetikzlibrary{shapes,arrows,positioning,shadows}
+\usepackage{tikz}
+\usepackage{forest}
+\usetikzlibrary{shapes,arrows,positioning,shadows,matrix}
+
+% Matrices
+\usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
 
 % Style C++
 \lstset{
@@ -1349,7 +1353,14 @@
 		
 		Cette section a pour but dans un premier temps de présenter les interfaces à disposition de l'utilisateur pour manipuler des graphes, et dans un second temps, de montrer nos choix de modélisation et d'implémentation de ceux-ci.
 		
-		\subsection{Structure d'un graphe}
+		\subsection{Sommets et arcs/arêtes}
+		
+		
+		\subsubsection{La classe "Vertex"}
+		
+		\subsubsection{La classe "Edge"}
+		
+		\subsection{La classe "Graph"}
 		Dans l'optique d'un code modulable, nous avons décidé d'offrir à l'utilisateur différentes interfaces lui permettant la création et la manipulation de graphes. Par exemple, la vue aura besoin de récupérer les sommets et les arêtes d'un graphe pour le dessiner, le parseur voudra probablement créer un graphe après avoir parsé des données, ou encore un algorithme devra parcourir ce graphe pour trouver un plus court chemin.
 		
 			\subsubsection{Interface utilisateur}
@@ -1382,17 +1393,109 @@
 			À ce stade, le choix de l'un ou l'autre présente alors ses avantages et désavantages. Une petite étude nous a permis d'orienter notre choix : \\
 			
 			Une première approche simple nous permet de déterminer qu'un graphe stocké sous forme de matrice occupera $n^2$ octets, où n est le nombre de sommet. Dans ce cas, un type char ferait amplement l'affaire pour représenter chaque case, car, en non-signé, on pourrait avoir jusqu'à 255 arcs/arêtes entre deux sommets.\\
-			La seconde approche vise à réduire la taille mémoire de façon à n'avoir qu'un seul bit par case pour la présence ou non d'une arête. Cette approche économise huit fois plus de mémoire mais est inutilisable lorsqu'il y a plus de deux arêtes entre deux sommets.\\
+			\begin{figure}[H]
+				\centering
+				\[
+				\kbordermatrix{
+					& v_1 & v_2 & v_3 & v_4 & v_5 \\
+					v_1 & 0 & 2 & 4 & 1 & 1 \\
+					v_2 & 0 & 0 & 0 & 0 & 1 \\
+					v_3 & 1 & 0 & 0 & 0 & 1 \\
+					v_4 & 0 & 3 & 0 & 0 & 1 \\
+					v_5 & 1 & 1 & 0 & 3 & 0
+				}
+				\]
+				\caption{Matrice d'adjacence de char}
+			\end{figure}
 			
-			Ces deux premières approches ne permettent pas de stocker beaucoup d'informations concernant les arcs/arêtes, c'est pourquoi nous nous tournons vers une troisième approche qui consiste à stocker des pointeurs de Edge (Edge = arc ou arête), ou nullptr lorsque l'arc/arête n'est pas présent.
+			La seconde approche vise à réduire la taille mémoire de façon à n'avoir qu'un seul bit par case pour la présence ou non d'une arête. Cette approche économise huit fois plus de mémoire mais est inutilisable lorsqu'il y a plus de deux arêtes entre deux sommets.\\
+			\begin{figure}[H]
+				\centering
+				\[
+				\kbordermatrix{
+					& v_1 & v_2 & v_3 & v_4 & v_5 \\
+					v_1 & 0 & 1 & 1 & 1 & 1 \\
+					v_2 & 0 & 0 & 0 & 0 & 1 \\
+					v_3 & 1 & 0 & 0 & 0 & 1 \\
+					v_4 & 0 & 0 & 0 & 0 & 1 \\
+					v_5 & 1 & 1 & 0 & 0 & 0
+				}
+				\]
+				\caption{Matrcide d'adjacence de bit}
+			\end{figure}
+			
+			Ces deux premières approches ne permettent pas de stocker beaucoup d'informations concernant les Edge, c'est pourquoi nous nous tournons vers une troisième approche qui consiste à stocker des pointeurs de Edge (Edge = arc ou arête), ou nullptr lorsque l'arc/arête n'est pas présent. Pour pouvoir stocker plusieurs Edge, chaque case contient un pointeur vers une collection d'objets Edge.
 			Cette troisième approche nécessite néanmoins 32 bits par case donc une taille mémoire de 4 $*$ $n^2$ octets.\\
+			\begin{figure}[H]
+				\centering
+				\[
+				\text{Mat}_{\varphi\text{ to }M} = \kbordermatrix{
+					& v_1 & v_2 & v_3 & v_4 & v_5 \\
+					v_1 & nullptr & *edges  & nullptr & *edges  & *edges   \\
+					v_2 & nullptr & nullptr & nullptr & nullptr & nullptr  \\
+					v_3 & *edges  & nullptr & nullptr & nullptr & *edges   \\
+					v_4 & nullptr & nullptr & nullptr & nullptr & *nullptr \\
+					v_5 & *edges  & *edges  & nullptr & nullptr & nullptr
+				}
+				\]
+				\caption{Matrice d'adjacence de collection d'Edge}
+			\end{figure}				
+				
 			
 			Cependant, après avoir suivi le cours de GRE, nous nous sommes rendus compte qu'il était rare d'obtenir des graphes complets. La majorité des cas d'utilisation requièrent des graphes de faible densité, ce qui nous amène vers une quatrième approche : stocker les graphes sous forme de liste d'adjacence.\\
 			
 			Mis à part les aspects liés au gain de mémoire, les listes d'adjacences facilitent la plupart des opérations présentes dans nos algorithmes (discutés en section \textbf{\color{red}SECTION ALGOS}).
 			Trouver tous les sommets adjacents à un certain sommet est aussi simple que lire la liste et prend un temps proportionnel au nombre de voisins. Avec une matrice, toute une ligne doit être lue, ce qui prend un temps beaucoup plus long égal au nombre de sommet présent dans l'entièreté du graphe.
 			
-			Cette quatrième et dernière approche est celle que nous avons choisie car elle est la plus adaptée à nos besoins. \textbf{Nos graphes sont donc stockés sous forme de liste d'adjacence}, dont les éléments de la liste sont des pointeurs sur des Edge \textbf{\color{red}ou Vertex ?}.
+			Cette quatrième et dernière approche est celle que nous avons choisie car elle est la plus adaptée à nos besoins. \textbf{Nos graphes sont donc stockés sous forme de liste d'adjacence}.
+			
+			\subsubsection{Détails d'implémentation de la structure}
+			Dans cette partie, nous définissons comment la liste d'adjacence est implémentée. Il existe trois manières de représenter une telle liste :
+			\begin{enumerate}
+				\item Pour chaque sommet, lui associer un tableau des sommets adjacents. Il n'y a pas de représentation explicite des arcs/arêtes.
+				\item Un tableau indexé par les numéros de sommet, où chaque case contient une simple liste chainée constituée des sommets adjacents, ou des arcs/arêtes adjacent(e)s.
+				\item Une approche plus orientée objet consiste à avoir une variable d'instance pour chaque sommet, pointant vers une collection d'objet qui liste les arcs/arêtes voisin(e)s. À l'opposé, chaque arc/arête pointe vers ses deux sommets qui la compose. 
+			\end{enumerate}
+			La solution (1) ne permet pas de stocker d'informations sur les arcs/arêtes. La solution (2) le permet pour autant qu'on choisisse une liste d'Edge adjacents. Dans ce cas, on ne peut pas stocker d'information sur les sommets.\\
+			
+			Nous avons donc opté pour la solution (3). Un tableau de sommet, où chaque sommet possède une variable pointant vers une listes de pointeurs de Edge.\\
+			À noter que pour un graphe non orienté, les Edge se répéteront à double et c'est précisément ce que nous voulons car nous souhaitons préserver la logique de la liste d'adjacence pour nos algorithmes.\\
+			
+			Voici un exemple de liste d'adjacence. *e$\{chiffre\}$ est un pointeur sur l'Edge $\{chiffre\}$. Les chiffres en marge à gauche sont les index des sommets.
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}
+				\matrix (M) [matrix of nodes,
+				column sep=0pt,
+				row sep=0pt,
+				nodes={draw,fill=gray!20,minimum width=.5cm,outer sep=0pt,minimum
+					height=.7cm,anchor=center},
+				column 1/.style={minimum height=.8cm}]{
+					\mbox{} &[2mm] *e2 & \mbox{} &[2mm] *e5 & $/$  &[2mm]   &   &[2mm]   & \\
+					\mbox{} & *e1 & \mbox{} & *e5 & \mbox{}  & *e3 &  \mbox{} & *e4 & $/$  \\
+					\mbox{} & *e2 & \mbox{} & *e4 & $/$  &   &   &   & \\
+					\mbox{} & *e2 & \mbox{} & *e5 & \mbox{}  & *e3 & $/$  &   & \\
+					\mbox{} & *e4 & \mbox{} & *e1 & \mbox{}  & *e2 & $/$  &   & \\
+				};
+				\foreach \i in {1,2,3,4,5}{
+					\path (M-\i-1) [late options={label=left:\i}];
+					\draw[->] (M-\i-1.center)--(M-\i-2.west);
+					\draw[->] (M-\i-3.center)--(M-\i-4.west);
+				}
+				\draw[->] (M-2-5.center)--(M-2-6.west);
+				\draw[->] (M-4-5.center)--(M-4-6.west);
+				\draw[->] (M-5-5.center)--(M-5-6.west);
+				\draw[->] (M-2-7.center)--(M-2-8.west);
+				\end{tikzpicture}
+				\caption{Liste d'adjacence}
+			\end{figure}
+			Dans cet exemple:
+			\begin{itemize}
+				\item le sommet 1 possède deux Edge adjacents e2 et e5.
+				\item le sommet 2 possède quatre Edge adjacents e1, e5, e3, e4.
+				\item le sommet 3 possède deux Edge adjacents e3 et e4.
+				\item etc.
+			\end{itemize}
 			
 			
 			
@@ -1405,9 +1508,8 @@
 			\end{figure}
 			
 		
-		\subsection{Modélisation}
-			\subsubsection{Classe Graph}
-			\subsubsection{Algorithmes}
+		\subsection{Algorithmes}
+			\subsubsection{famille 1...}
 		\subsection{blabla..}
 	
 	\section{Annexes}
