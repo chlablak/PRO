@@ -22,6 +22,7 @@
 \setlength{\grammarparsep}{5pt plus 1pt minus 1pt}
 \setlength{\grammarindent}{11em}
 
+<<<<<<< HEAD
 % Diagramme de flux
 \usepackage{tikz}
 \usepackage{forest}
@@ -29,6 +30,12 @@
 
 % Matrices
 \usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
+=======
+% Dessin avec tikz
+\usepackage{tikz} % figure en tout genre
+\usepackage{forest} % arbre
+\usetikzlibrary{shapes,arrows,positioning,shadows}
+>>>>>>> 96f4cb76be9d7640a89b388fe049cbab975819a3
 
 % Style C++
 \lstset{
@@ -360,6 +367,7 @@
 					\path[line,dashed] (transformation) -- (exception);
 					\path[line,dashed] (function) edge[bend left] (exception);
 					\path[line,dashed] (constant) edge[bend left] (exception);
+					\path[line,dashed] (assign) edge[bend left] (exception);
 					\path[line] (preprocessor) -- (parser);
 					\path[line] (parser) -- (identifier);
 					\path[line] (identifier) -- (transformation);
@@ -1287,10 +1295,10 @@
 			\begin{figure}[H]
 				\centering
 				\begin{tikzpicture}
-					\draw (0,0) node[anchor=north] {interpretor \#1} rectangle (3,3);
+					\draw (0,0) node[anchor=north] {interpreter \#1} rectangle (3,3);
 					\draw[fill=black] (1,1) node[anchor=north] {datas} rectangle (2,2);
 					
-					\draw (5,0) node[anchor=north] {interpretor \#2} rectangle (8,3);
+					\draw (5,0) node[anchor=north] {interpreter \#2} rectangle (8,3);
 					\draw[fill=black] (6,1) node[anchor=north] {datas} rectangle (7,2);
 				\end{tikzpicture}
 			\end{figure}
@@ -1300,7 +1308,7 @@
 			\begin{figure}[H]
 				\centering
 				\begin{tikzpicture}
-					\draw (0,0) node[anchor=north] {interpretor} rectangle (3,3);
+					\draw (0,0) node[anchor=north] {interpreter} rectangle (3,3);
 					\draw[fill=black] (5,2) node[anchor=north] {datas \#1} rectangle (6,3);
 					\draw[fill=black] (5,0) node[anchor=north] {datas \#2} rectangle (6,1);
 					\draw[->] (3,2.5) -- (5,2.5);
@@ -1328,6 +1336,21 @@
 				Notons que les résultats peuvent être de plusieurs types: erreur avec message des détails, succès avec le nom de la variable de résultat.
 			
 			\subsubsection{Diagramme de classes}
+			
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.9\textheight,angle=90]{Conception/UMLEGLI}
+					\caption{Diagramme de classes de l'interpréteur  \cite{plantuml}}
+				\end{figure}
+				
+				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée comme on a pu le voir dans les sections précédentes. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur.
+			
+			\subsubsection{Répertoires}
+				L'interpréteur étant une couche indépendante de l'application GUI, nous avons décidé de mettre tout ce qui le concerne dans un \texttt{namespace} du nom de \texttt{egli}, pour \textit{Embeeded GraphY Language Interpreter}.\\
+				
+				Voici à quoi ressemblera le répertoire de l'interpréteur:
+				
+				\textcolor{red}{bla bla todo ...}
 			
 		\subsection{Exemples}
 		
@@ -1521,9 +1544,11 @@
 		\bibitem{vutbr.cz} 
 		Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
 		
+		\bibitem{plantuml}
+		PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
+
 		\bibitem{Graph data wikipedia.org}
-		Graphs data structures,
-		\url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
+		Graphs data structures,\\ \url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
 	\end{thebibliography}			
 
 \end{document}

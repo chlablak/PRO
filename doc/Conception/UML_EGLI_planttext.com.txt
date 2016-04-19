@@ -1,0 +1,146 @@
+@startuml
+
+FunctionWrapper <|-- Function
+Function "*" --> "1" Prototype : define
+FunctionTable "*" --> "*" FunctionWrapper : contains
+
+Data "*" --> "1" VariableTable : contains
+
+VariableTable "0..1" --> "*" Number : contains
+VariableTable "0..1" --> "*" Vertex : contains
+VariableTable "0..1" --> "*" Edge : contains
+VariableTable "0..1" --> "*" Array : contains
+VariableTable --> Type : use
+
+Array --> Type : use
+
+Interpreter "*" --> "1" Data : use
+Interpreter "*" --> "1" Parser : contains
+Interpreter "*" --> "1" CallTree : contains
+Interpreter "*" --> "1" FunctionTable : contains
+Interpreter --> Result : returns
+Interpreter --> Exception : throws
+
+Vertex --> Optional : use
+Edge --> Optional : use
+
+CallTree --> Tokens : use
+Parser --> Tokens : generate
+
+enum Type { 
+    Boolean
+    Integer
+    Float
+    Number
+    String
+    Vertex
+    Edge
+    Graph
+    Array
+}
+
+class Optional<T> {
+    + hasValue() const : Boolean
+}
+
+class Number {
+    + isInteger() const : Boolean
+}
+
+class Vertex {
+    + id : size_t
+    + label : Optional<String>
+    + weight : Optional<Number>
+    + maxCapacity : Optional<Number>
+    + minCapacity : Optional<Number>
+}
+
+class Edge {
+    + a : size_t
+    + b : size_t
+    + connection : enum {UNIDIRECTONAL, BIDIRECTIONAL}
+    + label : Optional<String>
+    + weight : Optional<Number>
+    + maxCapacity : Optional<Number>
+    + minCapacity : Optional<Number>
+}
+
+class Array {
+    + add(const T& value) : void
+    + get<T>(size_t index) : T
+    + typeOf(size_t index) : Type
+    + size() const : size_t
+}
+
+abstract class Exception {
+    {abstract} + what() const : const char*
+    {abstract} + where() const : const char*
+    {abstract} + who() const : const char*
+}
+
+class VariableTable {
+    + set(String key, T value) : void
+    + setTemporary(String key, T value) : void
+    + get<T>(String key) const : T
+    + typeOf(String key) const : Type
+    + clear() : void
+    + pushTemporary() : void
+    + popTemporary() : void
+    + find(String keyPattern) : String[]
+}
+
+class FunctionTable {
+    + interface(String key, FunctionWrapper* function) : void
+    + execute(String key, String dst, String[] params, VariableTable& table) : void
+    + find(String keyPattern) : String[]
+}
+
+abstract class FunctionWrapper {
+    {abstract} + match(String[] params, VariableTable& table) const : bool
+    {abstract} + execute(String dst, String[] params, VariableTable& table) const : void
+    {abstract} + prototype() const : Prototype
+}
+
+class Function<R, P0, P1, ...> {
+    + match(String[] params, VariableTable& table) const : bool
+    + execute(String dst, String[] params, VariableTable& table) const : void
+    + prototype() const : Prototype
+}
+
+class Prototype {
+    + returnType : const Type
+    + paramType : const Type[]
+}
+
+class Data {
+    + table() : VariableTable&
+}
+
+class Parser {
+    + parse(String cmd) const : Tokens
+}
+
+class Tokens {
+    ...
+}
+
+class CallTree {
+    + construct(Tokens tokens) : void
+    ...
+}
+
+class Interpreter {
+    + setData(Data d) : void
+    + data() : Data
+    + write(String line) : void
+    + pending() const : size_t
+    + next() : Result
+    + functions() : FunctionTable&
+}
+
+class Result {
+    + type : const enum {SUCCESS, FAILURE}
+    + value : const String
+}
+
+@enduml
