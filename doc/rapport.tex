@@ -1337,6 +1337,73 @@
 				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée comme on a pu le voir dans les sections précédentes. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur.
 			
 		\subsection{Exemples}
+		
+	\section{Graphes}
+		\subsection{Préface}
+		Un graphe est une structure composée d'un ensemble de sommets et d'arêtes/arcs. Il existe différentes familles de graphe, comme les graphes orientés, à flot, biparti, etc., ainsi que différents moyen de les représenter.
+		
+		Cette section a pour but dans un premier temps de présenter les interfaces à disposition de l'utilisateur pour manipuler des graphes, et dans un second temps, de montrer nos choix de modélisation et d'implémentation de ceux-ci.
+		
+		\subsection{Structure d'un graphe}
+		Dans l'optique d'un code modulable, nous avons décidé d'offrir à l'utilisateur différentes interfaces lui permettant la création et la manipulation de graphes. Par exemple, la vue aura besoin de récupérer les sommets et les arêtes d'un graphe pour le dessiner, le parseur voudra probablement créer un graphe après avoir parsé des données, ou encore un algorithme devra parcourir ce graphe pour trouver un plus court chemin.
+		
+			\subsubsection{Interface utilisateur}
+			Voici une ébauche de l'interface permettant la manipulation de graphes :
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=3.0]{Conception/igraph.pdf}
+				\caption{Interface IGraph}
+			\end{figure}
+			Tout part de cette interface et le but que nous recherchons est qu'elle soit la plus complète possible afin de répondre à tous les besoins de nos utilisateurs. \\
+			
+			\subsubsection{Types de graphe}
+			Concrètement, n'importe quel graphe doit pouvoir implémenter cette interface, d'où la présence d'une classe commune aux graphes. Cette classe nous est utile pour factoriser au maximum les fonctions communes à tout type de graphe.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=3.0]{Conception/igraph.pdf}
+				\caption{Interface IGraph}
+			\end{figure}
+			
+			\subsubsection{Structure de donnée}
+			On peut distinguer deux approches principales pour représenter et stocker un graphe :
+			\begin{enumerate}
+				\item à l'aide de matrices
+				\item ou à l'aide de listes (ou tableaux)
+			\end{enumerate}	
+			L'utilisation de matrices est prépondérante dans la modélisation mathématique de nombreux problèmes et l'étude de certaines propriétés d'un graphe. Elle permet des vérifications rapides pour la présence ou non d'arcs/arêtes, mais est relativement lente lorsqu'il s'agit de les parcourir.
+			
+			Quant aux listes, notamment les listes d'adjacence, l'itération des arcs/arêtes est rapide mais la vérification de leurs présence est lente. Les listes sont une version compacte de représenter les matrices car elles stockent uniquement les arêtes existantes. Le gain de place mémoire est donc plus avantageux tant que le graphe n'est pas complet.\\
+			
+			À ce stade, le choix de l'un ou l'autre présente alors ses avantages et désavantages. Une petite étude nous a permis d'orienter notre choix : \\
+			
+			Une première approche simple nous permet de déterminer qu'un graphe stocké sous forme de matrice occupera $n^2$ octets, où n est le nombre de sommet. Dans ce cas, un type char ferait amplement l'affaire pour représenter chaque case, car, en non-signé, on pourrait avoir jusqu'à 255 arcs/arêtes entre deux sommets.\\
+			La seconde approche vise à réduire la taille mémoire de façon à n'avoir qu'un seul bit par case pour la présence ou non d'une arête. Cette approche économise huit fois plus de mémoire mais est inutilisable lorsqu'il y a plus de deux arêtes entre deux sommets.\\
+			
+			Ces deux premières approches ne permettent pas de stocker beaucoup d'informations concernant les arcs/arêtes, c'est pourquoi nous nous tournons vers une troisième approche qui consiste à stocker des pointeurs de Edge (Edge = arc ou arête), ou nullptr lorsque l'arc/arête n'est pas présent.
+			Cette troisième approche nécessite néanmoins 32 bits par case donc une taille mémoire de 4 $*$ $n^2$ octets.\\
+			
+			Cependant, après avoir suivi le cours de GRE, nous nous sommes rendus compte qu'il était rare d'obtenir des graphes complets. La majorité des cas d'utilisation requièrent des graphes de faible densité, ce qui nous amène vers une quatrième approche : stocker les graphes sous forme de liste d'adjacence.\\
+			
+			Mis à part les aspects liés au gain de mémoire, les listes d'adjacences facilitent la plupart des opérations présentes dans nos algorithmes (discutés en section \textbf{\color{red}SECTION ALGOS}).
+			Trouver tous les sommets adjacents à un certain sommet est aussi simple que lire la liste et prend un temps proportionnel au nombre de voisins. Avec une matrice, toute une ligne doit être lue, ce qui prend un temps beaucoup plus long égal au nombre de sommet présent dans l'entièreté du graphe.
+			
+			Cette quatrième et dernière approche est celle que nous avons choisie car elle est la plus adaptée à nos besoins. \textbf{Nos graphes sont donc stockés sous forme de liste d'adjacence}, dont les éléments de la liste sont des pointeurs sur des Edge \textbf{\color{red}ou Vertex ?}.
+			
+			
+			
+			\subsubsection{Création de graphes}
+			Le patron de conception "fabrique" permet aux utilisateurs de créer un graphe à partir de toute structure représentative de graphe (matrice d'adjacence, liste de sommets et d'arcs, etc.).
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=3.0]{Conception/igraph.pdf}
+				\caption{Interface IGraph}
+			\end{figure}
+			
+		
+		\subsection{Modélisation}
+			\subsubsection{Classe Graph}
+			\subsubsection{Algorithmes}
+		\subsection{blabla..}
 	
 	\section{Annexes}
 	
@@ -1365,6 +1432,10 @@
 		
 		\bibitem{plantuml}
 		PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
+
+		\bibitem{Graph data wikipedia.org}
+		Graphs data structures,
+		\url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
 	\end{thebibliography}			
 
 \end{document}
