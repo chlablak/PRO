@@ -21,9 +21,9 @@
 \setlength{\grammarparsep}{5pt plus 1pt minus 1pt}
 \setlength{\grammarindent}{11em}
 
-% Diagramme de flux
-\usepackage{tikz}
-\usepackage{forest}
+% Dessin avec tikz
+\usepackage{tikz} % figure en tout genre
+\usepackage{forest} % arbre
 \usetikzlibrary{shapes,arrows,positioning,shadows}
 
 % Style C++
@@ -37,7 +37,7 @@
 	morecomment=[l][\color{black!50}]{\#},
 	gobble=10,
 	frame=single,
-	otherkeywords={std,string,vector,map,pair,size\_t,function,remove\_const,remove\_reference}
+	otherkeywords={constexpr,std,string,vector,map,pair,size\_t,function,remove\_const,remove\_reference}
 }
 
 \geometry{
@@ -355,6 +355,7 @@
 					\path[line,dashed] (type) |- (exception);
 					\path[line,dashed] (transformation) -- (exception);
 					\path[line,dashed] (function) edge[bend left] (exception);
+					\path[line,dashed] (constant) edge[bend left] (exception);
 					\path[line,dashed] (assign) edge[bend left] (exception);
 					\path[line] (preprocessor) -- (parser);
 					\path[line] (parser) -- (identifier);
@@ -917,8 +918,39 @@
 			\subsubsection{Surcharge}
 				Nous avons vu comment interfacer des fonctions simplement, cependant il n'est pour l'instant pas possible d'interfacer plusieurs fonctions ayant le même nom mais une signature différente. Nous allons voir à présent comment cela va être géré.\\
 				
-				\textcolor{red}{bla bla bla TODO }
-			
+				Il existe sans doute plusieurs manières de faire cela, une solution simple consiste à: 
+				
+				\begin{itemize}
+					\item modifier la \texttt{map} dans \texttt{FuncTable} en une \texttt{multimap}
+					\item ajouter une méthode abstraite \texttt{bool match(vector<string> const \&params, VarTable \&var)} dans \texttt{FuncBase}
+					\item modifier la méthode \texttt{execute} de \texttt{FuncTable} afin qu'elle exécute la première \texttt{FuncBase} qui \texttt{match} les paramètres passés
+				\end{itemize}
+				
+				Un test de faisabilité a été fait et cela marche très bien, on ne mets pas le code entier ici car c'est le même que précédemment. Cependant la méthode \texttt{match} est quand même intéressante:
+				
+				\begin{lstlisting}
+					// ...
+					
+					template<typename T> struct TypeOf;
+					template<typename T> struct TypeOf<T&> : TypeOf<T> {};
+					template<typename T> struct TypeOf<const T> : TypeOf<T> {};
+					template<> struct TypeOf<int> { static constexpr Type value = Type::Integer; };
+					template<> struct TypeOf<string> { static constexpr Type value = Type::String; };
+					
+					// ...
+					
+						// dans la classe Func a deux parametres (heritant de FuncBase)
+						virtual bool match(vector<string> const& params, VarTable& var) {
+							return params.size() == 2
+								&& TypeOf<P1>::value == var.names[params[0]]
+								&& TypeOf<P2>::value == var.names[params[1]];
+						}
+					
+					// ...
+				\end{lstlisting}
+				
+				Une autre solution serait d'utiliser une \texttt{map<pair<string, vector<Type> >, FuncBase*>} et de construire la signature (\texttt{vector<Type>}) lors de l'interfaçage et lors de l'appel à une fonction.
+				
 		\subsection{Règles de transformation}
 			\label{subsec:regles-de-transformation}
 			Dans cette section nous allons préciser les règles de transformation de l'étape \textit{Transform} du flux de données, ainsi que ce que cela va apporter. Pour commencer, voici quelques exemples de transformations possibles:
@@ -934,7 +966,6 @@
 												 & $\rightarrow$ & \texttt{\_graph\_create(\_array\_add(...))}\\
 					\texttt{g+=(3)} & $\rightarrow$ & \texttt{g=\_graph\_add(g,\_vertex\_create(3,-,-,-,-))}\\
 				\end{tabular}
-				\caption{Exemples de transformations}
 			\end{figure}
 			
 			Comme on le voit, le but est de passer de la syntaxe du langage à une représentation sous forme de fonctions. Plus précisément sous une forme d'arbre représentant la hiérarchie d'appel des différents traitements et sous-traitements.\\
@@ -1239,10 +1270,140 @@
 			
 			\subsubsection{Vérification des types}
 				\label{subsubsec:verification-des-types}
+				L'arbre d'appel des traitements nous permet d'implémenter également la partie \textit{Type checking} du flux de données. Le but de cette partie est de faire une première vérification sur la concordance des types entre les fonctions et leurs paramètres. Ainsi on évite d'effectuer pleins de sous-traitements pour finalement tout annuler car il y a un problème ailleurs dans l'arbre, plus un soucis est détecté tôt, mieux c'est.\\
+				
+				Cela est possible car les tables des variables et des fonctions nous permet d'obtenir des informations sur leurs contenus. L'algorithme consiste à nouveau en une simple récursion dans l'arbre, et à chaque noeud on vérifie les types.\\
+				
+				NB: cette vérification ne verra pas tous les problèmes de types, typiquement à cause des tableaux dynamiques hétérogènes.
 			
-		\subsection{Diagramme de classes}
+		\subsection{Architecture}
+			Un des buts de l'application est de pouvoir travailler sur plusieurs onglets en même temps. Cela implique que chacun aura des variables différentes et indépendantes.\\
+			
+			L'approche de base est que chaque onglet aura une instance de l'interpréteur:
+			
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}
+					\draw (0,0) node[anchor=north] {interpreter \#1} rectangle (3,3);
+					\draw[fill=black] (1,1) node[anchor=north] {datas} rectangle (2,2);
+					
+					\draw (5,0) node[anchor=north] {interpreter \#2} rectangle (8,3);
+					\draw[fill=black] (6,1) node[anchor=north] {datas} rectangle (7,2);
+				\end{tikzpicture}
+			\end{figure}
+			
+			Cette approche a cependant le désavantage de dupliquer l'interpréteur dans la mémoire, alors que celui-ci est le même. Ce qui définit l'état dans lequel l'interpréteur est, c'est les données dans la mémoires virtuelle de celui-ci, c'est-à-dire la table des variables (voir éventuellement la table des fonctions). On peut donc développer une autre solution, très proche des processeurs et de leurs registres:
+			
+			\begin{figure}[H]
+				\centering
+				\begin{tikzpicture}
+					\draw (0,0) node[anchor=north] {interpreter} rectangle (3,3);
+					\draw[fill=black] (5,2) node[anchor=north] {datas \#1} rectangle (6,3);
+					\draw[fill=black] (5,0) node[anchor=north] {datas \#2} rectangle (6,1);
+					\draw[->] (3,2.5) -- (5,2.5);
+					\draw[->] (3,0.5) -- (5,0.5);
+				\end{tikzpicture}
+				\caption{Architecture générale de l'interpréteur}
+			\end{figure}
+			
+			A présent l'interpréteur n'est plus dupliqué, ainsi chaque onglet aura ses données et il suffira d'indiquer à l'interpréteur quel jeu de données il doit utiliser.\\
+			
+			L'interpréteur étant une couche indépendante de l'application GUI, nous avons décidé de mettre tout ce qui le concerne dans un \texttt{namespace} du nom de \texttt{egli}, pour \textit{Embeeded GraphY Language Interpreter}.
+			
+			\subsubsection{Interface utilisateur}
+				Avant de s'attaquer au diagramme de classes, on peut se poser la question de l'interface qui sera fournie à l'utilisateur de l'interpréteur. Très simplement, celui-ci a besoin de:
+				
+				\begin{itemize}
+					\item Instancier l'interpréteur
+					\item Instancier une ou des tables des variables
+					\item Connecter l'interpréteur à une table des variables
+					\item Interfacer des fonctions avec l'interpréteur (éventuellement)
+					\item Envoyer une commande (requête) à interpréter
+					\item Récupérer le résultat d'une commande
+					\item Connaître les fonctions disponibles
+					\item Connaître les variables disponibles
+				\end{itemize}
+				
+				Notons que les résultats peuvent être de plusieurs types: erreur avec message des détails, succès avec le nom de la variable de résultat.
+			
+			\subsubsection{Diagramme de classes}
+			
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.9\textheight,angle=90]{Conception/UMLEGLI}
+					\caption{Diagramme de classes de l'interpréteur  \cite{plantuml}}
+				\end{figure}
+				
+				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée comme on a pu le voir dans les sections précédentes. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur.
 			
 		\subsection{Exemples}
+		
+	\section{Graphes}
+		\subsection{Préface}
+		Un graphe est une structure composée d'un ensemble de sommets et d'arêtes/arcs. Il existe différentes familles de graphe, comme les graphes orientés, à flot, biparti, etc., ainsi que différents moyen de les représenter.
+		
+		Cette section a pour but dans un premier temps de présenter les interfaces à disposition de l'utilisateur pour manipuler des graphes, et dans un second temps, de montrer nos choix de modélisation et d'implémentation de ceux-ci.
+		
+		\subsection{Structure d'un graphe}
+		Dans l'optique d'un code modulable, nous avons décidé d'offrir à l'utilisateur différentes interfaces lui permettant la création et la manipulation de graphes. Par exemple, la vue aura besoin de récupérer les sommets et les arêtes d'un graphe pour le dessiner, le parseur voudra probablement créer un graphe après avoir parsé des données, ou encore un algorithme devra parcourir ce graphe pour trouver un plus court chemin.
+		
+			\subsubsection{Interface utilisateur}
+			Voici une ébauche de l'interface permettant la manipulation de graphes :
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=3.0]{Conception/igraph.pdf}
+				\caption{Interface IGraph}
+			\end{figure}
+			Tout part de cette interface et le but que nous recherchons est qu'elle soit la plus complète possible afin de répondre à tous les besoins de nos utilisateurs. \\
+			
+			\subsubsection{Types de graphe}
+			Concrètement, n'importe quel graphe doit pouvoir implémenter cette interface, d'où la présence d'une classe commune aux graphes. Cette classe nous est utile pour factoriser au maximum les fonctions communes à tout type de graphe.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=3.0]{Conception/igraph.pdf}
+				\caption{Interface IGraph}
+			\end{figure}
+			
+			\subsubsection{Structure de donnée}
+			On peut distinguer deux approches principales pour représenter et stocker un graphe :
+			\begin{enumerate}
+				\item à l'aide de matrices
+				\item ou à l'aide de listes (ou tableaux)
+			\end{enumerate}	
+			L'utilisation de matrices est prépondérante dans la modélisation mathématique de nombreux problèmes et l'étude de certaines propriétés d'un graphe. Elle permet des vérifications rapides pour la présence ou non d'arcs/arêtes, mais est relativement lente lorsqu'il s'agit de les parcourir.
+			
+			Quant aux listes, notamment les listes d'adjacence, l'itération des arcs/arêtes est rapide mais la vérification de leurs présence est lente. Les listes sont une version compacte de représenter les matrices car elles stockent uniquement les arêtes existantes. Le gain de place mémoire est donc plus avantageux tant que le graphe n'est pas complet.\\
+			
+			À ce stade, le choix de l'un ou l'autre présente alors ses avantages et désavantages. Une petite étude nous a permis d'orienter notre choix : \\
+			
+			Une première approche simple nous permet de déterminer qu'un graphe stocké sous forme de matrice occupera $n^2$ octets, où n est le nombre de sommet. Dans ce cas, un type char ferait amplement l'affaire pour représenter chaque case, car, en non-signé, on pourrait avoir jusqu'à 255 arcs/arêtes entre deux sommets.\\
+			La seconde approche vise à réduire la taille mémoire de façon à n'avoir qu'un seul bit par case pour la présence ou non d'une arête. Cette approche économise huit fois plus de mémoire mais est inutilisable lorsqu'il y a plus de deux arêtes entre deux sommets.\\
+			
+			Ces deux premières approches ne permettent pas de stocker beaucoup d'informations concernant les arcs/arêtes, c'est pourquoi nous nous tournons vers une troisième approche qui consiste à stocker des pointeurs de Edge (Edge = arc ou arête), ou nullptr lorsque l'arc/arête n'est pas présent.
+			Cette troisième approche nécessite néanmoins 32 bits par case donc une taille mémoire de 4 $*$ $n^2$ octets.\\
+			
+			Cependant, après avoir suivi le cours de GRE, nous nous sommes rendus compte qu'il était rare d'obtenir des graphes complets. La majorité des cas d'utilisation requièrent des graphes de faible densité, ce qui nous amène vers une quatrième approche : stocker les graphes sous forme de liste d'adjacence.\\
+			
+			Mis à part les aspects liés au gain de mémoire, les listes d'adjacences facilitent la plupart des opérations présentes dans nos algorithmes (discutés en section \textbf{\color{red}SECTION ALGOS}).
+			Trouver tous les sommets adjacents à un certain sommet est aussi simple que lire la liste et prend un temps proportionnel au nombre de voisins. Avec une matrice, toute une ligne doit être lue, ce qui prend un temps beaucoup plus long égal au nombre de sommet présent dans l'entièreté du graphe.
+			
+			Cette quatrième et dernière approche est celle que nous avons choisie car elle est la plus adaptée à nos besoins. \textbf{Nos graphes sont donc stockés sous forme de liste d'adjacence}, dont les éléments de la liste sont des pointeurs sur des Edge \textbf{\color{red}ou Vertex ?}.
+			
+			
+			
+			\subsubsection{Création de graphes}
+			Le patron de conception "fabrique" permet aux utilisateurs de créer un graphe à partir de toute structure représentative de graphe (matrice d'adjacence, liste de sommets et d'arcs, etc.).
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=3.0]{Conception/igraph.pdf}
+				\caption{Interface IGraph}
+			\end{figure}
+			
+		
+		\subsection{Modélisation}
+			\subsubsection{Classe Graph}
+			\subsubsection{Algorithmes}
+		\subsection{blabla..}
 	
 	\section{Annexes}
 	
@@ -1268,6 +1429,13 @@
 		
 		\bibitem{vutbr.cz} 
 		Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
+		
+		\bibitem{plantuml}
+		PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
+
+		\bibitem{Graph data wikipedia.org}
+		Graphs data structures,
+		\url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
 	\end{thebibliography}			
 
 \end{document}
