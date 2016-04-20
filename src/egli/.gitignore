@@ -4,5 +4,5 @@
 *.layout
 *.depend
 gmon.out
-main.cpp # tests
+#main.cpp # tests
 
