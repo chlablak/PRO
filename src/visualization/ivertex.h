@@ -5,20 +5,16 @@
 
 class IVertex
 {
+    static int count;
+
     QString name;
+    int id;
 
 public:
-    IVertex(const QString &name)
-        : name(name)
-    {}
-
-    QString &getName()
-    {
-        return name;
-    }
-
-    ~IVertex()
-    {}
+    IVertex(const QString &name);
+    ~IVertex();
+    QString &getName();
+    int getId();
 };
 
 #endif // VISUALIZATION_IVERTEX_H

@@ -4,8 +4,8 @@
 #include <QWidget>
 #include <QVBoxLayout>
 
-#include "graphscene.h"
 #include "igraph.h"
+#include "graphview.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,12 +15,7 @@ int main(int argc, char *argv[])
 
     IGraph *graph = new IGraph();
 
-    QGraphicsScene *scene = new GraphScene(graph);
-    scene->setSceneRect(QRectF(0, 0, 500, 500));
-
-    QGraphicsView *view = new QGraphicsView();
-    view->setScene(scene);
-
+    QGraphicsView *view = new GraphView(graph);
     layout->addWidget(view);
 
     window.setLayout(layout);

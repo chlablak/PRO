@@ -11,14 +11,19 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = visualization
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
-    graphscene.cpp \
-    vertexitem.cpp
+    iedge.cpp \
+    igraph.cpp \
+    ivertex.cpp \
+    vertexitem.cpp \
+    edgeitem.cpp \
+    graphview.cpp
 
 HEADERS  += \
-    graphscene.h \
     iedge.h \
     igraph.h \
     ivertex.h \
-    vertexitem.h
+    vertexitem.h \
+    edgeitem.h \
+    graphview.h \
+    constants.h
