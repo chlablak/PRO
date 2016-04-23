@@ -11,7 +11,7 @@
 #include "Parser.h"
 #include "Exception.h"
 
-egli::detail::Statement egli::Parser::parse(const std::string &buffer) const
+egli::detail::Statement egli::Parser::parse(const std::string &buffer)
 {
     // Access to boost features
     using boost::spirit::qi::parse;
@@ -25,10 +25,8 @@ egli::detail::Statement egli::Parser::parse(const std::string &buffer) const
     bool success = parse(iter, end, grammar, statement);
 
     // If the parsing failed, we throw an exception
-    if (!success || iter != end) {
-        std::string where(iter, end);
-        throw egli::Exception("parsing failed", "egli::Parser::parse", where);
-    }
+    if (!success || iter != end)
+        throw egli::Exception("parsing failed", "egli::Parser::parse", grammar.error);
 
     // All ok! Return the resulting Statement
     return statement;

@@ -28,7 +28,7 @@ public:
      * \throw egli::Exception if parsing fails
      *
      */
-    detail::Statement parse(const std::string &buffer) const;
+    detail::Statement parse(const std::string &buffer);
 
 private:
 
