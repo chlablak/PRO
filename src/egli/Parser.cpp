@@ -10,6 +10,16 @@
 
 #include "Parser.h"
 #include "Exception.h"
+#include "detail/Grammar.h"
+
+egli::Parser::Parser() :
+    grammar(new detail::Grammar<std::string::const_iterator>)
+{}
+
+egli::Parser::~Parser()
+{
+    delete grammar;
+}
 
 egli::detail::Statement egli::Parser::parse(const std::string &buffer)
 {
@@ -22,11 +32,11 @@ egli::detail::Statement egli::Parser::parse(const std::string &buffer)
 
     // Let's parse using our grammar
     egli::detail::Statement statement;
-    bool success = parse(iter, end, grammar, statement);
+    bool success = parse(iter, end, *grammar, statement);
 
     // If the parsing failed, we throw an exception
     if (!success || iter != end)
-        throw egli::Exception("parsing failed", "egli::Parser::parse", grammar.error);
+        throw egli::Exception("parsing failed", "egli::Parser::parse", grammar->error);
 
     // All ok! Return the resulting Statement
     return statement;
