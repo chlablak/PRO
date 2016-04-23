@@ -12,8 +12,12 @@ TARGET = UserHelp
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    texthelper.cpp \
+    menuhelper.cpp
 
-HEADERS  +=
+HEADERS  += \
+    texthelper.h \
+    menuhelper.h
 
 FORMS    += mainwindow.ui

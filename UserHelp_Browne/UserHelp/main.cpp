@@ -7,6 +7,8 @@
 #include <QPushButton>
 #include <QTextCursor>
 
+#include "texthelper.h"
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
@@ -23,13 +25,7 @@ int main(int argc, char *argv[])
     QPushButton *btn = new QPushButton(QApplication::translate("childwidget", "my btn"), leftMenu);
     btn->show();
 
-    QTextEdit *mainHelp = new QTextEdit();//window);
-
-    mainHelp->setReadOnly(true);
-    mainHelp->setText(" <a href=\"http://www.w3schools.com\">Visit W3Schools</a> ");
-    mainHelp->show();
-
-    QTextCursor *cursor = new QTextCursor(mainHelp->textCursor());
+    TextHelper *mainHelp = new TextHelper();
 
     QHBoxLayout *layout = new QHBoxLayout();
     //layout->addWidget(leftMenu);

@@ -1,0 +1,13 @@
+#include "clickabletestwidget.h"
+
+ClickableTestWidget::ClickableTestWidget()
+{
+    //setReadOnly(true);
+    setText(" <a href=\"../UserHelp/foo.html\">Visit W3Schools</a> ");
+    show();
+    cursor = new QTextCursor(textCursor());
+}
+
+void anchorClicked(const QUrl& link){
+
+}
