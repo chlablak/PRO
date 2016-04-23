@@ -24,6 +24,7 @@ struct Statement
     {
         None,           /*!< No statement */
         Assignation,    /*!< Assignation and declaration of a variable */
+        Array,          /*!< Creation of an Array */
         Constant,       /*!< Litteral constant (number, string, ...) */
         Function,       /*!< Function call */
         Variable        /*!< Access to the value of a variable */
