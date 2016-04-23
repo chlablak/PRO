@@ -4,34 +4,23 @@
 #include <QLabel>
 #include <QLayout>
 #include <QTextEdit>
+#include <QTextStream>
 #include <QPushButton>
 #include <QTextCursor>
 
-#include "texthelper.h"
+#include "helpbrowser.h"
+#include "helpwindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QWidget *window = new QWidget();
-    //window->resize(600,400);
     window->setMinimumSize(600,400);
-    //window->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     window->setStyleSheet("background-color:white");
 
-    window->setWindowTitle(QApplication::translate("toplevel", "User guide"));
+    window->setWindowTitle(QApplication::translate("toplevel", "Guide utilisateur"));
 
-    QWidget *leftMenu = new QWidget();//window);
-
-    QPushButton *btn = new QPushButton(QApplication::translate("childwidget", "my btn"), leftMenu);
-    btn->show();
-
-    TextHelper *mainHelp = new TextHelper();
-
-    QHBoxLayout *layout = new QHBoxLayout();
-    //layout->addWidget(leftMenu);
-    layout->addWidget(btn);
-    layout->addWidget(mainHelp);
-
+    HelpWindow *layout = HelpWindow::getInstance(window);
     window->setLayout(layout);
     window->show();
 

@@ -13,11 +13,20 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    texthelper.cpp \
-    menuhelper.cpp
+    helpwindow.cpp \
+    helpbrowser.cpp \
+    searchbar.cpp \
+    keywordsearcher.cpp \
+    helppage.cpp \
+    filereader.cpp
 
 HEADERS  += \
-    texthelper.h \
-    menuhelper.h
+    helpwindow.h \
+    searchbar.h \
+    helpbrowser.h \
+    keywordsearcher.h \
+    helppage.h \
+    filereader.h
 
 FORMS    += mainwindow.ui
+QMAKE_CXXFLAGS += -std=c++0x
