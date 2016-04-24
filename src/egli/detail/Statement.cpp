@@ -10,8 +10,18 @@
 
 egli::detail::Statement::Statement(Type type,
                                    const std::string &value,
-                                   const std::vector<Statement> &parameters) :
+                                   const std::vector<Statement> &parameters,
+                                   ConstantType constantType) :
     type(type),
+    constantType(constantType),
     value(value),
     parameters(parameters)
+{}
+
+egli::detail::Statement::Statement(ConstantType constantType,
+                                   const std::string &value) :
+    type(Type::Constant),
+    constantType(constantType),
+    value(value),
+    parameters()
 {}

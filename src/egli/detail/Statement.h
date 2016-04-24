@@ -30,8 +30,20 @@ struct Statement
         Variable        /*!< Access to the value of a variable */
     };
 
+    /*! \brief Constant type
+     */
+    enum class ConstantType
+    {
+        Unused,         /*!< Not used */
+        Boolean,        /*!< Boolean constant */
+        Float,          /*!< Float constant */
+        Integer,        /*!< Integer constant */
+        String          /*!< String constant */
+    };
+
     // Data members
     Type type;                          /*!< Type of the statement */
+    ConstantType constantType;          /*!< Constant type */
     std::string value;                  /*!< Value of the statement */
     std::vector<Statement> parameters;  /*!< Parameters of the statement */
 
@@ -40,11 +52,21 @@ struct Statement
      * \param type - Type of the statement
      * \param value - Value of the statement
      * \param parameters - Parameters of the statement
+     * \param constantType - The constant type
      *
      */
     Statement(Type type = Type::None,
               const std::string &value = "",
-              const std::vector<Statement> &parameters = {});
+              const std::vector<Statement> &parameters = {},
+              ConstantType constantType = ConstantType::Unused);
+
+    /*! \brief Constructor
+     *
+     * \param constantType - The constant type
+     * \param value - Value of the constant
+     *
+     */
+    Statement(ConstantType constantType, const std::string &value);
 };
 } // namespace detail
 } // namespace egli
