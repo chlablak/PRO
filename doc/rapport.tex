@@ -1375,10 +1375,10 @@
 						public class Vertex {
 							private:
 								int id;
-								Optionnal<string> label;
-								Optionnal<double> weight;
-								Optionnal<size_t> minCapacity;
-								Optionnal<size_t> maxCapacity;
+								Optional<string> label;
+								Optional<double> weight;
+								Optional<size_t> minCapacity;
+								Optional<size_t> maxCapacity;
 								
 							// Quelques methodes a disposition
 							public:
@@ -1415,10 +1415,10 @@
 						public class Edge {
 							private:
 								int id;
-								Optionnal<string> label;
-								Optionnal<double> weight;
-								Optionnal<size_t> minCapacity;
-								Optionnal<size_t> maxCapacity;
+								Optional<string> label;
+								Optional<double> weight;
+								Optional<size_t> minCapacity;
+								Optional<size_t> maxCapacity;
 								
 								// methodes a disposition
 								public:
@@ -1562,6 +1562,22 @@
 				\item etc.
 			\end{itemize}
 			
+			Et voici à quoi représenterait le code de cette structure. À noter que nous avons besoin de garder un tableau des sommets et des edges.
+			\begin{lstlisting}
+						public class GraphCommon {
+							private:
+								vector<Vertex> vertices;
+								vector<Edge> edges;
+								vector<list<Edge*>> adjacentList;
+							public:
+								void forEachAdjacentEdge(Vertex v) {
+									for (Edge* e : adjacentList[v->getId()]) {
+										// operations sur les edges adjacents au sommet v ...
+									}
+								}
+						};
+			\end{lstlisting}
+			
 			\subsubsection{La class "Graph"}
 			La mise en commun des sections ci-dessus nous amène à une première ébauche de la classe Graph.
 			\begin{figure}[H]
@@ -1580,8 +1596,58 @@
 			
 		
 		\subsection{Algorithmes}
-			\subsubsection{famille 1...}
-		\subsection{blabla..}
+			\subsubsection{Liste}
+			\subsubsection{Pattern Visitor}
+			Le patron de conception Visiteur permet d'appliquer facilement un algorithme à un graphe. L'utilisation est la suivante :
+			\begin{itemize}
+				\item L'algorithme est le visiteur
+				\item Le graphe représente la structure de donnée à visiter
+			\end{itemize}
+			Le résultat de nos algorithmes retourne toujours un graphe. La recherche d'un plus court chemin par exemple, retournera un chemin de racine r (sommet source du parcours) qui est donc un graphe.\\
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=2.4]{Conception/visitor.pdf}
+				\caption{Pattern Visitor pour l'application des algos aux graphes}
+			\end{figure}
+			
+			Les algorithmes ne sont pas les mêmes pour tous les types de graphes : un parcours en largeur sera quelque peu différent entre un graphe orienté et non-orienté. Le pattern Visiteur est précisément fait pour répondre à ce genre de problème. De plus, l'avantage du pattern est qu'il est facilement extensible : un nouvel algorithme s'ajoute tout bonnement en tant que visiteur.
+			
+			\begin{lstlisting}
+						// Code d'un objet visite
+						public class Graph {
+							private:
+								//...
+							public:
+								void accept(Visitor v) {
+									v->visitGraph(this);
+								}
+						};
+			\end{lstlisting}
+			\begin{lstlisting}
+						// Implementation d'un visiteur
+						public class BFS {
+							public:
+								IGraph visitGraph(Graph g) {
+									list<Vertex> vertices;
+									list<Edge> edges;
+									// Implementation du BFS pour un graphe non-oriente...
+									return new Graph(vertices, edges);
+								}
+								IGraph visitDiGraph(DiGraph g) {
+									list<Vertex> vertices;
+									list<Edge> edges;
+									// Implementation du BFS pour un graphe oriente...
+									return new DiGraph(vertices, edges);
+								}
+								IGraph visitFlowGraph(FlowGraph g) {
+									list<Vertex> vertices;
+									list<Edge> edges;
+									// Implementation du BFS pour un graphe a flot...
+									return new FlowGraph(vertices, edges);
+								}
+						};
+			\end{lstlisting}
 	
 	\section{Annexes}
 	
