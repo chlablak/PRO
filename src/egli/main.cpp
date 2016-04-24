@@ -27,6 +27,16 @@ void print(ostream &os, egli::detail::Statement const &s, size_t tab = 0)
         case egli::detail::Statement::Type::Variable: os << "Variable"; break;
     }
     os << "(\"" << s.value << "\"";
+    if (s.type == egli::detail::Statement::Type::Constant) {
+        os << " ";
+        switch (s.constantType) {
+            case egli::detail::Statement::ConstantType::Boolean: os << "Boolean"; break;
+            case egli::detail::Statement::ConstantType::Float: os << "Float"; break;
+            case egli::detail::Statement::ConstantType::Integer: os << "Integer"; break;
+            case egli::detail::Statement::ConstantType::String: os << "String"; break;
+            case egli::detail::Statement::ConstantType::Unused: os << "Unused"; break;
+        }
+    }
     if (!s.parameters.empty()) {
         os << endl;
         for(auto p : s.parameters)
