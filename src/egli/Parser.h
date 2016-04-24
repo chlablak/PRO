@@ -11,14 +11,35 @@
 
 #include <string>
 
-#include "detail/Grammar.h"
 #include "detail/Statement.h"
 
 namespace egli
 {
+// forward declaration to speed up the compilation
+// (because detail::Grammar use Boost and is very "big")
+namespace detail
+{
+template<typename>
+struct Grammar;
+}
+
 class Parser
 {
 public:
+
+    /*! \brief Constructor
+     *
+     */
+    Parser();
+
+    /*! \brief Destructor
+     *
+     */
+    ~Parser();
+
+    // detail::Grammar is not copyable
+    Parser(const Parser&) = delete;
+    Parser &operator=(const Parser&) = delete;
 
     /*! \brief Parse the buffer and return the statement
      *
@@ -28,12 +49,12 @@ public:
      * \throw egli::Exception if parsing fails
      *
      */
-    detail::Statement parse(const std::string &buffer) const;
+    detail::Statement parse(const std::string &buffer);
 
 private:
 
     // data member
-    detail::Grammar<std::string::const_iterator> grammar;
+    detail::Grammar<std::string::const_iterator> *grammar;
 };
 } // namespace egli
 

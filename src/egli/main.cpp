@@ -14,7 +14,44 @@
 
 using namespace std;
 
-struct data { int first; int second; int third; };
+void print(ostream &os, egli::detail::Statement const &s, size_t tab = 0)
+{
+    for (size_t i = 0; i < tab; ++i)
+        os << " ";
+    switch (s.type) {
+        case egli::detail::Statement::Type::Assignation: os << "Assignation"; break;
+        case egli::detail::Statement::Type::Array: os << "Array"; break;
+        case egli::detail::Statement::Type::Constant: os << "Constant"; break;
+        case egli::detail::Statement::Type::Function: os << "Function"; break;
+        case egli::detail::Statement::Type::None: os << "None"; break;
+        case egli::detail::Statement::Type::Variable: os << "Variable"; break;
+    }
+    os << "(\"" << s.value << "\"";
+    if (s.type == egli::detail::Statement::Type::Constant) {
+        os << " ";
+        switch (s.constantType) {
+            case egli::detail::Statement::ConstantType::Boolean: os << "Boolean"; break;
+            case egli::detail::Statement::ConstantType::Float: os << "Float"; break;
+            case egli::detail::Statement::ConstantType::Integer: os << "Integer"; break;
+            case egli::detail::Statement::ConstantType::String: os << "String"; break;
+            case egli::detail::Statement::ConstantType::Unused: os << "Unused"; break;
+        }
+    }
+    if (!s.parameters.empty()) {
+        os << endl;
+        for(auto p : s.parameters)
+            print(os, p, tab + 2);
+        for (size_t i = 0; i < tab; ++i)
+            os << " ";
+    }
+    os << ")" << endl;
+}
+
+ostream &operator<<(ostream &os, egli::detail::Statement const &s)
+{
+    print(os, s);
+    return os;
+}
 
 /*! \brief main
  *
@@ -23,34 +60,18 @@ struct data { int first; int second; int third; };
  */
 int main()
 {
-//    string input = "caca";
-//    egli::Parser p;
-//    try {
-//        egli::detail::Statement statement = p.parse(input);
-//    } catch (const egli::Exception &e) {
-//        cout << e.what() << endl;
-//    }
-
-    using boost::spirit::qi::int_;
-    using boost::spirit::qi::ascii::char_;
-    using boost::spirit::qi::_val;
-    using boost::spirit::qi::_1;
-    using boost::spirit::qi::attr;
-    using boost::spirit::qi::omit;
-    using boost::spirit::qi::rule;
-    using boost::phoenix::bind;
-
-    using it = string::const_iterator;
-
-    rule<it, data()> r = int_[bind(&data::first, _val) = _1]
-        >> ((':' >> int_) | (omit[-char_(':')] >> attr(0)))[bind(&data::second, _val) = _1]
-        >> ((':' >> int_) | (omit[-char_(':')] >> attr(0)))[bind(&data::third, _val) = _1];
-
-    string in = ":2:3";
-    data dst = {-1, -1, -1};
-    bool s = boost::spirit::qi::parse(in.cbegin(), in.cend(), r, dst);
-
-    cout << s << ":" << dst.first << "," << dst.second << "," << dst.third << endl;
+    string in;
+    egli::Parser p;
+    egli::detail::Statement s;
+    while (getline(cin, in) && !in.empty()) {
+        try {
+            s = p.parse(in);
+            cout << s << endl;
+        } catch (const egli::Exception &e) {
+            cout << e.what() << endl;
+        }
+        cout << endl;
+    }
 
     return 0;
 }

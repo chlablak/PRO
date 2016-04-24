@@ -16,6 +16,9 @@
 \usepackage{longtable} % pour l'environnement longtable
 \usepackage{float} % pour des figures non flottantes
 \usepackage{amsmath}
+\usepackage{verbatim} % pour les graphes
+\usepackage{caption} % figure et subfigure pour mettre les images côtes à côtes
+\usepackage{subcaption}
 
 % Grammaire EBNF
 \usepackage{syntax}
@@ -25,7 +28,7 @@
 % Dessin avec tikz
 \usepackage{tikz}
 \usepackage{forest}
-\usetikzlibrary{shapes,arrows,positioning,shadows,matrix}
+\usetikzlibrary{shapes,arrows,positioning,shadows,matrix,automata}
 
 % Matrices
 \usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
@@ -65,6 +68,7 @@
 \renewcommand{\footrulewidth}{0.4pt}
 
 \begin{document}
+	
 	
 	% Titre du document
 	\title{GraphY} % ou un autre nom
@@ -332,7 +336,11 @@
 					\item La règle \textit{<assignation>} vaut désormais: \textit{( <variable> | <identifier> ) '=' <parameter>}
 					\item La règle \textit{<statement>} vaut désormais: \textit{( <function-call> | <assignation> ) ';'}
 				\end{itemize} 
-		
+				
+				\textcolor{red}{AJOUTER DATE}\\
+				\textcolor{red}{nouvelles modifications depuis l'impl. du parseur}\\
+				\textcolor{red}{oublis des += et -= dans la grammaire}
+				
 		\subsection{Flux des données}
 			\begin{figure}[H]
 				\centering
@@ -348,7 +356,7 @@
 					\node[decision,left of=parameter] (execute) {Branch statement};
 					\node[block,below of=execute] (assign) {Assignation Declaration};
 					\node[block,left of=assign] (function) {Function call};
-					\node[block,left of=function] (constant) {Constant};
+					\node[block,left of=function] (constant) {Constant Array};
 					\node[block,below of=assign] (result) {Save result};
 					\node[decision,below of=result] (clean) {Cleaning};
 					\node[cloud,right of=type,above of=type] (output) {User output};
@@ -397,6 +405,7 @@
 					\item \textbf{Branch statement} - On sélectionne le bon traitement en fonction de son type.
 					\begin{itemize}
 						\item \textbf{Constant} - On créé une variable temporaire avec la valeur de la constante, voir section~\ref{subsubsec:table-des-temporaires}.
+						\item \textbf{Array} - On créé un tableau dynamique hétérogène, voir section~\ref{subsubsec:tableau-dynamique-heterogene}.
 						\item \textbf{Function call} - On appelle la fonction et on sauve son résultat dans une variable temporaire.
 						\item \textbf{Assignation} - On assigne une valeur à une variable, voir section~\ref{subsubsec:table-des-variables}.
 						\item \textbf{Declaration} - Pareil que l'assignation, mais avec création de l'identifiant au préalable.
@@ -408,7 +417,24 @@
 			
 		\subsection{Implémentation du parseur}
 			\label{subsec:implementation-du-parseur}
-			\textcolor{red}{Boost.Spirit toussa todo blabla ...}
+			Le parseur a deux but principaux:
+			
+			\begin{itemize}
+				\item vérifier la validité syntaxique de l'entrée utilisateur
+				\begin{itemize}
+					\item ... et indiquer clairement où se trouve l'erreur si il y en a une
+				\end{itemize}
+				\item générer des \textit{tokens} décrivant l'entrée utilisateur
+				\begin{itemize}
+					\item ... utilisables dans la suite du flux de données\\
+				\end{itemize}
+			\end{itemize}
+			
+			L'implémentation ad-hoc d'un tel parseur est une tâche compliquée, ainsi nous avons décider d'utiliser la bibliothèque Boost.Spirit \cite{boost.spirit} qui va nous permettre d'accélérer grandement le temps de développement de cette partie.\\
+			
+			Nous n'allons pas entrer ici dans les détails d'utilisation de Boost.Spirit, les tutoriels en ligne sont suffisamment bien écrits. Notons simplement que cette bibliothèque permet de construire rapidement un parseur depuis une grammaire EBNF, et permet de constituer les \textit{tokens} tout aussi rapidement.\\
+			
+			NB: les \textit{tokens} générés par le parseur sont décrits dans la section~\ref{subsec:regles-de-transformation}.
 		
 		\subsection{Mémoire virtuelle} 
 			\label{subsec:memoire-virtuelle}
@@ -426,7 +452,7 @@
 					\texttt{String} & \texttt{std::string}\\
 					\texttt{Number} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
 					\texttt{Array} & voir section~\ref{subsubsec:tableau-dynamique-heterogene}\\
-					\texttt{Graph} & voir section~\textcolor{red}{ajouter ref}\\
+					\texttt{Graph} & voir section~\ref{sec:graphes}\\
 					\texttt{Vertex} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
 					\texttt{Edge} & voir section~\ref{subsubsec:number-edge-et-vertex}
 				\end{tabular}
@@ -1104,7 +1130,10 @@
 					};
 			\end{lstlisting}
 			
-			La création de cet arbre se fait grâce aux \textit{tokens} générés dans la partie \textit{Parser validation} (voir section~\ref{subsec:implementation-du-parseur}), \textcolor{red}{bla bla bla à compléter}
+			La création de cet arbre se fait grâce aux \textit{tokens} générés dans la partie \textit{Parser validation} (voir section~\ref{subsec:implementation-du-parseur}).
+			
+			\subsubsection{Modifications}
+				\textcolor{red}{nouveau type ARRAY, depuis l'impl. du parseur}
 			
 			\subsubsection{Fonctions internes}
 				La transformation nécessite plusieurs fonctions pour que la suite puisse correctement fonctionner. Nous allons lister ici toutes ces fonctions qui seront par la suite interfacées dans la table des fonctions.\\
@@ -1337,6 +1366,8 @@
 				\end{figure}
 				
 				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée comme on a pu le voir dans les sections précédentes. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur.
+				
+				\textcolor{red}{MODIFIER DIAGRAMME SELON CODE}
 			
 			\subsubsection{Répertoires}
 				L'interpréteur étant une couche indépendante de l'application GUI, nous avons décidé de mettre tout ce qui le concerne dans un \texttt{namespace} du nom de \texttt{egli}, pour \textit{Embeeded GraphY Language Interpreter}.\\
@@ -1348,22 +1379,84 @@
 		\subsection{Exemples}
 		
 	\section{Graphes}
+	\label{sec:graphes}
 		\subsection{Préface}
 		Un graphe est une structure composée d'un ensemble de sommets et d'arêtes/arcs. Il existe différentes familles de graphe, comme les graphes orientés, à flot, biparti, etc., ainsi que différents moyen de les représenter.
 		
 		Cette section a pour but dans un premier temps de présenter les interfaces à disposition de l'utilisateur pour manipuler des graphes, et dans un second temps, de montrer nos choix de modélisation et d'implémentation de ceux-ci.
 		
-		\subsection{Sommets et arcs/arêtes}
+		\subsection{Architecture}
 		
 		
-		\subsubsection{La classe "Vertex"}
-		
-		\subsubsection{La classe "Edge"}
-		
-		\subsection{La classe "Graph"}
-		Dans l'optique d'un code modulable, nous avons décidé d'offrir à l'utilisateur différentes interfaces lui permettant la création et la manipulation de graphes. Par exemple, la vue aura besoin de récupérer les sommets et les arêtes d'un graphe pour le dessiner, le parseur voudra probablement créer un graphe après avoir parsé des données, ou encore un algorithme devra parcourir ce graphe pour trouver un plus court chemin.
+			\subsubsection{La classe "Vertex"}
+			Les sommets sont les mêmes pour tous les types de graphe (orienté, à flot, ou non-orienté). Les informations suivantes y sont stockées :
+			\begin{itemize}
+				\item un identifiant généré par la classe pour identifier rapidement le sommet lors des opérations avec les algorithmes
+				\item un label pour spécifier un nom au sommet
+				\item un poids qui pourra être ensuite redistribué sur les arêtes par exemple. Ce poids est numérique.
+				\item une capacité minimale de type numérique entière strictement positive.
+				\item une capacité maximale de type numérique entière strictement positive. 
+			\end{itemize}
+			En réutilisant le type "Optional" défini dans l'interpréteur, on peut rendre certains attributs optionnels
+			\begin{lstlisting}
+						// Apercu de la classe Vertex
+						public class Vertex {
+							private:
+								int id;
+								Optional<string> label;
+								Optional<double> weight;
+								Optional<size_t> minCapacity;
+								Optional<size_t> maxCapacity;
+								
+							// Quelques methodes a disposition
+							public:
+								// setter et getter...
+								// ...
+						};
+			\end{lstlisting}
+			
+			\subsubsection{La classe "Edge"}
+			Les arcs/arêtes sont plus délicats car ils diffèrent entre les types de graphe. Les trois types principaux sont les suivants :
+			\begin{itemize}
+				\item arête pondérée ou non
+				\item arc pondéré ou non
+				\item arc à flot pondéré ou non
+			\end{itemize}
+			
+			Nous sommes donc partis sur une première approche qui consiste à avoir une class Edge commune qui se fera hériter par des Edge spécifiques selon le type de graphe, en factorisant au mieux les attributs.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=3.0]{Conception/classedgesol1.pdf}
+				\caption{Class Edge solution 1}
+			\end{figure}
+			Avec cette approche, une redondance au niveau des attributs "weight" apparait, ainsi qu'un problème de redéfinition conceptuel des méthodes getMinCapacity() et getMaxCapacity() dans les classes qui ne contiennent pas l'attribut en question (les méthodes doivent retourner NULL ? une exception ? zéro?).
+			Pour corriger celà, on peut remonter les attributs définis dans les sous-classe dans la classe commune et déclarer leur type comme pointeur pour les rendre optionnels.\\
+			On supprime alors toutes les sous-classes et on ramène la classe Edge à une unique classe.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=3.0]{Conception/classedgesol2.pdf}
+				\caption{Class Edge solution 1}
+			\end{figure}
+			Les opérations sont maintenant centralisées et on a simplifié notre type Edge.
+			\begin{lstlisting}
+						// Apercu de la classe Edge
+						public class Edge {
+							private:
+								int id;
+								Optional<string> label;
+								Optional<double> weight;
+								Optional<size_t> minCapacity;
+								Optional<size_t> maxCapacity;
+								
+								// methodes a disposition
+								public:
+								size_t* getMinCapacity();
+								// ...
+						};
+			\end{lstlisting}
 		
 			\subsubsection{Interface utilisateur}
+			Dans l'optique d'un code modulable, nous avons décidé d'offrir à l'utilisateur une interface lui permettant la manipulation de graphes. Par exemple, la vue aura besoin de récupérer les sommets et les arêtes d'un graphe pour le dessiner, le parseur voudra probablement créer un graphe après avoir parsé des données, ou encore un algorithme devra parcourir ce graphe pour trouver un plus court chemin.
 			Voici une ébauche de l'interface permettant la manipulation de graphes :
 			\begin{figure}[H]
 				\centering
@@ -1376,8 +1469,8 @@
 			Concrètement, n'importe quel graphe doit pouvoir implémenter cette interface, d'où la présence d'une classe commune aux graphes. Cette classe nous est utile pour factoriser au maximum les fonctions communes à tout type de graphe.
 			\begin{figure}[H]
 				\centering
-				\includegraphics[scale=3.0]{Conception/igraph.pdf}
-				\caption{Interface IGraph}
+				\includegraphics[scale=3.0]{Conception/typesGraph.pdf}
+				\caption{Types de graphe}
 			\end{figure}
 			
 			\subsubsection{Structure de donnée}
@@ -1429,7 +1522,7 @@
 			\begin{figure}[H]
 				\centering
 				\[
-				\text{Mat}_{\varphi\text{ to }M} = \kbordermatrix{
+				\kbordermatrix{
 					& v_1 & v_2 & v_3 & v_4 & v_5 \\
 					v_1 & nullptr & *edges  & nullptr & *edges  & *edges   \\
 					v_2 & nullptr & nullptr & nullptr & nullptr & nullptr  \\
@@ -1497,20 +1590,92 @@
 				\item etc.
 			\end{itemize}
 			
+			Et voici à quoi représenterait le code de cette structure. À noter que nous avons besoin de garder un tableau des sommets et des edges.
+			\begin{lstlisting}
+						public class GraphCommon {
+							private:
+								vector<Vertex> vertices;
+								vector<Edge> edges;
+								vector<list<Edge*>> adjacentList;
+							public:
+								void forEachAdjacentEdge(Vertex v) {
+									for (Edge* e : adjacentList[v->getId()]) {
+										// operations sur les edges adjacents au sommet v ...
+									}
+								}
+						};
+			\end{lstlisting}
 			
-			
-			\subsubsection{Création de graphes}
-			Le patron de conception "fabrique" permet aux utilisateurs de créer un graphe à partir de toute structure représentative de graphe (matrice d'adjacence, liste de sommets et d'arcs, etc.).
+			\subsubsection{La class "Graph"}
+			La mise en commun des sections ci-dessus nous amène à une première ébauche de la classe Graph.
 			\begin{figure}[H]
 				\centering
-				\includegraphics[scale=3.0]{Conception/igraph.pdf}
-				\caption{Interface IGraph}
+				\includegraphics[scale=2.8]{Conception/classGraph.pdf}
+				\caption{Ebauche de la classe Graph}
+			\end{figure}
+			
+			\subsubsection{Création de graphes}
+			Le patron de conception "fabrique" permet aux utilisateurs de créer des Vertex et des Edge pour ensuite créer un graphe.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=2.8]{Conception/factory.pdf}
+				\caption{Pattern Factory pour la création d'un graphe}
 			\end{figure}
 			
 		
 		\subsection{Algorithmes}
-			\subsubsection{famille 1...}
-		\subsection{blabla..}
+			\subsubsection{Liste}
+			\subsubsection{Pattern Visitor}
+			Le patron de conception Visiteur permet d'appliquer facilement un algorithme à un graphe. L'utilisation est la suivante :
+			\begin{itemize}
+				\item L'algorithme est le visiteur
+				\item Le graphe représente la structure de donnée à visiter
+			\end{itemize}
+			Le résultat de nos algorithmes retourne toujours un graphe. La recherche d'un plus court chemin par exemple, retournera un chemin de racine r (sommet source du parcours) qui est donc un graphe.\\
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=2.4]{Conception/visitor.pdf}
+				\caption{Pattern Visitor pour l'application des algos aux graphes}
+			\end{figure}
+			
+			Les algorithmes ne sont pas les mêmes pour tous les types de graphes : un parcours en largeur sera quelque peu différent entre un graphe orienté et non-orienté. Le pattern Visiteur est précisément fait pour répondre à ce genre de problème. De plus, l'avantage du pattern est qu'il est facilement extensible : un nouvel algorithme s'ajoute tout bonnement en tant que visiteur.
+			
+			\begin{lstlisting}
+						// Code d'un objet visite
+						public class Graph {
+							private:
+								//...
+							public:
+								void accept(Visitor v) {
+									v->visitGraph(this);
+								}
+						};
+			\end{lstlisting}
+			\begin{lstlisting}
+						// Implementation d'un visiteur
+						public class BFS {
+							public:
+								IGraph visitGraph(Graph g) {
+									list<Vertex> vertices;
+									list<Edge> edges;
+									// Implementation du BFS pour un graphe non-oriente...
+									return new Graph(vertices, edges);
+								}
+								IGraph visitDiGraph(DiGraph g) {
+									list<Vertex> vertices;
+									list<Edge> edges;
+									// Implementation du BFS pour un graphe oriente...
+									return new DiGraph(vertices, edges);
+								}
+								IGraph visitFlowGraph(FlowGraph g) {
+									list<Vertex> vertices;
+									list<Edge> edges;
+									// Implementation du BFS pour un graphe a flot...
+									return new FlowGraph(vertices, edges);
+								}
+						};
+			\end{lstlisting}
 	
 	\section{Annexes}
 	
@@ -1525,7 +1690,7 @@
 				\begin{tabular}{lll}
 					Prototype & Description & Origine\\
 					\hline
-					\texttt{String toString(T a)} & Retourne la représentation sous forme de chaîne de \texttt{a} & \textit{built-in}\\
+					\texttt{String toString(T a)} & Retourne la représentation de \texttt{a} sous forme de chaîne & \textit{built-in}\\
 					\texttt{} & & \textit{}\\
 				\end{tabular}
 			\end{figure}
@@ -1542,6 +1707,9 @@
 
 		\bibitem{Graph data wikipedia.org}
 		Graphs data structures,\\ \url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
+		
+		\bibitem{boost.spirit}
+		Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
 	\end{thebibliography}			
 
 \end{document}
