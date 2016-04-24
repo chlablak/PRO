@@ -336,7 +336,11 @@
 					\item La règle \textit{<assignation>} vaut désormais: \textit{( <variable> | <identifier> ) '=' <parameter>}
 					\item La règle \textit{<statement>} vaut désormais: \textit{( <function-call> | <assignation> ) ';'}
 				\end{itemize} 
-		
+				
+				\textcolor{red}{AJOUTER DATE}\\
+				\textcolor{red}{nouvelles modifications depuis l'impl. du parseur}\\
+				\textcolor{red}{oublis des += et -= dans la grammaire}
+				
 		\subsection{Flux des données}
 			\begin{figure}[H]
 				\centering
@@ -352,7 +356,7 @@
 					\node[decision,left of=parameter] (execute) {Branch statement};
 					\node[block,below of=execute] (assign) {Assignation Declaration};
 					\node[block,left of=assign] (function) {Function call};
-					\node[block,left of=function] (constant) {Constant};
+					\node[block,left of=function] (constant) {Constant Array};
 					\node[block,below of=assign] (result) {Save result};
 					\node[decision,below of=result] (clean) {Cleaning};
 					\node[cloud,right of=type,above of=type] (output) {User output};
@@ -401,6 +405,7 @@
 					\item \textbf{Branch statement} - On sélectionne le bon traitement en fonction de son type.
 					\begin{itemize}
 						\item \textbf{Constant} - On créé une variable temporaire avec la valeur de la constante, voir section~\ref{subsubsec:table-des-temporaires}.
+						\item \textbf{Array} - On créé un tableau dynamique hétérogène, voir section~\ref{subsubsec:tableau-dynamique-heterogene}.
 						\item \textbf{Function call} - On appelle la fonction et on sauve son résultat dans une variable temporaire.
 						\item \textbf{Assignation} - On assigne une valeur à une variable, voir section~\ref{subsubsec:table-des-variables}.
 						\item \textbf{Declaration} - Pareil que l'assignation, mais avec création de l'identifiant au préalable.
@@ -412,7 +417,24 @@
 			
 		\subsection{Implémentation du parseur}
 			\label{subsec:implementation-du-parseur}
-			\textcolor{red}{Boost.Spirit toussa todo blabla ...}
+			Le parseur a deux but principaux:
+			
+			\begin{itemize}
+				\item vérifier la validité syntaxique de l'entrée utilisateur
+				\begin{itemize}
+					\item ... et indiquer clairement où se trouve l'erreur si il y en a une
+				\end{itemize}
+				\item générer des \textit{tokens} décrivant l'entrée utilisateur
+				\begin{itemize}
+					\item ... utilisables dans la suite du flux de données\\
+				\end{itemize}
+			\end{itemize}
+			
+			L'implémentation ad-hoc d'un tel parseur est une tâche compliquée, ainsi nous avons décider d'utiliser la bibliothèque Boost.Spirit \cite{boost.spirit} qui va nous permettre d'accélérer grandement le temps de développement de cette partie.\\
+			
+			Nous n'allons pas entrer ici dans les détails d'utilisation de Boost.Spirit, les tutoriels en ligne sont suffisamment bien écrits. Notons simplement que cette bibliothèque permet de construire rapidement un parseur depuis une grammaire EBNF, et permet de constituer les \textit{tokens} tout aussi rapidement.\\
+			
+			NB: les \textit{tokens} générés par le parseur sont décrits dans la section~\ref{subsec:regles-de-transformation}.
 		
 		\subsection{Mémoire virtuelle} 
 			\label{subsec:memoire-virtuelle}
@@ -430,7 +452,7 @@
 					\texttt{String} & \texttt{std::string}\\
 					\texttt{Number} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
 					\texttt{Array} & voir section~\ref{subsubsec:tableau-dynamique-heterogene}\\
-					\texttt{Graph} & voir section~\textcolor{red}{ajouter ref}\\
+					\texttt{Graph} & voir section~\ref{sec:graphes}\\
 					\texttt{Vertex} & voir section~\ref{subsubsec:number-edge-et-vertex}\\
 					\texttt{Edge} & voir section~\ref{subsubsec:number-edge-et-vertex}
 				\end{tabular}
@@ -1108,7 +1130,10 @@
 					};
 			\end{lstlisting}
 			
-			La création de cet arbre se fait grâce aux \textit{tokens} générés dans la partie \textit{Parser validation} (voir section~\ref{subsec:implementation-du-parseur}), \textcolor{red}{bla bla bla à compléter}
+			La création de cet arbre se fait grâce aux \textit{tokens} générés dans la partie \textit{Parser validation} (voir section~\ref{subsec:implementation-du-parseur}).
+			
+			\subsubsection{Modifications}
+				\textcolor{red}{nouveau type ARRAY, depuis l'impl. du parseur}
 			
 			\subsubsection{Fonctions internes}
 				La transformation nécessite plusieurs fonctions pour que la suite puisse correctement fonctionner. Nous allons lister ici toutes ces fonctions qui seront par la suite interfacées dans la table des fonctions.\\
@@ -1341,6 +1366,8 @@
 				\end{figure}
 				
 				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée comme on a pu le voir dans les sections précédentes. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur.
+				
+				\textcolor{red}{MODIFIER DIAGRAMME SELON CODE}
 			
 			\subsubsection{Répertoires}
 				L'interpréteur étant une couche indépendante de l'application GUI, nous avons décidé de mettre tout ce qui le concerne dans un \texttt{namespace} du nom de \texttt{egli}, pour \textit{Embeeded GraphY Language Interpreter}.\\
@@ -1352,6 +1379,7 @@
 		\subsection{Exemples}
 		
 	\section{Graphes}
+	\label{sec:graphes}
 		\subsection{Préface}
 		Un graphe est une structure composée d'un ensemble de sommets et d'arêtes/arcs. Il existe différentes familles de graphe, comme les graphes orientés, à flot, biparti, etc., ainsi que différents moyen de les représenter.
 		
@@ -1596,7 +1624,7 @@
 				\begin{tabular}{lll}
 					Prototype & Description & Origine\\
 					\hline
-					\texttt{String toString(T a)} & Retourne la représentation sous forme de chaîne de \texttt{a} & \textit{built-in}\\
+					\texttt{String toString(T a)} & Retourne la représentation de \texttt{a} sous forme de chaîne & \textit{built-in}\\
 					\texttt{} & & \textit{}\\
 				\end{tabular}
 			\end{figure}
@@ -1613,6 +1641,9 @@
 
 		\bibitem{Graph data wikipedia.org}
 		Graphs data structures,\\ \url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
+		
+		\bibitem{boost.spirit}
+		Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
 	\end{thebibliography}			
 
 \end{document}
