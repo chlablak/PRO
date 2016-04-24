@@ -16,6 +16,9 @@
 \usepackage{longtable} % pour l'environnement longtable
 \usepackage{float} % pour des figures non flottantes
 \usepackage{amsmath}
+\usepackage{verbatim} % pour les graphes
+\usepackage{caption} % figure et subfigure pour mettre les images côtes à côtes
+\usepackage{subcaption}
 
 % Grammaire EBNF
 \usepackage{syntax}
@@ -25,7 +28,7 @@
 % Dessin avec tikz
 \usepackage{tikz}
 \usepackage{forest}
-\usetikzlibrary{shapes,arrows,positioning,shadows,matrix}
+\usetikzlibrary{shapes,arrows,positioning,shadows,matrix,automata}
 
 % Matrices
 \usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
@@ -65,6 +68,7 @@
 \renewcommand{\footrulewidth}{0.4pt}
 
 \begin{document}
+	
 	
 	% Titre du document
 	\title{GraphY} % ou un autre nom
@@ -1353,17 +1357,78 @@
 		
 		Cette section a pour but dans un premier temps de présenter les interfaces à disposition de l'utilisateur pour manipuler des graphes, et dans un second temps, de montrer nos choix de modélisation et d'implémentation de ceux-ci.
 		
-		\subsection{Sommets et arcs/arêtes}
+		\subsection{Architecture}
 		
 		
-		\subsubsection{La classe "Vertex"}
-		
-		\subsubsection{La classe "Edge"}
-		
-		\subsection{La classe "Graph"}
-		Dans l'optique d'un code modulable, nous avons décidé d'offrir à l'utilisateur différentes interfaces lui permettant la création et la manipulation de graphes. Par exemple, la vue aura besoin de récupérer les sommets et les arêtes d'un graphe pour le dessiner, le parseur voudra probablement créer un graphe après avoir parsé des données, ou encore un algorithme devra parcourir ce graphe pour trouver un plus court chemin.
+			\subsubsection{La classe "Vertex"}
+			Les sommets sont les mêmes pour tous les types de graphe (orienté, à flot, ou non-orienté). Les informations suivantes y sont stockées :
+			\begin{itemize}
+				\item un identifiant généré par la classe pour identifier rapidement le sommet lors des opérations avec les algorithmes
+				\item un label pour spécifier un nom au sommet
+				\item un poids qui pourra être ensuite redistribué sur les arêtes par exemple. Ce poids est numérique.
+				\item une capacité minimale de type numérique entière strictement positive.
+				\item une capacité maximale de type numérique entière strictement positive. 
+			\end{itemize}
+			En réutilisant le type "Optional" défini dans l'interpréteur, on peut rendre certains attributs optionnels
+			\begin{lstlisting}
+						// Apercu de la classe Vertex
+						public class Vertex {
+							private:
+								int id;
+								Optionnal<string> label;
+								Optionnal<double> weight;
+								Optionnal<size_t> minCapacity;
+								Optionnal<size_t> maxCapacity;
+								
+							// Quelques methodes a disposition
+							public:
+								// setter et getter...
+								// ...
+						};
+			\end{lstlisting}
+			
+			\subsubsection{La classe "Edge"}
+			Les arcs/arêtes sont plus délicats car ils diffèrent entre les types de graphe. Les trois types principaux sont les suivants :
+			\begin{itemize}
+				\item arête pondérée ou non
+				\item arc pondéré ou non
+				\item arc à flot pondéré ou non
+			\end{itemize}
+			
+			Nous sommes donc partis sur une première approche qui consiste à avoir une class Edge commune qui se fera hériter par des Edge spécifiques selon le type de graphe, en factorisant au mieux les attributs.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=3.0]{Conception/classedgesol1.pdf}
+				\caption{Class Edge solution 1}
+			\end{figure}
+			Avec cette approche, une redondance au niveau des attributs "weight" apparait, ainsi qu'un problème de redéfinition conceptuel des méthodes getMinCapacity() et getMaxCapacity() dans les classes qui ne contiennent pas l'attribut en question (les méthodes doivent retourner NULL ? une exception ? zéro?).
+			Pour corriger celà, on peut remonter les attributs définis dans les sous-classe dans la classe commune et déclarer leur type comme pointeur pour les rendre optionnels.\\
+			On supprime alors toutes les sous-classes et on ramène la classe Edge à une unique classe.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=3.0]{Conception/classedgesol2.pdf}
+				\caption{Class Edge solution 1}
+			\end{figure}
+			Les opérations sont maintenant centralisées et on a simplifié notre type Edge.
+			\begin{lstlisting}
+						// Apercu de la classe Edge
+						public class Edge {
+							private:
+								int id;
+								Optionnal<string> label;
+								Optionnal<double> weight;
+								Optionnal<size_t> minCapacity;
+								Optionnal<size_t> maxCapacity;
+								
+								// methodes a disposition
+								public:
+								size_t* getMinCapacity();
+								// ...
+						};
+			\end{lstlisting}
 		
 			\subsubsection{Interface utilisateur}
+			Dans l'optique d'un code modulable, nous avons décidé d'offrir à l'utilisateur une interface lui permettant la manipulation de graphes. Par exemple, la vue aura besoin de récupérer les sommets et les arêtes d'un graphe pour le dessiner, le parseur voudra probablement créer un graphe après avoir parsé des données, ou encore un algorithme devra parcourir ce graphe pour trouver un plus court chemin.
 			Voici une ébauche de l'interface permettant la manipulation de graphes :
 			\begin{figure}[H]
 				\centering
@@ -1376,8 +1441,8 @@
 			Concrètement, n'importe quel graphe doit pouvoir implémenter cette interface, d'où la présence d'une classe commune aux graphes. Cette classe nous est utile pour factoriser au maximum les fonctions communes à tout type de graphe.
 			\begin{figure}[H]
 				\centering
-				\includegraphics[scale=3.0]{Conception/igraph.pdf}
-				\caption{Interface IGraph}
+				\includegraphics[scale=3.0]{Conception/typesGraph.pdf}
+				\caption{Types de graphe}
 			\end{figure}
 			
 			\subsubsection{Structure de donnée}
@@ -1429,7 +1494,7 @@
 			\begin{figure}[H]
 				\centering
 				\[
-				\text{Mat}_{\varphi\text{ to }M} = \kbordermatrix{
+				\kbordermatrix{
 					& v_1 & v_2 & v_3 & v_4 & v_5 \\
 					v_1 & nullptr & *edges  & nullptr & *edges  & *edges   \\
 					v_2 & nullptr & nullptr & nullptr & nullptr & nullptr  \\
@@ -1497,14 +1562,20 @@
 				\item etc.
 			\end{itemize}
 			
-			
-			
-			\subsubsection{Création de graphes}
-			Le patron de conception "fabrique" permet aux utilisateurs de créer un graphe à partir de toute structure représentative de graphe (matrice d'adjacence, liste de sommets et d'arcs, etc.).
+			\subsubsection{La class "Graph"}
+			La mise en commun des sections ci-dessus nous amène à une première ébauche de la classe Graph.
 			\begin{figure}[H]
 				\centering
-				\includegraphics[scale=3.0]{Conception/igraph.pdf}
-				\caption{Interface IGraph}
+				\includegraphics[scale=2.8]{Conception/classGraph.pdf}
+				\caption{Ebauche de la classe Graph}
+			\end{figure}
+			
+			\subsubsection{Création de graphes}
+			Le patron de conception "fabrique" permet aux utilisateurs de créer des Vertex et des Edge pour ensuite créer un graphe.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=2.8]{Conception/factory.pdf}
+				\caption{Pattern Factory pour la création d'un graphe}
 			\end{figure}
 			
 		
