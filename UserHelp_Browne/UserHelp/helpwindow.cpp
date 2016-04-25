@@ -31,7 +31,7 @@ void HelpWindow::searchAsked(){
         QVector<HelpPage*> fileList = kws.getPages(searchWord);
         int length = fileList.length();
         if(length == 0){
-            resultPage += "Aucun résultat";
+            resultPage += "Aucun résultat<hr/>";
         }else{
             if(length == 1){
                 resultPage += "1 résultat";
