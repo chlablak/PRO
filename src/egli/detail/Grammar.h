@@ -3,7 +3,6 @@
  * \file Grammar.h
  * \author Patrick Champion
  * \date 19.04.2016
- *
  */
 
 #ifndef EGLI_DETAIL_GRAMMAR_H_INCLUDED
@@ -23,7 +22,6 @@ struct Grammar :
     boost::spirit::qi::grammar<Iterator, Statement()>
 {
     /*! \brief Constructor
-     *
      */
     Grammar();
 

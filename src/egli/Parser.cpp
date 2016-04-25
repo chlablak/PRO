@@ -3,7 +3,6 @@
  * \file Parser.cpp
  * \author Patrick Champion
  * \date 20.04.2016
- *
  */
 
 #include <boost/spirit/include/qi.hpp>
