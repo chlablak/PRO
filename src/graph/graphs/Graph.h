@@ -8,16 +8,19 @@
 
 #include "GraphCommon.h"
 
-class Graph : public GraphCommon {
+class Graph : public GraphCommon
+{
 
 public:
     Graph(const vector<Vertex>& vertices, const vector<Edge>& edges)
-            : GraphCommon(vertices, edges) { }
+            : GraphCommon(vertices, edges)
+    { }
 
-    bool isSimple() const;
-    bool isConnected() const;
-    bool isStronglyConnected() const;
-    bool isDirected() const;
+    virtual bool isSimple() const;
+    virtual bool isConnected() const;
+    virtual bool isStronglyConnected() const;
+    virtual bool isDirected() const;
+    //virtual void accept(const Visitor& v);
 };
 
 

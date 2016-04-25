@@ -7,6 +7,7 @@
 
 #include <list>
 #include "Edge.h" // contains Vertex.h
+#include "../visitor/Visitor.h"
 
 class IGraph {
 public:
@@ -27,6 +28,7 @@ public:
     virtual void addVertex(Vertex v) = 0;
     virtual void removeEdge(Edge e) = 0;
     virtual void removeVertex(Vertex v) = 0;
+    //virtual void accept(const Visitor& v);
 };
 
 #endif //GRAPH_IGRAPH_H

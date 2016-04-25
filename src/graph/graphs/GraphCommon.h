@@ -17,7 +17,7 @@ private:
     vector<list<Edge*>> adjacentList;
 
 public:
-    GraphCommon(const vector<Vertex>& vertices, const vector<Edge> edges);
+    GraphCommon(const vector<Vertex>& vertices, const vector<Edge>& edges) {}
     virtual bool isEmpty() const;
     virtual bool isSimple() const = 0;
     virtual bool isConnected() const = 0;
@@ -34,6 +34,7 @@ public:
     virtual void addVertex(Vertex v);
     virtual void removeEdge(Edge e);
     virtual void removeVertex(Vertex v);
+    //virtual void accept(const Visitor& v);
 };
 
 
