@@ -28,12 +28,10 @@ class Parser
 public:
 
     /*! \brief Constructor
-     *
      */
     Parser();
 
     /*! \brief Destructor
-     *
      */
     ~Parser();
 
@@ -47,7 +45,6 @@ public:
      * \return the constructed egli::detail::Statement
      *
      * \throw egli::Exception if parsing fails
-     *
      */
     detail::Statement parse(const std::string &buffer);
 

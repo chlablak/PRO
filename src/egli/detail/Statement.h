@@ -3,7 +3,6 @@
  * \file Statement.h
  * \author Patrick Champion
  * \date 19.04.2016
- *
  */
 
 #ifndef EGLI_DETAIL_STATEMENT_H_INCLUDED
@@ -53,7 +52,6 @@ struct Statement
      * \param value - Value of the statement
      * \param parameters - Parameters of the statement
      * \param constantType - The constant type
-     *
      */
     Statement(Type type = Type::None,
               const std::string &value = "",
@@ -64,7 +62,6 @@ struct Statement
      *
      * \param constantType - The constant type
      * \param value - Value of the constant
-     *
      */
     Statement(ConstantType constantType, const std::string &value);
 };

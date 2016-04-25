@@ -3,7 +3,6 @@
  * \file main.cpp
  * \author Patrick Champion
  * \date 19.04.2016
- *
  */
 
 #include <iostream>
@@ -11,6 +10,7 @@
 #include <cassert>
 
 #include "egli.h"
+#include "../utility/Optional.h"
 
 using namespace std;
 
@@ -56,7 +56,6 @@ ostream &operator<<(ostream &os, egli::detail::Statement const &s)
 /*! \brief main
  *
  * \return 0
- *
  */
 int main()
 {

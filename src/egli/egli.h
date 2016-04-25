@@ -3,7 +3,6 @@
  * \file egli.h
  * \author Patrick Champion
  * \date 19.04.2016
- *
  */
 
 #ifndef EGLI_EGLI_H_INCLUDED

@@ -3,7 +3,6 @@
  * \file Grammar.h
  * \author Patrick Champion
  * \date 19.04.2016
- *
  */
 
 #ifndef EGLI_DETAIL_GRAMMAR_H_INCLUDED
@@ -23,7 +22,6 @@ struct Grammar :
     boost::spirit::qi::grammar<Iterator, Statement()>
 {
     /*! \brief Constructor
-     *
      */
     Grammar();
 
@@ -152,12 +150,11 @@ egli::detail::Grammar<Iterator>::Grammar() :
     // Indexed array
     indexedArray.name("indexedArray");
     indexedArray = eps[_val = construct<Statement>()]
-        >> variable[push_back(bind(&Statement::parameters, _val), _1)]
+        >> identifier[bind(&Statement::value, _val) = _1]
         >> '['
         > digitConstant[push_back(bind(&Statement::parameters, _val), _1)]
         > ']'
-        >> eps[bind(&Statement::type, _val) = Statement::Type::Function]
-        >> eps[bind(&Statement::value, _val) = "__array_get"];
+        >> eps[bind(&Statement::type, _val) = Statement::Type::Array];
 
     // Array record
     arrayRecord.name("arrayRecord");
