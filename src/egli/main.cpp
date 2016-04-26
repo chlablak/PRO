@@ -10,7 +10,6 @@
 #include <cassert>
 
 #include "egli.h"
-#include "../utility/Optional.h"
 
 using namespace std;
 

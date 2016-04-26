@@ -8,6 +8,37 @@
 #ifndef UTILITY_OPTIONAL_H_INCLUDED
 #define UTILITY_OPTIONAL_H_INCLUDED
 
+namespace utility
+{
+namespace detail
+{
+// For optional with no value
+struct OptionalNone
+{};
+
+// Constant in header trick
+template<typename T>
+struct OptionalNoneInstance
+{
+    static const T instance;
+};
+
+template<typename T>
+const T OptionalNoneInstance<T>::instance = T();
+}
+
+// Thanks boost.optional
+namespace
+{
+/*! \brief For Optional with no value
+ *
+ * \note Exemple: Optional<int> v = none;
+ */
+const detail::OptionalNone &none
+    = detail::OptionalNoneInstance<detail::OptionalNone>::instance;
+}
+
+// Optional class
 template<typename T>
 class Optional
 {
@@ -45,6 +76,14 @@ public:
      */
     Optional(value_type &&value);
 
+    /*! \brief none constructor
+     *
+     * \param not used
+     *
+     * \see utility::none
+     */
+    Optional(detail::OptionalNone);
+
     /*! \brief Destructor
      */
     ~Optional();
@@ -76,6 +115,15 @@ public:
      * \return *this
      */
     Optional &operator=(value_type &&value);
+
+    /*! \brief none assignement
+     *
+     * \param not used
+     * \return *this
+     *
+     * \see utility::none
+     */
+    Optional &operator=(detail::OptionalNone);
 
     /*! \brief Get the value contained
      *
@@ -111,40 +159,46 @@ private:
     // data member
     value_type *valuePtr;
 };
+} // namespace utility
 
 template<typename T>
-Optional<T>::Optional() :
+utility::Optional<T>::Optional() :
     valuePtr(nullptr)
 {}
 
 template<typename T>
-Optional<T>::Optional(const Optional &o) :
+utility::Optional<T>::Optional(const Optional &o) :
     valuePtr(o.hasValue() ? new value_type(o.value()) : nullptr)
 {}
 
 template<typename T>
-Optional<T>::Optional(Optional &&o) :
+utility::Optional<T>::Optional(Optional &&o) :
     valuePtr(std::move(o.valuePtr))
 {}
 
 template<typename T>
-Optional<T>::Optional(const value_type &value) :
+utility::Optional<T>::Optional(const value_type &value) :
     valuePtr(new value_type(value))
 {}
 
 template<typename T>
-Optional<T>::Optional(value_type &&value) :
+utility::Optional<T>::Optional(value_type &&value) :
     valuePtr(new value_type(std::move(value)))
 {}
 
 template<typename T>
-Optional<T>::~Optional()
+utility::Optional<T>::Optional(detail::OptionalNone) :
+    valuePtr(nullptr)
+{}
+
+template<typename T>
+utility::Optional<T>::~Optional()
 {
     delete valuePtr;
 }
 
 template<typename T>
-Optional<T> &Optional<T>::operator=(const Optional &o)
+utility::Optional<T> &utility::Optional<T>::operator=(const Optional &o)
 {
     if (this != &o) {
         delete valuePtr;
@@ -156,7 +210,7 @@ Optional<T> &Optional<T>::operator=(const Optional &o)
 }
 
 template<typename T>
-Optional<T> &Optional<T>::operator=(Optional &&o)
+utility::Optional<T> &utility::Optional<T>::operator=(Optional &&o)
 {
     if (this != &o) {
         delete valuePtr;
@@ -166,7 +220,7 @@ Optional<T> &Optional<T>::operator=(Optional &&o)
 }
 
 template<typename T>
-Optional<T> &Optional<T>::operator=(const value_type &value)
+utility::Optional<T> &utility::Optional<T>::operator=(const value_type &value)
 {
     if (hasValue())
         *valuePtr = value;
@@ -176,7 +230,7 @@ Optional<T> &Optional<T>::operator=(const value_type &value)
 }
 
 template<typename T>
-Optional<T> &Optional<T>::operator=(value_type &&value)
+utility::Optional<T> &utility::Optional<T>::operator=(value_type &&value)
 {
     if (hasValue())
         *valuePtr = std::move(value);
@@ -186,26 +240,38 @@ Optional<T> &Optional<T>::operator=(value_type &&value)
 }
 
 template<typename T>
-typename Optional<T>::value_type &Optional<T>::value()
+utility::Optional<T> &
+    utility::Optional<T>::operator=(detail::OptionalNone)
+{
+    if (hasValue()) {
+        delete valuePtr;
+        valuePtr = nullptr;
+    }
+    return *this;
+}
+
+template<typename T>
+typename utility::Optional<T>::value_type &utility::Optional<T>::value()
 {
     return *valuePtr;
 }
 
 template<typename T>
-const typename Optional<T>::value_type &Optional<T>::value() const
+const typename utility::Optional<T>::value_type &
+    utility::Optional<T>::value() const
 {
     return *valuePtr;
 }
 
 template<typename T>
-const typename Optional<T>::value_type &
-    Optional<T>::valueOr(const value_type &orValue) const
+const typename utility::Optional<T>::value_type &
+    utility::Optional<T>::valueOr(const value_type &orValue) const
 {
     return hasValue() ? value() : orValue;
 }
 
 template<typename T>
-bool Optional<T>::hasValue() const
+bool utility::Optional<T>::hasValue() const
 {
     return valuePtr != nullptr;
 }
