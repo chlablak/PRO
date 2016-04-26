@@ -12,7 +12,8 @@
 using namespace std;
 
 class Edge {
-private:
+
+protected:
     const int id;
     const Vertex *a, *b;
     string* label;
@@ -20,19 +21,22 @@ private:
     size_t* minCapacity;
     size_t* maxCapacity;
 
+    void deleteItem();
+
 public:
     // Constructors
-    Edge(const Vertex* from, const Vertex* to, const int id);
-    Edge(const Vertex* from, const Vertex* to, const int id, const string& label);
-    Edge(const Vertex* from, const Vertex* to, const int id, const double weight);
-    Edge(const Vertex* from, const Vertex* to, const int id, const double weight, const string& label);
-    Edge(const Vertex* from, const Vertex* to, const int id,
-         const string& label, const double weight,
-         const size_t minCap, const size_t maxCap) :
+    Edge(const Vertex* from, const Vertex* to, const int id) : a(from), b(to), id(id), label(nullptr), weight(nullptr),
+                                                               minCapacity(nullptr), maxCapacity(nullptr) {}
+    Edge(const Vertex* from, const Vertex* to, const int id, const string& label) : this->Edge(from, to, id)  { this->label = new string(label);}
+    Edge(const Vertex* from, const Vertex* to, const int id, const double& weight) : this->Edge(from, to, id) { this->weight = new double(weight);}
+    Edge(const Vertex* from, const Vertex* to, const int id, const double& weight, const string *label) : this->Edge(from, to, id, weight){ this->label = new string(label);}
+    Edge(const Vertex* from, const Vertex* to, const int id, const string& label, const double& weight , const size_t minCap, const size_t maxCap) :
             a(from), b(to), id(id),
             label (new string(label)), weight (new double(weight)),
             minCapacity (new size_t(minCap)), maxCapacity (new size_t(maxCap)){}
-    ~Edge();
+    ~Edge(){
+        deleteItem();
+    };
 
     // Getters
     int getId() const;
@@ -40,6 +44,8 @@ public:
     double* getWeight() const;
     size_t* getMinCapacity() const;
     size_t* getMaxCapacity() const;
+    Vertex* getEither() const;
+    Vertex* getOther(const Vertex* v) const;
 
     // Setters
     void setLabel(const string& s);

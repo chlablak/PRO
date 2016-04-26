@@ -10,14 +10,18 @@
 #include "IGraph.h"
 #include "Vertex.h"
 
+using  namespace std;
+
 class GraphCommon : public IGraph {
-private:
+protected:
+
+    typedef list<Edge*> edges;
     vector<Vertex> vertices;
     vector<Edge> edges;
-    vector<list<Edge*>> adjacentList;
+    vector<edges> adjacentList;
 
 public:
-    GraphCommon(const vector<Vertex>& vertices, const vector<Edge>& edges) {}
+    GraphCommon(const vector<Vertex>& vertices, const vector<Edge>& edges);
     virtual bool isEmpty() const;
     virtual bool isSimple() const = 0;
     virtual bool isConnected() const = 0;
@@ -25,9 +29,11 @@ public:
     virtual bool isDirected() const = 0;
     virtual bool isNegativeWeighted() const;
     virtual bool isPlanar() const;
-    virtual std::list<Vertex> getVertices() const;
-    virtual std::list<Edge> getEdges() const;
-    virtual void ponderate(std::list<Edge> edges, double weight);
+    virtual edges getVertices() const;
+    virtual edges getEdges() const;
+    virtual vector<edges> getAdjacentList(vertex v) const;
+    virtual vector<edges> getAdjacentList() const;
+    virtual void ponderate(edges edges, double weight);
     virtual void ponderateEdges(double weight);
     virtual void ponderate(std::list<Vertex> vertices, double weight);
     virtual void addEdge(Edge e);
