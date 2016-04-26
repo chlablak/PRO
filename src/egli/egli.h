@@ -13,6 +13,7 @@
 #include "Exception.h"
 #include "Number.h"
 #include "Parser.h"
+#include "VariableTable.h"
 #include "Vertex.h"
 
 #endif // EGLI_EGLI_H_INCLUDED
