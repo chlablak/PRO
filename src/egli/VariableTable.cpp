@@ -20,7 +20,7 @@ egli::VariableTable::VariableTable() :
     temporaryName()
 {}
 
-egli::detail::Type egli::VariableTable::typeOf(const std::string &name) const
+egli::Type egli::VariableTable::typeOf(const std::string &name) const
 {
     return names.find(name)->second;
 }
@@ -34,15 +34,15 @@ void egli::VariableTable::erase(const std::string &name)
 {
     if (exists(name)) {
         switch (typeOf(name)) {
-            case detail::Type::Array: arrays.erase(name); break;
-            case detail::Type::Boolean: booleans.erase(name); break;
-            case detail::Type::Edge: edges.erase(name); break;
-            case detail::Type::Float: floats.erase(name); break;
-            //case detail::Type::Graph: graphs.erase(name); break;
-            case detail::Type::Integer: integers.erase(name); break;
-            case detail::Type::Number: numbers.erase(name); break;
-            case detail::Type::String: strings.erase(name); break;
-            case detail::Type::Vertex: vertices.erase(name); break;
+            case Type::Array: arrays.erase(name); break;
+            case Type::Boolean: booleans.erase(name); break;
+            case Type::Edge: edges.erase(name); break;
+            case Type::Float: floats.erase(name); break;
+            //case Type::Graph: graphs.erase(name); break;
+            case Type::Integer: integers.erase(name); break;
+            case Type::Number: numbers.erase(name); break;
+            case Type::String: strings.erase(name); break;
+            case Type::Vertex: vertices.erase(name); break;
         }
         names.erase(name);
     }

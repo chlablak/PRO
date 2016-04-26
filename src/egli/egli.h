@@ -13,6 +13,7 @@
 #include "Exception.h"
 #include "Number.h"
 #include "Parser.h"
+#include "Type.h"
 #include "VariableTable.h"
 #include "Vertex.h"
 

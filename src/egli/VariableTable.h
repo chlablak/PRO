@@ -19,7 +19,9 @@
 #include "Edge.h"
 #include "Number.h"
 #include "Vertex.h"
-#include "detail/Types.h"
+#include "Type.h"
+#include "detail/EnumValue.h"
+#include "detail/RealType.h"
 #include "detail/TemporaryName.h"
 
 // Quick writing
@@ -70,7 +72,7 @@ public:
      * \param name - The variable name
      * \return The Type of the variable
      */
-    detail::Type typeOf(const std::string &name) const;
+    Type typeOf(const std::string &name) const;
 
     /*! \brief Check if a variable exists
      *
@@ -117,18 +119,18 @@ public:
 private:
 
     // Easy writing
-    using array_t = detail::RealType<detail::Type::Array>::type;
-    using boolean_t = detail::RealType<detail::Type::Boolean>::type;
-    using edge_t = detail::RealType<detail::Type::Edge>::type;
-    using float_t = detail::RealType<detail::Type::Float>::type;
-    //using graph_t = detail::RealType<detail::Type::Graph>::type;
-    using integer_t = detail::RealType<detail::Type::Integer>::type;
-    using number_t = detail::RealType<detail::Type::Number>::type;
-    using string_t = detail::RealType<detail::Type::String>::type;
-    using vertex_t = detail::RealType<detail::Type::Vertex>::type;
+    using array_t = detail::RealType<Type::Array>::type;
+    using boolean_t = detail::RealType<Type::Boolean>::type;
+    using edge_t = detail::RealType<Type::Edge>::type;
+    using float_t = detail::RealType<Type::Float>::type;
+    //using graph_t = detail::RealType<Type::Graph>::type;
+    using integer_t = detail::RealType<Type::Integer>::type;
+    using number_t = detail::RealType<Type::Number>::type;
+    using string_t = detail::RealType<Type::String>::type;
+    using vertex_t = detail::RealType<Type::Vertex>::type;
 
     // Store the Type behind a name
-    std::map<std::string, detail::Type> names;
+    std::map<std::string, Type> names;
 
     // Storage for values
     std::map<std::string, array_t> arrays;

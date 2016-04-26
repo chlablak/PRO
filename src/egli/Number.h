@@ -8,7 +8,8 @@
 #ifndef EGLI_NUMBER_H_INCLUDED
 #define EGLI_NUMBER_H_INCLUDED
 
-#include "detail/Types.h"
+#include "Type.h"
+#include "detail/RealType.h"
 #include "../utility/Optional.h"
 
 namespace egli
@@ -18,8 +19,8 @@ class Number
 public:
 
     // Useful typedefs
-    using integer_t = detail::RealType<detail::Type::Integer>::type;
-    using float_t = detail::RealType<detail::Type::Float>::type;
+    using integer_t = detail::RealType<Type::Integer>::type;
+    using float_t = detail::RealType<Type::Float>::type;
 
     /*! \brief Constructor
      *

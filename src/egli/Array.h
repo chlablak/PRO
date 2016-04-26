@@ -11,7 +11,7 @@
 #include <vector>
 
 #include "Exception.h"
-#include "detail/Types.h"
+#include "detail/EnumValue.h"
 
 namespace egli
 {
@@ -47,7 +47,7 @@ public:
      *
      * \throw Exception if i >= size()
      */
-    detail::Type typeOf(size_t i) const;
+    Type typeOf(size_t i) const;
 
     /*! \brief Get the value at index i
      *
@@ -64,7 +64,7 @@ private:
     // Associate a void* with a Type
     struct Element
     {
-        detail::Type type;
+        Type type;
         void *ptr;
     };
 

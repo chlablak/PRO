@@ -8,6 +8,8 @@
 #ifndef UTILITY_OPTIONAL_H_INCLUDED
 #define UTILITY_OPTIONAL_H_INCLUDED
 
+#include <utility>
+
 namespace utility
 {
 namespace detail

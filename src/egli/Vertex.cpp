@@ -10,11 +10,11 @@
 #include "Vertex.h"
 #include "Number.h"
 
-egli::Vertex::Vertex(detail::id_type id,
-    const utility::Optional<detail::RealType<detail::Type::String>::type> &label,
-    const utility::Optional<detail::RealType<detail::Type::Number>::type> &weight,
-    const utility::Optional<detail::RealType<detail::Type::Number>::type> &maxCapacity,
-    const utility::Optional<detail::RealType<detail::Type::Number>::type> &minCapacity) :
+egli::Vertex::Vertex(id_type id,
+    const utility::Optional<string_t> &label,
+    const utility::Optional<number_t> &weight,
+    const utility::Optional<number_t> &maxCapacity,
+    const utility::Optional<number_t> &minCapacity) :
         id(id),
         label(label),
         weight(weight),
