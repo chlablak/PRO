@@ -69,7 +69,36 @@ struct Grammar :
 
 template<typename Iterator>
 egli::detail::Grammar<Iterator>::Grammar() :
-    Grammar::base_type(start)
+    Grammar::base_type(start),
+    error(),            // avoid warning -Weffc++
+    start(),            // ...
+    statement(),
+    functionCall(),
+    assignation(),
+    graphAdd(),
+    graphSub(),
+    parameterList(),
+    parameter(),
+    indexedArray(),
+    arrayRecord(),
+    constant(),
+    complexConstant(),
+    graphRecord(),
+    edgeRecord(),
+    vertexRecord(),
+    graphInfo(),
+    edgeInfo(),
+    vertexInfo(),
+    connection(),
+    simpleConstant(),
+    negation(),
+    digitConstant(),
+    variable(),
+    identifier(),
+    stringConstant(),
+    booleanConstant(),
+    numberConstant(),
+    floatConstant()
 {
     // Access to boost features
     using boost::spirit::qi::int_;          // int

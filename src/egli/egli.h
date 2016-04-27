@@ -11,8 +11,11 @@
 #include "Array.h"
 #include "Edge.h"
 #include "Exception.h"
+#include "Function.h"
 #include "Number.h"
 #include "Parser.h"
+#include "Type.h"
+#include "VariableTable.h"
 #include "Vertex.h"
 
 #endif // EGLI_EGLI_H_INCLUDED
