@@ -23,9 +23,22 @@ public:
      */
     Array();
 
+    /*! \brief Copy constructor
+     *
+     * \param a - The array to copy
+     */
+    Array(const Array &a);
+
     /*! \brief Destructor
      */
     ~Array();
+
+    /*! \brief Copy assignement
+     *
+     * \param a - The other array to copy
+     * \return *this
+     */
+    Array &operator=(const Array &a);
 
     /*! \brief Get the array size
      *

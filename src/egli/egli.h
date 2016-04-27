@@ -11,6 +11,7 @@
 #include "Array.h"
 #include "Edge.h"
 #include "Exception.h"
+#include "Function.h"
 #include "Number.h"
 #include "Parser.h"
 #include "Type.h"

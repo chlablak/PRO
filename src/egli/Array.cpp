@@ -16,9 +16,33 @@
         delete static_cast<detail::RealType<Type::E>::type*>(elem.ptr);\
         break;
 
+// Quick writing
+#define EGLI_ARRAY_SWITCH_ADD_CASE(E, o, i) \
+    case Type::E: \
+        add(o.get<detail::RealType<Type::E>::type>(i)); \
+        break;
+
 egli::Array::Array() :
     elements() // avoid warning -Weffc++
 {}
+
+egli::Array::Array(const Array &a) :
+    elements()
+{
+    for (size_t i = 0; i < a.size(); ++i) {
+        switch(a.typeOf(i)) {
+            EGLI_ARRAY_SWITCH_ADD_CASE(Array, a, i)
+            EGLI_ARRAY_SWITCH_ADD_CASE(Boolean, a, i)
+            EGLI_ARRAY_SWITCH_ADD_CASE(Edge, a, i)
+            EGLI_ARRAY_SWITCH_ADD_CASE(Float, a, i)
+            //EGLI_ARRAY_SWITCH_ADD_CASE(Graph, a, i)
+            EGLI_ARRAY_SWITCH_ADD_CASE(Integer, a, i)
+            EGLI_ARRAY_SWITCH_ADD_CASE(Number, a, i)
+            EGLI_ARRAY_SWITCH_ADD_CASE(String, a, i)
+            EGLI_ARRAY_SWITCH_ADD_CASE(Vertex, a, i)
+        }
+    }
+}
 
 egli::Array::~Array()
 {
@@ -37,6 +61,14 @@ egli::Array::~Array()
     }
 }
 
+egli::Array &egli::Array::operator=(const Array &a)
+{
+    // copy-and-swap idiom
+    Array tmp(a);
+    std::swap(elements, tmp.elements);
+    return *this;
+}
+
 size_t egli::Array::size() const
 {
     return elements.size();
@@ -52,3 +84,4 @@ egli::Type egli::Array::typeOf(size_t i) const
 
 // not needed anymore
 #undef EGLI_ARRAY_SWITCH_DELETE_CASE
+#undef EGLI_ARRAY_SWITCH_ADD_CASE
