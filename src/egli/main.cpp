@@ -11,6 +11,8 @@
 
 #include "egli.h"
 
+#include "detail/Preprocessor.h"
+
 using namespace std;
 
 void print(ostream &os, egli::detail::Statement const &s, size_t tab = 0)
@@ -61,10 +63,15 @@ int main()
     string in;
     egli::Parser p;
     egli::detail::Statement s;
-    while (getline(cin, in) && !in.empty()) {
+    egli::detail::Preprocessor pp;
+    while (getline(cin, in)) {
         try {
-            s = p.parse(in);
-            cout << s << endl;
+            pp.stream() << in;
+            while (pp.available()) {
+                s = p.parse(pp.next());
+                cout << s;
+            }
+            cout << endl;
         } catch (const egli::Exception &e) {
             cout << e.what() << endl;
         }

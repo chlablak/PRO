@@ -20,17 +20,17 @@ egli::VariableTable::VariableTable() :
     temporaryName()
 {}
 
-egli::Type egli::VariableTable::typeOf(const std::string &name) const
+egli::Type egli::VariableTable::typeOf(name_t name) const
 {
     return names.find(name)->second;
 }
 
-bool egli::VariableTable::exists(const std::string &name) const
+bool egli::VariableTable::exists(name_t name) const
 {
     return names.find(name) != names.end();
 }
 
-void egli::VariableTable::erase(const std::string &name)
+void egli::VariableTable::erase(name_t name)
 {
     if (exists(name)) {
         switch (typeOf(name)) {

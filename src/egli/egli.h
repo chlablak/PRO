@@ -12,6 +12,7 @@
 #include "Edge.h"
 #include "Exception.h"
 #include "Function.h"
+#include "FunctionTable.h"
 #include "Number.h"
 #include "Parser.h"
 #include "Type.h"

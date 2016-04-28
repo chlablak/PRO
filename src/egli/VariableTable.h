@@ -30,12 +30,12 @@
     struct TableHelperImpl<T, Dummy> \
     { \
         static void \
-            set(VariableTable &table, const std::string &name, const T &value) \
+            set(VariableTable &table, name_t name, const T &value) \
         { \
             table.V[name] = value; \
         } \
         static const T & \
-            get(const VariableTable &table, const std::string &name) \
+            get(const VariableTable &table, name_t name) \
         { \
             return table.V.find(name)->second; \
         } \
@@ -47,6 +47,9 @@ class VariableTable
 {
 public:
 
+    // Quick writing
+    using name_t = const std::string&;
+
     /*! \brief Constructor
      */
     VariableTable();
@@ -57,7 +60,7 @@ public:
      * \param value - The variable value
      */
     template<typename T>
-    void set(const std::string &name, const T &value);
+    void set(name_t name, const T &value);
 
     /*! \brief Get a temporary variable with a specific value
      *
@@ -72,20 +75,20 @@ public:
      * \param name - The variable name
      * \return The Type of the variable
      */
-    Type typeOf(const std::string &name) const;
+    Type typeOf(name_t name) const;
 
     /*! \brief Check if a variable exists
      *
      * \param name - The variable name
      * \return true if the variable exists
      */
-    bool exists(const std::string &name) const;
+    bool exists(name_t name) const;
 
     /*! \brief Remove a variable
      *
      * \param name - The variable name
      */
-    void erase(const std::string &name);
+    void erase(name_t name);
 
     /*! \brief Get a variable value
      *
@@ -95,7 +98,7 @@ public:
      * \throw Exception if !exists(name) or if typeOf(name) != T
      */
     template<typename T>
-    const T &get(const std::string &name) const;
+    const T &get(name_t name) const;
 
     /*! \brief Clear all variables
      */
@@ -168,7 +171,7 @@ private:
 } // namespace egli
 
 template<typename T>
-void egli::VariableTable::set(const std::string &name, const T &value)
+void egli::VariableTable::set(name_t name, const T &value)
 {
     if (exists(name) && typeOf(name) != detail::EnumValue<T>::value)
         erase(name);
@@ -187,7 +190,7 @@ std::string egli::VariableTable::setTemporary(const T &value)
 }
 
 template<typename T>
-const T &egli::VariableTable::get(const std::string &name) const
+const T &egli::VariableTable::get(name_t name) const
 {
     if (!exists(name))
         throw Exception("Invalid name", "egli::VariableTable::get");

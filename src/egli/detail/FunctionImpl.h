@@ -26,9 +26,9 @@ class FunctionCallerImpl
 public:
 
     // Quick writing
-    using name_t = const std::string&;
     using parameters_t = const std::vector<std::string>&;
     using table_t = VariableTable&;
+    using name_t = VariableTable::name_t;
 
     /*! \brief Destructor
      */
