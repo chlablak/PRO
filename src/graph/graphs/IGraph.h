@@ -11,6 +11,10 @@
 
 class IGraph {
 public:
+
+    typedef list<Edge*> edges;
+    typedef list<Vertex*> vertices;
+
     virtual ~IGraph(){}
     virtual bool isEmpty() const = 0;
     virtual bool isSimple() const = 0;
@@ -19,8 +23,8 @@ public:
     virtual bool isDirected() const = 0;
     virtual bool isNegativeWeighted() const = 0;
     virtual bool isPlanar() const = 0;
-    virtual std::list<Vertex> getVertices() const = 0;
-    virtual std::list<Edge> getEdges() const = 0;
+    virtual vertices getVertices() const = 0;
+    virtual edges getEdges() const = 0;
     virtual void ponderate(std::list<Edge> edges, double weight) = 0;
     virtual void ponderateEdges(double weight) = 0;
     virtual void ponderate(std::list<Vertex> vertices, double weight) = 0;

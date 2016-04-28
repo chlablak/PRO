@@ -13,7 +13,7 @@ class Graph : public GraphCommon
 
 public:
     Graph(const vector<Vertex>& vertices, const vector<Edge>& edges)
-            : GraphCommon(vertices, edges)
+            : GraphCommon::GraphCommon(vertices, edges)
     { }
 
     virtual bool isSimple() const;

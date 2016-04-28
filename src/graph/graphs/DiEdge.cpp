@@ -5,5 +5,5 @@
 #include "DiEdge.h"
 
 
-Vertex* DiEdge::getFrom() { return getEither(); }
-Vertex* DiEdge::getTo() { return getOther(getEither()); }
+const Vertex* DiEdge::from() { return either(); }
+const Vertex* DiEdge::to() { return other(either()); }
