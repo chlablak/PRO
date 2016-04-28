@@ -13,15 +13,20 @@
 using  namespace std;
 
 class GraphCommon : public IGraph {
+
+private:
+
 protected:
 
-    typedef list<Edge*> edges;
-    vector<Vertex> vertices;
-    vector<Edge> edges;
+    virtual void fillAdjacentList();
+
+    vector<Vertex> _vertices;
+    vector<Edge> _edges;
     vector<edges> adjacentList;
 
 public:
-    GraphCommon(const vector<Vertex>& vertices, const vector<Edge>& edges);
+    GraphCommon(const vector<Vertex>& _vertices) : _vertices(_vertices), _edges(0), adjacentList(0){}
+    GraphCommon(const vector<Vertex>& _vertices, const vector<Edge>& _edges) : _vertices(_vertices), _edges(_edges) { fillAdjacentList();  }
     virtual bool isEmpty() const;
     virtual bool isSimple() const = 0;
     virtual bool isConnected() const = 0;
@@ -29,13 +34,13 @@ public:
     virtual bool isDirected() const = 0;
     virtual bool isNegativeWeighted() const;
     virtual bool isPlanar() const;
-    virtual edges getVertices() const;
+    virtual vertices getVertices() const;
     virtual edges getEdges() const;
-    virtual vector<edges> getAdjacentList(vertex v) const;
+    virtual vector<edges> getAdjacentList(Vertex v) const;
     virtual vector<edges> getAdjacentList() const;
-    virtual void ponderate(edges edges, double weight);
+    virtual void ponderate(edges _edges, double weight);
     virtual void ponderateEdges(double weight);
-    virtual void ponderate(std::list<Vertex> vertices, double weight);
+    virtual void ponderate(vertices _vertices, double weight);
     virtual void addEdge(Edge e);
     virtual void addVertex(Vertex v);
     virtual void removeEdge(Edge e);

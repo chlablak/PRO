@@ -5,13 +5,13 @@
 #include "Edge.h"
 
 // Getters
-int Edge::getId() const { return id; }
-string * Edge::getLabel() const { return  label; }
-double* Edge::getWeight() const { return  weight; }
-size_t * Edge::getMinCapacity() const { return minCapacity; }
-size_t * Edge::getMaxCapacity() const { return maxCapacity; }
-Vertex* Edge::getEither() const { return  a; }
-Vertex* Edge::getOther(const Vertex *v) const { if (a == b) return b; else return a; } // faudra surcharger l'op == pour les vertex
+int Edge::id() const { return _id; }
+string * Edge::label() const { return  _label; }
+double* Edge::weight() const { return  _weight; }
+size_t * Edge::minCapacity() const { return _minCapacity; }
+size_t * Edge::maxCapacity() const { return _maxCapacity; }
+const Vertex* Edge::either() const { return  a; }
+const Vertex* Edge::other(const Vertex *v) const { if (a == b) return b; else return a; } // faudra surcharger l'op == pour les vertex
 void Edge::deleteItem() {
     if(a != nullptr){
         delete a;
@@ -19,16 +19,16 @@ void Edge::deleteItem() {
     if(b != nullptr){
         delete b;
     }
-    if(label != nullptr){
-        delete label;
+    if(_label != nullptr){
+        delete _label;
     }
-    if(weight != nullptr){
-        delete weight;
+    if(_weight != nullptr){
+        delete _weight;
     }
-    if(minCapacity != nullptr){
-        delete minCapacity;
+    if(_minCapacity != nullptr){
+        delete _minCapacity;
     }
-    if(maxCapacity != nullptr){
-        delete maxCapacity;
+    if(_maxCapacity != nullptr){
+        delete _maxCapacity;
     }
 }

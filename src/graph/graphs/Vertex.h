@@ -11,26 +11,26 @@
 
 class Vertex {
 private:
-    int id;
-    std::string *label;
-    double *weight;
-    size_t *minCapacity;
-    size_t *maxCapacity;
+    int _id;
+    std::string *_label;
+    double *_weight;
+    size_t *_minCapacity;
+    size_t *_maxCapacity;
 
 public:
     Vertex(const int id, const std::string& label, const double weight,
            const size_t minCap, const size_t maxCap) :
-            id(id), label (new std::string(label)), weight (new double(weight)),
-            minCapacity (new size_t(minCap)), maxCapacity (new size_t(maxCap)){}
+            _id(id), _label (new std::string(label)), _weight (new double(weight)),
+            _minCapacity (new size_t(minCap)), _maxCapacity (new size_t(maxCap)){}
 
     ~Vertex();
 
     // Getters
-    int getId() const;
-    std::string* getLabel() const;
-    double* getWeight() const;
-    size_t* getMinCapacity() const;
-    size_t* getMaxCapacity() const;
+    int id() const;
+    std::string* label() const;
+    double* weight() const;
+    size_t* minCapacity() const;
+    size_t* maxCapacity() const;
 
     // Setters
     void setLabel(const std::string& s);
