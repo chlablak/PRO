@@ -98,7 +98,7 @@ template<typename T>
 const T &egli::Array::get(size_t i) const
 {
     if (typeOf(i) != detail::EnumValue<T>::value) // do the index check
-        throw Exception("Bad type cast", "egli::Array::get<T>");
+        throw Exception("bad type cast", "egli::Array::get<T>");
 
     return *static_cast<T*>(elements[i].ptr);
 }

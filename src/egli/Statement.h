@@ -5,15 +5,13 @@
  * \date 19.04.2016
  */
 
-#ifndef EGLI_DETAIL_STATEMENT_H_INCLUDED
-#define EGLI_DETAIL_STATEMENT_H_INCLUDED
+#ifndef EGLI_STATEMENT_H_INCLUDED
+#define EGLI_STATEMENT_H_INCLUDED
 
 #include <string>
 #include <vector>
 
 namespace egli
-{
-namespace detail
 {
 struct Statement
 {
@@ -65,7 +63,6 @@ struct Statement
      */
     Statement(ConstantType constantType, const std::string &value);
 };
-} // namespace detail
 } // namespace egli
 
-#endif // EGLI_DETAIL_STATEMENT_H_INCLUDED
+#endif // EGLI_STATEMENT_H_INCLUDED

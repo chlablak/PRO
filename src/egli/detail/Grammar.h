@@ -11,7 +11,7 @@
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/phoenix.hpp>
 
-#include "Statement.h"
+#include "../Statement.h"
 
 namespace egli
 {

@@ -193,9 +193,9 @@ template<typename T>
 const T &egli::VariableTable::get(name_t name) const
 {
     if (!exists(name))
-        throw Exception("Invalid name", "egli::VariableTable::get");
+        throw Exception("invalid name", "egli::VariableTable::get");
     if (typeOf(name) != detail::EnumValue<T>::value)
-        throw Exception("Bad type cast", "egli::VariableTable::get");
+        throw Exception("bad type cast", "egli::VariableTable::get");
 
     return TableHelper<T>::get(*this, name);
 }

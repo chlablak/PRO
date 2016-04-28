@@ -141,7 +141,7 @@ public:
             case 8: return EnumValue<P8>::value;
             case 9: return EnumValue<P9>::value;
             default:
-                throw Exception("Out of range",
+                throw Exception("out of range",
                                 "egli::FunctionCaller::parameterType");
         }
     }
@@ -222,7 +222,7 @@ public:
             case 7: return EnumValue<P7>::value;
             case 8: return EnumValue<P8>::value;
             default:
-                throw Exception("Out of range",
+                throw Exception("out of range",
                                 "egli::FunctionCaller::parameterType");
         }
     }
@@ -299,7 +299,7 @@ public:
             case 6: return EnumValue<P6>::value;
             case 7: return EnumValue<P7>::value;
             default:
-                throw Exception("Out of range",
+                throw Exception("out of range",
                                 "egli::FunctionCaller::parameterType");
         }
     }
@@ -373,7 +373,7 @@ public:
             case 5: return EnumValue<P5>::value;
             case 6: return EnumValue<P6>::value;
             default:
-                throw Exception("Out of range",
+                throw Exception("out of range",
                                 "egli::FunctionCaller::parameterType");
         }
     }
@@ -444,7 +444,7 @@ public:
             case 4: return EnumValue<P4>::value;
             case 5: return EnumValue<P5>::value;
             default:
-                throw Exception("Out of range",
+                throw Exception("out of range",
                                 "egli::FunctionCaller::parameterType");
         }
     }
@@ -512,7 +512,7 @@ public:
             case 3: return EnumValue<P3>::value;
             case 4: return EnumValue<P4>::value;
             default:
-                throw Exception("Out of range",
+                throw Exception("out of range",
                                 "egli::FunctionCaller::parameterType");
         }
     }
@@ -576,7 +576,7 @@ public:
             case 2: return EnumValue<P2>::value;
             case 3: return EnumValue<P3>::value;
             default:
-                throw Exception("Out of range",
+                throw Exception("out of range",
                                 "egli::FunctionCaller::parameterType");
         }
     }
@@ -637,7 +637,7 @@ public:
             case 1: return EnumValue<P1>::value;
             case 2: return EnumValue<P2>::value;
             default:
-                throw Exception("Out of range",
+                throw Exception("out of range",
                                 "egli::FunctionCaller::parameterType");
         }
     }
@@ -695,7 +695,7 @@ public:
             case 0: return EnumValue<P0>::value;
             case 1: return EnumValue<P1>::value;
             default:
-                throw Exception("Out of range",
+                throw Exception("out of range",
                                 "egli::FunctionCaller::parameterType");
         }
     }
@@ -750,7 +750,7 @@ public:
         switch (i) {
             case 0: return EnumValue<P0>::value;
             default:
-                throw Exception("Out of range",
+                throw Exception("out of range",
                                 "egli::FunctionCaller::parameterType");
         }
     }
@@ -801,7 +801,7 @@ public:
 
     virtual Type parameterType(size_t i) const
     {
-        throw Exception("Out of range", "egli::FunctionCaller::parameterType");
+        throw Exception("out of range", "egli::FunctionCaller::parameterType");
     }
 
     virtual size_t arity() const

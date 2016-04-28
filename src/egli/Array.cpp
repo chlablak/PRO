@@ -77,7 +77,7 @@ size_t egli::Array::size() const
 egli::Type egli::Array::typeOf(size_t i) const
 {
     if (i >= size())
-        throw Exception("Index out of range", "egli::Array::typeOf");
+        throw Exception("index out of range", "egli::Array::typeOf");
 
     return elements[i].type;
 }

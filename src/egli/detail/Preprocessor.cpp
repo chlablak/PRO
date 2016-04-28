@@ -60,7 +60,7 @@ size_t egli::detail::Preprocessor::available()
 std::string egli::detail::Preprocessor::next()
 {
     if(available() == 0) // call sync()
-        throw Exception("Empty queue", "egli::detail::Preprocessor::next");
+        throw Exception("empty queue", "egli::detail::Preprocessor::next");
     std::string tmp = m_queue.front();
     m_queue.pop_front();
     return tmp;

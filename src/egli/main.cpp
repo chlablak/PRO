@@ -15,27 +15,27 @@
 
 using namespace std;
 
-void print(ostream &os, egli::detail::Statement const &s, size_t tab = 0)
+void print(ostream &os, egli::Statement const &s, size_t tab = 0)
 {
     for (size_t i = 0; i < tab; ++i)
         os << " ";
     switch (s.type) {
-        case egli::detail::Statement::Type::Assignation: os << "Assignation"; break;
-        case egli::detail::Statement::Type::Array: os << "Array"; break;
-        case egli::detail::Statement::Type::Constant: os << "Constant"; break;
-        case egli::detail::Statement::Type::Function: os << "Function"; break;
-        case egli::detail::Statement::Type::None: os << "None"; break;
-        case egli::detail::Statement::Type::Variable: os << "Variable"; break;
+        case egli::Statement::Type::Assignation: os << "Assignation"; break;
+        case egli::Statement::Type::Array: os << "Array"; break;
+        case egli::Statement::Type::Constant: os << "Constant"; break;
+        case egli::Statement::Type::Function: os << "Function"; break;
+        case egli::Statement::Type::None: os << "None"; break;
+        case egli::Statement::Type::Variable: os << "Variable"; break;
     }
     os << "(\"" << s.value << "\"";
-    if (s.type == egli::detail::Statement::Type::Constant) {
+    if (s.type == egli::Statement::Type::Constant) {
         os << " ";
         switch (s.constantType) {
-            case egli::detail::Statement::ConstantType::Boolean: os << "Boolean"; break;
-            case egli::detail::Statement::ConstantType::Float: os << "Float"; break;
-            case egli::detail::Statement::ConstantType::Integer: os << "Integer"; break;
-            case egli::detail::Statement::ConstantType::String: os << "String"; break;
-            case egli::detail::Statement::ConstantType::Unused: os << "Unused"; break;
+            case egli::Statement::ConstantType::Boolean: os << "Boolean"; break;
+            case egli::Statement::ConstantType::Float: os << "Float"; break;
+            case egli::Statement::ConstantType::Integer: os << "Integer"; break;
+            case egli::Statement::ConstantType::String: os << "String"; break;
+            case egli::Statement::ConstantType::Unused: os << "Unused"; break;
         }
     }
     if (!s.parameters.empty()) {
@@ -48,7 +48,7 @@ void print(ostream &os, egli::detail::Statement const &s, size_t tab = 0)
     os << ")" << endl;
 }
 
-ostream &operator<<(ostream &os, egli::detail::Statement const &s)
+ostream &operator<<(ostream &os, egli::Statement const &s)
 {
     print(os, s);
     return os;
@@ -62,7 +62,7 @@ int main()
 {
     string in;
     egli::Parser p;
-    egli::detail::Statement s;
+    egli::Statement s;
     egli::detail::Preprocessor pp;
     while (getline(cin, in)) {
         try {

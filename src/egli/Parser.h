@@ -11,7 +11,7 @@
 
 #include <string>
 
-#include "detail/Statement.h"
+#include "Statement.h"
 
 namespace egli
 {
@@ -42,11 +42,11 @@ public:
     /*! \brief Parse the buffer and return the statement
      *
      * \param buffer - string to be parsed
-     * \return the constructed egli::detail::Statement
+     * \return the constructed egli::Statement
      *
      * \throw egli::Exception if parsing fails
      */
-    detail::Statement parse(const std::string &buffer);
+    Statement parse(const std::string &buffer);
 
 private:
 
