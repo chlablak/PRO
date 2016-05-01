@@ -25,8 +25,10 @@ protected:
     vector<edges> adjacentList;
 
 public:
-    GraphCommon(const vector<Vertex>& _vertices) : _vertices(_vertices), _edges(0), adjacentList(0){}
-    GraphCommon(const vector<Vertex>& _vertices, const vector<Edge>& _edges) : _vertices(_vertices), _edges(_edges) { fillAdjacentList();  }
+    GraphCommon(const vector<Vertex>& vertices)
+            : _vertices(vertices), _edges(0), adjacentList(0){}
+    GraphCommon(const vector<Vertex>& vertices, const vector<Edge>& edges)
+            : _vertices(vertices), _edges(edges) { fillAdjacentList();  }
     virtual bool isEmpty() const;
     virtual bool isSimple() const = 0;
     virtual bool isConnected() const = 0;

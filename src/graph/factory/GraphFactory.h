@@ -18,6 +18,8 @@ private:
     GraphFactory();
 
 public:
+    static GraphFactory getInstance();
+    Graph createGraph(const list<Vertex>& vertices);
     Graph createGraph(const list<Vertex>& vertices, const list<Edge>& edges);
     DiGraph createDiGraph(const list<Vertex>& vertices, const list<Edge>& edges);
     FlowGraph createFlowGraph(const list<Vertex>& vertices, const list<Edge>& edges);

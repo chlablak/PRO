@@ -6,8 +6,9 @@
 #define GRAPH_IGRAPH_H
 
 #include <list>
-#include "Edge.h" // contains Vertex.h
-#include "../visitor/Visitor.h"
+#include "Edge.h"
+
+class Visitor;
 
 class IGraph {
 public:
@@ -25,14 +26,19 @@ public:
     virtual bool isPlanar() const = 0;
     virtual vertices getVertices() const = 0;
     virtual edges getEdges() const = 0;
+    virtual int V() const = 0; // retourne le nombre de sommet
     virtual void ponderate(std::list<Edge> edges, double weight) = 0;
     virtual void ponderateEdges(double weight) = 0;
     virtual void ponderate(std::list<Vertex> vertices, double weight) = 0;
     virtual void addEdge(Edge e) = 0;
+    virtual void addEdge(Vertex v1, Vertex v2) = 0;
     virtual void addVertex(Vertex v) = 0;
     virtual void removeEdge(Edge e) = 0;
     virtual void removeVertex(Vertex v) = 0;
-    //virtual void accept(const Visitor& v);
+
+    template <typename Func>
+    void forEachAdjacentVertex(const Vertex& v, Func f);
+    //virtual void accept(Visitor* v);
 };
 
 #endif //GRAPH_IGRAPH_H
