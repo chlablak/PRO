@@ -5,7 +5,7 @@
 #include "Edge.h"
 
 // Getters
-int Edge::id() const { return _id; }
+unsigned int Edge::id() const { return _id; }
 string * Edge::label() const { return  _label; }
 double* Edge::weight() const { return  _weight; }
 size_t * Edge::minCapacity() const { return _minCapacity; }
