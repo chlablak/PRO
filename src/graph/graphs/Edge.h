@@ -25,21 +25,25 @@ protected:
 
 public:
     // Constructors
-    Edge(const Vertex* from, const Vertex* to, const int id) : a(from), b(to), _id(id), _label(nullptr), _weight(nullptr),
-                                                               _minCapacity(nullptr), _maxCapacity(nullptr) {}
-    Edge(const Vertex* from, const Vertex* to, const int id, const string& _label) : Edge::Edge(from, to, id)  { this->_label = new string(_label);}
-    Edge(const Vertex* from, const Vertex* to, const int id, const double& _weight) : Edge::Edge(from, to, id) { this->_weight = new double(_weight);}
-    Edge(const Vertex* from, const Vertex* to, const int id, const double& _weight, const string& _label) : Edge::Edge(from, to, id, _weight){ this->_label = new string(_label);}
-    Edge(const Vertex* from, const Vertex* to, const int id, const string& _label, const double& _weight , const size_t minCap, const size_t maxCap) :
-            a(from), b(to), _id(id),
-            _label (new string(_label)), _weight (new double(_weight)),
-            _minCapacity (new size_t(minCap)), _maxCapacity (new size_t(maxCap)){}
-    ~Edge(){
+
+    Edge(const unsigned int _id, const Vertex* _from, const Vertex* _to) : _id(_id), a(_from), b(_to), _label(nullptr), _weight(nullptr),
+                                                                         _minCapacity(nullptr), _maxCapacity(nullptr) {}
+    Edge(const unsigned int _id, const Vertex* _from, const Vertex* _to, const double&  _weight) : Edge(_id, _from, _to) {this->_weight = new double(_weight); }
+    Edge(const unsigned int _id, const Vertex* _from, const Vertex* _to, const std::string& _label) : Edge(_id, _from, _to) {this->_label = new std::string (_label); }
+    Edge(const unsigned int _id, const Vertex* _from, const Vertex* _to, const double&  _weight, const std::string& _label) : Edge(_id, _from, _to, _weight) {this->_label = new std::string(_label);}
+    Edge(const unsigned int _id, const Vertex* _from, const Vertex* _to, const size_t&  _maxCapacity) : Edge(_id, _from, _to) {this->_maxCapacity = new size_t(_maxCapacity); }
+    Edge(const unsigned int _id, const Vertex* _from, const Vertex* _to, const size_t&  _maxCapacity, const size_t&  _minCapacity) : Edge(_id,_from, _to, _maxCapacity) {this->_minCapacity = new size_t(_minCapacity); }
+    Edge(const unsigned int _id, const Vertex* _from, const Vertex* _to, const double& _weight, const size_t&  _maxCapacity) : Edge(_id, _from, _to, _weight) {this->_maxCapacity = new size_t(_maxCapacity); }
+    Edge(const unsigned int _id, const Vertex* _from, const Vertex* _to, const double& _weight, const std::string& _label, const size_t& _maxCapacity, const size_t& _minCapacity):
+            _id(_id), a(_from), b(_to), _label (new std::string(_label)), _weight (new double(_weight)),  _maxCapacity (new size_t(_maxCapacity)),
+            _minCapacity (new size_t(_minCapacity)){}
+
+    virtual ~Edge(){
         deleteItem();
-    };
+    }
 
     // Getters
-    int id() const;
+    unsigned int id() const;
     string* label() const;
     double* weight() const;
     size_t* minCapacity() const;
@@ -52,6 +56,10 @@ public:
     void setWeight(const double w);
     void setminCapacity(const size_t minCap);
     void setMaxCapacitiy(const size_t maxCap);
+
+
+    // opérateurs
+
 };
 
 

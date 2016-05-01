@@ -16,6 +16,9 @@ public:
     typedef list<Vertex*> vertices;
 
     virtual ~IGraph(){}
+
+
+    virtual bool isNull() const = 0;
     virtual bool isEmpty() const = 0;
     virtual bool isSimple() const = 0;
     virtual bool isConnected() const = 0;
@@ -23,15 +26,19 @@ public:
     virtual bool isDirected() const = 0;
     virtual bool isNegativeWeighted() const = 0;
     virtual bool isPlanar() const = 0;
-    virtual vertices getVertices() const = 0;
-    virtual edges getEdges() const = 0;
-    virtual void ponderate(std::list<Edge> edges, double weight) = 0;
-    virtual void ponderateEdges(double weight) = 0;
-    virtual void ponderate(std::list<Vertex> vertices, double weight) = 0;
-    virtual void addEdge(Edge e) = 0;
-    virtual void addVertex(Vertex v) = 0;
-    virtual void removeEdge(Edge e) = 0;
-    virtual void removeVertex(Vertex v) = 0;
+    virtual vertices vertexList() const = 0;
+    virtual edges edgeList() const = 0;
+    virtual unsigned int vertexId() = 0;
+    virtual unsigned int edgeId() = 0;
+    virtual IGraph::edges adjacentList(const Vertex* _vertex) const;
+    virtual vector<edges> adjacentList() const;
+    virtual void ponderate(edges& _edges, const double& _weight) = 0;
+    virtual void ponderateEdges(const double& _weight) = 0;
+    virtual void ponderate(vertices& _vertices, const double& _weight) = 0;
+    virtual void addEdge(Edge* _edge) = 0;
+    virtual void addVertex(Vertex* _vertex) = 0;
+    virtual void removeEdge(Edge* _edge) = 0;
+    virtual void removeVertex(Vertex* _vertex) = 0;
     //virtual void accept(const Visitor& v);
 };
 
