@@ -13,6 +13,7 @@
 #include <string>
 
 #warning replace std::map with utility::TstMap
+#warning getTemporaryName() (ou dans FunctionTable...)
 
 #include "Exception.h"
 #include "Array.h"
@@ -43,6 +44,8 @@
 
 namespace egli
 {
+/*! \brief Variable table
+ */
 class VariableTable
 {
 public:
@@ -74,6 +77,8 @@ public:
      *
      * \param name - The variable name
      * \return The Type of the variable
+     *
+     * \throw Exception if !exists(name)
      */
     Type typeOf(name_t name) const;
 
@@ -117,7 +122,41 @@ public:
      * \param prefix - The pattern to match
      * \return A list of matching names
      */
-    std::list<std::string> find(const std::string &prefix) const;
+    std::list<std::string> find(name_t prefix) const;
+
+    /*! \brief Move a variable to a new/other one
+     *
+     * \param dst - The destination variable
+     * \param src - The source variable
+     *
+     * \throw Exception if !exists(src)
+     * \post exists(src) == false
+     */
+    void move(name_t dst, name_t src);
+
+    /*! \brief Copy a variable to a new/other one
+     *
+     * \param dst - The destination variable
+     * \param src - The source variable
+     *
+     * \throw Exception if !exists(src)
+     */
+    void copy(name_t dst, name_t src);
+
+    /*! \brief Check if a variable is temporary or not
+     *
+     * \param name - The variable name
+     * \return true if the variable is temporary
+     *
+     * \throw Exception if !exists(name)
+     */
+    bool isTemporary(name_t name) const;
+
+    /*! \brief Get the next temporary name
+     *
+     * \return The name
+     */
+    std::string nextTemporaryName();
 
 private:
 
@@ -167,6 +206,36 @@ private:
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(number_t, numbers)
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(string_t, strings)
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(vertex_t, vertices)
+};
+
+/*! \brief RAII-style class for enter()/leave() in the VariableTable
+ */
+class TemporaryScope
+{
+public:
+
+    /*! \brief Constructor
+     *
+     * \param table - The VariableTable
+     *
+     * \note Calls table.enter()
+     */
+    TemporaryScope(VariableTable &table);
+
+    // Not needed, avoid pointer problem
+    TemporaryScope(const TemporaryScope&) = delete;
+    TemporaryScope &operator=(const TemporaryScope&) = delete;
+
+    /*! \brief Destructor
+     *
+     * \note Calls table.leave()
+     */
+    ~TemporaryScope();
+
+private:
+
+    // data member
+    VariableTable *table;
 };
 } // namespace egli
 

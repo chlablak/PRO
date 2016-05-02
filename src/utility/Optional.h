@@ -40,7 +40,8 @@ const detail::OptionalNone &none
     = detail::OptionalNoneInstance<detail::OptionalNone>::instance;
 }
 
-// Optional class
+/*! \brief Class for optional value
+ */
 template<typename T>
 class Optional
 {

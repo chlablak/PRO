@@ -13,6 +13,8 @@
 
 namespace egli
 {
+/*! \brief Exception type
+ */
 class Exception :
     public std::runtime_error
 {

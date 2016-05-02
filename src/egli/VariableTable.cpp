@@ -22,6 +22,8 @@ egli::VariableTable::VariableTable() :
 
 egli::Type egli::VariableTable::typeOf(name_t name) const
 {
+    if (!exists(name))
+        throw Exception("Unknown name", "egli::VariableTable::typeOf", name);
     return names.find(name)->second;
 }
 
@@ -76,7 +78,7 @@ void egli::VariableTable::leave()
 }
 
 std::list<std::string>
-    egli::VariableTable::find(const std::string &prefix) const
+    egli::VariableTable::find(name_t prefix) const
 {
     std::list<std::string> list;
     for (const auto &it : names) {
@@ -84,4 +86,71 @@ std::list<std::string>
             list.push_back(it.first);
     }
     return list;
+}
+
+void egli::VariableTable::move(name_t dst, name_t src)
+{
+    copy(dst, src);
+    erase(src);
+    #warning rename instead of copy ?
+}
+
+void egli::VariableTable::copy(name_t dst, name_t src)
+{
+    if (!exists(src))
+        throw Exception("Source unavailable", "egli::VariableTable::copy", src);
+    if (exists(dst))
+        erase(dst);
+    switch(typeOf(src)) {
+        case Type::Array:
+            set(dst, get<detail::RealType<Type::Array>::type>(src));
+            break;
+        case Type::Boolean:
+            set(dst, get<detail::RealType<Type::Boolean>::type>(src));
+            break;
+        case Type::Edge:
+            set(dst, get<detail::RealType<Type::Edge>::type>(src));
+            break;
+        case Type::Float:
+            set(dst, get<detail::RealType<Type::Float>::type>(src));
+            break;
+        /*case Type::Graph:
+            set(dst, get<detail::RealType<Type::Graph>::type>(src));
+            break;*/
+        case Type::Integer:
+            set(dst, get<detail::RealType<Type::Integer>::type>(src));
+            break;
+        case Type::Number:
+            set(dst, get<detail::RealType<Type::Number>::type>(src));
+            break;
+        case Type::String:
+            set(dst, get<detail::RealType<Type::String>::type>(src));
+            break;
+        case Type::Vertex:
+            set(dst, get<detail::RealType<Type::Vertex>::type>(src));
+            break;
+    }
+}
+
+bool egli::VariableTable::isTemporary(name_t name) const
+{
+    if (!exists(name))
+        throw Exception("Unknown name", "egli::VariableTable::isTemporary", name);
+    return !name.empty() && name[0] == '_';
+}
+
+std::string egli::VariableTable::nextTemporaryName()
+{
+    return temporaryName.next();
+}
+
+egli::TemporaryScope::TemporaryScope(VariableTable &table_) :
+    table(&table_)
+{
+    table->enter();
+}
+
+egli::TemporaryScope::~TemporaryScope()
+{
+    table->leave();
 }

@@ -5,78 +5,64 @@
 #ifndef GRAPH_GRAPHCOMMON_H
 #define GRAPH_GRAPHCOMMON_H
 
-
 #include <vector>
 #include "IGraph.h"
 #include "Vertex.h"
 
-using  namespace std;
+using namespace std;
 
 class GraphCommon : public IGraph {
 
 private:
-    unsigned int _edgeid;
-    unsigned int _vertexId;
+    template <typename T>
+    void computeId(vector<T> &result, const vector<T> &table);
 protected:
-
-    virtual void fillAdjacentList();
-
-    vector<Vertex*> _vertices;
-    vector<Edge*> _edges;
-    vector<edges> _adjacentList;
+    vector<Vertex> _vertices;
+    vector<list<Edge*>> _adjacentList;
 
 public:
-    GraphCommon() : _vertices(0), _edges(0), _adjacentList(0) {}
-    GraphCommon(const vector<Vertex*>& _vertices) : _vertices(_vertices), _edges(0), _adjacentList(0){}
-    GraphCommon(const vector<Vertex*>& _vertices, const vector<Edge*>& _edges) : _vertices(_vertices), _edges(_edges) { fillAdjacentList();  }
+    GraphCommon() : _vertices(0), _adjacentList(0) { }
 
-    virtual ~GraphCommon() {}
+    GraphCommon(const vector<Vertex> &vertices);
 
-    virtual bool isNull() const override ;
+    GraphCommon(const vector<Vertex> &vertices, const vector<Edge> &edges);
 
-    virtual bool isEmpty() const override ;
+    ~GraphCommon() override { }
 
-    virtual bool isSimple() const override ;
+    bool isNull() const override { return false; }
 
-    virtual bool isConnected() const override ;
+    bool isEmpty() const;
 
-    virtual bool isStronglyConnected() const override ;
+    virtual bool isSimple() const = 0; // TODO si définir dans common ou classes filles
 
-    virtual bool isDirected() const override ;
+    bool isConnected() const { return false; }
 
-    virtual bool isNegativeWeighted() const override ;
+    virtual bool isStronglyConnected() const = 0; // TODO return isConnected() ici et redéfinir dans DiGraph
 
-    virtual bool isPlanar() const override ;
+    virtual bool isDirected() const = 0;
 
-    virtual vertices vertexList() const override ;
+    bool isNegativeWeighted() const override;
 
-    virtual edges edgeList() const override ;
+    bool isPlanar() const override;
 
-    virtual unsigned int vertexId() override ;
+//    virtual vertices vertexList() const override ;
+//    virtual edges edgeList() const override ;
+//    virtual IGraph::edges adjacentEdges(const Vertex* _vertex) const override ;
+//    virtual vector<edges> adjacentList() const override ;
 
-    virtual unsigned int edgeId() override ;
+    void ponderateEdges(const double &weight) override {}
 
-    virtual IGraph::edges adjacentList(const Vertex* _vertex) const override ;
+    void pondeateVertices(const double &weight) override {}
 
-    virtual vector<edges> adjacentList() const override ;
+    virtual void addEdge(const Edge &e) = 0;
 
-    virtual void ponderate(edges &_edges, const double &_weight) override ;
+    void addVertex(const Vertex &vertex) override {}
 
-    virtual void ponderateEdges(const double &_weight) override;
+    virtual void removeEdge(Edge &edge) = 0;
 
-    virtual void ponderate(vertices &_vertices, const double &_weight) override ;
+    void removeVertex(Vertex &vertex) override {}
 
-    virtual void addEdge(Edge *_edge) override ;
-
-    virtual void addVertex(Vertex *_vertex) override ;
-
-    virtual void removeEdge(Edge *_edge) override ;
-
-    virtual void removeVertex(Vertex *_vertex) override ;
-
-
-
-
+    int V() const override { return _vertices.size(); }
 
     //virtual void accept(const Visitor& v);
 };

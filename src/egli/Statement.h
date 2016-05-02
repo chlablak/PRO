@@ -13,6 +13,8 @@
 
 namespace egli
 {
+/*! \brief Statement (tree)
+ */
 struct Statement
 {
     /*! \brief Type of statement

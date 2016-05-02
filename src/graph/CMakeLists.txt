@@ -10,5 +10,5 @@ set(SOURCE_FILES main.cpp graphs/IGraph.h graphs/Vertex.cpp graphs/Vertex.h
         graphs/DiEdge.cpp graphs/DiEdge.h
         factory/DiEdgeFactory.h factory/DiEdgeFactory.cpp
         factory/VertexFactory.h factory/EdgeFactory.cpp factory/EdgeFactory.h
-        factory/GraphFactory.cpp factory/GraphFactory.h visitor/Visitor.h)
+        factory/GraphFactory.cpp factory/GraphFactory.h visitor/Visitor.h algorithms/BFS.cpp algorithms/BFS.h)
 add_executable(graph ${SOURCE_FILES})
