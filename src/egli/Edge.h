@@ -14,6 +14,8 @@
 
 namespace egli
 {
+/*! \brief Edge type
+ */
 struct Edge
 {
     // Useful typedefs
@@ -35,7 +37,7 @@ struct Edge
      * \param maxCapacity - The vertex optional max capacity
      * \param minCapacity - The vertex optional min capacity
      */
-    Edge(id_type id,
+    Edge(id_type id = 0,
         const utility::Optional<number_t> &weight = {},
         const utility::Optional<string_t> &label = {},
         const utility::Optional<number_t> &maxCapacity = {},

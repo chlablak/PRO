@@ -14,6 +14,8 @@
 
 namespace egli
 {
+/*! \brief Number class
+ */
 class Number
 {
 public:
