@@ -14,6 +14,10 @@ public:
     DiGraph(const vector<Vertex> &vertices, const vector<Edge> &edges)
             : GraphCommon::GraphCommon(vertices, edges) { }
 
+    virtual void addEdge(const Edge& e) override {
+        // TODO ajouter 1x dans la liste d'adjacence
+    }
+
     virtual bool isSimple() const;
     virtual bool isConnected() const;
     virtual bool isStronglyConnected() const;
