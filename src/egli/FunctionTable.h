@@ -18,6 +18,8 @@
 
 namespace egli
 {
+/*! \brief Function table
+ */
 class FunctionTable
 {
 public:

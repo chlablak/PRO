@@ -21,6 +21,8 @@ namespace egli
 {
 namespace detail
 {
+/*! \brief Base class for function wrapping
+ */
 class FunctionCallerImpl
 {
 public:
@@ -70,7 +72,7 @@ public:
      * \param dst - The destination variable name (for the result)
      * \param params - The variables
      */
-    virtual void execute(table_t table, name_t dst, parameters_t params)const=0;
+    virtual void execute(table_t table, name_t dst, parameters_t params)const = 0;
 };
 
 /* Helper for FunctionImpl */

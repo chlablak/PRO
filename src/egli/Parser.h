@@ -23,6 +23,8 @@ template<typename>
 struct Grammar;
 }
 
+/*! \brief Parse the user input
+ */
 class Parser
 {
 public:

@@ -17,6 +17,8 @@ namespace egli
 {
 namespace detail
 {
+/*! \brief Grammar used by the Parser
+ */
 template<typename Iterator>
 struct Grammar :
     boost::spirit::qi::grammar<Iterator, Statement()>

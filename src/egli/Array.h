@@ -15,6 +15,8 @@
 
 namespace egli
 {
+/*! \brief Heterogenous dynamic array
+ */
 class Array
 {
 public:

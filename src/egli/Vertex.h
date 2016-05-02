@@ -14,6 +14,8 @@
 
 namespace egli
 {
+/*! \brief Vertex type
+ */
 struct Vertex
 {
     // Useful typedefs
@@ -35,7 +37,7 @@ struct Vertex
      * \param maxCapacity - The vertex optional max capacity
      * \param minCapacity - The vertex optional min capacity
      */
-    Vertex(id_type id,
+    Vertex(id_type id = 0,
         const utility::Optional<string_t> &label = {},
         const utility::Optional<number_t> &weight = {},
         const utility::Optional<number_t> &maxCapacity = {},

@@ -15,6 +15,8 @@ namespace egli
 {
 namespace detail
 {
+/*! \brief Class for temporary names generation
+ */
 class TemporaryName
 {
 public:
