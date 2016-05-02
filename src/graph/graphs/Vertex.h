@@ -11,19 +11,27 @@
 
 class Vertex {
 private:
-    int _id;
+    const unsigned int _id;
     std::string *_label;
     double *_weight;
     size_t *_minCapacity;
     size_t *_maxCapacity;
 
-public:
-    Vertex(const int id, const std::string& label, const double weight,
-           const size_t minCap, const size_t maxCap) :
-            _id(id), _label (new std::string(label)), _weight (new double(weight)),
-            _minCapacity (new size_t(minCap)), _maxCapacity (new size_t(maxCap)){}
+    void deleteItem();
 
-    ~Vertex();
+public:
+    Vertex(const unsigned int _id) : _id(_id), _weight(nullptr), _label(nullptr), _minCapacity(nullptr) , _maxCapacity(nullptr){ }
+    Vertex(const unsigned int _id, const double&  _weight) : Vertex(_id) {this->_weight = new double(_weight); }
+    Vertex(const unsigned int _id, const std::string& _label) : Vertex(_id) {this->_label = new std::string (_label); }
+    Vertex(const unsigned int _id, const double&  _weight, const std::string& _label) : Vertex(_id, _weight) {this->_label = new std::string(_label);}
+    Vertex(const unsigned int _id, const size_t&  _maxCapacity) : Vertex(_id) {this->_maxCapacity = new size_t(_maxCapacity); }
+    Vertex(const unsigned int _id, const size_t&  _maxCapacity, const size_t&  _minCapacity) : Vertex(_id, _maxCapacity) {this->_minCapacity = new size_t(_minCapacity); }
+    Vertex(const unsigned int _id, const double& _weight, const size_t&  _maxCapacity) : Vertex(_id, _weight) {this->_maxCapacity = new size_t(_maxCapacity); }
+    Vertex(const unsigned int _id, const double& weight, const std::string& _label, const size_t& _maxCapacity, const size_t& _minCapacity):
+            _id(_id), _label (new std::string(_label)), _weight (new double(weight)),  _maxCapacity (new size_t(_maxCapacity)),
+            _minCapacity (new size_t(_minCapacity)){}
+
+    ~Vertex() { deleteItem();}
 
     // Getters
     int id() const;

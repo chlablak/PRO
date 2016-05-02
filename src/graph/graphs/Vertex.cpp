@@ -14,3 +14,18 @@ void Vertex::setLabel(const std::string &s) { *_label = s; }
 void Vertex::setWeight(const double w) {*_weight = w; }
 void Vertex::setMinCapacity(const size_t minCap) { *_minCapacity = minCap; }
 void Vertex::setMaxCapacitiy(const size_t maxCap) { *_maxCapacity = maxCap; }
+
+void Vertex::deleteItem() {
+    if(_label != nullptr){
+        delete _label;
+    }
+    if(_weight != nullptr){
+        delete _weight;
+    }
+    if(_minCapacity != nullptr){
+        delete _minCapacity;
+    }
+    if(_maxCapacity != nullptr){
+        delete _maxCapacity;
+    }
+}

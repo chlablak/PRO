@@ -7,19 +7,24 @@
 
 #include <iostream>
 #include "../graphs/Vertex.h"
+#include "../graphs/IGraph.h"
 
 using namespace std;
 
 class VertexFactory {
 private:
-    static VertexFactory instance;
-    VertexFactory();
+    static VertexFactory* instance ;
+    VertexFactory() { };
 public:
-    VertexFactory getInstance();
-    Vertex createVertex(const string* label = nullptr,
-                        const double* weight = nullptr,
-                        const size_t* minCapacity = nullptr,
-                        const size_t* maxCapacity = nullptr);
+    Vertex* createVertex(IGraph* graph) const ;
+    Vertex* createVertex(IGraph* graph, const double&  _weight) const ;
+    Vertex* createVertex(IGraph* graph, const std::string& _label) const;
+    Vertex* createVertex(IGraph* graph, const double&  _weight, const std::string& _label) const;
+    Vertex* createVertex(IGraph* graph, const size_t&  _maxCapacity) const;
+    Vertex* createVertex(IGraph* graph, const size_t&  _maxCapacity, const size_t&  _minCapacity) const;
+    Vertex* createVertex(IGraph* graph, const double& _weight, const size_t&  _maxCapacity) const;
+    Vertex* createVertex(IGraph* graph, const double& _weight, const std::string& _label, const size_t& _maxCapacity, const size_t& _minCapacity) const;
+    static VertexFactory& getInstance();
 };
 
 

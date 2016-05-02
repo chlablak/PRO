@@ -7,19 +7,28 @@
 
 #include <iostream>
 #include "../graphs/Edge.h"
+#include "../graphs/IGraph.h"
+
 
 using namespace std;
 
 class EdgeFactory {
-private:
-    static EdgeFactory instance;
     EdgeFactory();
+private:
+    static EdgeFactory* instance;
 public:
-    Edge createEdge(const Vertex& v1, const Vertex& v2,
-                    const string* label = nullptr,
-                    const double* weight = nullptr,
-                    const size_t* minCapacity = nullptr,
-                    const size_t* maxCapacity = nullptr);
+
+    virtual Edge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2) const;
+    virtual Edge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const double& _weight) const;
+    virtual Edge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const string& _label ) const;
+    virtual Edge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const double& _weight, const string& _label) const;
+    virtual Edge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const size_t& _maxCapacity) const;
+    virtual Edge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const double& _weight, const size_t& _maxCapacity) const;
+    virtual Edge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const size_t& _maxCapacity, const size_t& _minCapacity) const;
+    virtual Edge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const double& _weight, const string& _label, const size_t& _maxCapacity, const size_t& _minCapacity) const;
+
+    static EdgeFactory& getInstance();
+    static void initInstance();
 };
 
 

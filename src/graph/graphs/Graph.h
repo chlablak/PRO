@@ -20,7 +20,7 @@ public:
     virtual bool isConnected() const;
     virtual bool isStronglyConnected() const;
     virtual bool isDirected() const;
-    //virtual void accept(const Visitor& v);
+    //virtual void accept(Visitor* v);
 };
 
 
