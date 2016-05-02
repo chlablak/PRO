@@ -6,6 +6,10 @@
 #define GRAPH_DIEDGEFACTORY_H
 
 
+#include "../graphs/Vertex.h"
+#include "../graphs/IGraph.h"
+#include "EdgeFactory.h"
+
 class DiEdgeFactory : public EdgeFactory {
 
     DiEdgeFactory() {};

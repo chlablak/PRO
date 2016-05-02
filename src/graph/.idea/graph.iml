@@ -18,12 +18,14 @@
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/IGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/factory/DiEdgeFactory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/GraphFactory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/VertexFactory.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/VertexFactory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/GraphFactory.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/factory/DiEdgeFactory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/visitor/Visitor.h" isTestSource="false" />
     </content>

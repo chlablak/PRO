@@ -30,7 +30,7 @@ public:
     GraphCommon(const vector<Vertex*>& _vertices) : _vertices(_vertices), _edges(0), _adjacentList(0){}
     GraphCommon(const vector<Vertex*>& _vertices, const vector<Edge*>& _edges) : _vertices(_vertices), _edges(_edges) { fillAdjacentList();  }
 
-    virtual ~GraphCommon();
+    virtual ~GraphCommon() {}
 
     virtual bool isNull() const override ;
 
