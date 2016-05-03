@@ -12,6 +12,7 @@
 #include "egli.h"
 
 #include "detail/Preprocessor.h"
+#include "detail/interface.h"
 
 using namespace std;
 
@@ -95,8 +96,6 @@ ostream &operator<<(ostream &os, egli::VariableTable const &v)
     return os;
 }
 
-string f() { return "hello"; }
-
 /*! \brief main
  *
  * \return 0
@@ -109,7 +108,9 @@ int main()
     egli::detail::Preprocessor pp;
     egli::VariableTable var;
     egli::FunctionTable func;
-    func.interface("f", f);
+    egli::detail::interfaceBasics(func);
+    egli::detail::interfaceBuiltins(func);
+    egli::detail::interfaceAlgorithms(func);
     while (getline(cin, in)) {
         try {
             pp.stream() << in;
