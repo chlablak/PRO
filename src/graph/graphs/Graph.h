@@ -8,18 +8,42 @@
 
 #include "GraphCommon.h"
 
-class Graph : public GraphCommon
-{
+class Graph : public GraphCommon {
+private:
 
 public:
-    Graph(const vector<Vertex>& vertices, const vector<Edge>& edges)
-            : GraphCommon::GraphCommon(vertices, edges)
-    { }
 
-    virtual bool isSimple() const;
-    virtual bool isConnected() const;
-    virtual bool isStronglyConnected() const;
-    virtual bool isDirected() const;
+    /**
+     * Constructors
+     */
+    Graph() : GraphCommon() { }
+    Graph(const vector<Vertex> vertices) : GraphCommon(vertices) { }
+    Graph(const vector<Vertex> &vertices, const vector<Edge> &edges)
+            : GraphCommon(vertices, edges) { }
+
+    ~Graph();
+
+    bool isSimple() const override {
+        return true;
+    }
+
+    bool isConnected() const override {
+        return true;
+    }
+
+    bool isStronglyConnected() const override {
+        return false;
+    }
+
+    bool isDirected() const override {
+        return false;
+    }
+
+    void addEdge(const Edge &e) override {
+        // TODO ajouter 2x dans la liste d'adjacence
+    }
+
+    void removeEdge(Edge &edge) override {}
     //virtual void accept(Visitor* v);
 };
 

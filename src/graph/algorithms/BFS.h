@@ -9,9 +9,10 @@
 #include "../visitor/Visitor.h"
 
 class BFS : public Visitor {
-    Graph visitGraph(Graph& g, const Vertex& v);
-    DiGraph visitDiGraph(DiGraph& g, const Vertex& v);
-    FlowGraph visitFlowGraph(FlowGraph& g, const Vertex& v);
+    ~BFS();
+    Graph& visitGraph(Graph& g, const Vertex& v);
+    DiGraph& visitDiGraph(DiGraph& g, const Vertex& v);
+    FlowGraph& visitFlowGraph(FlowGraph& g, const Vertex& v);
 };
 
 

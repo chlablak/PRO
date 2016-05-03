@@ -1,34 +1,35 @@
+////
+//// Created by PatrickDesle on 01.05.2016.
+////
+
+//#ifndef GRAPH_DIEDGEFACTORY_H
+//#define GRAPH_DIEDGEFACTORY_H
 //
-// Created by PatrickDesle on 01.05.2016.
 //
-
-#ifndef GRAPH_DIEDGEFACTORY_H
-#define GRAPH_DIEDGEFACTORY_H
-
-
-class DiEdgeFactory : public EdgeFactory {
-
-    DiEdgeFactory() {};
-private:
-public:
-    static void initInstance() {new DiEdgeFactory;};
-
-    ~DiEdgeFactory(){ delete EdgeFactory::instance;}
-
-    static EdgeFactory& getInstance();
-    static void initInstance();
-
-    DiEdge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2) const;
-    DiEdge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const double& _weight) const;
-    DiEdge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const string& _label ) const;
-    DiEdge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const double& _weight, const string& _label) const;
-    DiEdge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const size_t& _maxCapacity) const;
-    DiEdge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const double& _weight, const size_t& _maxCapacity) const;
-    DiEdge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const size_t& _maxCapacity, const size_t& _minCapacity) const;
-    DiEdge* createEdge(IGraph* graph, const Vertex* _v1, const Vertex* _v2, const double& _weight, const string& _label, const size_t& _maxCapacity, const size_t& _minCapacity) const;
-
-
-};
-
-
-#endif //GRAPH_DIEDGEFACTORY_H
+//#include "EdgeFactory.h"
+//#include "../graphs/DiEdge.h"
+//
+//class DiEdgeFactory {
+//
+//private:
+//    static EdgeFactory* instance;
+//    DiEdgeFactory() { }
+//public:
+//    ~DiEdgeFactory(){ delete instance;}
+//
+//    static DiEdgeFactory& getInstance();
+//
+//    DiEdge* createDiEdge(const Vertex &v1, const Vertex &v2) const;
+//    DiEdge* createDiEdge(const Vertex &v1, const Vertex &v2, const double& weight) const;
+//    DiEdge* createDiEdge(const Vertex &v1, const Vertex &v2, const string& label ) const;
+//    DiEdge* createDiEdge(const Vertex &v1, const Vertex &v2, const double& weight, const string& label) const;
+//    DiEdge* createDiEdge(const Vertex &v1, const Vertex &v2, const int maxCapacity) const;
+//    DiEdge* createDiEdge(const Vertex &v1, const Vertex &v2, const double& weight, const int maxCapacity) const;
+//    DiEdge* createDiEdge(const Vertex &v1, const Vertex &v2, const int maxCapacity, const int minCapacity) const;
+//    DiEdge* createDiEdge(const Vertex &v1, const Vertex &v2, const double& weight, const string& label, const int maxCapacity, const int minCapacity) const;
+//
+//
+//};
+//
+//
+//#endif //GRAPH_DIEDGEFACTORY_H

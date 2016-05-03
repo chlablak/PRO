@@ -5,46 +5,77 @@
 #ifndef GRAPH_VERTEX_H
 #define GRAPH_VERTEX_H
 
-
 #include <string>
 #include <list>
+#include <limits>
+#include <iostream>
+
+using namespace std;
 
 class Vertex {
 private:
-    const unsigned int _id;
-    std::string *_label;
-    double *_weight;
-    size_t *_minCapacity;
-    size_t *_maxCapacity;
+    int _id;
+    string _label;
+    double _weight;
+    int _minCapacity;
+    int _maxCapacity;
 
     void deleteItem();
 
 public:
-    Vertex(const unsigned int _id) : _id(_id), _weight(nullptr), _label(nullptr), _minCapacity(nullptr) , _maxCapacity(nullptr){ }
-    Vertex(const unsigned int _id, const double&  _weight) : Vertex(_id) {this->_weight = new double(_weight); }
-    Vertex(const unsigned int _id, const std::string& _label) : Vertex(_id) {this->_label = new std::string (_label); }
-    Vertex(const unsigned int _id, const double&  _weight, const std::string& _label) : Vertex(_id, _weight) {this->_label = new std::string(_label);}
-    Vertex(const unsigned int _id, const size_t&  _maxCapacity) : Vertex(_id) {this->_maxCapacity = new size_t(_maxCapacity); }
-    Vertex(const unsigned int _id, const size_t&  _maxCapacity, const size_t&  _minCapacity) : Vertex(_id, _maxCapacity) {this->_minCapacity = new size_t(_minCapacity); }
-    Vertex(const unsigned int _id, const double& _weight, const size_t&  _maxCapacity) : Vertex(_id, _weight) {this->_maxCapacity = new size_t(_maxCapacity); }
-    Vertex(const unsigned int _id, const double& weight, const std::string& _label, const size_t& _maxCapacity, const size_t& _minCapacity):
-            _id(_id), _label (new std::string(_label)), _weight (new double(weight)),  _maxCapacity (new size_t(_maxCapacity)),
-            _minCapacity (new size_t(_minCapacity)){}
+    Vertex()
+            : _id(-1), _weight(numeric_limits<double>::max()), _label(""), _minCapacity(-1),
+              _maxCapacity(-1) { }
 
-    ~Vertex() { deleteItem();}
+    Vertex(const string& label)
+            : _id(-1), _weight(numeric_limits<double>::max()), _label(label), _minCapacity(-1),
+              _maxCapacity(-1) { }
+
+    Vertex(const double& weight)
+            : _id(-1), _label(nullptr), _weight(weight),
+              _minCapacity(-1), _maxCapacity(-1) { }
+
+    Vertex(const double& weight, const string& label)
+            : _id(-1), _weight(weight), _label(label),
+              _minCapacity(-1), _maxCapacity(-1) { }
+
+    Vertex(const int& maxCapacity)
+            : _id(-1), _label(""), _weight(numeric_limits<double>::max()),
+              _minCapacity(0), _maxCapacity(maxCapacity) { }
+
+    Vertex(const int& minCapacity, const int& maxCapacity)
+            : _id(-1), _label(""), _weight(numeric_limits<double>::max()),
+              _minCapacity(minCapacity),
+              _maxCapacity(maxCapacity) { }
+
+    Vertex(const double& weight, const int& maxCapacity)
+            : _id(-1), _label(""), _weight(weight),
+              _minCapacity(0),
+              _maxCapacity(maxCapacity) { }
+
+    Vertex(const double& weight, const string& label,
+           const int& minCapacity, const int& maxCapacity)
+            : _id(-1), _label(label), _weight(weight),
+              _minCapacity(minCapacity),
+              _maxCapacity(maxCapacity) { }
+
+    ~Vertex() { deleteItem(); }
 
     // Getters
     int id() const;
-    std::string* label() const;
-    double* weight() const;
-    size_t* minCapacity() const;
-    size_t* maxCapacity() const;
+    string label() const;
+    double weight() const;
+    int minCapacity() const;
+    int maxCapacity() const;
 
     // Setters
-    void setLabel(const std::string& s);
+    void setId(const int i);
+    void setLabel(const string& s);
     void setWeight(const double w);
-    void setMinCapacity(const size_t minCap);
-    void setMaxCapacitiy(const size_t maxCap);
+    void setMinCapacity(const int minCap);
+    void setMaxCapacitiy(const int maxCap);
+
+    friend ostream& operator<<(ostream& os, const Vertex& v);
 };
 
 
