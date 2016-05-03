@@ -5,10 +5,14 @@
 
 #include "constants.h"
 #include "vertexitem.h"
+#include "edgeitem.h"
 
 VertexItem::VertexItem(IVertex *vertex)
     : vertex(vertex)
-{}
+{
+    setFlag(QGraphicsItem::ItemIsMovable);
+    setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
+}
 
 VertexItem::~VertexItem()
 {}
@@ -44,4 +48,20 @@ QPointF VertexItem::getCenter() const
 {
     qreal delta = VERTEX_RADIUS + VERTEX_BORDER_WIDTH / 2;
     return QPointF(x() + delta, y() + delta);
+}
+
+QVariant VertexItem::itemChange(GraphicsItemChange change,
+                    const QVariant &value)
+{
+    if (change == ItemPositionChange && scene()) {
+        for (EdgeItem *edge : edgeItems) {
+            edge->adjust();
+        }
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
+
+void VertexItem::addEdge(EdgeItem *edge)
+{
+    edgeItems.append(edge);
 }

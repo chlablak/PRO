@@ -9,12 +9,12 @@ IVertex::IVertex(const QString &name)
 IVertex::~IVertex()
 {}
 
-QString &IVertex::getName()
+const QString &IVertex::getName() const
 {
     return name;
 }
 
-int IVertex::getId()
+const int IVertex::getId() const
 {
     return id;
 }

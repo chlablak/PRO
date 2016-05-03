@@ -6,22 +6,30 @@
 #include "iedge.h"
 #include "vertexitem.h"
 
+class VertexItem;
+
 class EdgeItem : public QAbstractGraphicsShapeItem
 {
+private:
     IEdge *edge;
-    VertexItem *from;
-    VertexItem *to;
-    QPointF pointFrom;
-    QPointF pointTo;
+    VertexItem *sourceItem;
+    VertexItem *destItem;
+
+    QPointF sourcePoint;
+    QPointF destPoint;
 
 public:
-    EdgeItem(IEdge *edge, VertexItem *from, VertexItem *to);
+    EdgeItem(IEdge *edge, VertexItem *source, VertexItem *dest);
+
     ~EdgeItem();
+
     QRectF boundingRect() const;
+
     void paint(QPainter *painter,
                const QStyleOptionGraphicsItem *option,
                QWidget *widget = 0) Q_DECL_OVERRIDE;
-    void adjustExtremities();
+
+    void adjust();
 };
 
 #endif // VISUALIZATION_EDGEEXITEM_H

@@ -5,7 +5,7 @@
 #include <QVBoxLayout>
 
 #include "igraph.h"
-#include "graphview.h"
+#include "graphwidget.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 
     IGraph *graph = new IGraph();
 
-    QGraphicsView *view = new GraphView(graph);
+    GraphWidget *view = new GraphWidget(graph);
     layout->addWidget(view);
 
     window.setLayout(layout);

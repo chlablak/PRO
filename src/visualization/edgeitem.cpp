@@ -5,10 +5,16 @@
 #include "constants.h"
 #include "edgeitem.h"
 
-EdgeItem::EdgeItem(IEdge *edge, VertexItem *from, VertexItem *to)
-    : edge(edge), from(from), to(to)
+EdgeItem::EdgeItem(IEdge *edge, VertexItem *source, VertexItem *dest)
+    : edge(edge), sourceItem(source), destItem(dest)
 {
-    adjustExtremities();
+    setAcceptedMouseButtons(0);
+    setZValue(-1);
+
+    sourceItem->addEdge(this);
+    destItem->addEdge(this);
+
+    adjust();
 }
 
 EdgeItem::~EdgeItem()
@@ -16,8 +22,11 @@ EdgeItem::~EdgeItem()
 
 QRectF EdgeItem::boundingRect() const
 {
-    // todo : prendre en compte la flèche
-    return QRectF(pointFrom, pointTo);
+    QRectF rect(sourcePoint, destPoint);
+    return rect.normalized().adjusted(-EDGE_ARROW_SIZE,
+                                      -EDGE_ARROW_SIZE,
+                                      EDGE_ARROW_SIZE,
+                                      EDGE_ARROW_SIZE);
 }
 
 void EdgeItem::paint(QPainter *painter,
@@ -30,7 +39,7 @@ void EdgeItem::paint(QPainter *painter,
     pen.setWidth(EDGE_WIDTH);
     painter->setPen(pen);
 
-    QLineF line(pointFrom, pointTo);
+    QLineF line(sourcePoint, destPoint);
     painter->drawLine(line);
 
     // Calcul des points de la flèche en direction du sommet de destination
@@ -38,11 +47,11 @@ void EdgeItem::paint(QPainter *painter,
     if (line.dy() >= 0) {
         angle = 2 * M_PI - angle;
     }
-    QPointF arrowP1 = pointTo + QPointF(
+    QPointF arrowP1 = destPoint + QPointF(
                 qSin(angle - M_PI / 3) * EDGE_ARROW_SIZE,
                 qCos(angle - M_PI / 3) * EDGE_ARROW_SIZE
     );
-    QPointF arrowP2 = pointTo + QPointF(
+    QPointF arrowP2 = destPoint + QPointF(
                 qSin(angle - 2 * M_PI / 3) * EDGE_ARROW_SIZE,
                 qCos(angle - 2 * M_PI / 3) * EDGE_ARROW_SIZE
     );
@@ -66,11 +75,11 @@ void EdgeItem::paint(QPainter *painter,
 // pas dessinée jusqu'au centre des sommets, mais en bordure
 // de ceux-ci (rayon du sommet + bordure du sommet / 2 + marge).
 // Effectue un décalage au début et à la fin de la ligne par thalès.
-void EdgeItem::adjustExtremities()
+void EdgeItem::adjust()
 {
-    QPointF pFrom = from->getCenter();
-    QPointF pTo = to->getCenter();
-    QLineF line(pFrom, pTo);
+    QPointF sourceCenter = sourceItem->getCenter();
+    QPointF destCenter = destItem->getCenter();
+    QLineF line(sourceCenter, destCenter);
 
     qreal diff = (VERTEX_RADIUS +
                   VERTEX_BORDER_WIDTH / 2 +
@@ -78,8 +87,12 @@ void EdgeItem::adjustExtremities()
     qreal dx = line.dx() * diff;
     qreal dy = line.dy() * diff;
 
-    pointFrom.setX(pFrom.x() + dx);
-    pointFrom.setY(pFrom.y() + dy);
-    pointTo.setX(pTo.x() - dx);
-    pointTo.setY(pTo.y() - dy);
+    prepareGeometryChange();
+
+    sourcePoint.setX(sourceCenter.x() + dx);
+    sourcePoint.setY(sourceCenter.y() + dy);
+    destPoint.setX(destCenter.x() - dx);
+    destPoint.setY(destCenter.y() - dy);
+
+    update();
 }

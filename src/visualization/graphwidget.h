@@ -1,5 +1,5 @@
-#ifndef VISUALIZATION_GRAPHSCENE_H
-#define VISUALIZATION_GRAPHSCENE_H
+#ifndef VISUALIZATION_GRAPHWIDGET_H
+#define VISUALIZATION_GRAPHWIDGET_H
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -9,15 +9,16 @@
 #include "vertexitem.h"
 #include "edgeitem.h"
 
-class GraphView : public QGraphicsView
+class GraphWidget : public QGraphicsView
 {
+private:
     QGraphicsScene *scene;
     QList<VertexItem *> vertexItems;
     QList<EdgeItem *> edgeItems;
 
 public:
-    GraphView(IGraph *graph);
-    ~GraphView();
+    GraphWidget(IGraph *graph);
+    ~GraphWidget();
 };
 
-#endif // VISUALIZATION_GRAPHSCENE_H
+#endif // VISUALIZATION_GRAPHWIDGET_H

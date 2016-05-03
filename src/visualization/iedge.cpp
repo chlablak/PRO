@@ -7,12 +7,12 @@ IEdge::IEdge(IVertex *from, IVertex *to)
 IEdge::~IEdge()
 {}
 
-IVertex *IEdge::getFrom()
+const IVertex *IEdge::getFrom() const
 {
     return from;
 }
 
-IVertex *IEdge::getTo()
+const IVertex *IEdge::getTo() const
 {
     return to;
 }

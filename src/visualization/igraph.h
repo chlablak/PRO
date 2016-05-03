@@ -8,14 +8,14 @@
 
 class IGraph
 {
-    QList<IVertex *> vertex;
+    QList<IVertex *> vertices;
     QList<IEdge *> edges;
 
 public:
     IGraph();
     ~IGraph();
-    QList<IVertex *> &getVertex();
-    QList<IEdge *> &getEdges();
+    const QList<IVertex *> &getVertices() const;
+    const QList<IEdge *> &getEdges() const;
 };
 
 #endif // VISUALIZATION_IGRAPH_H

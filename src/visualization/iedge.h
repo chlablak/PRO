@@ -11,8 +11,8 @@ class IEdge
 public:
     IEdge(IVertex *from, IVertex *to);
     ~IEdge();
-    IVertex *getFrom();
-    IVertex *getTo();
+    const IVertex *getFrom() const;
+    const IVertex *getTo() const;
 };
 
 #endif // VISUALIZATION_IEDGE_H

@@ -17,7 +17,7 @@ SOURCES += main.cpp\
     ivertex.cpp \
     vertexitem.cpp \
     edgeitem.cpp \
-    graphview.cpp
+    graphwidget.cpp
 
 HEADERS  += \
     iedge.h \
@@ -25,5 +25,5 @@ HEADERS  += \
     ivertex.h \
     vertexitem.h \
     edgeitem.h \
-    graphview.h \
-    constants.h
+    constants.h \
+    graphwidget.h

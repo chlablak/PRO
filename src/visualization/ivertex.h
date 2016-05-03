@@ -13,8 +13,8 @@ class IVertex
 public:
     IVertex(const QString &name);
     ~IVertex();
-    QString &getName();
-    int getId();
+    const QString &getName() const;
+    const int getId() const;
 };
 
 #endif // VISUALIZATION_IVERTEX_H
