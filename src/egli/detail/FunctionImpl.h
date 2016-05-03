@@ -78,6 +78,9 @@ public:
 /* Helper for FunctionImpl */
 /* ----------------------- */
 
+#warning transform Fetcher to allow Number<->Integer/Float
+#warning transform Fetcher to manage Optional value
+
 // Fetcher removes the const and the reference from T for convenience
 template<typename T>
 struct Fetcher

@@ -11,6 +11,8 @@
 #include "Preprocessor.h"
 #include "../Exception.h"
 
+#warning input: s="hello world"; gives s="helloworld";
+
 egli::detail::PreprocessorBuffer::PreprocessorBuffer(char delimiter) :
     m_buffer(),
     m_delimiter(delimiter)

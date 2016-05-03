@@ -39,6 +39,8 @@ bool egli::FunctionTable::match(
             continue;
         bool matching = true;
         for (size_t i = 0; i < it->second->arity(); ++i) {
+            if(static_cast<int>(paramsType[i]) == 100) // optional workaround
+                continue;                              // see ProcessingUnit
             if (it->second->parameterType(i) != paramsType[i]) {
                 matching = false;
                 break;

@@ -15,6 +15,7 @@
 #include "FunctionTable.h"
 #include "Number.h"
 #include "Parser.h"
+#include "ProcessingUnit.h"
 #include "Statement.h"
 #include "Type.h"
 #include "VariableTable.h"

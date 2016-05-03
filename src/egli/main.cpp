@@ -54,6 +54,49 @@ ostream &operator<<(ostream &os, egli::Statement const &s)
     return os;
 }
 
+ostream &operator<<(ostream &os, egli::VariableTable const &v)
+{
+    for (auto it : v.find("")) {
+        os << it << "(";
+        switch (v.typeOf(it)) {
+            case egli::Type::Array: {
+                const egli::Array &tmp = v.get<egli::Array>(it);
+                os << "Array, size=" << tmp.size();
+                for(size_t i = 0; i < tmp.size(); ++i)
+                    os << ", [" << i << "]->" << (int)tmp.typeOf(i);
+                break; }
+            case egli::Type::Boolean:
+                os << "Boolean, value=" << v.get<bool>(it);
+                break;
+            case egli::Type::Edge:
+                os << "Edge";
+                break;
+            case egli::Type::Float:
+                os << "Float, value=" << v.get<float>(it);
+                break;
+            /*case egli::Type::Graph:
+                os << "Graph";
+                break;*/
+            case egli::Type::Integer:
+                os << "Integer, value=" << v.get<int>(it);
+                break;
+            case egli::Type::Number:
+                os << "Number, value=" << v.get<egli::Number>(it);
+                break;
+            case egli::Type::String:
+                os << "String, value=" << v.get<string>(it);
+                break;
+            case egli::Type::Vertex:
+                os << "Vertex";
+                break;
+        }
+        os << ")" << endl;
+    }
+    return os;
+}
+
+string f() { return "hello"; }
+
 /*! \brief main
  *
  * \return 0
@@ -64,12 +107,19 @@ int main()
     egli::Parser p;
     egli::Statement s;
     egli::detail::Preprocessor pp;
+    egli::VariableTable var;
+    egli::FunctionTable func;
+    func.interface("f", f);
     while (getline(cin, in)) {
         try {
             pp.stream() << in;
             while (pp.available()) {
                 s = p.parse(pp.next());
-                cout << s;
+                cout << "PARSED:\n" << s;
+                egli::ProcessingUnit::check(s, func, var);
+                egli::ProcessingUnit::process(s, func, var);
+                cout << "PROCESSED:\n" << s;
+                cout << "TABLE:\n" << var;
             }
             cout << endl;
         } catch (const egli::Exception &e) {

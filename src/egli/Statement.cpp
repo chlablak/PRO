@@ -24,3 +24,11 @@ egli::Statement::Statement(ConstantType constantType,
     value(value),
     parameters()
 {}
+
+void egli::Statement::transformToVariable(const std::string &val)
+{
+    type = Type::Variable;
+    constantType = ConstantType::Unused;
+    value = val;
+    parameters.clear();
+}
