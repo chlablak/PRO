@@ -11,11 +11,10 @@
 #include "Preprocessor.h"
 #include "../Exception.h"
 
-#warning input: s="hello world"; gives s="helloworld";
-
 egli::detail::PreprocessorBuffer::PreprocessorBuffer(char delimiter) :
     m_buffer(),
-    m_delimiter(delimiter)
+    m_delimiter(delimiter),
+    m_quoted(false)
 {}
 
 egli::detail::PreprocessorBuffer::~PreprocessorBuffer()
@@ -26,10 +25,12 @@ egli::detail::PreprocessorBuffer::int_type
 {
     if (traits_type::eq_int_type(ch, traits_type::eof()))
         return std::streambuf::overflow(ch);
-    if (!std::isspace(ch)) {
+    if (ch == '"')
+        m_quoted = !m_quoted;
+    if (!std::isspace(ch) || m_quoted) {
         m_buffer.push_back(ch);
         if (ch == m_delimiter)
-            m_buffer.push_back(' ');
+            m_buffer.push_back('\n');
     }
     return ch;
 }
@@ -72,7 +73,7 @@ void egli::detail::Preprocessor::sync()
 {
     std::string tmp;
     std::istringstream iss(m_buffer.str());
-    while (std::getline(iss, tmp, ' '))
+    while (std::getline(iss, tmp))
         m_queue.push_back(tmp);
     if (!m_queue.empty() && m_queue.back().back() != m_delimiter) {
         stream() << m_queue.back();

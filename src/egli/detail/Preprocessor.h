@@ -52,6 +52,7 @@ private:
     // data members
     std::string m_buffer;
     char m_delimiter;
+    bool m_quoted;
 };
 
 /*! \brief The preprocessor class (stream)
