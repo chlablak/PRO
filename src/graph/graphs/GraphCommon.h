@@ -64,6 +64,9 @@ public:
 
     int V() const override { return _vertices.size(); }
 
+    template<typename Func>
+    void forEachAdjacentVertex(const Vertex &v, Func f) {}
+
     //virtual void accept(const Visitor& v);
 };
 

@@ -1639,7 +1639,7 @@
 				\caption{Pattern Visitor pour l'application des algos aux graphes}
 			\end{figure}
 			
-			Les algorithmes ne sont pas les mêmes pour tous les types de graphes : un parcours en largeur sera quelque peu différent entre un graphe orienté et non-orienté. Le pattern Visiteur est précisément fait pour répondre à ce genre de problème. De plus, l'avantage du pattern est qu'il est facilement extensible : un nouvel algorithme s'ajoute tout bonnement en tant que visiteur.
+			Les algorithmes ne sont pas les mêmes pour tous les types de graphes : un parcours en largeur sera quelque peu différent entre un graphe orienté et non-orienté. Le pattern Visiteur est précisément fait pour répondre à ce genre de problème. De plus, l'avantage du pattern est qu'il est facilement extensible : un nouvel algorithme s'ajoute tout bonnement en tant que visiteur. Par contre, la structure de donnée doit être complète et tout changement de cette dernière demandera, selon le changement, une adaptation chez tous les visiteurs.\\
 			
 			\begin{lstlisting}
 						// Code d'un objet visite
@@ -1676,6 +1676,12 @@
 								}
 						};
 			\end{lstlisting}
+			
+			Nous avons choisi ce pattern car il permet de bien séparer la structure de donnée des algorithmes et il nous permet de collaborer efficacement au sein de l'équipe.
+			
+			\subsubsection{Type de retour}
+			Nos algorithmes ont une chose en commun : ils retournent tous un graphe. Cependant, vu que nous codons en C++, nous pouvons nous poser la question du type de retour. Le graphe doit-il être retourné par valeur, référence, ou pointeur ?\\
+			Retourner par valeur implique une lourde copie de tout le graphe, ce qui ralentirait le système. De plus, le graphe sera progressivement dynamiquement construit tout au long de l'algorithme et le propriétaire de ce graphe sera celui qui appelle cet algorithme. Pour ces raisons, Nous avons décidé de \textbf{retourner le graphe par pointeur}.
 	
 	\section{Annexes}
 	

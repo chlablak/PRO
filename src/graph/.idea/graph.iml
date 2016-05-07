@@ -11,7 +11,9 @@
       <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/DiEdgeFactory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/visitor/Visitor.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />

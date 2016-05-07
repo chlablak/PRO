@@ -55,9 +55,6 @@ public:
 
     virtual void removeVertex(Vertex &vertex) = 0;
     //virtual void accept(const Visitor& v);
-
-    template<typename Func>
-    void forEachAdjacentVertex(const Vertex &v, Func f);
 };
 
 #endif //GRAPH_IGRAPH_H
