@@ -59,6 +59,13 @@ public:
               _minCapacity(minCapacity),
               _maxCapacity(maxCapacity) { }
 
+    Vertex(const Vertex& v){
+        _id = v._id;
+        _label = v._label;
+        _maxCapacity = v._maxCapacity;
+        _minCapacity = v._minCapacity;
+    }
+
     ~Vertex() { deleteItem(); }
 
     // Getters
@@ -75,7 +82,20 @@ public:
     void setMinCapacity(const int minCap);
     void setMaxCapacitiy(const int maxCap);
 
+    // Operators
     friend ostream& operator<<(ostream& os, const Vertex& v);
+
+    // L'utilisateur de cette classe devra respcter la contrainte qui est
+    // deux vertexs ne devra jamais avoir le même label
+    bool operator == (const Vertex v) const{
+        return _label == v._label;
+    }
+    bool operator == (const Vertex *v) const{
+        return _label == v->_label;
+    }
+    bool operator != (const Vertex* v) const{
+        return _label != v->_label;
+    }
 };
 
 

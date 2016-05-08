@@ -34,22 +34,22 @@ public:
     virtual bool isNegativeWeighted() const = 0;
 
     virtual bool isPlanar() const = 0;
-//    virtual vertices vertexList() const = 0;
-//    virtual edges edgeList() const = 0;
+    virtual vertices vertexList() const = 0;
+    virtual edges edgeList() const = 0;
 
     // Return the number of vertex
     virtual int V() const = 0;
 
-//    virtual IGraph::edges adjacentEdges(const Vertex* vertex) const;
-//    virtual vector<edges> adjacentList() const;
+    virtual IGraph::edges adjacentEdges(const Vertex* vertex) const = 0;
+    virtual vector<edges> adjacentList() const = 0;
 
     virtual void ponderateEdges(const double &weight) = 0;
 
     virtual void pondeateVertices(const double &weight) = 0;
 
-    virtual void addEdge(const Edge &edge) = 0;
+    virtual void addEdge(const Edge &e) = 0;
 
-    virtual void addVertex(const Vertex &vertex) = 0;
+    virtual void addVertex(Vertex &vertex) = 0;
 
     virtual void removeEdge(Edge &edge) = 0;
 

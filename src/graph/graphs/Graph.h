@@ -23,9 +23,7 @@ public:
 
     ~Graph();
 
-    bool isSimple() const override {
-        return true;
-    }
+    bool isSimple() const override ;
 
     bool isConnected() const override {
         return true;
@@ -39,12 +37,10 @@ public:
         return false;
     }
 
-    void addEdge(const Edge &e) override {
-        // TODO ajouter 2x dans la liste d'adjacence
-    }
+    void addEdge(const Edge &e) override;
 
-    void removeEdge(Edge &edge) override {}
-    //virtual void accept(Visitor* v);
+    void removeEdge(Edge &edge) override;
+    //virtual void accept(Visitor* v)
 };
 
 

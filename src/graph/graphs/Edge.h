@@ -76,6 +76,16 @@ public:
               _minCapacity(minCapacity),
               _maxCapacity(maxCapacity) { }
 
+    Edge(const Edge& e){
+        _id = e._id;
+        _a = new Vertex(*e._a);
+        _b = new Vertex(*e._b);
+        _label = e._label;
+        _weight = e._weight;
+        _maxCapacity = e._maxCapacity;
+        _minCapacity = e._minCapacity;
+    }
+
     virtual ~Edge() {
         deleteItem();
     }
@@ -108,7 +118,7 @@ public:
 
     // opérateurs
     // TODO
-
+    bool operator == (const Edge*  e) const;
     friend ostream& operator<<(ostream& os, const Edge& e);
 };
 
