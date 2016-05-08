@@ -17,8 +17,12 @@ private:
     template <typename T>
     void computeId(vector<T> &result, const vector<T> &table);
 protected:
+
     vector<Vertex> _vertices;
+    unsigned int edgeId;
     vector<list<Edge*>> _adjacentList;
+
+    void fillAdjacentList(const vector<Edge>& edges);
 
 public:
     GraphCommon() : _vertices(0), _adjacentList(0) { }
@@ -29,7 +33,7 @@ public:
 
     ~GraphCommon() override { }
 
-    bool isNull() const override { return false; }
+    bool isNull() const override;
 
     bool isEmpty() const;
 
@@ -45,22 +49,25 @@ public:
 
     bool isPlanar() const override;
 
-//    virtual vertices vertexList() const override ;
-//    virtual edges edgeList() const override ;
-//    virtual IGraph::edges adjacentEdges(const Vertex* _vertex) const override ;
-//    virtual vector<edges> adjacentList() const override ;
+    virtual IGraph::vertices vertexList() const override ;
 
-    void ponderateEdges(const double &weight) override {}
+    virtual IGraph::edges edgeList() const override ;
 
-    void pondeateVertices(const double &weight) override {}
+    virtual IGraph::edges adjacentEdges(const Vertex* vertex) const override ;
+
+    virtual vector<edges> adjacentList() const override ;
+
+    void ponderateEdges(const double &weight) override;
+
+    void pondeateVertices(const double &weight) override;
 
     virtual void addEdge(const Edge &e) = 0;
 
-    void addVertex(const Vertex &vertex) override {}
+    void addVertex(Vertex &vertex) override;
 
     virtual void removeEdge(Edge &edge) = 0;
 
-    void removeVertex(Vertex &vertex) override {}
+    void removeVertex(Vertex &vertex) override;
 
     int V() const override { return _vertices.size(); }
 

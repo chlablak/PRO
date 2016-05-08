@@ -21,26 +21,38 @@ void GraphCommon::computeId(vector<T> &result, const vector<T> &table) {
 /**
  * Constructs a graph only with vertices
  */
-GraphCommon::GraphCommon(const vector<Vertex> &vertices) {
+GraphCommon::GraphCommon(const vector<Vertex> &vertices) : edgeId(0), _adjacentList(vertices.size()) {
     computeId(_vertices, vertices);
     // TODO
+
 }
 
 /**
  * Construct a graph with both vertices and edges
  */
 GraphCommon::GraphCommon(const vector<Vertex> &vertices,
-                         const vector<Edge> &edges) {
+                         const vector<Edge> &edges) : edgeId(0), _adjacentList(vertices.size()) {
     computeId(_vertices, vertices);
     // TODO
+    fillAdjacentList(edges);
+
+}
+
+bool GraphCommon::isNull() const {
+    return _vertices.size() == 0;
 }
 
 /**
- * A graph is empty if there isn't any vertex
+ *
  */
 bool GraphCommon::isEmpty() const {
     // TODO
-    return false;
+    if(!isNull())
+        for(size_t i = 0; i < _adjacentList.size(); ++i)
+            if(_adjacentList.at(i).size() > 0)
+                return false;
+    return true;
+
 }
 
 /**
@@ -49,7 +61,11 @@ bool GraphCommon::isEmpty() const {
  */
 bool GraphCommon::isNegativeWeighted() const {
     // TODO
-    return false;
+    if(!isEmpty())
+        for(Edge* edge : edgeList())
+            if(edge->weight() < 0)
+                return false;
+    return true;
 }
 
 /**
@@ -70,18 +86,153 @@ bool GraphCommon::isPlanar() const {
     //return _edges.size() <= 3*n - 6;
 }
 
+/**
+ * fill the adjacentList after assigned an unique id to each edge
+ */
+ void GraphCommon::fillAdjacentList(const vector<Edge>& edges){
+    for(Edge edge : edges){
+        edge.setId(edgeId++);
+        for(Vertex vertex : _vertices){
+            Edge* tmpEdge = new Edge(edge);
+            if (vertex == edge.either()) {
+                _adjacentList.at(vertex.id()).push_back(tmpEdge);
+                continue;
+            }
+            if(vertex == edge.other(*edge.either())) {
+                _adjacentList.at(vertex.id()).push_back(tmpEdge);
+            }
+
+        }
+
+    }
+}
+/**
+ * return the list of vertex of the graph
+ */
+
+IGraph::vertices GraphCommon::vertexList() const {
+    vertices list;
+    for(Vertex vertex : _vertices)
+        list.push_back(new Vertex(vertex)); // decider si la modificaion des vertex à l'exterieur du graph doit affecter le graph
+    return list;
+}
+
+/**
+ * return the list of edges of the graph
+ */
+IGraph::edges GraphCommon::edgeList() const {
+    edges list;
+    bool alreadyInside;
+    for(size_t i = 0; i<_adjacentList.size(); ++i){
+        for(Edge* e1 : _adjacentList.at(i)){
+            alreadyInside = false;
+            for(Edge* e2 : list){
+                if(*e1 == e2) {
+                    alreadyInside = true;
+                    break;
+                }
+            }
+            if(!alreadyInside) {
+                list.push_back(new Edge(*e1)); // decider si la modificaion des edges à l'exterieur du graph doit affecter le graph
+            }
+        }
+    }
+    return list;
+}
+
+/**
+ * return the edges list adjacent of vertex in the graph
+ */
+IGraph::edges GraphCommon::adjacentEdges(const Vertex *vertex) const {
+    return _adjacentList.at(vertex->id());
+}
+
+/**
+ * return the adjacentList of the graph
+ */
+vector<IGraph::edges> GraphCommon::adjacentList() const {
+    return _adjacentList;
+}
+
+/**
+ * assigned a weight to each vertex of the graph
+ */
+void GraphCommon::pondeateVertices(const double &weight) {
+    /*for(Vertex vertex : _vertices)
+        vertex.setWeight(weight);*/
+    /*for(vector<Vertex>::iterator it = _vertices.begin(); it != _vertices.end(); ++it)
+        it->setWeight(weight);*/
+    for (int i = 0; i < _vertices.size() ; ++i) {
+        _vertices.at(i).setWeight(weight);
+    }
+}
+
+/**
+ * assigned a weight to each edge of the graph
+ */
+void GraphCommon::ponderateEdges(const double &weight) {
+   for(size_t  i = 0; i < _adjacentList.size(); ++i)
+       for(Edge* edge : _adjacentList.at(i))
+           if(edge->weight() != weight)
+               edge->setWeight(weight);
+}
+
+/**
+ * add a vertex to the graph
+ */
+void GraphCommon::addVertex(Vertex &vertex) {
+    vertex.setId(_vertices.size());
+    _vertices.push_back(vertex);
+    _adjacentList.resize(_vertices.size());
+}
+
+void GraphCommon::removeVertex(Vertex &vertex) {
+
+
+    /*vector<Vertex> tmpList;
+    for(vector<Vertex>::iterator it = _vertices.begin(); it<_vertices.end(); ++it){
+        if(it->operator==(&vertex)){
+            isFind = true;
+            continue;
+        }
+        if(isFind) {
+            curentId = it->id() - 1;
+            it->setId(curentId);
+        }
+        tmpList.push_back(*it);
+        _vertices = tmpList;
+    }*/
+
+    if(_adjacentList.at(vertex.id()).size() > 0)
+        throw new string("Error : the vertex is link to other edge, you should delete them first");
+    bool isFind = false;
+    int curentId = 0;
+    for(vector<Vertex>::iterator it = _vertices.begin(); it<_vertices.end(); ++it){
+
+        if(it->operator==(&vertex)){
+            isFind = true;
+            continue;
+        }
+        if(isFind) {
+            curentId = it->id() - 1;
+            it->setId(curentId);
+        }
+    }
+   _vertices.erase(_vertices.begin() + vertex.id());
+}
+
 
 //
 ///**
 // * Construct the adjacent list from current edges et vertices
 // */
-////void GraphCommon::fillAdjacentList() {
-////    // Resize the vector of vertices
-////    _adjacentList.resize(_vertices.size());
-////
-////    // Add the corresponding list of Edge* for each vertex
-////    for_each(_adjacentList.begin(), _adjacentList.end(), [](){
-////        for(vector<Edge&>::iterator it = _edges.begin(); it != _edges.end(); ++it){
+ //void GraphCommon::fillAdjacentList() {
+   // Resize the vector of vertices
+ //   _adjacentList.resize(_vertices.size());
+
+   // Add the corresponding list of Edge* for each vertex
+ //  for_each(_adjacentList.begin(), _adjacentList.end(), [](){
+   //     for(vector<Edge&>::iterator it = _edges.begin(); it != _edges.end(); ++it){
 ////            if ( (*it).either()  ) {
 ////                _adjacentList.at()
 ////            }

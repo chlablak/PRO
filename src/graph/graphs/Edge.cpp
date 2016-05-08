@@ -4,6 +4,8 @@
 
 #include "Edge.h"
 
+
+
 // Getters
 unsigned int Edge::id() const { return _id; }
 
@@ -21,14 +23,29 @@ const Vertex *Edge::other(const Vertex& v) const {
     return &v == this->_a ? this->_b : this->_a;
 }
 
+void Edge::setWeight(const double w) {
+    _weight = w;
+}
 // TODO surcharger l'op == pour les vertex
 
 void Edge::deleteItem() {
-    // We don't delete the vertices
+    if(_a != nullptr){
+        delete _a;
+        _a = nullptr;
+    }
+    if(_b != nullptr){
+        delete _b;
+        _b = nullptr;
+    }
+
 }
 
 void Edge::setId(const int i) {
     _id = i;
+}
+
+bool Edge::operator==(const Edge *e) const {
+    return _id == e->_id;
 }
 
 ostream &operator<<(ostream &os, const Edge &e) {
