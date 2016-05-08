@@ -67,6 +67,8 @@ public:
     template<typename Func>
     void forEachAdjacentVertex(const Vertex &v, Func f) {}
 
+    template<typename Func>
+    void forEachVertex(Func f) {}
     //virtual void accept(const Visitor& v);
 };
 
