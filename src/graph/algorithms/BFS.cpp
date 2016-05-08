@@ -14,7 +14,7 @@ using namespace std;
  *
  * @return a tree (graph) containing all accessible vertices from v
  */
-Graph& BFS::visitGraph(Graph &g, const Vertex &from) {
+Graph* BFS::visitGraph(Graph &g, const Vertex &from) {
 
     // Table of distances
     distances.assign(g.V(), numeric_limits<int>::max());
@@ -42,14 +42,14 @@ Graph& BFS::visitGraph(Graph &g, const Vertex &from) {
         });
     }
 
-    return *result;
+    return result;
 }
 
-DiGraph& BFS::visitDiGraph(DiGraph &g, const Vertex &v) {
+DiGraph* BFS::visitDiGraph(DiGraph &g, const Vertex &v) {
 
 }
 
-FlowGraph &BFS::visitFlowGraph(FlowGraph &g, const Vertex &from) {
+FlowGraph* BFS::visitFlowGraph(FlowGraph &g, const Vertex &from) {
     //return <#initializer#>;
 }
 

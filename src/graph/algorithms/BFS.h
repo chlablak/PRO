@@ -15,9 +15,9 @@ private:
     vector<int> distances;
 public:
     ~BFS();
-    Graph& visitGraph(Graph& g, const Vertex& from);
-    DiGraph& visitDiGraph(DiGraph& g, const Vertex& from);
-    FlowGraph& visitFlowGraph(FlowGraph& g, const Vertex& from);
+    Graph* visitGraph(Graph& g, const Vertex& from);
+    DiGraph* visitDiGraph(DiGraph& g, const Vertex& from);
+    FlowGraph* visitFlowGraph(FlowGraph& g, const Vertex& from);
 
 };
 
