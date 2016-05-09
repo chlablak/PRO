@@ -5,10 +5,10 @@
       <sourceFolder url="file://$MODULE_DIR$/factory/DiEdgeFactory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/GraphFactory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/VertexFactory.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/VertexFactory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/GraphFactory.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/DiEdgeFactory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.cpp" isTestSource="false" />
