@@ -5,5 +5,5 @@
 #include "DiEdge.h"
 
 
-const Vertex* DiEdge::from() { return _a; }
-const Vertex* DiEdge::to() { return _b; }
+Vertex* DiEdge::from() { return _a; }
+Vertex* DiEdge::to() { return _b; }

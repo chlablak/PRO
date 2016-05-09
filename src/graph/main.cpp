@@ -19,12 +19,30 @@ int main() {
 
     // Create the graph structure with those vertices and edges
     //Graph g1(vertices, edges);
-    Graph g1({v1,v2,v3},{e1,e2,e3});
-
-    cout << "is empty ? " << g1.isEmpty() << endl;
-    cout << "is negative weighted ? " << g1.isNegativeWeighted() << endl;
-    cout << "is planar ? " << g1.isPlanar() << endl;
-    cout << "number of vertex : " << g1.V() << endl;
+//    Graph<Edge> g1({v1,v2,v3},{e1,e2,e3});
+//
+//    // is null
+//    Graph<Edge> g2;
+//    cout << "g2 is null ? " << g2.isNull() << endl;
+//    g2.addVertex(v1);
+//    cout << "g2 is null ? " << g2.isNull() << endl;
+//
+//    // is empty
+//    cout << "g2 is empty ? " << g2.isEmpty() << endl;
+//    g2.addVertex(v2);
+//    g2.addEdge(e1);
+//    cout << "g2 is empty ? " << g2.isEmpty() << endl;
+//
+//    // is simple
+//    cout << "g2 is simple ? " << g2.isSimple() << endl;
+//    g2.addEdge(e1);
+//    cout << "g2 is simple ? " << g2.isSimple() << endl;
+//
+//    // is negative weighted
+//    cout << "g1 is negative weighted ? " << g1.isNegativeWeighted() << endl;
+//
+//    cout << "is planar ? " << g1.isPlanar() << endl;
+//    cout << "number of vertex : " << g1.V() << endl;
 
     return 0;
 }

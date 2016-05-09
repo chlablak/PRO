@@ -15,8 +15,8 @@ class Edge {
 
 protected:
     int _id;
-    const Vertex *_a;
-    const Vertex *_b;
+    Vertex *_a;
+    Vertex *_b;
     string _label;
     double _weight;
     int _minCapacity;
@@ -26,48 +26,47 @@ protected:
 
 public:
     // Constructors
-    Edge();
-    Edge(const Vertex &from, const Vertex &to)
+    Edge(Vertex &from, Vertex &to)
             : _id(-1), _a(&from), _b(&to), _label(""), _weight(numeric_limits<double>::max()),
               _minCapacity(-1), _maxCapacity(-1) { }
 
-    Edge(const Vertex &from, const Vertex &to,
+    Edge(Vertex &from, Vertex &to,
          const double &weight)
             : _id(-1), _a(&from), _b(&to), _label(""),
               _weight(weight),
               _minCapacity(-1), _maxCapacity(-1) { }
 
-    Edge(const Vertex &from, const Vertex &to,
+    Edge(Vertex &from, Vertex &to,
          const string &label)
             : _id(-1), _a(&from), _b(&to), _label(label),
               _weight(numeric_limits<double>::max()), _minCapacity(-1), _maxCapacity(-1) { }
 
-    Edge(const Vertex &from, const Vertex &to,
+    Edge(Vertex &from, Vertex &to,
          const double &weight,
          const string &label)
             : _id(-1), _a(&from), _b(&to), _label(label),
               _weight(weight), _minCapacity(-1),
               _maxCapacity(-1) { }
 
-    Edge(const Vertex &from, const Vertex &to,
+    Edge(Vertex &from, Vertex &to,
          const int &maxCapacity)
             : _id(-1), _a(&from), _b(&to), _label(""), _weight(numeric_limits<double>::max()),
               _minCapacity(0),
               _maxCapacity(maxCapacity) { }
 
-    Edge(const Vertex &from, const Vertex &to,
+    Edge(Vertex &from, Vertex &to,
          const int minCapacity, const int &maxCapacity)
             : _id(-1), _a(&from), _b(&to), _label(""), _weight(numeric_limits<double>::max()),
               _minCapacity(minCapacity),
               _maxCapacity(maxCapacity) { }
 
-    Edge(const Vertex &from, const Vertex &to,
+    Edge(Vertex &from, Vertex &to,
          const double &weight, const int maxCapacity)
             : _id(-1), _a(&from), _b(&to), _label(""),
               _weight(weight), _minCapacity(0),
               _maxCapacity(maxCapacity) { }
 
-    Edge(const Vertex &from, const Vertex &to,
+    Edge(Vertex &from, Vertex &to,
          const double &weight,
          const string &label, const int minCapacity,
          const int maxCapacity)
@@ -86,9 +85,7 @@ public:
         _minCapacity = e._minCapacity;
     }
 
-    virtual ~Edge() {
-        deleteItem();
-    }
+    virtual ~Edge() {}
 
     // Getters
     unsigned int id() const;
@@ -101,9 +98,9 @@ public:
 
     int maxCapacity() const;
 
-    const Vertex *either() const;
+    Vertex* either() const;
 
-    const Vertex *other(const Vertex &v) const;
+    Vertex* other(Vertex &v) const;
 
     // Setters
     void setId(const int i);

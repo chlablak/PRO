@@ -12,34 +12,34 @@ class DiEdge : public Edge {
 public:
     // Constructors
 
-    DiEdge(const Vertex &from, const Vertex &to)
+    DiEdge(Vertex &from, Vertex &to)
             : Edge(from, to) { }
 
-    DiEdge(const Vertex &from, const Vertex &to,
+    DiEdge(Vertex &from, Vertex &to,
            const double &weight)
             : Edge(from, to, weight) { }
 
-    DiEdge(const Vertex &from, const Vertex &to,
+    DiEdge(Vertex &from, Vertex &to,
            const string &label)
             : Edge(from, to, label) { }
 
-    DiEdge(const Vertex &from, const Vertex &to,
+    DiEdge(Vertex &from, Vertex &to,
            const double &weight, const string &label)
             : Edge(from, to, weight, label) { }
 
-    DiEdge(const Vertex &from, const Vertex &to,
+    DiEdge(Vertex &from, Vertex &to,
            const int maxCapacity)
             : Edge(from, to, maxCapacity) { }
 
-    DiEdge(const Vertex &from, const Vertex &to,
+    DiEdge(Vertex &from, Vertex &to,
            const int minCapacity, const int maxCapacity)
             : Edge(from, to, minCapacity, maxCapacity) { }
 
-    DiEdge(const Vertex &from, const Vertex &to,
+    DiEdge(Vertex &from, Vertex &to,
            const double &weight, const int maxCapacity)
             : Edge(from, to, weight, maxCapacity) { }
 
-    DiEdge(const Vertex &from, const Vertex &to,
+    DiEdge(Vertex &from, Vertex &to,
            const double &weight, const string &label, const int minCapacity,
            const int maxCapacity)
             : Edge(from, to, weight, label, maxCapacity, minCapacity) { }
@@ -48,9 +48,9 @@ public:
         deleteItem();
     }
 
-    const Vertex *from();
+    Vertex *from();
 
-    const Vertex *to();
+    Vertex *to();
 };
 
 

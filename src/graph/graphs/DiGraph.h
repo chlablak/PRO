@@ -5,24 +5,29 @@
 #ifndef GRAPH_DIGRAPH_H
 #define GRAPH_DIGRAPH_H
 
-#include "GraphCommon.h"
+#include "IGraph.h"
+#include "DiEdge.h"
 
-class DiGraph : public GraphCommon
+class DiGraph : public IGraph<DiEdge>
 {
 
 public:
-    DiGraph(const vector<Vertex> &vertices, const vector<Edge> &edges)
-            : GraphCommon::GraphCommon(vertices, edges) { }
+    DiGraph(vector<Vertex> &vertices, vector<DiEdge> &edges)
+            : IGraph::IGraph(vertices, edges) { }
 
-    virtual void addEdge(const Edge& e) override {
-        // TODO ajouter 1x dans la liste d'adjacence
-    }
+    virtual bool isSimple() const override;
 
-    virtual bool isSimple() const;
-    virtual bool isConnected() const;
-    virtual bool isStronglyConnected() const;
-    virtual bool isDirected() const;
-    //virtual void accept(const Visitor& v);
+    virtual bool isConnected() const override;
+
+    virtual bool isStronglyConnected() const override;
+
+    virtual bool isDirected() const override;
+
+    virtual void addEdge(DiEdge &e) override;
+
+    virtual void removeEdge(DiEdge &edge) override;
+
+
 };
 
 

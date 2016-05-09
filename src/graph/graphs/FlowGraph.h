@@ -8,11 +8,22 @@
 
 #include "DiGraph.h"
 
-class FlowGraph : public DiGraph {
+class FlowGraph : public DiGraph
+{
 
 public:
-    FlowGraph(const vector<Vertex> &vertices, const vector<Edge> &edges)
+    FlowGraph(vector<Vertex> &vertices, vector<DiEdge> &edges)
             : DiGraph(vertices, edges) { }
+
+    virtual void addEdge(DiEdge &e) override {
+
+    }
+
+    virtual void removeEdge(DiEdge &edge) override {
+
+    }
+
+
 
     //virtual void accept(const Visitor& v);
 };

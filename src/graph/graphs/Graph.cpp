@@ -19,12 +19,14 @@ Graph::~Graph() {
 }
 
 /**
- * check weither the graph is simple or not
+ * check wether the graph is simple or not
+ * A graph is simple if it doesn't have multiple edges, or edge loop
  */
-bool Graph::isSimple()  const {
-    if(GraphCommon::isNull())
-    return false;
-    list<Edge*> edges = GraphCommon::edgeList();
+// TODO à corriger. Test effectué sur un graphe simple, il retourne qu'il n'est pas simple.
+bool Graph::isSimple() const {
+    if(IGraph::isNull())
+        return false;
+    list<Edge*> edges = IGraph::edgeList();
     bool first;
     for(list<Edge*>::const_iterator edgeIt = edges.begin(); edgeIt != edges.end(); ++edgeIt){
         // check if the graph doesn't content a cycle
@@ -37,31 +39,30 @@ bool Graph::isSimple()  const {
                 first = false;
                 continue;
             }
-            // check that the graph doesn't content a parallèle edges or cycle
+            // check that the graph doesn't content a parallel edge or cycle
             if((((*edgeIt)->either()->operator==((*edgeIt2)->either()))) &&
                 ((*edgeIt)->other(*(*edgeIt)->either())->operator==((*edgeIt2)->other(*(*edgeIt2)->either()))))
-            return false;
+                return false;
         }
     }
     return true;
 }
 
 /**
- * add un Edge to the graph
+ * add an Edge to the graph
  * NB : the user should not add an edge without add his vertex first
  */
-void Graph::addEdge(const Edge &e) {
-    // TODO ajouter 2x dans la liste d'adjacence
-    Edge *tmpEdge = new Edge(e);
-    tmpEdge->setId(edgeId++);
-    _adjacentList.at(e.either()->id()).push_back(tmpEdge);
+void Graph::addEdge(Edge &e) {
+    // set edge id
+    e.setId(edgeId++);
+    _adjacentList.at(e.either()->id()).push_back(&e);
     if(e.either() != e.other(*e.either()))
-        _adjacentList.at(e.other(*e.either())->id()).push_back(tmpEdge);
+        _adjacentList.at(e.other(*e.either())->id()).push_back(&e);
 }
 
 
 /**
- * remove the Edge to graph
+ * remove the Edge from the graph
  */
 void Graph::removeEdge(Edge &edge) {
     Edge *tmpEdge = nullptr;
@@ -87,5 +88,16 @@ void Graph::removeEdge(Edge &edge) {
 }
 
 
+bool Graph::isStronglyConnected() const {
+    return false;
+}
+
+bool Graph::isDirected() const {
+    return false;
+}
+
+bool Graph::isConnected() const {
+    return false;
+}
 
 

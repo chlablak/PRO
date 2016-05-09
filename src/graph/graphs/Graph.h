@@ -6,9 +6,10 @@
 #define GRAPH_GRAPH_H
 
 
-#include "GraphCommon.h"
+#include "IGraph.h"
+#include "Edge.h"
 
-class Graph : public GraphCommon {
+class Graph : public IGraph<Edge> {
 private:
 
 public:
@@ -16,31 +17,23 @@ public:
     /**
      * Constructors
      */
-    Graph() : GraphCommon() { }
-    Graph(const vector<Vertex> vertices) : GraphCommon(vertices) { }
-    Graph(const vector<Vertex> &vertices, const vector<Edge> &edges)
-            : GraphCommon(vertices, edges) { }
+    Graph() : IGraph() { }
+    Graph(vector<Vertex> vertices) : IGraph(vertices) { }
+    Graph(vector<Vertex> &vertices, vector<Edge> &edges) : IGraph(vertices, edges) { }
 
     ~Graph();
 
-    bool isSimple() const override ;
+    virtual bool isSimple() const override;
 
-    bool isConnected() const override {
-        return true;
-    }
+    virtual bool isStronglyConnected() const override;
 
-    bool isStronglyConnected() const override {
-        return false;
-    }
+    virtual bool isDirected() const override;
 
-    bool isDirected() const override {
-        return false;
-    }
+    virtual void addEdge(Edge &e) override;
 
-    void addEdge(const Edge &e) override;
+    virtual void removeEdge(Edge &edge) override;
 
-    void removeEdge(Edge &edge) override;
-    //virtual void accept(Visitor* v)
+    virtual bool isConnected() const override;
 };
 
 
