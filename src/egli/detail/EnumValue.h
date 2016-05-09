@@ -1,0 +1,70 @@
+/*! \brief Get the Type enum value from a type
+ *
+ * \file EnumValue.h
+ * \author Patrick Champion
+ * \date 25.04.2016
+ */
+
+#ifndef EGLI_DETAIL_ENUMVALUE_H_INCLUDED
+#define EGLI_DETAIL_ENUMVALUE_H_INCLUDED
+
+#include <string>
+
+#include "../Type.h"
+
+// Quick writing
+#define EGLI_DETAIL_TYPES_DEF_ENUMVALUE(E, T) \
+    template<> \
+    struct EnumValue<T> \
+    { \
+        static constexpr Type value = Type::E; \
+    };
+
+namespace egli
+{
+// Forward declarations
+class Number;
+struct Vertex;
+struct Edge;
+class Array;
+
+namespace detail
+{
+/*! \brief Get the enumeration value behind T
+ *
+ * \note Exemple: EnumValue<int>::value -> Type::Integer
+ */
+template<typename T>
+struct EnumValue;
+
+// Remove reference
+template<typename T>
+struct EnumValue<T&> :
+    EnumValue<T>
+{};
+
+// Remove const
+template<typename T>
+struct EnumValue<const T> :
+    EnumValue<T>
+{};
+
+// Specialize RealType and EnumValue
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Array, Array)
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Boolean, bool)
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Edge, Edge)
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Float, float)
+//EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Graph, )
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Integer, int)
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Number, Number)
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(String, std::string)
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Vertex, Vertex)
+
+#warning missing Graph type
+} // namespace detail
+} // namespace egli
+
+// Not needed anymore
+#undef EGLI_DETAIL_TYPES_DEF_ENUMVALUE
+
+#endif // EGLI_DETAIL_ENUMVALUE_H_INCLUDED

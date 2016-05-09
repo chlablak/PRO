@@ -9,15 +9,38 @@
 #include "GraphCommon.h"
 
 class Graph : public GraphCommon {
+private:
 
 public:
-    Graph(const vector<Vertex>& vertices, const vector<Edge>& edges)
+
+    /**
+     * Constructors
+     */
+    Graph() : GraphCommon() { }
+    Graph(const vector<Vertex> vertices) : GraphCommon(vertices) { }
+    Graph(const vector<Vertex> &vertices, const vector<Edge> &edges)
             : GraphCommon(vertices, edges) { }
 
-    bool isSimple() const;
-    bool isConnected() const;
-    bool isStronglyConnected() const;
-    bool isDirected() const;
+    ~Graph();
+
+    bool isSimple() const override ;
+
+    bool isConnected() const override {
+        return true;
+    }
+
+    bool isStronglyConnected() const override {
+        return false;
+    }
+
+    bool isDirected() const override {
+        return false;
+    }
+
+    void addEdge(const Edge &e) override;
+
+    void removeEdge(Edge &edge) override;
+    //virtual void accept(Visitor* v)
 };
 
 

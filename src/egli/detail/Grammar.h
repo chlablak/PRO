@@ -3,7 +3,6 @@
  * \file Grammar.h
  * \author Patrick Champion
  * \date 19.04.2016
- *
  */
 
 #ifndef EGLI_DETAIL_GRAMMAR_H_INCLUDED
@@ -12,18 +11,19 @@
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/phoenix.hpp>
 
-#include "Statement.h"
+#include "../Statement.h"
 
 namespace egli
 {
 namespace detail
 {
+/*! \brief Grammar used by the Parser
+ */
 template<typename Iterator>
 struct Grammar :
     boost::spirit::qi::grammar<Iterator, Statement()>
 {
     /*! \brief Constructor
-     *
      */
     Grammar();
 
@@ -71,7 +71,36 @@ struct Grammar :
 
 template<typename Iterator>
 egli::detail::Grammar<Iterator>::Grammar() :
-    Grammar::base_type(start)
+    Grammar::base_type(start),
+    error(),            // avoid warning -Weffc++
+    start(),            // ...
+    statement(),
+    functionCall(),
+    assignation(),
+    graphAdd(),
+    graphSub(),
+    parameterList(),
+    parameter(),
+    indexedArray(),
+    arrayRecord(),
+    constant(),
+    complexConstant(),
+    graphRecord(),
+    edgeRecord(),
+    vertexRecord(),
+    graphInfo(),
+    edgeInfo(),
+    vertexInfo(),
+    connection(),
+    simpleConstant(),
+    negation(),
+    digitConstant(),
+    variable(),
+    identifier(),
+    stringConstant(),
+    booleanConstant(),
+    numberConstant(),
+    floatConstant()
 {
     // Access to boost features
     using boost::spirit::qi::int_;          // int
