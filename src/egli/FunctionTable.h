@@ -45,9 +45,6 @@ public:
      *
      * \param name - The function name
      * \param func - The function to interface
-     *
-     * \throw Exception if exists(name) and the return type of the existing
-     *        interfaced functions is not the same as func
      */
     template<typename FunctionT>
     void interface(name_t name, FunctionT func);
@@ -64,8 +61,9 @@ public:
      * \return The return Type of the function
      *
      * \throw Exception if !exists(name)
+     * \note Return a list of Type if the function is surcharged
      */
-    Type returnType(name_t name) const;
+    std::list<Type> returnType(name_t name) const;
 
     /*! \brief Check if a function has a match with a list of parameters Type
      *
@@ -105,13 +103,7 @@ private:
 template<typename FunctionT>
 void egli::FunctionTable::interface(name_t name, FunctionT func)
 {
-    FunctionCaller *caller = makeFunction(func);
-    if (exists(name) && returnType(name) != caller->returnType()) {
-        delete caller;
-        throw Exception("not the same return type",
-                        "egli::FunctionTable::interface", name);
-    }
-    functions.insert(std::make_pair(name, caller));
+    functions.insert(std::make_pair(name, makeFunction(func)));
 }
 
 #endif // EGLI_DETAIL_FUNCTIONTABLE_H_INCLUDED

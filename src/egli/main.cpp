@@ -13,6 +13,7 @@
 
 #include "detail/Preprocessor.h"
 #include "detail/interface.h"
+#include "detail/interface/builtins.h"
 
 using namespace std;
 
@@ -60,35 +61,32 @@ ostream &operator<<(ostream &os, egli::VariableTable const &v)
     for (auto it : v.find("")) {
         os << it << "(";
         switch (v.typeOf(it)) {
-            case egli::Type::Array: {
-                const egli::Array &tmp = v.get<egli::Array>(it);
-                os << "Array, size=" << tmp.size();
-                for(size_t i = 0; i < tmp.size(); ++i)
-                    os << ", [" << i << "]->" << (int)tmp.typeOf(i);
-                break; }
+            case egli::Type::Array:
+                os << "Array, value=" << egli::detail::builtins::toString_a(v.get<egli::Array>(it));
+                break;
             case egli::Type::Boolean:
-                os << "Boolean, value=" << v.get<bool>(it);
+                os << "Boolean, value=" << egli::detail::builtins::toString_b(v.get<bool>(it));
                 break;
             case egli::Type::Edge:
-                os << "Edge";
+                os << "Edge, value=" << egli::detail::builtins::toString_e(v.get<egli::Edge>(it));
                 break;
             case egli::Type::Float:
-                os << "Float, value=" << v.get<float>(it);
+                os << "Float, value=" << egli::detail::builtins::toString_f(v.get<float>(it));
                 break;
             /*case egli::Type::Graph:
                 os << "Graph";
                 break;*/
             case egli::Type::Integer:
-                os << "Integer, value=" << v.get<int>(it);
+                os << "Integer, value=" << egli::detail::builtins::toString_i(v.get<int>(it));
                 break;
             case egli::Type::Number:
-                os << "Number, value=" << v.get<egli::Number>(it);
+                os << "Number, value=" << egli::detail::builtins::toString_n(v.get<egli::Number>(it));
                 break;
             case egli::Type::String:
-                os << "String, value=" << v.get<string>(it);
+                os << "String, value=" << egli::detail::builtins::toString_s(v.get<string>(it));
                 break;
             case egli::Type::Vertex:
-                os << "Vertex";
+                os << "Vertex, value=" << egli::detail::builtins::toString_v(v.get<egli::Vertex>(it));
                 break;
         }
         os << ")" << endl;

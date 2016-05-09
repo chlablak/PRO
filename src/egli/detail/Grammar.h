@@ -271,7 +271,9 @@ egli::detail::Grammar<Iterator>::Grammar() :
     connection = digitConstant[push_back(_val, _1)]
         >> (string("<-") | string("--") | string("->"))[push_back(_val,
             construct<Statement>(Statement::ConstantType::String, _1))]
-        > digitConstant[push_back(_val, _1)];
+        > digitConstant[push_back(_val, _1)]
+        >> (('[' > digitConstant > ']') | (eps >> attr(Statement())))
+            [push_back(_val, _1)];
 
     // Simple constants
     simpleConstant.name("simpleConstant");

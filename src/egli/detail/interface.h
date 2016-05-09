@@ -14,10 +14,22 @@ namespace egli
 {
 namespace detail
 {
+/*! \brief Interface basics functions
+ *
+ * \param table - The functions table
+ */
 void interfaceBasics(FunctionTable &table);
 
+/*! \brief Interface built-ins functions
+ *
+ * \param table - The functions table
+ */
 void interfaceBuiltins(FunctionTable &table);
 
+/*! \brief Interface algorithms functions
+ *
+ * \param table - The functions table
+ */
 void interfaceAlgorithms(FunctionTable &table);
 } // namespace detail
 } // namespace egli

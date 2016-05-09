@@ -12,9 +12,6 @@
 #include "Exception.h"
 #include "detail/RealType.h"
 
-#include <iostream>
-#define D(v) std::cerr << "D(" << #v << ")=" << v << std::endl;
-
 // std::stoi, std::stof and std::stoul not defined in MinGW
 namespace
 {
@@ -24,7 +21,7 @@ int stoi(const std::string &str)
 }
 float stof(const std::string &str)
 {
-    return std::strtof(str.c_str(), nullptr);
+    return strtof(str.c_str(), nullptr);
 }
 unsigned long stoul(const std::string &str)
 {
@@ -151,9 +148,14 @@ void egli::ProcessingUnit::checkFunction(const Statement &statement,
                 }
                 break;
 
-            case Statement::Type::Function:
-                paramsType.push_back(functions.returnType(param.value));
+            case Statement::Type::Function: {
+                std::list<Type> types = functions.returnType(param.value);
+                if(types.size() == 1)
+                    paramsType.push_back(types.front());
+                else
+                    paramsType.push_back(static_cast<Type>(100));
                 break;
+            }
 
             case Statement::Type::Variable:
                 paramsType.push_back(variables.typeOf(param.value));
@@ -265,7 +267,7 @@ void egli::ProcessingUnit::processArray(Statement &statement,
     } else { // indexed array
         size_t index = variables.get<detail::RealType<Type::Integer>::type>(
             statement.parameters.at(0).value);
-        const detail::RealType<Type::Array>::type &tmp =
+        detail::RealType<Type::Array>::cref tmp =
             variables.get<detail::RealType<Type::Array>::type>(statement.value);
         switch (tmp.typeOf(index)) {
             case Type::Array:
