@@ -19,10 +19,10 @@ Graph *ConnectedComponent::visitGraph(Graph &g, const Vertex &v) {
                 Vertex u = Q.front();
                 Q.pop_front();
                 cc[u.id()] = N;
-                g.forEachAdjacentVertex(u, [&N, &Q, this](const Vertex &w){
-                    if (cc[w.id()] == 0) {
-                        cc[w.id()] = N;
-                        Q.push_back(w);
+                g.forEachAdjacentVertex(u, [&N, &Q, this](Vertex *w){
+                    if (cc[w->id()] == 0) {
+                        cc[w->id()] = N;
+                        Q.push_back(*w);
                     }
                 });
             }

@@ -12,7 +12,7 @@ class ConnectedComponent : public Visitor {
 private:
     // Table containing the number of the connected component associated
     // for each vertex of the graph
-    vector<size_t> cc;
+    vector<int> cc;
 public:
     ~ConnectedComponent();
     virtual Graph* visitGraph(Graph& g, const Vertex& v);

@@ -15,9 +15,10 @@ private:
     vector<int> dfsnum;
     int N;
 public:
+    DFS() : dfsnum(0) {}
     ~DFS();
-    void DFSprocedure(Graph* g, const Vertex& u);
-    Graph* visitGraph(Graph& g, const Vertex& from);
+    void DFSprocedure(Graph* g, Vertex& u);
+    Graph* visitGraph(Graph& g, Vertex& from);
     DiGraph* visitDiGraph(DiGraph& g, const Vertex& from);
     FlowGraph* visitFlowGraph(FlowGraph& g, const Vertex& from);
 };

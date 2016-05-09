@@ -31,13 +31,13 @@ Graph* BFS::visitGraph(Graph &g, const Vertex &from) {
         Vertex u = Q.front();
         Q.pop_front();
 
-        g.forEachAdjacentVertex(u, [&g, this, &u, &Q](Vertex v){
-            if (distances.at(v.id()) == numeric_limits<int>::max()) {
-                distances.at(v.id()) = distances.at(u.id()) + 1;
-                g.addVertex(v);
-                Edge e(u, v);
+        g.forEachAdjacentVertex(u, [&g, this, &u, &Q](Vertex *v){
+            if (distances.at(v->id()) == numeric_limits<int>::max()) {
+                distances.at(v->id()) = distances.at(u.id()) + 1;
+                g.addVertex(*v);
+                Edge e(u, *v);
                 g.addEdge(e);
-                Q.push_back(v);
+                Q.push_back(*v);
             }
         });
     }

@@ -4,7 +4,7 @@
 
 #include "DFS.h"
 
-Graph* DFS::visitGraph(Graph &g, const Vertex &from) {
+Graph* DFS::visitGraph(Graph &g, Vertex &from) {
 
     // Table of vertex discovery order
     dfsnum.assign(g.V(), 0);
@@ -27,13 +27,13 @@ FlowGraph* DFS::visitFlowGraph(FlowGraph &g, const Vertex &from) {
 
 }
 
-void DFS::DFSprocedure(Graph *g, const Vertex &u) {
-    g->forEachAdjacentVertex(u, [&g, &u, this](Vertex v){
-        if (dfsnum[v.id()] == 0) {
+void DFS::DFSprocedure(Graph *g, Vertex &u) {
+    g->forEachAdjacentVertex(u, [&g, &u, this](Vertex *v){
+        if (dfsnum[v->id()] == 0) {
             ++N;
-            dfsnum[v.id()] = N;
-            g->addVertex(v);
-            Edge e(u, v);
+            dfsnum[v->id()] = N;
+            g->addVertex(*v);
+            Edge e(u, *v);
             g->addEdge(e);
         }
     });

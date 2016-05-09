@@ -1,60 +1,101 @@
 //
-// Created by sebri on 18.04.2016.
+// Created by sebri on 24.04.2016.
 //
 
-#ifndef GRAPH_IGRAPH_H
-#define GRAPH_IGRAPH_H
+#ifndef GRAPH_GRAPHCOMMON_H
+#define GRAPH_GRAPHCOMMON_H
 
-#include <list>
 #include <vector>
-#include "Edge.h"
+#include "IGraph.h"
+#include "Vertex.h"
 
-class Visitor;
+using namespace std;
 
+template <typename T> // Type of Edges, for example Edge or DiEdge or FlowEdge
 class IGraph {
+
+private:
+
+
+    void computeId(vector<Vertex*> &result, vector<Vertex> &table);
+protected:
+
+    typedef list<T*> edges;
+    typedef list<Vertex*> vertices;
+
+    vector<Vertex*> _vertices;
+    unsigned int edgeId;
+    vector<edges> _adjacentList;
+
+    void fillAdjacentList(const vector<T>& edges);
+
 public:
+    // TODO patrick
+    IGraph() : _vertices(0), _adjacentList(0) { }
 
-    typedef list<Edge *> edges;
-    typedef list<Vertex *> vertices;
+    IGraph(vector<Vertex> &vertices);
 
-    virtual ~IGraph() { }
+    IGraph(vector<Vertex> &vertices, vector<T> &edges);
 
-    virtual bool isNull() const = 0;
+    virtual ~IGraph();
 
-    virtual bool isEmpty() const = 0;
+    bool isNull() const;
+
+    bool isEmpty() const;
 
     virtual bool isSimple() const = 0;
 
     virtual bool isConnected() const = 0;
 
-    virtual bool isStronglyConnected() const = 0;
+    virtual bool isStronglyConnected() const = 0; // TODO return isConnected() dans Graph et redéfinir dans DiGraph
 
     virtual bool isDirected() const = 0;
 
-    virtual bool isNegativeWeighted() const = 0;
+    bool isNegativeWeighted() const;
 
-    virtual bool isPlanar() const = 0;
-    virtual vertices vertexList() const = 0;
-    virtual edges edgeList() const = 0;
+    bool isPlanar() const;
 
-    // Return the number of vertex
-    virtual int V() const = 0;
+    virtual IGraph::vertices vertexList() const;
 
-    virtual IGraph::edges adjacentEdges(const Vertex* vertex) const = 0;
-    virtual vector<edges> adjacentList() const = 0;
+    virtual IGraph::edges edgeList() const;
 
-    virtual void ponderateEdges(const double &weight) = 0;
+    // TODO richoz
+    virtual IGraph::edges adjacentEdges(const Vertex* vertex) const;
 
-    virtual void pondeateVertices(const double &weight) = 0;
+    virtual vector<edges> adjacentList() const;
 
-    virtual void addEdge(const Edge &e) = 0;
+    void ponderateEdges(const double &weight);
 
-    virtual void addVertex(Vertex &vertex) = 0;
+    void ponderateVertices(const double &weight);
 
-    virtual void removeEdge(Edge &edge) = 0;
+    virtual void addEdge(T &e) = 0;
 
-    virtual void removeVertex(Vertex &vertex) = 0;
+    void addVertex(Vertex &vertex);
+
+    virtual void removeEdge(T &edge) = 0;
+
+    void removeVertex(Vertex &vertex);
+
+    int V() const;
+
+    virtual int E() const;
+
+    template<typename Func>
+    void forEachAdjacentVertex(Vertex &v, Func f) {
+        for(T *e : _adjacentList.at(v.id()) ) {
+            f(e->other(v));
+        }
+    }
+
+    template<typename Func>
+    void forEachVertex(Func f) {
+        for (Vertex* v : _vertices) {
+            f(*v);
+        }
+    }
     //virtual void accept(const Visitor& v);
 };
 
-#endif //GRAPH_IGRAPH_H
+#include "IGraph.cpp"
+
+#endif //GRAPH_GRAPHCOMMON_H

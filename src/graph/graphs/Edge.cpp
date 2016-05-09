@@ -17,9 +17,9 @@ int Edge::minCapacity() const { return _minCapacity; }
 
 int Edge::maxCapacity() const { return _maxCapacity; }
 
-const Vertex *Edge::either() const { return _a; }
+Vertex* Edge::either() const { return _a; }
 
-const Vertex *Edge::other(const Vertex& v) const {
+Vertex* Edge::other(Vertex& v) const {
     return &v == this->_a ? this->_b : this->_a;
 }
 

@@ -14,6 +14,7 @@ private:
     // vertex. Where the value is 0 means that it's the source vertex.
     vector<int> distances;
 public:
+    BFS() : distances(0) {}
     ~BFS();
     Graph* visitGraph(Graph& g, const Vertex& from);
     DiGraph* visitDiGraph(DiGraph& g, const Vertex& from);

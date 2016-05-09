@@ -22,12 +22,12 @@
       <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Vertex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/GraphCommon.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/IGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Vertex.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowGraph.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/GraphCommon.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/IGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraph.cpp" isTestSource="false" />
