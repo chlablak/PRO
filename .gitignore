@@ -153,4 +153,5 @@ fabric.properties
 ### QT Creator ###
 build
 *.user
+*.pro.user
 *.user.*
