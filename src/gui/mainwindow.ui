@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>GraphY</string>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>Session</string>
+    </property>
+    <addaction name="newSession"/>
+    <addaction name="loadSession"/>
+    <addaction name="separator"/>
+    <addaction name="saveSession"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuGraph">
+    <property name="title">
+     <string>Graph</string>
+    </property>
+    <addaction name="newGraph"/>
+    <addaction name="loadGraph"/>
+    <addaction name="separator"/>
+    <addaction name="saveGraph"/>
+    <addaction name="saveAllGraphs"/>
+    <addaction name="separator"/>
+    <addaction name="closeGraph"/>
+    <addaction name="closeAllGraphs"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="showHelp"/>
+   </widget>
+   <addaction name="menuEdit"/>
+   <addaction name="menuFile"/>
+   <addaction name="menuGraph"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <action name="newSession">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="loadSession">
+   <property name="text">
+    <string>Load</string>
+   </property>
+  </action>
+  <action name="saveSession">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionSave_all">
+   <property name="text">
+    <string>Save all</string>
+   </property>
+  </action>
+  <action name="newGraph">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="loadGraph">
+   <property name="text">
+    <string>Load</string>
+   </property>
+  </action>
+  <action name="closeGraph">
+   <property name="text">
+    <string>Close</string>
+   </property>
+  </action>
+  <action name="closeAllGraphs">
+   <property name="text">
+    <string>Close All</string>
+   </property>
+  </action>
+  <action name="saveGraph">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="saveAllGraphs">
+   <property name="text">
+    <string>Save All</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="showHelp">
+   <property name="text">
+    <string>Show help</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
