@@ -3,19 +3,18 @@
  * \file Statement.h
  * \author Patrick Champion
  * \date 19.04.2016
- *
  */
 
-#ifndef EGLI_DETAIL_STATEMENT_H_INCLUDED
-#define EGLI_DETAIL_STATEMENT_H_INCLUDED
+#ifndef EGLI_STATEMENT_H_INCLUDED
+#define EGLI_STATEMENT_H_INCLUDED
 
 #include <string>
 #include <vector>
 
 namespace egli
 {
-namespace detail
-{
+/*! \brief Statement (tree)
+ */
 struct Statement
 {
     /*! \brief Type of statement
@@ -53,7 +52,6 @@ struct Statement
      * \param value - Value of the statement
      * \param parameters - Parameters of the statement
      * \param constantType - The constant type
-     *
      */
     Statement(Type type = Type::None,
               const std::string &value = "",
@@ -64,11 +62,9 @@ struct Statement
      *
      * \param constantType - The constant type
      * \param value - Value of the constant
-     *
      */
     Statement(ConstantType constantType, const std::string &value);
 };
-} // namespace detail
 } // namespace egli
 
-#endif // EGLI_DETAIL_STATEMENT_H_INCLUDED
+#endif // EGLI_STATEMENT_H_INCLUDED

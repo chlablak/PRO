@@ -3,7 +3,6 @@
  * \file Exception.cpp
  * \author Patrick Champion
  * \date 20.04.2016
- *
  */
 
 #include "Exception.h"

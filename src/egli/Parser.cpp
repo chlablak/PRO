@@ -3,7 +3,6 @@
  * \file Parser.cpp
  * \author Patrick Champion
  * \date 20.04.2016
- *
  */
 
 #include <boost/spirit/include/qi.hpp>
@@ -21,7 +20,7 @@ egli::Parser::~Parser()
     delete grammar;
 }
 
-egli::detail::Statement egli::Parser::parse(const std::string &buffer)
+egli::Statement egli::Parser::parse(const std::string &buffer)
 {
     // Access to boost features
     using boost::spirit::qi::parse;
@@ -31,7 +30,7 @@ egli::detail::Statement egli::Parser::parse(const std::string &buffer)
     std::string::const_iterator end = buffer.end();
 
     // Let's parse using our grammar
-    egli::detail::Statement statement;
+    egli::Statement statement;
     bool success = parse(iter, end, *grammar, statement);
 
     // If the parsing failed, we throw an exception
