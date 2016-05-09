@@ -4,7 +4,7 @@ HelpBrowser* HelpBrowser::instance = nullptr;
 
 HelpBrowser::HelpBrowser(QWidget * parent) : parent(parent)
 {
-    baseUrl = QString("../UserHelp/pages/");
+    baseUrl = QString("../userHelp/pages/");
     setSearchPaths(QStringList(baseUrl));
 
     QString content = "";
@@ -13,7 +13,7 @@ HelpBrowser::HelpBrowser(QWidget * parent) : parent(parent)
        FileReader fr(baseUrl + "home.html");
        setHtml(fr.getString());
     }
-    catch(std::exception e){
+    catch(QString e){
         setHtml("Fichiers d'aide introuvables");
     }
 

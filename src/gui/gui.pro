@@ -15,11 +15,23 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     console.cpp \
-    dialogstring.cpp
+    dialogstring.cpp \
+    userHelp/filereader.cpp \
+    userHelp/helpbrowser.cpp \
+    userHelp/helppage.cpp \
+    userHelp/helpwindow.cpp \
+    userHelp/keywordsearcher.cpp \
+    userHelp/searchbar.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
-    dialogstring.h
+    dialogstring.h \
+    userHelp/filereader.h \
+    userHelp/helpbrowser.h \
+    userHelp/helppage.h \
+    userHelp/helpwindow.h \
+    userHelp/keywordsearcher.h \
+    userHelp/searchBar.h
 
 FORMS    += mainwindow.ui \
     dialogstring.ui

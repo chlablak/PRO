@@ -5,6 +5,7 @@
 #include <QString>
 #include <QStringList>
 #include <QTextStream>
+#include <exception>
 
 class FileReader
 {

@@ -1,0 +1,2 @@
+home.html:Home:home%aide%cmd
+commande.html:Commande:commande%cmd%salut
