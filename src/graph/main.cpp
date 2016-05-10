@@ -1,7 +1,8 @@
 #include <iostream>
 #include "factory/VertexFactory.h"
 #include "factory/EdgeFactory.h"
-#include "graphs/Graph.h"
+#include "graphs/Edge.h"
+#include "graphs/Vertex.h"
 #include <list>
 #include <vector>
 
@@ -15,9 +16,9 @@ int main() {
     Vertex v3("2");
 
     // Associate Edges to vertices
-    Edge e1(v1, v1, "e0");
+    Edge e1(v1, v1);
     Edge e2(v1, v3, "e1");
-    Edge e3(v2, v3, 2.3, "e2");
+    Edge e3(v2, v3, "e2");
 
     cout << v3 << endl;
   //  cout << v4 <<endl;
@@ -31,12 +32,12 @@ int main() {
     //Graph g1(vertices, edges);
 
 
-    Graph<Edge> g1({v1,v2,v3},{e1,e2,e3});
+    //Graph<Edge> g1({v1,v2,v3},{e1,e2,e3});
     //cout << "is empty ? " << g2.isEmpty() << endl;
-    cout << "is simple ? " << g1.isSimple() << endl;
-    cout << "is negative weighted ? " << g1.isNegativeWeighted() << endl;
-    cout << "is planar ? " << g1.isPlanar() << endl;
-    cout << "number of vertex : " << g1.V() << endl;
+    //cout << "is simple ? " << g1.isSimple() << endl;
+    //cout << "is negative weighted ? " << g1.isNegativeWeighted() << endl;
+    //cout << "is planar ? " << g1.isPlanar() << endl;
+    //cout << "number of vertex : " << g1.V() << endl;
 
 //
 //    // is null
