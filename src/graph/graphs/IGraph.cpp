@@ -26,7 +26,7 @@ void IGraph<T>::computeId(vector<Vertex*> &result, vector<Vertex> &table) {
  */
 template <typename T>
 IGraph<T>::IGraph(vector<Vertex> &vertices)
-        : edgeId(0), _adjacentList(vertices.size()) {
+        : _edgeId(0), _adjacentList(vertices.size()) {
     computeId(_vertices, vertices);
 }
 
@@ -34,8 +34,8 @@ IGraph<T>::IGraph(vector<Vertex> &vertices)
  * Construct a graph with both vertices and edges
  */
 template <typename T>
-IGraph<T>::IGraph(vector<Vertex> &vertices,
-                         vector<T> &edges) : edgeId(0), _adjacentList(vertices.size()) {
+IGraph<T>::IGraph(vector<Vertex> &vertices, vector<T> &edges)
+        : _edgeId(0), _adjacentList(vertices.size()) {
     computeId(_vertices, vertices);
     fillAdjacentList(edges);
 }
@@ -191,33 +191,34 @@ void IGraph<T>::addVertex(Vertex &vertex) {
     _adjacentList.resize(_vertices.size());
 }
 
-template <typename T>
-void IGraph<T>::removeVertex(Vertex &vertex) {
-
-    // TODO
-    // First remove all edges connected to the vertex
-
-    // Then, remove the vertex
-
-    /*
-    if(_adjacentList.at(vertex.id()).size() > 0)
-        throw new string("Error : the vertex is link to other edge, you should delete them first");
-    bool isFind = false;
-    int curentId = 0;
-    for(vector<Vertex>::iterator it = _vertices.begin(); it<_vertices.end(); ++it){
-
-        if(it->operator==(&vertex)){
-            isFind = true;
-            continue;
-        }
-        if(isFind) {
-            curentId = it->id() - 1;
-            it->setId(curentId);
-        }
-    }
-   _vertices.erase(_vertices.begin() + vertex.id());
-     */
-}
+//template <typename T>
+//void IGraph<T>::removeVertex(Vertex &vertex) {
+//
+//    // TODO
+//    // First remove all concerned edges from the adjacent list
+//
+//
+//    // Then, remove the vertex
+//
+//    /*
+//    if(_adjacentList.at(vertex.id()).size() > 0)
+//        throw new string("Error : the vertex is link to other edge, you should delete them first");
+//    bool isFind = false;
+//    int curentId = 0;
+//    for(vector<Vertex>::iterator it = _vertices.begin(); it<_vertices.end(); ++it){
+//
+//        if(it->operator==(&vertex)){
+//            isFind = true;
+//            continue;
+//        }
+//        if(isFind) {
+//            curentId = it->id() - 1;
+//            it->setId(curentId);
+//        }
+//    }
+//   _vertices.erase(_vertices.begin() + vertex.id());
+//     */
+//}
 
 template <typename T>
 int IGraph<T>::V() const {
@@ -234,7 +235,7 @@ IGraph<T>::~IGraph() {
 
 template <typename T>
 int IGraph<T>::E() const {
-    return edgeId;
+    return _edgeId;
 }
 
 #endif

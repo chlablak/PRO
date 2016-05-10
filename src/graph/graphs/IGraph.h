@@ -15,16 +15,15 @@ template <typename T> // Type of Edges, for example Edge or DiEdge or FlowEdge
 class IGraph {
 
 private:
-
-
     void computeId(vector<Vertex*> &result, vector<Vertex> &table);
+
 protected:
 
     typedef list<T*> edges;
     typedef list<Vertex*> vertices;
 
     vector<Vertex*> _vertices;
-    unsigned int edgeId;
+    unsigned int _edgeId;
     vector<edges> _adjacentList;
 
     void fillAdjacentList(const vector<T>& edges);
@@ -74,7 +73,7 @@ public:
 
     virtual void removeEdge(T &edge) = 0;
 
-    void removeVertex(Vertex &vertex);
+    virtual void removeVertex(Vertex &vertex) = 0;
 
     int V() const;
 

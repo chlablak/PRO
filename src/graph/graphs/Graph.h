@@ -31,6 +31,8 @@ public:
 
     virtual void addEdge(Edge &e) override;
 
+    virtual void removeVertex(Vertex &vertex) override;
+
     virtual void removeEdge(Edge &edge) override;
 
     virtual bool isConnected() const override;

@@ -1,9 +1,5 @@
 #include <iostream>
-#include "factory/VertexFactory.h"
-#include "factory/EdgeFactory.h"
 #include "graphs/Graph.h"
-#include <list>
-#include <vector>
 
 using namespace std;
 
@@ -28,10 +24,7 @@ int main() {
 
 
     // Create the graph structure with those vertices and edges
-    //Graph g1(vertices, edges);
-
-
-    Graph<Edge> g1({v1,v2,v3},{e1,e2,e3});
+    Graph g1({v1,v2,v3},{e1,e2,e3});
     //cout << "is empty ? " << g2.isEmpty() << endl;
     cout << "is simple ? " << g1.isSimple() << endl;
     cout << "is negative weighted ? " << g1.isNegativeWeighted() << endl;

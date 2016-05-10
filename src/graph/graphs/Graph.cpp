@@ -54,7 +54,7 @@ bool Graph::isSimple() const {
  */
 void Graph::addEdge(Edge &e) {
     // set edge id
-    e.setId(edgeId++);
+    e.setId(_edgeId++);
     _adjacentList.at(e.either()->id()).push_back(&e);
     if(e.either() != e.other(*e.either()))
         _adjacentList.at(e.other(*e.either())->id()).push_back(&e);
@@ -65,6 +65,10 @@ void Graph::addEdge(Edge &e) {
  * remove the Edge from the graph
  */
 void Graph::removeEdge(Edge &edge) {
+    _adjacentList.at(edge.either()->id()).remove(&edge);
+    _adjacentList.at(edge.other(*edge.either())->id()).remove(&edge);
+    _edgeId--;
+    /*
     Edge *tmpEdge = nullptr;
     list<Edge*> eitherList, otherList;
     for(list<Edge*>::iterator it = _adjacentList.at(edge.either()->id()).begin(); it!=_adjacentList.at(edge.either()->id()).end(); ++it){
@@ -85,6 +89,7 @@ void Graph::removeEdge(Edge &edge) {
     _adjacentList.at(edge.either()->id()) = eitherList;
     _adjacentList.at(edge.other(*edge.either())->id()) = otherList;
     delete tmpEdge;
+     */
 }
 
 
@@ -99,5 +104,35 @@ bool Graph::isDirected() const {
 bool Graph::isConnected() const {
     return false;
 }
+
+void Graph::removeVertex(Vertex &vertex) {
+    Vertex *otherVertex;
+    // First remove the concerned edges from the adjacent List
+    for (Edge* e : _adjacentList.at(vertex.id())) {
+        if (e->either() == &vertex) {
+            otherVertex = e->other(vertex);
+        } else {
+            otherVertex = e->either();
+        }
+
+        // Remove edge in that other vertex
+        _adjacentList.at(otherVertex->id()).remove(e);
+
+        // Remove edge in this vertex
+        _adjacentList.at(vertex.id()).remove(e);
+    }
+
+    // Then, reorder the adjacent list and the vector table
+    for (int i = vertex.id(); i < _adjacentList.size(); ++i) {
+        _adjacentList.at(i) = _adjacentList.at(i+1);
+        _vertices.at(i) = _vertices.at(i+1);
+    }
+
+    // Finally, remove the vertex
+    _vertices.pop_back();
+    _adjacentList.pop_back();
+}
+
+
 
 
