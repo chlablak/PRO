@@ -22,11 +22,15 @@ bool egli::FunctionTable::exists(name_t name) const
     return functions.find(name) != functions.cend();
 }
 
-egli::Type egli::FunctionTable::returnType(name_t name) const
+std::list<egli::Type> egli::FunctionTable::returnType(name_t name) const
 {
     if (!exists(name))
         throw Exception("unknown name", "egli::FunctionTable::returnType", name);
-    return functions.find(name)->second->returnType();
+    std::list<Type> types;
+    auto range = functions.equal_range(name);
+    for(auto it = range.first; it != range.second; ++it)
+        types.push_back(it->second->returnType());
+    return types;
 }
 
 bool egli::FunctionTable::match(
@@ -39,7 +43,10 @@ bool egli::FunctionTable::match(
             continue;
         bool matching = true;
         for (size_t i = 0; i < it->second->arity(); ++i) {
-            if (it->second->parameterType(i) != paramsType[i]) {
+            if(static_cast<int>(paramsType[i]) == 100) // optional workaround
+                continue;                              // see ProcessingUnit
+            if (!detail::Matcher::check(it->second->parameterType(i),
+                                        paramsType[i])) {
                 matching = false;
                 break;
             }

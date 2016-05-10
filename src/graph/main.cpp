@@ -2,24 +2,42 @@
 #include "factory/VertexFactory.h"
 #include "factory/EdgeFactory.h"
 #include "graphs/Graph.h"
+#include <list>
+#include <vector>
 
 using namespace std;
 
 int main() {
 
     // Create vertices
-    Vertex v1;
-    Vertex v2;
-    Vertex v3;
+    Vertex v1("0");
+    Vertex v2("1");
+    Vertex v3("2");
 
     // Associate Edges to vertices
-    Edge e1(v1, v2);
-    Edge e2(v2, v3);
-    Edge e3(v3, v2, -2.3);
+    Edge e1(v1, v1, "e0");
+    Edge e2(v1, v3, "e1");
+    Edge e3(v2, v3, 2.3, "e2");
+
+    cout << v3 << endl;
+  //  cout << v4 <<endl;
+
+    cout << e3 << endl;
+    //cout << e4 <<endl;
+
+
 
     // Create the graph structure with those vertices and edges
     //Graph g1(vertices, edges);
-//    Graph<Edge> g1({v1,v2,v3},{e1,e2,e3});
+
+
+    Graph<Edge> g1({v1,v2,v3},{e1,e2,e3});
+    //cout << "is empty ? " << g2.isEmpty() << endl;
+    cout << "is simple ? " << g1.isSimple() << endl;
+    cout << "is negative weighted ? " << g1.isNegativeWeighted() << endl;
+    cout << "is planar ? " << g1.isPlanar() << endl;
+    cout << "number of vertex : " << g1.V() << endl;
+
 //
 //    // is null
 //    Graph<Edge> g2;
