@@ -7,49 +7,30 @@
 
 #include "Edge.h"
 
-class DiEdge : public Edge {
+class DiEdge : public CommonEdge {
+protected:
+    DiEdge() {}
 
 public:
     // Constructors
-
     DiEdge(Vertex &from, Vertex &to)
-            : Edge(from, to) { }
-
-    DiEdge(Vertex &from, Vertex &to,
-           const double &weight)
-            : Edge(from, to, weight) { }
+            : CommonEdge(from, to) { }
 
     DiEdge(Vertex &from, Vertex &to,
            const string &label)
-            : Edge(from, to, label) { }
+            : CommonEdge(from, to, label) { }
 
-    DiEdge(Vertex &from, Vertex &to,
-           const double &weight, const string &label)
-            : Edge(from, to, weight, label) { }
-
-    DiEdge(Vertex &from, Vertex &to,
-           const int maxCapacity)
-            : Edge(from, to, maxCapacity) { }
-
-    DiEdge(Vertex &from, Vertex &to,
-           const int minCapacity, const int maxCapacity)
-            : Edge(from, to, minCapacity, maxCapacity) { }
-
-    DiEdge(Vertex &from, Vertex &to,
-           const double &weight, const int maxCapacity)
-            : Edge(from, to, weight, maxCapacity) { }
-
-    DiEdge(Vertex &from, Vertex &to,
-           const double &weight, const string &label, const int minCapacity,
-           const int maxCapacity)
-            : Edge(from, to, weight, label, maxCapacity, minCapacity) { }
-
-    virtual ~DiEdge() {
-        deleteItem();
+    DiEdge(const DiEdge& e){
+        _id = e._id;
+        _a = new Vertex(*e._a);
+        _b = new Vertex(*e._b);
+        _label = e._label;
     }
 
-    Vertex *from();
+    virtual ~DiEdge() {}
 
+    // Getters
+    Vertex *from();
     Vertex *to();
 };
 
