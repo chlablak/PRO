@@ -10,20 +10,24 @@
       <sourceFolder url="file://$MODULE_DIR$/factory/GraphFactory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/DiEdgeFactory.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/ConnectedComponent.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/ConnectedComponent.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/visitor/Visitor.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Vertex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/GraphCommon.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/IGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Vertex.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowGraph.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/GraphCommon.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/IGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraph.cpp" isTestSource="false" />

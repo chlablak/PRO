@@ -90,6 +90,40 @@ struct Fetcher
     }
 };
 
+// int -> float
+template<>
+struct Fetcher<RealType<Type::Float>::type>
+{
+    using cref = RealType<Type::Float>::type;
+
+    static cref get(const VariableTable &table, const std::string &name)
+    {
+        if (table.typeOf(name) == Type::Integer)
+            return Fetcher<RealType<Type::Integer>::type>::get(table, name);
+        return table.get<RealType<Type::Float>::type>(name);
+    }
+};
+
+// int,float -> number
+template<>
+struct Fetcher<RealType<Type::Number>::type>
+{
+    using cref = RealType<Type::Number>::type;
+
+    static cref get(const VariableTable &table, const std::string &name)
+    {
+        switch (table.typeOf(name)) {
+            case Type::Float:
+                return Fetcher<RealType<Type::Float>::type>::get(table, name);
+            case Type::Integer:
+                return Fetcher<RealType<Type::Integer>::type>::get(table, name);
+            default:
+                break;
+        }
+        return table.get<RealType<Type::Number>::type>(name);
+    }
+};
+
 // Remove const
 template<typename T>
 struct Fetcher<const T> :
@@ -101,6 +135,60 @@ template<typename T>
 struct Fetcher<T&> :
     Fetcher<T>
 {};
+
+// Specialize Optional
+template<typename T>
+struct Fetcher<utility::Optional<T>>
+{
+    using cref = utility::Optional<T>;
+
+    static cref get(const VariableTable &table, const std::string &name)
+    {
+        if (!name.empty())
+            return Fetcher<T>::get(table, name);
+        else
+            return utility::none;
+    }
+};
+
+// id_type -> Integer
+template<>
+struct Fetcher<id_type> :
+    Fetcher<RealType<Type::Integer>::type>
+{};
+
+// double -> float
+template<>
+struct Fetcher<double> :
+    Fetcher<RealType<Type::Float>::type>
+{};
+
+/* Check parameters matching */
+/* ------------------------- */
+
+struct Matcher
+{
+    using table_t = FunctionCallerImpl::table_t;
+    using name_t = FunctionCallerImpl::name_t;
+
+    static bool check(Type a, Type b)
+    {
+        switch (a) {
+            case Type::Float:
+                return b == Type::Float || b == Type::Integer;
+            case Type::Number:
+                return b == Type::Number || b == Type::Float || b == Type::Integer;
+            default:
+                break;
+        }
+        return a == b;
+    }
+
+    static bool check(Type a, name_t b, const table_t table)
+    {
+        return b.empty() || check(a, table.typeOf(b));
+    }
+};
 
 /* FunctionImpl for 0 to 10 parameters */
 /* ----------------------------------- */
@@ -115,9 +203,9 @@ class FunctionImpl :
 {
 public:
 
-    using function_t = std::function<R(P0, P1, P2, P3, P4, P5, P6, P7, P8, P9)>;
+    using function_t = R(*)(P0, P1, P2, P3, P4, P5, P6, P7, P8, P9);
 
-    FunctionImpl(const function_t &func) :
+    FunctionImpl(function_t func) :
         func(func)
     {}
 
@@ -156,16 +244,16 @@ public:
     virtual bool match(const table_t table, parameters_t params) const
     {
         return params.size() == arity()
-            && table.typeOf(params[0]) == parameterType(0)
-            && table.typeOf(params[1]) == parameterType(1)
-            && table.typeOf(params[2]) == parameterType(2)
-            && table.typeOf(params[3]) == parameterType(3)
-            && table.typeOf(params[4]) == parameterType(4)
-            && table.typeOf(params[5]) == parameterType(5)
-            && table.typeOf(params[6]) == parameterType(6)
-            && table.typeOf(params[7]) == parameterType(7)
-            && table.typeOf(params[8]) == parameterType(8)
-            && table.typeOf(params[9]) == parameterType(9);
+            && Matcher::check(parameterType(0), params[0], table)
+            && Matcher::check(parameterType(1), params[1], table)
+            && Matcher::check(parameterType(2), params[2], table)
+            && Matcher::check(parameterType(3), params[3], table)
+            && Matcher::check(parameterType(4), params[4], table)
+            && Matcher::check(parameterType(5), params[5], table)
+            && Matcher::check(parameterType(6), params[6], table)
+            && Matcher::check(parameterType(7), params[7], table)
+            && Matcher::check(parameterType(8), params[8], table)
+            && Matcher::check(parameterType(9), params[9], table);
     }
 
     virtual void execute(table_t table, name_t dst, parameters_t params) const
@@ -197,9 +285,9 @@ class FunctionImpl<R, P0, P1, P2, P3, P4, P5, P6, P7, P8, void> :
 {
 public:
 
-    using function_t = std::function<R(P0, P1, P2, P3, P4, P5, P6, P7, P8)>;
+    using function_t = R(*)(P0, P1, P2, P3, P4, P5, P6, P7, P8);
 
-    FunctionImpl(const function_t &func) :
+    FunctionImpl(function_t func) :
         func(func)
     {}
 
@@ -237,15 +325,15 @@ public:
     virtual bool match(const table_t table, parameters_t params) const
     {
         return params.size() == arity()
-            && table.typeOf(params[0]) == parameterType(0)
-            && table.typeOf(params[1]) == parameterType(1)
-            && table.typeOf(params[2]) == parameterType(2)
-            && table.typeOf(params[3]) == parameterType(3)
-            && table.typeOf(params[4]) == parameterType(4)
-            && table.typeOf(params[5]) == parameterType(5)
-            && table.typeOf(params[6]) == parameterType(6)
-            && table.typeOf(params[7]) == parameterType(7)
-            && table.typeOf(params[8]) == parameterType(8);
+            && Matcher::check(parameterType(0), params[0], table)
+            && Matcher::check(parameterType(1), params[1], table)
+            && Matcher::check(parameterType(2), params[2], table)
+            && Matcher::check(parameterType(3), params[3], table)
+            && Matcher::check(parameterType(4), params[4], table)
+            && Matcher::check(parameterType(5), params[5], table)
+            && Matcher::check(parameterType(6), params[6], table)
+            && Matcher::check(parameterType(7), params[7], table)
+            && Matcher::check(parameterType(8), params[8], table);
     }
 
     virtual void execute(table_t table, name_t dst, parameters_t params) const
@@ -275,9 +363,9 @@ class FunctionImpl<R, P0, P1, P2, P3, P4, P5, P6, P7, void, void> :
 {
 public:
 
-    using function_t = std::function<R(P0, P1, P2, P3, P4, P5, P6, P7)>;
+    using function_t = R(*)(P0, P1, P2, P3, P4, P5, P6, P7);
 
-    FunctionImpl(const function_t &func) :
+    FunctionImpl(function_t func) :
         func(func)
     {}
 
@@ -314,14 +402,14 @@ public:
     virtual bool match(const table_t table, parameters_t params) const
     {
         return params.size() == arity()
-            && table.typeOf(params[0]) == parameterType(0)
-            && table.typeOf(params[1]) == parameterType(1)
-            && table.typeOf(params[2]) == parameterType(2)
-            && table.typeOf(params[3]) == parameterType(3)
-            && table.typeOf(params[4]) == parameterType(4)
-            && table.typeOf(params[5]) == parameterType(5)
-            && table.typeOf(params[6]) == parameterType(6)
-            && table.typeOf(params[7]) == parameterType(7);
+            && Matcher::check(parameterType(0), params[0], table)
+            && Matcher::check(parameterType(1), params[1], table)
+            && Matcher::check(parameterType(2), params[2], table)
+            && Matcher::check(parameterType(3), params[3], table)
+            && Matcher::check(parameterType(4), params[4], table)
+            && Matcher::check(parameterType(5), params[5], table)
+            && Matcher::check(parameterType(6), params[6], table)
+            && Matcher::check(parameterType(7), params[7], table);
     }
 
     virtual void execute(table_t table, name_t dst, parameters_t params) const
@@ -350,9 +438,9 @@ class FunctionImpl<R, P0, P1, P2, P3, P4, P5, P6, void, void, void> :
 {
 public:
 
-    using function_t = std::function<R(P0, P1, P2, P3, P4, P5, P6)>;
+    using function_t = R(*)(P0, P1, P2, P3, P4, P5, P6);
 
-    FunctionImpl(const function_t &func) :
+    FunctionImpl(function_t func) :
         func(func)
     {}
 
@@ -388,13 +476,13 @@ public:
     virtual bool match(const table_t table, parameters_t params) const
     {
         return params.size() == arity()
-            && table.typeOf(params[0]) == parameterType(0)
-            && table.typeOf(params[1]) == parameterType(1)
-            && table.typeOf(params[2]) == parameterType(2)
-            && table.typeOf(params[3]) == parameterType(3)
-            && table.typeOf(params[4]) == parameterType(4)
-            && table.typeOf(params[5]) == parameterType(5)
-            && table.typeOf(params[6]) == parameterType(6);
+            && Matcher::check(parameterType(0), params[0], table)
+            && Matcher::check(parameterType(1), params[1], table)
+            && Matcher::check(parameterType(2), params[2], table)
+            && Matcher::check(parameterType(3), params[3], table)
+            && Matcher::check(parameterType(4), params[4], table)
+            && Matcher::check(parameterType(5), params[5], table)
+            && Matcher::check(parameterType(6), params[6], table);
     }
 
     virtual void execute(table_t table, name_t dst, parameters_t params) const
@@ -422,9 +510,9 @@ class FunctionImpl<R, P0, P1, P2, P3, P4, P5, void, void, void, void> :
 {
 public:
 
-    using function_t = std::function<R(P0, P1, P2, P3, P4, P5)>;
+    using function_t = R(*)(P0, P1, P2, P3, P4, P5);
 
-    FunctionImpl(const function_t &func) :
+    FunctionImpl(function_t func) :
         func(func)
     {}
 
@@ -459,12 +547,12 @@ public:
     virtual bool match(const table_t table, parameters_t params) const
     {
         return params.size() == arity()
-            && table.typeOf(params[0]) == parameterType(0)
-            && table.typeOf(params[1]) == parameterType(1)
-            && table.typeOf(params[2]) == parameterType(2)
-            && table.typeOf(params[3]) == parameterType(3)
-            && table.typeOf(params[4]) == parameterType(4)
-            && table.typeOf(params[5]) == parameterType(5);
+            && Matcher::check(parameterType(0), params[0], table)
+            && Matcher::check(parameterType(1), params[1], table)
+            && Matcher::check(parameterType(2), params[2], table)
+            && Matcher::check(parameterType(3), params[3], table)
+            && Matcher::check(parameterType(4), params[4], table)
+            && Matcher::check(parameterType(5), params[5], table);
     }
 
     virtual void execute(table_t table, name_t dst, parameters_t params) const
@@ -491,9 +579,9 @@ class FunctionImpl<R, P0, P1, P2, P3, P4, void, void, void, void, void> :
 {
 public:
 
-    using function_t = std::function<R(P0, P1, P2, P3, P4)>;
+    using function_t = R(*)(P0, P1, P2, P3, P4);
 
-    FunctionImpl(const function_t &func) :
+    FunctionImpl(function_t func) :
         func(func)
     {}
 
@@ -527,11 +615,11 @@ public:
     virtual bool match(const table_t table, parameters_t params) const
     {
         return params.size() == arity()
-            && table.typeOf(params[0]) == parameterType(0)
-            && table.typeOf(params[1]) == parameterType(1)
-            && table.typeOf(params[2]) == parameterType(2)
-            && table.typeOf(params[3]) == parameterType(3)
-            && table.typeOf(params[4]) == parameterType(4);
+            && Matcher::check(parameterType(0), params[0], table)
+            && Matcher::check(parameterType(1), params[1], table)
+            && Matcher::check(parameterType(2), params[2], table)
+            && Matcher::check(parameterType(3), params[3], table)
+            && Matcher::check(parameterType(4), params[4], table);
     }
 
     virtual void execute(table_t table, name_t dst, parameters_t params) const
@@ -556,9 +644,9 @@ class FunctionImpl<R, P0, P1, P2, P3, void, void, void, void, void, void> :
 {
 public:
 
-    using function_t = std::function<R(P0, P1, P2, P3)>;
+    using function_t = R(*)(P0, P1, P2, P3);
 
-    FunctionImpl(const function_t &func) :
+    FunctionImpl(function_t func) :
         func(func)
     {}
 
@@ -591,10 +679,10 @@ public:
     virtual bool match(const table_t table, parameters_t params) const
     {
         return params.size() == arity()
-            && table.typeOf(params[0]) == parameterType(0)
-            && table.typeOf(params[1]) == parameterType(1)
-            && table.typeOf(params[2]) == parameterType(2)
-            && table.typeOf(params[3]) == parameterType(3);
+            && Matcher::check(parameterType(0), params[0], table)
+            && Matcher::check(parameterType(1), params[1], table)
+            && Matcher::check(parameterType(2), params[2], table)
+            && Matcher::check(parameterType(3), params[3], table);
     }
 
     virtual void execute(table_t table, name_t dst, parameters_t params) const
@@ -618,9 +706,9 @@ class FunctionImpl<R, P0, P1, P2, void, void, void, void, void, void, void> :
 {
 public:
 
-    using function_t = std::function<R(P0, P1, P2)>;
+    using function_t = R(*)(P0, P1, P2);
 
-    FunctionImpl(const function_t &func) :
+    FunctionImpl(function_t func) :
         func(func)
     {}
 
@@ -652,9 +740,9 @@ public:
     virtual bool match(const table_t table, parameters_t params) const
     {
         return params.size() == arity()
-            && table.typeOf(params[0]) == parameterType(0)
-            && table.typeOf(params[1]) == parameterType(1)
-            && table.typeOf(params[2]) == parameterType(2);
+            && Matcher::check(parameterType(0), params[0], table)
+            && Matcher::check(parameterType(1), params[1], table)
+            && Matcher::check(parameterType(2), params[2], table);
     }
 
     virtual void execute(table_t table, name_t dst, parameters_t params) const
@@ -677,9 +765,9 @@ class FunctionImpl<R, P0, P1, void, void, void, void, void, void, void, void> :
 {
 public:
 
-    using function_t = std::function<R(P0, P1)>;
+    using function_t = R(*)(P0, P1);
 
-    FunctionImpl(const function_t &func) :
+    FunctionImpl(function_t func) :
         func(func)
     {}
 
@@ -710,8 +798,8 @@ public:
     virtual bool match(const table_t table, parameters_t params) const
     {
         return params.size() == arity()
-            && table.typeOf(params[0]) == parameterType(0)
-            && table.typeOf(params[1]) == parameterType(1);
+            && Matcher::check(parameterType(0), params[0], table)
+            && Matcher::check(parameterType(1), params[1], table);
     }
 
     virtual void execute(table_t table, name_t dst, parameters_t params) const
@@ -733,9 +821,9 @@ class FunctionImpl<R, P0, void, void, void, void, void, void, void, void, void>:
 {
 public:
 
-    using function_t = std::function<R(P0)>;
+    using function_t = R(*)(P0);
 
-    FunctionImpl(const function_t &func) :
+    FunctionImpl(function_t func) :
         func(func)
     {}
 
@@ -765,7 +853,7 @@ public:
     virtual bool match(const table_t table, parameters_t params) const
     {
         return params.size() == arity()
-            && table.typeOf(params[0]) == parameterType(0);
+            && Matcher::check(parameterType(0), params[0], table);
     }
 
     virtual void execute(table_t table, name_t dst, parameters_t params) const
@@ -787,9 +875,9 @@ class FunctionImpl<R, void, void, void, void, void, void, void, void, void,
 {
 public:
 
-    using function_t = std::function<R()>;
+    using function_t = R(*)();
 
-    FunctionImpl(const function_t &func) :
+    FunctionImpl(function_t func) :
         func(func)
     {}
 

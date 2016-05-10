@@ -339,7 +339,9 @@
 				
 				\textcolor{red}{AJOUTER DATE}\\
 				\textcolor{red}{nouvelles modifications depuis l'impl. du parseur}\\
-				\textcolor{red}{oublis des += et -= dans la grammaire}
+				\textcolor{red}{oublis des += et -= dans la grammaire}\\
+				\textcolor{red}{oubli de l'id dans connection}\\
+				\textcolor{red}{sign->negate() -> impossible d'ecrire v=(1::-2) (en l'état)}
 				
 		\subsection{Flux des données}
 			\begin{figure}[H]
@@ -1564,11 +1566,11 @@
 				nodes={draw,fill=gray!20,minimum width=.5cm,outer sep=0pt,minimum
 					height=.7cm,anchor=center},
 				column 1/.style={minimum height=.8cm}]{
-					\mbox{} &[2mm] *e2 & \mbox{} &[2mm] *e5 & $/$  &[2mm]   &   &[2mm]   & \\
-					\mbox{} & *e1 & \mbox{} & *e5 & \mbox{}  & *e3 &  \mbox{} & *e4 & $/$  \\
-					\mbox{} & *e2 & \mbox{} & *e4 & $/$  &   &   &   & \\
-					\mbox{} & *e2 & \mbox{} & *e5 & \mbox{}  & *e3 & $/$  &   & \\
-					\mbox{} & *e4 & \mbox{} & *e1 & \mbox{}  & *e2 & $/$  &   & \\
+					\mbox{} &[2mm] *e2 & \mbox{} &[2mm] *e5 & $/$     &[2mm]&         &[2mm]& \\
+					\mbox{} &[2mm] *e1 & \mbox{} &[2mm] *e5 & \mbox{} & *e3 & \mbox{} & *e4 & $/$  \\
+					\mbox{} &[2mm] *e2 & \mbox{} &[2mm] *e4 & $/$     &[2mm]&         &[2mm]& \\
+					\mbox{} &[2mm] *e3 & \mbox{} &[2mm] *e6 & $/$     &[2mm]&         &[2mm]& \\
+					\mbox{} &[2mm] *e6 & \mbox{} &[2mm] *e1 & $/$     &     &         &     & \\
 				};
 				\foreach \i in {1,2,3,4,5}{
 					\path (M-\i-1) [late options={label=left:\i}];
@@ -1576,8 +1578,6 @@
 					\draw[->] (M-\i-3.center)--(M-\i-4.west);
 				}
 				\draw[->] (M-2-5.center)--(M-2-6.west);
-				\draw[->] (M-4-5.center)--(M-4-6.west);
-				\draw[->] (M-5-5.center)--(M-5-6.west);
 				\draw[->] (M-2-7.center)--(M-2-8.west);
 				\end{tikzpicture}
 				\caption{Liste d'adjacence}
@@ -1615,12 +1615,32 @@
 			\end{figure}
 			
 			\subsubsection{Création de graphes}
-			Le patron de conception "fabrique" permet aux utilisateurs de créer des Vertex et des Edge pour ensuite créer un graphe.
-			\begin{figure}[H]
-				\centering
-				\includegraphics[scale=2.8]{Conception/factory.pdf}
-				\caption{Pattern Factory pour la création d'un graphe}
-			\end{figure}
+			La création de graphe peut maintenant s'effectuer en utilisant la classe Graph. Voici un exemple d'utilisation suivant le type de graphe à créer.
+			\begin{lstlisting}
+						public static void main() {
+							// creer quelques sommets
+							Vertex v1, v2, v3;
+							Edge e1(v1, v2);
+							Edge e2(v1, v3);
+							
+							// Creation d'un graphe non oriente
+							IGraph *myGraph = new Graph({v1, v2, v3}, {e1, e2});
+							
+							DiEdge de1(v1, v2);
+							DiEdge de2(v2, v3);
+							
+							// Creation d'un graphe oriente
+							IGraph *myDiGraph = new DiGraph({v1, v2, v3}, {de1, de2});
+							
+							// Creation d'un graphe a flot
+							IGraph *myFlowGraph = new FlowGraph({v1, v2, v3}, {de1, de2});
+							
+							// Utilisation d'une methode de l'interface
+							if (myGraph->isSimple()) {
+								cout << "myGraph est simple" << endl;
+							}
+						}
+			\end{lstlisting}
 			
 		
 		\subsection{Algorithmes}
@@ -1639,7 +1659,7 @@
 				\caption{Pattern Visitor pour l'application des algos aux graphes}
 			\end{figure}
 			
-			Les algorithmes ne sont pas les mêmes pour tous les types de graphes : un parcours en largeur sera quelque peu différent entre un graphe orienté et non-orienté. Le pattern Visiteur est précisément fait pour répondre à ce genre de problème. De plus, l'avantage du pattern est qu'il est facilement extensible : un nouvel algorithme s'ajoute tout bonnement en tant que visiteur.
+			Les algorithmes ne sont pas les mêmes pour tous les types de graphes : un parcours en largeur sera quelque peu différent entre un graphe orienté et non-orienté. Le pattern Visiteur est précisément fait pour répondre à ce genre de problème. De plus, l'avantage du pattern est qu'il est facilement extensible : un nouvel algorithme s'ajoute tout bonnement en tant que visiteur. Par contre, la structure de donnée doit être complète et tout changement de cette dernière demandera, selon le changement, une adaptation chez tous les visiteurs.\\
 			
 			\begin{lstlisting}
 						// Code d'un objet visite
@@ -1676,6 +1696,12 @@
 								}
 						};
 			\end{lstlisting}
+			
+			Nous avons choisi ce pattern car il permet de bien séparer la structure de donnée des algorithmes et il nous permet de collaborer efficacement au sein de l'équipe.
+			
+			\subsubsection{Type de retour}
+			Nos algorithmes ont une chose en commun : ils retournent tous un graphe. Cependant, vu que nous codons en C++, nous pouvons nous poser la question du type de retour. Le graphe doit-il être retourné par valeur, référence, ou pointeur ?\\
+			Retourner par valeur implique une lourde copie de tout le graphe, ce qui ralentirait le système. De plus, le graphe sera progressivement dynamiquement construit tout au long de l'algorithme et le propriétaire de ce graphe sera celui qui appelle cet algorithme. Pour ces raisons, Nous avons décidé de \textbf{retourner le graphe par pointeur}.
 	
 	\section{Annexes}
 	

@@ -64,6 +64,12 @@ struct Statement
      * \param value - Value of the constant
      */
     Statement(ConstantType constantType, const std::string &value);
+
+    /*! \brief Transform the statement in a Variable statement
+     *
+     * \param value - The Variable value
+     */
+    void transformToVariable(const std::string &value);
 };
 } // namespace egli
 

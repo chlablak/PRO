@@ -18,6 +18,7 @@
     struct RealType<Type::E> \
     { \
         using type = T; \
+        using cref = const T&; \
     };
 
 namespace egli
