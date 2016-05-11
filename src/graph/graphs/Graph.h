@@ -13,29 +13,31 @@ class Graph : public IGraph<Edge>
 {
 
 public:
-
-    /**
-     * Constructors
-     */
     Graph() : IGraph() { }
-    Graph(vector<Vertex> vertices) : IGraph(vertices) { }
-    Graph(vector<Vertex> &vertices, vector<Edge> &edges) : IGraph(vertices, edges) { }
-//
-//    ~Graph();
-//
-//    virtual bool isSimple() const override;
-//
-//    virtual bool isStronglyConnected() const override;
-//
-//    virtual bool isDirected() const override;
-//
-//    virtual void addEdge(Edge &e) override;
-//
-//    virtual void removeVertex(Vertex &vertex) override;
-//
-//    virtual void removeEdge(Edge &edge) override;
-//
-//    virtual bool isConnected() const override;
+    Graph(vector<Vertex*> &vertices) : IGraph(vertices) { }
+    Graph(vector<Vertex*> &vertices, vector<Edge*> &edges);
+
+    ~Graph();
+
+    virtual bool isSimple() const override;
+
+    virtual bool isStronglyConnected() const override;
+
+    virtual bool isDirected() const override;
+
+    virtual void addEdge(Edge *e) override;
+
+    virtual void removeVertex(Vertex *vertex) override;
+
+    virtual void removeEdge(Edge *edge) override;
+
+    virtual bool isConnected() const override;
+
+    virtual size_t E() const override;
+
+    virtual IGraph<Edge>::Edges edgeList() const override;
+
+
 };
 
 

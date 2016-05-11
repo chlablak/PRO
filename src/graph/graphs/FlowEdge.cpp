@@ -19,6 +19,3 @@ void FlowEdge::setMinCapacity(const int &m) {
 void FlowEdge::setMaxCapacity(const int &m) {
     _maxCapacity = m;
 }
-
-FlowEdge::FlowEdge(Vertex &from, Vertex &to, const int &minCapacity):
-        DiEdge(from, to), _minCapacity(minCapacity), _maxCapacity(-1) { }

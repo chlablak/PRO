@@ -8,46 +8,30 @@
 #include <string>
 #include <iostream>
 #include "Vertex.h"
-#include "CommonEdge.h"
+#include "IEdge.h"
 
 using namespace std;
 
-class Edge : public CommonEdge{
-
-protected:
-    Edge() {}
-
-   // void deleteItem();
+class Edge : public IEdge
+{
 
 public:
     // Constructors
+    Edge(Vertex *from, Vertex *to)
+            : IEdge(from, to) { }
 
-    Edge(Vertex &from, Vertex &to)
-            : CommonEdge(from, to) { }
+    Edge(Vertex *from, Vertex *to, const string &label)
+            : IEdge(from, to, label) { }
 
-    Edge(Vertex &from, Vertex &to,
-         const string &label)
-            : CommonEdge(from, to, label){ }
-
-    Edge(const Edge& e){
-        _id = e._id;
-        _a = new Vertex(*e._a);
-        _b = new Vertex(*e._b);
-        _label = e._label;
-
-    }
-
-    // Getters
-
-    Vertex* either() const;
-
-    Vertex* other(Vertex &v) const;
+    Edge(const Edge& e);
 
     virtual ~Edge() {}
 
+    Vertex* either() const;
+
+    Vertex* other(Vertex *v) const;
+
     friend ostream& operator<<(ostream& os, const Edge& e);
-    /*template <typename T>
-    friend class IGraph;*/
 };
 
 

@@ -2,55 +2,63 @@
 #include "graphs/Vertex.h"
 #include "graphs/Edge.h"
 #include "graphs/Graph.h"
+#include <cassert>
 
 using namespace std;
 
 int main() {
 
     // Create vertices
-    Vertex v1("0");
-    Vertex v2("1");
-    Vertex v3("2");
+    Vertex *v1 = new Vertex("v1");
+    Vertex *v2 = new Vertex("v2");
+    Vertex *v3 = new Vertex("v3");
+    Vertex *v4 = new Vertex("v4");
 
     // Associate Edges to vertices
-    Edge e1(v1, v1);
-    Edge e2(v1, v3, "e1");
-    Edge e3(v2, v3, "e2");
+    Edge *e1 = new Edge(v1, v1, "e1");
+    Edge *e2 = new Edge(v1, v3, "e2");
+    Edge *e3 = new Edge(v2, v3, "e3");
+    Edge *e4 = new Edge(v3, v4, "e4");
 
-    cout << v3 << endl;
-    cout << e3 << endl;
+    vector<Vertex*> vertices = {v1, v2, v3};
+    vector<Edge*> edges = {e1, e2, e3};
 
     // Create the graph structure with those vertices and edges
-    Graph g1({v1,v2,v3},{e1,e2,e3});
-    //cout << "is empty ? " << g2.isEmpty() << endl;
-    //cout << "is simple ? " << g1.isSimple() << endl;
-    //cout << "is negative weighted ? " << g1.isNegativeWeighted() << endl;
-    //cout << "is planar ? " << g1.isPlanar() << endl;
-    //cout << "number of vertex : " << g1.V() << endl;
+    //Graph g3(vertices);
+    Graph g1(vertices, edges);
 
-//
-//    // is null
-//    Graph<Edge> g2;
-//    cout << "g2 is null ? " << g2.isNull() << endl;
-//    g2.addVertex(v1);
-//    cout << "g2 is null ? " << g2.isNull() << endl;
-//
-//    // is empty
-//    cout << "g2 is empty ? " << g2.isEmpty() << endl;
-//    g2.addVertex(v2);
-//    g2.addEdge(e1);
-//    cout << "g2 is empty ? " << g2.isEmpty() << endl;
-//
-//    // is simple
-//    cout << "g2 is simple ? " << g2.isSimple() << endl;
-//    g2.addEdge(e1);
-//    cout << "g2 is simple ? " << g2.isSimple() << endl;
-//
-//    // is negative weighted
-//    cout << "g1 is negative weighted ? " << g1.isNegativeWeighted() << endl;
-//
-//    cout << "is planar ? " << g1.isPlanar() << endl;
-//    cout << "number of vertex : " << g1.V() << endl;
+    assert(g1.isSimple() == 0);
+    assert(g1.isNegativeWeighted() == 0);
+    assert(g1.isPlanar() == 0);
+    assert(g1.V() == 3);
+
+
+    cout << "Avant ponderation :" << endl;
+    for (Vertex *v : g1.vertexList()) {
+        cout << *v << endl;
+    }
+    for(Edge *e : g1.edgeList()){
+        cout << *e << endl;
+    }
+
+    g1.ponderateEdges(-5.1);
+    g1.ponderateVertices(3.24);
+    g1.ponderateCapacity(0, 3);
+    g1.addVertex(v4);
+    g1.addEdge(e4);
+    cout << endl;
+    cout << "Apres ponderation : " << endl;
+    for (Vertex *v : g1.vertexList()) {
+        cout << *v << endl;
+    }
+    for(Edge *e : g1.edgeList()){
+        cout << *e << endl;
+    }
+
+    assert(g1.E() == 4);
+    assert(g1.V() == 4);
+    assert(e1 <= e2);
+    assert(g1.isNegativeWeighted() == 1);
 
     return 0;
 }
