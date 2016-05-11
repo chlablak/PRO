@@ -10,22 +10,22 @@
 
 class DiGraph : public IGraph<DiEdge>
 {
-
-public:
-    DiGraph(vector<Vertex> &vertices, vector<DiEdge> &edges)
-            : IGraph::IGraph(vertices, edges) { }
-
-    virtual bool isSimple() const override;
-
-    virtual bool isConnected() const override;
-
-    virtual bool isStronglyConnected() const override;
-
-    virtual bool isDirected() const override;
-
-    virtual void addEdge(DiEdge &e) override;
-
-    virtual void removeEdge(DiEdge &edge) override;
+//
+//public:
+//    DiGraph(vector<Vertex> &vertices, vector<DiEdge> &edges)
+//            : IGraph::IGraph(vertices, edges) { }
+//
+//    virtual bool isSimple() const override;
+//
+//    virtual bool isConnected() const override;
+//
+//    virtual bool isStronglyConnected() const override;
+//
+//    virtual bool isDirected() const override;
+//
+//    virtual void addEdge(DiEdge &e) override;
+//
+//    virtual void removeEdge(DiEdge &edge) override;
 
 
 };

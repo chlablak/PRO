@@ -5,7 +5,6 @@
 #ifndef GRAPH_VISITOR_H
 #define GRAPH_VISITOR_H
 
-#include "../graphs/IGraph.h"
 #include "../graphs/Graph.h"
 #include "../graphs/DiGraph.h"
 #include "../graphs/FlowGraph.h"

@@ -5,10 +5,10 @@
       <sourceFolder url="file://$MODULE_DIR$/factory/DiEdgeFactory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/GraphFactory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/VertexFactory.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/VertexFactory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/GraphFactory.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/factory/EdgeFactory.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/factory/DiEdgeFactory.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.h" isTestSource="false" />
@@ -21,18 +21,26 @@
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Vertex.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/FlowGraph.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/CommonEdge.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/FlowEdge.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowGraph.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Vertex.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/FlowGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/IGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraph.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/WeightedEdge.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/IGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/IGraph.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/WeightedDiEdge.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/FlowEdge.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/WeightedEdge.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/WeightedDiEdge.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/CommonEdge.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.h" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">

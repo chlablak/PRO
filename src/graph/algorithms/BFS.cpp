@@ -3,9 +3,6 @@
 //
 
 #include "BFS.h"
-#include "../factory/GraphFactory.h"
-#include <limits>
-#include <list>
 
 using namespace std;
 

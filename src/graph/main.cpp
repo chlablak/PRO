@@ -1,10 +1,6 @@
 #include <iostream>
-#include "factory/VertexFactory.h"
-#include "factory/EdgeFactory.h"
-#include "graphs/Edge.h"
 #include "graphs/Vertex.h"
-#include <list>
-#include <vector>
+#include "graphs/Edge.h"
 #include "graphs/Graph.h"
 
 using namespace std;
@@ -22,12 +18,7 @@ int main() {
     Edge e3(v2, v3, "e2");
 
     cout << v3 << endl;
-  //  cout << v4 <<endl;
-
     cout << e3 << endl;
-    //cout << e4 <<endl;
-
-
 
     // Create the graph structure with those vertices and edges
     Graph g1({v1,v2,v3},{e1,e2,e3});

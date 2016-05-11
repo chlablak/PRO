@@ -24,9 +24,9 @@ Graph::~Graph() {
  */
 // TODO à corriger. Test effectué sur un graphe simple, il retourne qu'il n'est pas simple.
 bool Graph::isSimple() const {
-    if(IGraph::isNull())
+    if(IGraph<Edge>::isNull())
         return false;
-    list<Edge*> edges = IGraph::edgeList();
+    list<Edge*> edges = IGraph<Edge>::edgeList();
     bool first;
     for(list<Edge*>::const_iterator edgeIt = edges.begin(); edgeIt != edges.end(); ++edgeIt){
         // check if the graph doesn't content a cycle
