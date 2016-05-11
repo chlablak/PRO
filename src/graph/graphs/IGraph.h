@@ -5,32 +5,36 @@
 #ifndef GRAPH_GRAPHCOMMON_H
 #define GRAPH_GRAPHCOMMON_H
 
+#include <iostream>
+#include <vector>
+#include "Vertex.h"
+
 using namespace std;
 
 template <typename T> // Type of Edges, for example Edge or DiEdge or FlowEdge
 class IGraph {
-//
-//private:
-//    void computeId(vector<Vertex*> &result, vector<Vertex> &table);
-//
-//protected:
-//
-//    typedef list<T*> edges;
-//    typedef list<Vertex*> vertices;
-//
-//    vector<Vertex*> _vertices;
-//    unsigned int _edgeId;
-//    vector<edges> _adjacentList;
-//
-//    void fillAdjacentList(const vector<T>& edges);
-//
-//public:
-//    // TODO patrick
-//    IGraph() : _vertices(0), _adjacentList(0) { }
 
-//    IGraph(vector<Vertex> &vertices);
-//
-//    IGraph(vector<Vertex> &vertices, vector<T> &edges);
+private:
+    void computeId(vector<Vertex*> &result, vector<Vertex> &table);
+
+protected:
+
+    typedef list<T*> edges;
+    typedef list<Vertex*> vertices;
+
+    vector<Vertex*> _vertices;
+    unsigned int _edgeId;
+    vector<edges> _adjacentList;
+
+    void fillAdjacentList(const vector<T>& edges);
+
+public:
+    // TODO patrick
+    IGraph() : _vertices(0), _adjacentList(0) { }
+
+    IGraph(vector<Vertex> &vertices);
+
+    IGraph(vector<Vertex> &vertices, vector<T> &edges);
 //
 //    virtual ~IGraph();
 //

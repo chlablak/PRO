@@ -29,8 +29,9 @@ public:
     // Getters
     int id() const;
     string label() const;
-    template <typename T>
-    friend class Graph;
+
+    //template <typename T>
+    //friend class Graph;
 
     inline bool operator == (const CommonEdge* rhs) const {return this->_id == rhs->_id;}
     inline bool operator != (const CommonEdge* rhs) const {return this->_id != rhs->_id;}

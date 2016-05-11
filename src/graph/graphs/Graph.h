@@ -5,20 +5,21 @@
 #ifndef GRAPH_GRAPH_H
 #define GRAPH_GRAPH_H
 
+#include <vector>
 #include "IGraph.h"
 #include "Edge.h"
 
-class Graph : public IGraph<int>
+class Graph : public IGraph<Edge>
 {
-//
-//public:
-//
-//    /**
-//     * Constructors
-//     */
-//    Graph() : IGraph() { }
-//    Graph(vector<Vertex> vertices) : IGraph(vertices) { }
-//    Graph(vector<Vertex> &vertices, vector<Edge> &edges) : IGraph(vertices, edges) { }
+
+public:
+
+    /**
+     * Constructors
+     */
+    Graph() : IGraph() { }
+    Graph(vector<Vertex> vertices) : IGraph(vertices) { }
+    Graph(vector<Vertex> &vertices, vector<Edge> &edges) : IGraph(vertices, edges) { }
 //
 //    ~Graph();
 //
