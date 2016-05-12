@@ -73,9 +73,9 @@ ostream &operator<<(ostream &os, egli::VariableTable const &v)
             case egli::Type::Float:
                 os << "Float, value=" << egli::detail::builtins::toString_f(v.get<float>(it));
                 break;
-            /*case egli::Type::Graph:
+            case egli::Type::Graph:
                 os << "Graph";
-                break;*/
+                break;
             case egli::Type::Integer:
                 os << "Integer, value=" << egli::detail::builtins::toString_i(v.get<int>(it));
                 break;

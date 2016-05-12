@@ -13,13 +13,13 @@
 #include <string>
 
 #warning replace std::map with utility::TstMap
-#warning getTemporaryName() (ou dans FunctionTable...)
 
 #include "Exception.h"
 #include "Array.h"
 #include "Edge.h"
 #include "Number.h"
 #include "Vertex.h"
+#include "GraphWrapper.h"
 #include "Type.h"
 #include "detail/EnumValue.h"
 #include "detail/RealType.h"
@@ -165,7 +165,7 @@ private:
     using boolean_t = detail::RealType<Type::Boolean>::type;
     using edge_t = detail::RealType<Type::Edge>::type;
     using float_t = detail::RealType<Type::Float>::type;
-    //using graph_t = detail::RealType<Type::Graph>::type;
+    using graph_t = detail::RealType<Type::Graph>::type;
     using integer_t = detail::RealType<Type::Integer>::type;
     using number_t = detail::RealType<Type::Number>::type;
     using string_t = detail::RealType<Type::String>::type;
@@ -179,7 +179,7 @@ private:
     std::map<std::string, boolean_t> booleans;
     std::map<std::string, edge_t> edges;
     std::map<std::string, float_t> floats;
-    //std::map<std::string, graph_t> graphs;
+    std::map<std::string, graph_t> graphs;
     std::map<std::string, integer_t> integers;
     std::map<std::string, number_t> numbers;
     std::map<std::string, string_t> strings;
@@ -201,7 +201,7 @@ private:
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(boolean_t, booleans)
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(edge_t, edges)
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(float_t, floats)
-    //EGLI_VARIABLETABLE_DEF_TABLEHELPER(graph_t, graphs)
+    EGLI_VARIABLETABLE_DEF_TABLEHELPER(graph_t, graphs)
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(integer_t, integers)
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(number_t, numbers)
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(string_t, strings)

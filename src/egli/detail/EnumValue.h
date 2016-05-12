@@ -28,6 +28,7 @@ class Number;
 struct Vertex;
 struct Edge;
 class Array;
+class GraphWrapper;
 
 namespace detail
 {
@@ -62,14 +63,12 @@ EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Boolean, bool)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Edge, Edge)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Float, float)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Float, double) // workaround
-//EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Graph, )
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Graph, GraphWrapper)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Integer, int)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Integer, id_type) // workaround
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Number, Number)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(String, std::string)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Vertex, Vertex)
-
-#warning missing Graph type
 } // namespace detail
 } // namespace egli
 

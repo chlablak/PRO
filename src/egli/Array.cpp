@@ -9,6 +9,7 @@
 #include "Edge.h"
 #include "Number.h"
 #include "Vertex.h"
+#include "GraphWrapper.h"
 
 // Quick writing
 #define EGLI_ARRAY_SWITCH_DELETE_CASE(E, elem) \
@@ -35,7 +36,7 @@ egli::Array::Array(const Array &a) :
             EGLI_ARRAY_SWITCH_ADD_CASE(Boolean, a, i)
             EGLI_ARRAY_SWITCH_ADD_CASE(Edge, a, i)
             EGLI_ARRAY_SWITCH_ADD_CASE(Float, a, i)
-            //EGLI_ARRAY_SWITCH_ADD_CASE(Graph, a, i)
+            EGLI_ARRAY_SWITCH_ADD_CASE(Graph, a, i)
             EGLI_ARRAY_SWITCH_ADD_CASE(Integer, a, i)
             EGLI_ARRAY_SWITCH_ADD_CASE(Number, a, i)
             EGLI_ARRAY_SWITCH_ADD_CASE(String, a, i)
@@ -52,7 +53,7 @@ egli::Array::~Array()
             EGLI_ARRAY_SWITCH_DELETE_CASE(Boolean, element)
             EGLI_ARRAY_SWITCH_DELETE_CASE(Edge, element)
             EGLI_ARRAY_SWITCH_DELETE_CASE(Float, element)
-            //EGLI_ARRAY_SWITCH_DELETE_CASE(Graph, element)
+            EGLI_ARRAY_SWITCH_DELETE_CASE(Graph, element)
             EGLI_ARRAY_SWITCH_DELETE_CASE(Integer, element)
             EGLI_ARRAY_SWITCH_DELETE_CASE(Number, element)
             EGLI_ARRAY_SWITCH_DELETE_CASE(String, element)

@@ -14,6 +14,7 @@
 #include "Exception.h"
 #include "Function.h"
 #include "FunctionTable.h"
+#include "GraphWrapper.h"
 #include "Interpreter.h"
 #include "Number.h"
 #include "Parser.h"

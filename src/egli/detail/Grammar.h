@@ -8,8 +8,11 @@
 #ifndef EGLI_DETAIL_GRAMMAR_H_INCLUDED
 #define EGLI_DETAIL_GRAMMAR_H_INCLUDED
 
-#include <boost/spirit/include/qi.hpp>
-#include <boost/spirit/include/phoenix.hpp>
+#pragma GCC diagnostic push
+# pragma GCC diagnostic warning "-w"
+#  include <boost/spirit/include/qi.hpp>
+#  include <boost/spirit/include/phoenix.hpp>
+#pragma GCC diagnostic pop
 
 #include "../Statement.h"
 
@@ -34,6 +37,9 @@ struct Grammar :
     // Avoid long type typing
     template<typename T>
     using rule = boost::spirit::qi::rule<Iterator, T>;
+    template<typename T, typename L>
+    using rulelocals =
+        boost::spirit::qi::rule<Iterator, T, boost::spirit::qi::locals<L>>;
 
     // data members
     std::string error;              // error message
@@ -41,8 +47,8 @@ struct Grammar :
     rule<Statement()> statement;
     rule<Statement()> functionCall;
     rule<Statement()> assignation;
-    rule<Statement()> graphAdd;
-    rule<Statement()> graphSub;
+    rulelocals<Statement(), Statement> graphAdd;
+    rulelocals<Statement(), Statement> graphSub;
     rule<std::vector<Statement>()> parameterList;
     rule<Statement()> parameter;
     rule<Statement()> indexedArray;
@@ -116,6 +122,7 @@ egli::detail::Grammar<Iterator>::Grammar() :
     using boost::spirit::qi::_2;            // parser attribute placeholder
     using boost::spirit::qi::_3;            // parser attribute placeholder
     using boost::spirit::qi::_4;            // parser attribute placeholder
+    using boost::spirit::qi::_a;            // local variable placeholder
     using boost::spirit::qi::lit;           // consume char*
     using boost::spirit::qi::eps;           // pre/post actions
     using boost::spirit::qi::attr;          // for default value
@@ -154,21 +161,29 @@ egli::detail::Grammar<Iterator>::Grammar() :
 
     // operator+= for Graph
     graphAdd.name("graphAdd");
-    graphAdd = eps[_val = construct<Statement>()]
-        >> variable[push_back(bind(&Statement::parameters, _val), _1)]
+    graphAdd = eps[_val = construct<Statement>(), _a = construct<Statement>()]
+        >> identifier[push_back(bind(&Statement::parameters, _a),
+                        construct<Statement>(Statement::Type::Variable, _1)),
+                      bind(&Statement::value, _val) = _1]
         >> "+="
-        > parameter[push_back(bind(&Statement::parameters, _val), _1)]
-        >> eps[bind(&Statement::value, _val) = "__graph_add"]
-        >> eps[bind(&Statement::type, _val) = Statement::Type::Function];
+        > parameter[push_back(bind(&Statement::parameters, _a), _1)]
+        >> eps[bind(&Statement::value, _a) = "__graph_add"]
+        >> eps[bind(&Statement::type, _a) = Statement::Type::Function]
+        >> eps[push_back(bind(&Statement::parameters, _val), _a)]
+        >> eps[bind(&Statement::type, _val) = Statement::Type::Assignation];
 
     // operator-= for Graph
     graphSub.name("graphSub");
-    graphSub = eps[_val = construct<Statement>()]
-        >> variable[push_back(bind(&Statement::parameters, _val), _1)]
+    graphSub = eps[_val = construct<Statement>(), _a = construct<Statement>()]
+        >> identifier[push_back(bind(&Statement::parameters, _a),
+                        construct<Statement>(Statement::Type::Variable, _1)),
+                      bind(&Statement::value, _val) = _1]
         >> "-="
-        > parameter[push_back(bind(&Statement::parameters, _val), _1)]
-        >> eps[bind(&Statement::value, _val) = "__graph_sub"]
-        >> eps[bind(&Statement::type, _val) = Statement::Type::Function];
+        > parameter[push_back(bind(&Statement::parameters, _a), _1)]
+        >> eps[bind(&Statement::value, _a) = "__graph_sub"]
+        >> eps[bind(&Statement::type, _a) = Statement::Type::Function]
+        >> eps[push_back(bind(&Statement::parameters, _val), _a)]
+        >> eps[bind(&Statement::type, _val) = Statement::Type::Assignation];
 
     // Function parameters
     parameterList.name("parameterList");

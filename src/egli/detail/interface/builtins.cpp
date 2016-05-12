@@ -35,9 +35,9 @@ egli::detail::RealType<egli::Type::String>::type
             case Type::Float:
                 oss << toString_f(var.get<RealType<Type::Float>::type>(i));
                 break;
-            /*case Type::Graph:
+            case Type::Graph:
                 oss << toString_g(var.get<RealType<Type::Graph>::type>(i));
-                break;*/
+                break;
             case Type::Integer:
                 oss << toString_i(var.get<RealType<Type::Integer>::type>(i));
                 break;
@@ -109,11 +109,12 @@ egli::detail::RealType<egli::Type::String>::type
     return oss.str();
 }
 
-/*egli::detail::RealType<egli::Type::String>::type
+egli::detail::RealType<egli::Type::String>::type
     egli::detail::builtins::toString_g(RealType<Type::Graph>::cref var)
 {
-
-}*/
+    #warning toString_g TODO
+    return "<not impl>";
+}
 
 egli::detail::RealType<egli::Type::String>::type
     egli::detail::builtins::toString_i(RealType<Type::Integer>::cref var)
