@@ -31,6 +31,10 @@ public:
 
     Vertex* other(Vertex *v) const;
 
+    virtual Vertex *from() const override;
+
+    virtual Vertex *to() const override;
+
     friend ostream& operator<<(ostream& os, const Edge& e);
 };
 

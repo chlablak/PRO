@@ -54,3 +54,10 @@ void IEdge::setLabel(const string &label) {
 void IEdge::setWeight(double weight) {
     _weight = weight;
 }
+
+ostream &operator<<(ostream &os, const IEdge &e) {
+    return os << e.vertexA()->label() << "(" << e.vertexA()->id() << ") -- ("
+           << e.vertexB()->id() << ")" << e.vertexB()->label() << " id: "
+           << e.id() << ", \"" << e.label() << "\", weight: " << e.weight();
+}
+

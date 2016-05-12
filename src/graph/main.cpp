@@ -39,7 +39,6 @@ int main() {
 
     g1.ponderateEdges(-5.1);
     g1.ponderateVertices(3.24);
-    g1.ponderateCapacity(0, 3);
     g1.addVertex(v4);
     g1.addEdge(e4);
     cout << "Apres ponderation : " << endl;
@@ -54,7 +53,11 @@ int main() {
     Graph *g1Clone = g1.clone();
     g1Clone->ponderateVertices(42.36);
     g1Clone->ponderateEdges(-10);
-    g1Clone->addVertex(new Vertex);
+    Vertex *va = new Vertex("va");
+    Vertex *vb = new Vertex("vb");
+    g1Clone->addVertex(va);
+    g1Clone->addVertex(vb);
+    g1Clone->addEdge(new Edge(va, vb));
     assert(g1.V() != g1Clone->V());
 
     cout << *g1Clone << endl;

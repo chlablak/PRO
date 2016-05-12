@@ -14,6 +14,11 @@ private:
     int _maxCapacity;
 
 protected:
+public:
+    virtual Vertex *either() const override;
+
+    virtual Vertex *other(Vertex *v) const override;
+
     DiEdge() {}
 
 public:
@@ -31,8 +36,8 @@ public:
     virtual ~DiEdge() {}
 
     // Getters
-    Vertex *from();
-    Vertex *to();
+    Vertex *from() const;
+    Vertex *to() const;
 };
 
 

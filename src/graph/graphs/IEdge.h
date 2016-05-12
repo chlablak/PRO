@@ -7,12 +7,9 @@
 
 #include <string>
 #include "Vertex.h"
-#include "IGraph.h"
 
-class IEdge {
-
-private:
-
+class IEdge
+{
 protected:
     int _id;
     Vertex *_a;
@@ -35,6 +32,10 @@ public:
 
     virtual ~IEdge() {}
 
+    virtual Vertex* either() const = 0;
+    virtual Vertex* other(Vertex *v) const = 0;
+    virtual Vertex *from() const = 0;
+    virtual Vertex *to() const = 0;
     // Getters
     int id() const;
 
@@ -61,6 +62,8 @@ public:
     inline bool operator> (const IEdge& e) const { return e < *this; }
     inline bool operator<=(const IEdge& e) const { return !(*this > e); }
     inline bool operator>=(const IEdge& e) const { return !(*this < e); }
+
+    friend ostream& operator<<(ostream& os, const IEdge& e);
 };
 
 

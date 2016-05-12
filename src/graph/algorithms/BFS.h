@@ -6,7 +6,7 @@
 #define GRAPH_BFS_H
 
 #include "../visitor/Visitor.h"
-#include "../graphs/IGraph.h"
+#include "../graphs/GraphCommon.h"
 #include <vector>
 
 class BFS : public Visitor {

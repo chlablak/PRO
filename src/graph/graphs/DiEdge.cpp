@@ -11,5 +11,13 @@ DiEdge::DiEdge(DiEdge *e) : IEdge(e) {
 }
 
 
-Vertex* DiEdge::from() { return _a; }
-Vertex* DiEdge::to() { return _b; }
+Vertex* DiEdge::from() const { return _a; }
+Vertex* DiEdge::to() const { return _b; }
+
+Vertex *DiEdge::either() const {
+    return either();
+}
+
+Vertex *DiEdge::other(Vertex *v) const {
+    return other(either());
+}
