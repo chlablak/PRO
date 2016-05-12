@@ -21,15 +21,3 @@ ostream &operator<<(ostream &os, const Edge &e) {
            << " id: " << e.id() << ", \"" << e.label() << "\", weight: " << e.weight();
 }
 
-Edge::Edge(const Edge &e) {
-    _id = e._id;
-    _a = new Vertex(*e._a);
-    _b = new Vertex(*e._b);
-    _label = e._label;
-}
-
-
-
-
-
-

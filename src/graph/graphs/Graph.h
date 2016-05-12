@@ -14,6 +14,7 @@ class Graph : public IGraph<Edge>
 
 public:
     Graph() : IGraph() { }
+    Graph(const Graph &g);
     Graph(vector<Vertex*> &vertices) : IGraph(vertices) { }
     Graph(vector<Vertex*> &vertices, vector<Edge*> &edges);
 
@@ -37,7 +38,22 @@ public:
 
     virtual IGraph<Edge>::Edges edgeList() const override;
 
+    virtual Edge* getEdge(Vertex *either, Vertex *other) const override;
 
+    virtual Graph *clone() const override;
+
+    virtual void assignEdge(Edge *e) override;
+
+    virtual Graph* accept(Visitor *v, Vertex *from) override {
+        return v->visit(this, from);
+    }
+
+
+
+
+//    virtual void accept(Visitor *v, Vertex *from) override {
+//        v->visit(this, from);
+//    }
 };
 
 

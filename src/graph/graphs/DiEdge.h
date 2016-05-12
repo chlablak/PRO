@@ -25,12 +25,7 @@ public:
            const string &label)
             : IEdge(from, to, label) { }
 
-    DiEdge(const DiEdge& e){
-        _id = e._id;
-        _a = new Vertex(*e._a);
-        _b = new Vertex(*e._b);
-        _label = e._label;
-    }
+    DiEdge(DiEdge *e);
     // TODO patrick : ajouter plus de constructeurs (aussi pour FlowEdge)
 
     virtual ~DiEdge() {}

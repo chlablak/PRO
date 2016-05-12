@@ -5,6 +5,18 @@
 #include <algorithm>
 #include "Graph.h"
 
+Graph::Graph(const Graph &g) : IGraph(g) {
+    for (Vertex *v : g.vertexList()) {
+        _vertices.at(v->id()) = new Vertex(*v);
+    }
+    for (Edge *e : g.edgeList()) {
+        Edge *copy = new Edge(e);
+        copy->setA(_vertices.at(e->vertexA()->id()));
+        copy->setB(_vertices.at(e->vertexB()->id()));
+        assignEdge(copy);
+    }
+
+}
 
 /**
  * First delete edges, then automatically call the base class destructor
@@ -51,10 +63,7 @@ bool Graph::isSimple() const {
 void Graph::addEdge(Edge *e) {
     // set edge id
     e->setId(_edgeId++);
-    _adjacentList.at(e->either()->id()).push_back(e);
-    if(e->either() != e->other(e->either())) {
-        _adjacentList.at(e->other(e->either())->id()).push_back(e);
-    }
+    assignEdge(e);
 }
 
 
@@ -140,6 +149,34 @@ IGraph<Edge>::Edges Graph::edgeList() const {
     }
     return list;
 }
+
+Edge *Graph::getEdge(Vertex *either, Vertex *other) const {
+    for (Edge *e : _adjacentList.at(either->id())) {
+        if (e->other(either) == other) {
+            return e;
+        }
+    }
+    return nullptr;
+}
+
+Graph *Graph::clone() const {
+    return new Graph(*this);
+}
+
+void Graph::assignEdge(Edge *e) {
+    _adjacentList.at(e->either()->id()).push_back(e);
+    if (e->either() != e->other(e->either())) {
+        _adjacentList.at(e->other(e->either())->id()).push_back(e);
+    }
+}
+
+
+
+
+
+
+
+
 
 
 

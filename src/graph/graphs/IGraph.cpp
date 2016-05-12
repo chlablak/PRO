@@ -172,5 +172,12 @@ void IGraph<T>::resetEdgeId() {
     }
 }
 
+template <typename T>
+IGraph<T>::IGraph(const IGraph &g) {
+    _vertices.resize(g.V());
+    _edgeId = g.E();
+    _adjacentList.resize(g.V());
+}
+
 
 #endif

@@ -9,6 +9,7 @@
 #include <vector>
 #include "Vertex.h"
 #include "IEdge.h"
+#include "../visitor/Visitor.h"
 
 using namespace std;
 
@@ -33,6 +34,8 @@ public:
     IGraph() : _edgeId(0), _vertices(0), _adjacentList(0) { }
 
     IGraph(vector<Vertex*> &vertices);
+
+    IGraph(const IGraph &g);
 
     virtual ~IGraph();
 
@@ -96,8 +99,25 @@ public:
 
     virtual size_t E() const = 0;
 
-    //virtual void accept(const Visitor& v);
+    virtual T* getEdge(Vertex *v1, Vertex *v2) const = 0;
+
+    virtual IGraph<T>* clone() const = 0;
+
+    virtual void assignEdge(T *e) = 0;
+
+    virtual IGraph<T>* accept(Visitor *v, Vertex *from) = 0;
+
+    friend ostream& operator<<(ostream& os, const IGraph<T>& g) {
+        for (Vertex *v : g.vertexList()) {
+            os << *v << endl;
+        }
+        for (T* t : g.edgeList()) {
+            os << *t << endl;
+        }
+        return os;
+    }
 };
+
 
 #include "IGraph.cpp"
 

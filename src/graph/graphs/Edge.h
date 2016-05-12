@@ -23,7 +23,7 @@ public:
     Edge(Vertex *from, Vertex *to, const string &label)
             : IEdge(from, to, label) { }
 
-    Edge(const Edge& e);
+    Edge(Edge *e) : IEdge(e) {}
 
     virtual ~Edge() {}
 

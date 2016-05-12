@@ -20,8 +20,6 @@ private:
     int _minCapacity;
     int _maxCapacity;
 
-    void deleteItem();
-
 public:
     Vertex()
             : _id(-1), _weight(numeric_limits<double>::max()), _label(""), _minCapacity(-1),
@@ -59,14 +57,9 @@ public:
               _minCapacity(minCapacity),
               _maxCapacity(maxCapacity) { }
 
-    Vertex(const Vertex& v){
-        _id = v._id;
-        _label = v._label;
-        _maxCapacity = v._maxCapacity;
-        _minCapacity = v._minCapacity;
-    }
+    Vertex(const Vertex &v);
 
-    ~Vertex() { deleteItem(); }
+    ~Vertex() { }
 
     // Getters
     int id() const;
