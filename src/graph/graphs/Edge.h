@@ -23,13 +23,17 @@ public:
     Edge(Vertex *from, Vertex *to, const string &label)
             : IEdge(from, to, label) { }
 
-    Edge(const Edge& e);
+    Edge(Edge *e) : IEdge(e) {}
 
     virtual ~Edge() {}
 
     Vertex* either() const;
 
     Vertex* other(Vertex *v) const;
+
+    virtual Vertex *from() const override;
+
+    virtual Vertex *to() const override;
 
     friend ostream& operator<<(ostream& os, const Edge& e);
 };

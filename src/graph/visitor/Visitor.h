@@ -5,20 +5,19 @@
 #ifndef GRAPH_VISITOR_H
 #define GRAPH_VISITOR_H
 
-#include "../graphs/Graph.h"
-#include "../graphs/DiGraph.h"
-#include "../graphs/FlowGraph.h"
+
+class Vertex;
+class Graph;
+class DiGraph;
+class FlowGraph;
 
 class Visitor {
 public:
-    Visitor();
-    virtual ~Visitor() = 0;
-    //virtual Graph& visitGraph(Graph& g) = 0;
-    virtual Graph* visitGraph(Graph& g, const Vertex& v) = 0;
-    //virtual DiGraph& visitDiGraph(DiGraph& g) = 0;
-    virtual DiGraph* visitDiGraph(DiGraph& g, const Vertex& v) = 0;
-    //virtual FlowGraph& visitFlowGraph(FlowGraph& g) = 0;
-    virtual FlowGraph* visitFlowGraph(FlowGraph& g, const Vertex& v) = 0;
+    Visitor() {}
+    virtual ~Visitor() {}
+    virtual Graph* visit(Graph *g, Vertex *from) = 0;
+    virtual DiGraph* visit(DiGraph *g, Vertex *from) = 0;
+    virtual FlowGraph* visit(FlowGraph *g, Vertex *from) = 0;
 };
 
 

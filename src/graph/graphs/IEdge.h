@@ -7,12 +7,9 @@
 
 #include <string>
 #include "Vertex.h"
-#include "IGraph.h"
 
-class IEdge {
-
-private:
-
+class IEdge
+{
 protected:
     int _id;
     Vertex *_a;
@@ -21,7 +18,7 @@ protected:
     double _weight;
 
 public:
-    IEdge(): _id(-1), _a(nullptr), _b(nullptr), _label(""), _weight(numeric_limits<double>::max()) {}
+    IEdge() : _id(-1), _a(nullptr), _b(nullptr), _label(""), _weight(numeric_limits<double>::max()) {}
     IEdge(Vertex *from, Vertex *to)
             : _a(from), _b(to), _id(-1), _label(""), _weight(numeric_limits<double>::max()) {}
     IEdge(Vertex *from, Vertex *to, const double weight)
@@ -31,10 +28,20 @@ public:
     IEdge(Vertex *from, Vertex *to, const string label, const double weight)
             : _a(from), _b(to), _id(-1), _label(label), _weight(weight) {}
 
+    IEdge(IEdge *e);
+
     virtual ~IEdge() {}
 
+    virtual Vertex* either() const = 0;
+    virtual Vertex* other(Vertex *v) const = 0;
+    virtual Vertex *from() const = 0;
+    virtual Vertex *to() const = 0;
     // Getters
     int id() const;
+
+    Vertex* vertexA() const;
+
+    Vertex* vertexB() const;
 
     string label() const;
 
@@ -42,6 +49,10 @@ public:
 
     // Setters
     void setId(int _id);
+
+    void setA(Vertex *v);
+
+    void setB(Vertex *v);
 
     void setLabel(const string &label);
 
@@ -51,6 +62,8 @@ public:
     inline bool operator> (const IEdge& e) const { return e < *this; }
     inline bool operator<=(const IEdge& e) const { return !(*this > e); }
     inline bool operator>=(const IEdge& e) const { return !(*this < e); }
+
+    friend ostream& operator<<(ostream& os, const IEdge& e);
 };
 
 

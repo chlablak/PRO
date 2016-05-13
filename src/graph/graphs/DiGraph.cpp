@@ -6,7 +6,7 @@
 
 // TODO patrick
 
-DiGraph::DiGraph(vector<Vertex*> &vertices, vector<DiEdge*> &edges) : IGraph(vertices) {
+DiGraph::DiGraph(vector<Vertex*> &vertices, vector<DiEdge*> &edges) : GraphCommon(vertices) {
 
 }
 
@@ -26,19 +26,19 @@ bool DiGraph::isDirected() const {
     return true;
 }
 
-IGraph<DiEdge>::Edges DiGraph::edgeList() const {
-    return std::list<DiEdge *>();
+GraphCommon<DiEdge>::Edges DiGraph::edgeList() const {
+    return std::list<IEdge *>();
 }
 
-void DiGraph::addEdge(DiEdge *e) {
-
+void DiGraph::addEdge(IEdge *e) {
+    //TODO caster e en DiEdge
 }
 
-void DiGraph::removeEdge(DiEdge *edge) {
-
+void DiGraph::removeEdge(IEdge *e) {
+    //TODO caster e en DiEdge
 }
 
-void DiGraph::removeVertex(Vertex *vertex) {
+void DiGraph::removeVertex(Vertex *v) {
 
 }
 
@@ -47,7 +47,7 @@ size_t DiGraph::E() const {
 }
 
 DiGraph::~DiGraph() {
-    for (DiEdge *e : edgeList()) {
+    for (IEdge *e : edgeList()) {
         delete e;
     }
 }

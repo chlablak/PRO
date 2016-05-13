@@ -8,13 +8,13 @@
 #include <list>
 #include <algorithm>
 #include <iostream>
-#include "IGraph.h"
+#include "GraphCommon.h"
 
 /**
  * Assign a unique ID inside this class for each vertex
  */
 template <typename T>
-void IGraph<T>::computeId(vector<Vertex*> &result, vector<Vertex*> &table) {
+void GraphCommon<T>::computeId(vector<Vertex*> &result, vector<Vertex*> &table) {
     for (Vertex* v : table) {
         v->setId(result.size());
         result.push_back(v);
@@ -25,7 +25,7 @@ void IGraph<T>::computeId(vector<Vertex*> &result, vector<Vertex*> &table) {
  * Constructs a graph only with vertices
  */
 template <typename T>
-IGraph<T>::IGraph(vector<Vertex*> &vertices)
+GraphCommon<T>::GraphCommon(vector<Vertex*> &vertices)
         : _edgeId(0), _adjacentList(vertices.size()) {
     computeId(_vertices, vertices);
 }
@@ -34,14 +34,14 @@ IGraph<T>::IGraph(vector<Vertex*> &vertices)
  *
  */
 template <typename T>
-IGraph<T>::~IGraph() {
+GraphCommon<T>::~GraphCommon() {
     for (Vertex *v : _vertices) {
         delete v;
     }
 }
 
 template <typename T>
-bool IGraph<T>::isNull() const {
+bool GraphCommon<T>::isNull() const {
     return _vertices.size() == 0;
 }
 
@@ -49,7 +49,7 @@ bool IGraph<T>::isNull() const {
  *
  */
 template <typename T>
-bool IGraph<T>::isEmpty() const {
+bool GraphCommon<T>::isEmpty() const {
     if(!isNull())
         for(size_t i = 0; i < _adjacentList.size(); ++i)
             if(_adjacentList.at(i).size() > 0)
@@ -62,9 +62,9 @@ bool IGraph<T>::isEmpty() const {
  * has a negative weight
  */
 template <typename T>
-bool IGraph<T>::isNegativeWeighted() const {
+bool GraphCommon<T>::isNegativeWeighted() const {
     if(!isEmpty())
-        for(T* edge : edgeList())
+        for(IEdge* edge : edgeList())
             if(edge->weight() < 0)
                 return true;
     return false;
@@ -75,7 +75,7 @@ bool IGraph<T>::isNegativeWeighted() const {
  * intersections with edges
  */
 template <typename T>
-bool IGraph<T>::isPlanar() const {
+bool GraphCommon<T>::isPlanar() const {
     // The graph need to be simple and connected
     if (!isSimple() || !isConnected())
         return false;
@@ -91,7 +91,7 @@ bool IGraph<T>::isPlanar() const {
  * return the list of vertex of the graph
  */
 template <typename T>
-typename IGraph<T>::Vertices IGraph<T>::vertexList() const {
+typename GraphCommon<T>::Vertices GraphCommon<T>::vertexList() const {
     Vertices list;
     for(Vertex* vertex : _vertices)
         list.push_back(vertex);
@@ -102,15 +102,15 @@ typename IGraph<T>::Vertices IGraph<T>::vertexList() const {
  * return the edge list adjacent to vertex in the graph
  */
 template <typename T>
-typename IGraph<T>::Edges IGraph<T>::adjacentEdges(const Vertex *vertex) const {
-    return _adjacentList.at(vertex->id());
+typename GraphCommon<T>::Edges GraphCommon<T>::adjacentEdges(const Vertex *v) const {
+    return _adjacentList.at(v->id());
 }
 
 /**
  * return the adjacentList of the graph
  */
 template <typename T>
-vector<list<T*>> IGraph<T>::adjacentList() const {
+vector<list<IEdge*>> GraphCommon<T>::adjacentList() const {
     return _adjacentList;
 }
 
@@ -118,17 +118,9 @@ vector<list<T*>> IGraph<T>::adjacentList() const {
  * assigned a weight to each vertex of the graph
  */
 template <typename T>
-void IGraph<T>::ponderateVertices(const double &weight) {
+void GraphCommon<T>::ponderateVertices(const double w) {
     for (Vertex* v: _vertices) {
-        v->setWeight(weight);
-    }
-}
-
-template <typename T>
-void IGraph<T>::ponderateCapacity(const size_t min, const size_t max) {
-    for (Vertex* v: _vertices) {
-        v->setMinCapacity(min);
-        v->setMaxCapacitiy(max);
+        v->setWeight(w);
     }
 }
 
@@ -136,18 +128,18 @@ void IGraph<T>::ponderateCapacity(const size_t min, const size_t max) {
  * assigned a weight to each edge of the graph
  */
 template <typename T>
-void IGraph<T>::ponderateEdges(const double &weight) {
+void GraphCommon<T>::ponderateEdges(const double w) {
    for(size_t  i = 0; i < _adjacentList.size(); ++i)
-       for(T* edge : _adjacentList.at(i))
-           if(edge->weight() != weight)
-               edge->setWeight(weight);
+       for(IEdge* edge : _adjacentList.at(i))
+           if(edge->weight() != w)
+               edge->setWeight(w);
 }
 
 /**
  * add a vertex to the graph
  */
 template <typename T>
-void IGraph<T>::addVertex(Vertex *v) {
+void GraphCommon<T>::addVertex(Vertex *v) {
     v->setId(_vertices.size());
     _vertices.push_back(v);
     _adjacentList.resize(_vertices.size());
@@ -157,7 +149,7 @@ void IGraph<T>::addVertex(Vertex *v) {
  *
  */
 template <typename T>
-size_t IGraph<T>::V() const {
+size_t GraphCommon<T>::V() const {
     return _vertices.size();
 }
 
@@ -165,11 +157,18 @@ size_t IGraph<T>::V() const {
  *
  */
 template <typename T>
-void IGraph<T>::resetEdgeId() {
+void GraphCommon<T>::resetEdgeId() {
     _edgeId = 0;
-    for (T* e : edgeList()) {
+    for (IEdge* e : edgeList()) {
         e->setId(_edgeId++);
     }
+}
+
+template <typename T>
+GraphCommon<T>::GraphCommon(const GraphCommon &g) {
+    _vertices.resize(g.V());
+    _edgeId = g.E();
+    _adjacentList.resize(g.V());
 }
 
 

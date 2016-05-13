@@ -5,5 +5,19 @@
 #include "DiEdge.h"
 
 
-Vertex* DiEdge::from() { return _a; }
-Vertex* DiEdge::to() { return _b; }
+DiEdge::DiEdge(DiEdge *e) : IEdge(e) {
+    _minCapacity = e->_minCapacity;
+    _maxCapacity = e->_maxCapacity;
+}
+
+
+Vertex* DiEdge::from() const { return _a; }
+Vertex* DiEdge::to() const { return _b; }
+
+Vertex *DiEdge::either() const {
+    return either();
+}
+
+Vertex *DiEdge::other(Vertex *v) const {
+    return other(either());
+}
