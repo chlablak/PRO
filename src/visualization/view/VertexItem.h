@@ -4,8 +4,8 @@
 #include <QAbstractGraphicsShapeItem>
 #include <QDebug>
 
-#include "ivertex.h"
-#include "iedge.h"
+#include "igraph/IVertex.h"
+#include "igraph/IEdge.h"
 
 class EdgeItem;
 

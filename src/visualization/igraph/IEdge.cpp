@@ -1,4 +1,4 @@
-#include "iedge.h"
+#include "IEdge.h"
 
 IEdge::IEdge(IVertex *from, IVertex *to)
     : from(from), to(to)

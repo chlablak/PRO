@@ -1,4 +1,4 @@
-#include "ivertex.h"
+#include "IVertex.h"
 
 IVertex::IVertex(const QString &name)
     : name(name)
@@ -14,7 +14,7 @@ const QString &IVertex::getName() const
     return name;
 }
 
-const int IVertex::getId() const
+int IVertex::getId() const
 {
     return id;
 }

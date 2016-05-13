@@ -1,5 +1,5 @@
-#ifndef VISUALIZATION_IVERTEX_H
-#define VISUALIZATION_IVERTEX_H
+#ifndef VISUALIZATION_IGRAPH_IVERTEX_H
+#define VISUALIZATION_IGRAPH_IVERTEX_H
 
 #include <QString>
 
@@ -14,7 +14,7 @@ public:
     IVertex(const QString &name);
     ~IVertex();
     const QString &getName() const;
-    const int getId() const;
+    int getId() const;
 };
 
-#endif // VISUALIZATION_IVERTEX_H
+#endif // VISUALIZATION_IGRAPH_IVERTEX_H

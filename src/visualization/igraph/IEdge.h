@@ -1,5 +1,5 @@
-#ifndef VISUALIZATION_IEDGE_H
-#define VISUALIZATION_IEDGE_H
+#ifndef VISUALIZATION_IGRAPH_IEDGE_H
+#define VISUALIZATION_IGRAPH_IEDGE_H
 
 #include "ivertex.h"
 
@@ -15,4 +15,4 @@ public:
     const IVertex *getTo() const;
 };
 
-#endif // VISUALIZATION_IEDGE_H
+#endif // VISUALIZATION_IGRAPH_IEDGE_H

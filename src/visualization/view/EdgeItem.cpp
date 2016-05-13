@@ -2,8 +2,8 @@
 #include <QDebug>
 #include <QtMath>
 
-#include "constants.h"
-#include "edgeitem.h"
+#include "Constants.h"
+#include "EdgeItem.h"
 
 EdgeItem::EdgeItem(IEdge *edge, VertexItem *source, VertexItem *dest)
     : edge(edge), sourceItem(source), destItem(dest)
@@ -33,6 +33,9 @@ void EdgeItem::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     // Dessin de la ligne
     QPen pen = painter->pen();
     pen.setColor(EDGE_COLOR);

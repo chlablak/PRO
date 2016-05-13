@@ -4,26 +4,32 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = visualization
 TEMPLATE = app
 
-SOURCES += main.cpp\
-    iedge.cpp \
-    igraph.cpp \
-    ivertex.cpp \
-    vertexitem.cpp \
-    edgeitem.cpp \
-    graphwidget.cpp
+SOURCES += main.cpp \
+    view/GraphView.cpp \
+    view/GraphScene.cpp \
+    view/VertexItem.cpp \
+    view/EdgeItem.cpp \
+    GraphWidget.cpp \
+    GraphExporter.cpp \
+    igraph/IEdge.cpp \
+    igraph/IGraph.cpp \
+    igraph/IVertex.cpp
 
 HEADERS  += \
-    iedge.h \
-    igraph.h \
-    ivertex.h \
-    vertexitem.h \
-    edgeitem.h \
-    constants.h \
-    graphwidget.h
+    Constants.h \
+    view/GraphView.h \
+    view/GraphScene.h \
+    view/VertexItem.h \
+    view/EdgeItem.h \
+    GraphWidget.h \
+    GraphExporter.h \
+    igraph/IEdge.h \
+    igraph/IGraph.h \
+    igraph/IVertex.h

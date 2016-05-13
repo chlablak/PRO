@@ -3,8 +3,8 @@
 
 #include <QAbstractGraphicsShapeItem>
 
-#include "iedge.h"
-#include "vertexitem.h"
+#include "igraph/IEdge.h"
+#include "VertexItem.h"
 
 class VertexItem;
 
