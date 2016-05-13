@@ -7,6 +7,7 @@
 
 #include "DiEdge.h"
 
+// TODO supprimer après avoir implémenté
 class FlowEdge : public DiEdge{
 
 private :
@@ -15,22 +16,14 @@ private :
 
 public:
     // Constructors
+    FlowEdge(Vertex *from, Vertex *to, const int &maxCapacity)
+            : DiEdge(from, to), _minCapacity(-1), _maxCapacity(maxCapacity) { }
 
-    FlowEdge(Vertex &from, Vertex &to, const int &minCapacity);
-    /*FlowEdge(Vertex &from, Vertex &to, const int &minCapacity)
-            : DiEdge(from, to), _minCapacity(minCapacity), _maxCapacity(-1) { }
-
-    FlowEdge(Vertex &from, Vertex &to, const int &maxCapacity)
-            : DiEdge(from, to), _minCapacity(-1), _maxCapacity(maxCapacity) { }*/
-
-   /* FlowEdge(Vertex &from, Vertex &to, const string &label, const int &minCapacity)
-            : DiEdge(from, to, label), _minCapacity(minCapacity), _maxCapacity(-1) { }
-
-    FlowEdge(Vertex &from, Vertex &to, const string &label, const int &maxCapacity)
+    FlowEdge(Vertex *from, Vertex *to, const string &label, const int &maxCapacity)
             : DiEdge(from, to, label), _minCapacity(-1), _maxCapacity(maxCapacity) { }
 
-    FlowEdge(Vertex &from, Vertex &to, const string &label, const int &minCapacity, const int &maxCapacity)
-            : DiEdge(from, to, label), _minCapacity(minCapacity), _maxCapacity(maxCapacity) { }*/
+    FlowEdge(Vertex *from, Vertex *to, const string &label, const int &minCapacity, const int &maxCapacity)
+            : DiEdge(from, to, label), _minCapacity(minCapacity), _maxCapacity(maxCapacity) { }
 
     FlowEdge(const FlowEdge& e){
         _id = e._id;

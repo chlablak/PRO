@@ -7,31 +7,37 @@
 
 #include "Edge.h"
 
-class DiEdge : public CommonEdge {
+// TODO patrick
+class DiEdge : public IEdge {
+private:
+    int _minCapacity;
+    int _maxCapacity;
+
 protected:
+public:
+    virtual Vertex *either() const override;
+
+    virtual Vertex *other(Vertex *v) const override;
+
     DiEdge() {}
 
 public:
     // Constructors
-    DiEdge(Vertex &from, Vertex &to)
-            : CommonEdge(from, to) { }
+    DiEdge(Vertex *from, Vertex *to)
+            : IEdge(from, to) { }
 
-    DiEdge(Vertex &from, Vertex &to,
+    DiEdge(Vertex *from, Vertex *to,
            const string &label)
-            : CommonEdge(from, to, label) { }
+            : IEdge(from, to, label) { }
 
-    DiEdge(const DiEdge& e){
-        _id = e._id;
-        _a = new Vertex(*e._a);
-        _b = new Vertex(*e._b);
-        _label = e._label;
-    }
+    DiEdge(DiEdge *e);
+    // TODO patrick : ajouter plus de constructeurs (aussi pour FlowEdge)
 
     virtual ~DiEdge() {}
 
     // Getters
-    Vertex *from();
-    Vertex *to();
+    Vertex *from() const;
+    Vertex *to() const;
 };
 
 

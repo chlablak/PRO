@@ -1,6 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="graph" type="CMakeRunConfiguration" factoryName="Application" WORKING_DIR="" PASS_PARENT_ENVS_2="true" PROJECT_NAME="graph" TARGET_NAME="graph" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="graph" RUN_TARGET_NAME="graph">
-    <envs />
-    <method />
-  </configuration>
-</component>

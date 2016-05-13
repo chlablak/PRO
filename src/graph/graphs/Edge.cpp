@@ -9,18 +9,21 @@
 // Getters
 Vertex* Edge::either() const { return _a; }
 
-Vertex* Edge::other(Vertex& v) const {
-    return &v == this->_a ? this->_b : this->_a;
+Vertex* Edge::other(Vertex *v) const {
+    return v == this->_a ? this->_b : this->_a;
+}
+
+Vertex *Edge::from() const {
+    return either();
+}
+
+Vertex *Edge::to() const {
+    return other(either());
 }
 
 // TODO surcharger l'op == pour les vertex
 
-
 ostream &operator<<(ostream &os, const Edge &e) {
-    return os << "(EDGE) " << (e.either())->id() << "--" << (e.other(*e.either()))->id()
-           << " id: " << e.id() << ", \"" << e.label() ;
+    return os << "(EDGE) " << static_cast<const IEdge&>(e);
 }
-
-
-
 

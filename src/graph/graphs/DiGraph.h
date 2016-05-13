@@ -5,15 +5,16 @@
 #ifndef GRAPH_DIGRAPH_H
 #define GRAPH_DIGRAPH_H
 
-#include "IGraph.h"
+#include "GraphCommon.h"
 #include "DiEdge.h"
 
-class DiGraph : public IGraph<DiEdge>
+class DiGraph : public GraphCommon<DiEdge>
 {
 
 public:
-    DiGraph(vector<Vertex> &vertices, vector<DiEdge> &edges)
-            : IGraph::IGraph(vertices, edges) { }
+    DiGraph(vector<Vertex*> &vertices, vector<DiEdge*> &edges);
+
+    ~DiGraph();
 
     virtual bool isSimple() const override;
 
@@ -23,11 +24,15 @@ public:
 
     virtual bool isDirected() const override;
 
-    virtual void addEdge(DiEdge &e) override;
+    virtual Edges edgeList() const override;
 
-    virtual void removeEdge(DiEdge &edge) override;
+    virtual void addEdge(IEdge *e) override;
 
+    virtual void removeEdge(IEdge *e) override;
 
+    virtual void removeVertex(Vertex *v) override;
+
+    virtual size_t E() const override;
 };
 
 

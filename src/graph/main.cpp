@@ -1,67 +1,75 @@
 #include <iostream>
-#include "factory/VertexFactory.h"
-#include "factory/EdgeFactory.h"
-#include "graphs/Edge.h"
 #include "graphs/Vertex.h"
-#include <list>
-#include <vector>
+#include "graphs/Edge.h"
+#include "graphs/Graph.h"
+#include "algorithms/BFS.h"
+#include <cassert>
 
 using namespace std;
 
 int main() {
 
     // Create vertices
-    Vertex v1("0");
-    Vertex v2("1");
-    Vertex v3("2");
+    Vertex *v1 = new Vertex("v1");
+    Vertex *v2 = new Vertex("v2");
+    Vertex *v3 = new Vertex("v3");
+    Vertex *v4 = new Vertex("v4");
 
     // Associate Edges to vertices
-    Edge e1(v1, v1);
-    Edge e2(v1, v3, "e1");
-    Edge e3(v2, v3, "e2");
+    Edge *e1 = new Edge(v1, v1, "e1");
+    Edge *e2 = new Edge(v1, v3, "e2");
+    Edge *e3 = new Edge(v2, v3, "e3");
+    Edge *e4 = new Edge(v3, v4, "e4");
 
-    cout << v3 << endl;
-  //  cout << v4 <<endl;
-
-    cout << e3 << endl;
-    //cout << e4 <<endl;
-
-
+    vector<Vertex*> vertices = {v1, v2, v3};
+    vector<Edge*> edges = {e1, e2, e3};
 
     // Create the graph structure with those vertices and edges
-    //Graph g1(vertices, edges);
+    //Graph g3(vertices);
+    Graph g1(vertices, edges);
+
+    assert(g1.isSimple() == 0);
+    assert(g1.isNegativeWeighted() == 0);
+    assert(g1.isPlanar() == 0);
+    assert(g1.V() == 3);
 
 
-    //Graph<Edge> g1({v1,v2,v3},{e1,e2,e3});
-    //cout << "is empty ? " << g2.isEmpty() << endl;
-    //cout << "is simple ? " << g1.isSimple() << endl;
-    //cout << "is negative weighted ? " << g1.isNegativeWeighted() << endl;
-    //cout << "is planar ? " << g1.isPlanar() << endl;
-    //cout << "number of vertex : " << g1.V() << endl;
+    cout << "Avant ponderation :" << endl;
+    cout << g1 << endl;
 
-//
-//    // is null
-//    Graph<Edge> g2;
-//    cout << "g2 is null ? " << g2.isNull() << endl;
-//    g2.addVertex(v1);
-//    cout << "g2 is null ? " << g2.isNull() << endl;
-//
-//    // is empty
-//    cout << "g2 is empty ? " << g2.isEmpty() << endl;
-//    g2.addVertex(v2);
-//    g2.addEdge(e1);
-//    cout << "g2 is empty ? " << g2.isEmpty() << endl;
-//
-//    // is simple
-//    cout << "g2 is simple ? " << g2.isSimple() << endl;
-//    g2.addEdge(e1);
-//    cout << "g2 is simple ? " << g2.isSimple() << endl;
-//
-//    // is negative weighted
-//    cout << "g1 is negative weighted ? " << g1.isNegativeWeighted() << endl;
-//
-//    cout << "is planar ? " << g1.isPlanar() << endl;
-//    cout << "number of vertex : " << g1.V() << endl;
+    g1.ponderateEdges(-5.1);
+    g1.ponderateVertices(3.24);
+    g1.addVertex(v4);
+    g1.addEdge(e4);
+    cout << "Apres ponderation : " << endl;
+    cout << g1 << endl;
+
+    assert(g1.E() == 4);
+    assert(g1.V() == 4);
+    assert(e1 <= e2);
+    assert(g1.isNegativeWeighted() == 1);
+
+    // Test clone()
+    Graph *g1Clone = g1.clone();
+    g1Clone->ponderateVertices(42.36);
+    g1Clone->ponderateEdges(-10);
+    Vertex *va = new Vertex("va");
+    Vertex *vb = new Vertex("vb");
+    g1Clone->addVertex(va);
+    g1Clone->addVertex(vb);
+    g1Clone->addEdge(new Edge(va, vb));
+    assert(g1.V() != g1Clone->V());
+
+    cout << *g1Clone << endl;
+    cout << g1 << endl;
+
+
+    // Test BFS
+    cout << endl << "Test BFS" << endl;
+    Visitor *bfs = new BFS;
+    Graph *bfsG1 = g1.accept(bfs, v3);
+    cout << *bfsG1 << endl;
+
 
     return 0;
 }
