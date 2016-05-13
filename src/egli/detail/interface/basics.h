@@ -18,9 +18,98 @@ namespace detail
 {
 namespace basics
 {
-//__graph_add
-//__graph_sub
-//__graph_create
+/*! \brief Operator += for Graph
+ *
+ * \param graph - The Graph
+ * \param infos - An array of Vertex and Edge
+ * \return The new modified Graph
+ *
+ * \throw Exception (many reasons possible)
+ */
+RealType<Type::Graph>::type __graph_add_a(
+    RealType<Type::Graph>::cref graph,
+    RealType<Type::Array>::cref infos);
+
+/*! \brief Operator += for Graph
+ *
+ * \param graph - The Graph
+ * \param edge - An Edge
+ * \return The new modified Graph
+ *
+ * \throw Exception (many reasons possible)
+ */
+RealType<Type::Graph>::type __graph_add_e(
+    RealType<Type::Graph>::cref graph,
+    RealType<Type::Edge>::cref edge);
+
+/*! \brief Operator += for Graph
+ *
+ * \param graph - The Graph
+ * \param vertex - A Vertex
+ * \return The new modified Graph
+ *
+ * \throw Exception (many reasons possible)
+ */
+RealType<Type::Graph>::type __graph_add_v(
+    RealType<Type::Graph>::cref graph,
+    RealType<Type::Vertex>::cref vertex);
+
+/*! \brief Operator -= for Graph
+ *
+ * \param graph - The Graph
+ * \param infos - An array of Vertex and Edge
+ * \return The new modified Graph
+ *
+ * \throw Exception (many reasons possible)
+ */
+RealType<Type::Graph>::type __graph_sub_a(
+    RealType<Type::Graph>::cref graph,
+    RealType<Type::Array>::cref infos);
+
+/*! \brief Operator -= for Graph
+ *
+ * \param graph - The Graph
+ * \param edge - An Edge
+ * \return The new modified Graph
+ *
+ * \throw Exception (many reasons possible)
+ */
+RealType<Type::Graph>::type __graph_sub_e(
+    RealType<Type::Graph>::cref graph,
+    RealType<Type::Edge>::cref edge);
+
+/*! \brief Operator -= for Graph
+ *
+ * \param graph - The Graph
+ * \param vertex - A Vertex
+ * \return The new modified Graph
+ *
+ * \throw Exception (many reasons possible)
+ */
+RealType<Type::Graph>::type __graph_sub_v(
+    RealType<Type::Graph>::cref graph,
+    RealType<Type::Vertex>::cref vertex);
+
+/*! \brief Create a Graph
+ *
+ * \param infos - An array of Vertex and Edge
+ * \return The created Graph
+ *
+ * \throw Exception if infos contains anything else than Vertex or Edge
+ */
+RealType<Type::Graph>::type __graph_create(RealType<Type::Array>::cref infos);
+
+/*! \brief Create a Graph
+ *
+ * \param V - Shortcut for automatically add V vertrices
+ * \param infos - An array of Vertex and Edge
+ * \return The created Graph
+ *
+ * \throw Exception if infos contains anything else than Vertex or Edge
+ */
+RealType<Type::Graph>::type __graph_create_with_shortcut(
+   RealType<Type::Integer>::cref V,
+   RealType<Type::Array>::cref infos);
 
 /*! \brief Create a Edge
  *

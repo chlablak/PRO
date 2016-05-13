@@ -12,10 +12,8 @@ egli::GraphWrapper::GraphWrapper(igraph_ptr_t g) :
 {}
 
 egli::GraphWrapper::GraphWrapper(const GraphWrapper &o) :
-    m_graph(nullptr)//o.graph() ? o.graph()->clone() : nullptr)
-{
-    #warning GraphWrapper copy ctor TODO
-}
+    m_graph(o.graph() ? o.graph()->clone() : nullptr)
+{}
 
 egli::GraphWrapper::~GraphWrapper()
 {

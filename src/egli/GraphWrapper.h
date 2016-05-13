@@ -10,8 +10,7 @@
 
 #pragma GCC diagnostic push
 # pragma GCC diagnostic warning "-w" // inhibit all warnings
-#  include "../graph/graphs/IGraph.h"
-#  include "../graph/graphs/IEdge.h"
+#  include "../graph/includes.h"
 #pragma GCC diagnostic pop
 
 namespace egli
@@ -23,7 +22,7 @@ class GraphWrapper
 public:
 
     // The true Graph type
-    using igraph_ptr_t = IGraph<IEdge>*;
+    using igraph_ptr_t = IGraph*;
 
     /*! \brief Constructor
      *
