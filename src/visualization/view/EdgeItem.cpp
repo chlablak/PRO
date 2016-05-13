@@ -5,7 +5,7 @@
 #include "Constants.h"
 #include "EdgeItem.h"
 
-EdgeItem::EdgeItem(IEdge *edge, VertexItem *source, VertexItem *dest)
+EdgeItem::EdgeItem(const IEdge *edge, VertexItem *source, VertexItem *dest)
     : edge(edge), sourceItem(source), destItem(dest)
 {
     setAcceptedMouseButtons(0);

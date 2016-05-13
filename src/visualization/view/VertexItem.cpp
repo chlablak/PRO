@@ -7,7 +7,7 @@
 #include "VertexItem.h"
 #include "EdgeItem.h"
 
-VertexItem::VertexItem(IVertex *vertex)
+VertexItem::VertexItem(const IVertex *vertex)
     : vertex(vertex)
 {
     setFlag(QGraphicsItem::ItemIsMovable);

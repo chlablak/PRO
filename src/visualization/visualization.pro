@@ -17,10 +17,10 @@ SOURCES += main.cpp \
     view/VertexItem.cpp \
     view/EdgeItem.cpp \
     GraphWidget.cpp \
-    GraphExporter.cpp \
     igraph/IEdge.cpp \
     igraph/IGraph.cpp \
-    igraph/IVertex.cpp
+    igraph/IVertex.cpp \
+    GraphExporter.cpp
 
 HEADERS  += \
     Constants.h \
@@ -29,7 +29,7 @@ HEADERS  += \
     view/VertexItem.h \
     view/EdgeItem.h \
     GraphWidget.h \
-    GraphExporter.h \
     igraph/IEdge.h \
     igraph/IGraph.h \
-    igraph/IVertex.h
+    igraph/IVertex.h \
+    GraphExporter.h

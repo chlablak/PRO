@@ -12,11 +12,11 @@ class EdgeItem;
 class VertexItem : public QAbstractGraphicsShapeItem
 {
 public:
-    IVertex *vertex;
+    const IVertex *vertex;
     QList<EdgeItem *> edgeItems;
 
 public:
-    VertexItem(IVertex *vertex);
+    VertexItem(const IVertex *vertex);
 
     ~VertexItem();
 
