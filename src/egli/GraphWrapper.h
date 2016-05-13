@@ -1,4 +1,4 @@
-/*! \brief Get the IGraph class
+/*! \brief Get the IGraph class (Adapter)
  *
  * \file Graph.h
  * \author Patrick Champion
