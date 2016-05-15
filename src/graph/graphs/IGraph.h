@@ -8,7 +8,7 @@
 #include <list>
 #include <vector>
 #include "IEdge.h"
-#include "../visitor/Visitor.h"
+#include "../visitors/Visitor.h"
 
 class IGraph {
 public:
@@ -42,15 +42,19 @@ public:
     virtual void removeVertex(Vertex *v) = 0;
     virtual IEdge* getEdge(Vertex *v1, Vertex *v2) const = 0;
     virtual IGraph* clone() const = 0;
+    virtual IGraph* emptyClone() const = 0;
+    virtual void assignVertex(Vertex *v) = 0;
+    virtual void assignEdge(IEdge *e) = 0;
+    virtual void print() const = 0;
 
-    virtual IGraph* accept(Visitor *v, Vertex *from) = 0;
+    virtual void accept(Visitor *v, Vertex *from) = 0;
 
-    friend ostream& operator<<(ostream& os, const IGraph& ig) {
-        for (Vertex *v : ig.vertexList()) {
-            os << *v << endl;
-        }
-        return os;
-    }
+//    friend ostream& operator<<(ostream& os, const IGraph& ig) {
+//        for (Vertex *v : ig.vertexList()) {
+//            os << *v << endl;
+//        }
+//        return os;
+//    }
 };
 
 

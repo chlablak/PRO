@@ -163,12 +163,28 @@ Graph* Graph::clone() const {
     return new Graph(*this);
 }
 
-void Graph::assignEdge(Edge *e) {
+void Graph::assignEdge(IEdge *e) {
     _adjacentList.at(e->either()->id()).push_back(e);
     if (e->either() != e->other(e->either())) {
         _adjacentList.at(e->other(e->either())->id()).push_back(e);
     }
 }
+
+void Graph::accept(Visitor *v, Vertex *from) {
+    v->visit(this, from);
+}
+
+Graph *Graph::emptyClone() const {
+    Graph *g = new Graph;
+    g->_vertices.resize(this->V());
+    g->_adjacentList.resize(this->V());
+    g->_edgeId = this->E();
+    return g;
+}
+
+
+
+
 
 
 

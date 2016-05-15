@@ -9,7 +9,7 @@
 #include <vector>
 #include "Vertex.h"
 #include "IEdge.h"
-#include "../visitor/Visitor.h"
+#include "../visitors/Visitor.h"
 #include "IGraph.h"
 
 using namespace std;
@@ -46,6 +46,7 @@ public:
     void ponderateVertices(const double w);
     void addVertex(Vertex *vertex);
     size_t V() const;
+    void assignVertex(Vertex *v);
 
     template<typename Func>
     void forEachVertex(Func f) {
@@ -54,8 +55,17 @@ public:
         }
     }
 
+    virtual void print() const override {
+        if (this != nullptr) {
+            cout << *this << endl;
+        }
+    }
+
+
     friend ostream& operator<<(ostream& os, const GraphCommon<T>& g) {
-        os << static_cast<const IGraph&>(g);
+        for (Vertex *v : g.vertexList()) {
+            os << *v << endl;
+        }
         for (IEdge* e : g.edgeList()) {
             os << *(T*)e << endl;
         }

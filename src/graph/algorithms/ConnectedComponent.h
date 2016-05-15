@@ -6,7 +6,7 @@
 //#define GRAPH_CONNECTEDCOMPONENT_H
 //
 //
-//#include "../visitor/Visitor.h"
+//#include "../visitors/Visitor.h"
 //
 //class ConnectedComponent : public Visitor {
 ////private:

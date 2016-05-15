@@ -171,5 +171,10 @@ GraphCommon<T>::GraphCommon(const GraphCommon &g) {
     _adjacentList.resize(g.V());
 }
 
+template <typename T>
+void GraphCommon<T>::assignVertex(Vertex *v) {
+    _vertices.at(v->id()) = v;
+}
+
 
 #endif
