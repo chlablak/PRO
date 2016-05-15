@@ -1,3 +1,10 @@
+/*! \brief user interface search bar
+ *
+ * \file searchbar.h
+ * \author Christopher Browne
+ * \date 22.04.2016
+ */
+
 #ifndef SEARCHBAR_H
 #define SEARCHBAR_H
 

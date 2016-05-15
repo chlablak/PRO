@@ -1,3 +1,10 @@
+/*! \brief file reader for HTML help pages
+ *
+ * \file filereader.cpp
+ * \author Christopher Browne
+ * \date 22.04.2016
+ */
+
 #include "filereader.h"
 
 FileReader::FileReader(QString fileName) : fileName(fileName)

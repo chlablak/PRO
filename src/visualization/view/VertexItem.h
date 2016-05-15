@@ -4,19 +4,19 @@
 #include <QAbstractGraphicsShapeItem>
 #include <QDebug>
 
-#include "ivertex.h"
-#include "iedge.h"
+#include "igraph/IVertex.h"
+#include "igraph/IEdge.h"
 
 class EdgeItem;
 
 class VertexItem : public QAbstractGraphicsShapeItem
 {
 public:
-    IVertex *vertex;
+    const IVertex *vertex;
     QList<EdgeItem *> edgeItems;
 
 public:
-    VertexItem(IVertex *vertex);
+    VertexItem(const IVertex *vertex);
 
     ~VertexItem();
 

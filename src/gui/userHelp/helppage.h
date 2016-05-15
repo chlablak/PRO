@@ -1,3 +1,10 @@
+/*! \brief simple object to encapsulate the info about a page
+ *
+ * \file helppage.h
+ * \author Christopher Browne
+ * \date 22.04.2016
+ */
+
 #ifndef HELPPAGE_H
 #define HELPPAGE_H
 

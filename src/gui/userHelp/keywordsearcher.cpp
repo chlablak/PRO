@@ -1,3 +1,10 @@
+/*! \brief used to contains all the keyword searching logic
+ *
+ * \file keywordsearcher.cpp
+ * \author Christopher Browne
+ * \date 22.04.2016
+ */
+
 #include "keywordsearcher.h"
 
 KeywordSearcher::KeywordSearcher(QString indexFile)

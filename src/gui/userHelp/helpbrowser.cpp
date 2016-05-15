@@ -1,3 +1,10 @@
+/*! \brief main help utility HTML browser
+ *
+ * \file helpbrowser.cpp
+ * \author Christopher Browne
+ * \date 22.04.2016
+ */
+
 #include "helpbrowser.h"
 
 HelpBrowser* HelpBrowser::instance = nullptr;
