@@ -61,6 +61,15 @@ public:
         }
     }
 
+    virtual bool isPonderate() const override {
+        for (IEdge *e : edgeList()) {
+            if (e->weight() == numeric_limits<double>::max()) {
+                return false;
+            }
+        }
+        return false;
+    }
+
 
     friend ostream& operator<<(ostream& os, const GraphCommon<T>& g) {
         for (Vertex *v : g.vertexList()) {

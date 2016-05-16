@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include "Graph.h"
+#include "../algorithms/ConnectedComponent.h"
 
 Graph::Graph(const Graph &g) : GraphCommon(g) {
     for (Vertex *v : g.vertexList()) {
@@ -88,8 +89,21 @@ bool Graph::isDirected() const {
 }
 
 bool Graph::isConnected() const {
-    // TODO sébastien
-    return false;
+    Visitor *v = new ConnectedComponent;
+    v->visit((Graph*)this, nullptr);
+
+    vector<int> cc = v->table();
+    size_t ccSize = cc.size();
+    if (ccSize > 1) {
+        int first = cc[0];
+        for (size_t i = 1; i < ccSize; ++i) {
+            if (cc[i] != ccSize) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 void Graph::removeVertex(Vertex *v) {
