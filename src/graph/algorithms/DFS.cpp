@@ -48,8 +48,8 @@ IGraph *DFS::G() const {
     return _G;
 }
 
-std::vector<int> *DFS::table() {
-    return &_dfsnum;
+std::vector<int>& DFS::table() {
+    return _dfsnum;
 }
 
 

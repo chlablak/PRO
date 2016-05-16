@@ -14,11 +14,9 @@
 class GraphAlgorithm
 {
 public:
-    static IGraph* bfs(Graph *g, Vertex *from, vector<int> *distances);
+    static IGraph* bfs(Graph *g, Vertex *from, vector<int>& distances);
     static IGraph* bfs(DiGraph *g, Vertex *from, vector<int> *distances);
     static IGraph* bfs(FlowGraph *g, Vertex *from, vector<int> *distances);
-
-
 };
 
 

@@ -51,7 +51,7 @@ public:
     template<typename Func>
     void forEachVertex(Func f) {
         for (Vertex* v : _vertices) {
-            f(*v);
+            f(v);
         }
     }
 

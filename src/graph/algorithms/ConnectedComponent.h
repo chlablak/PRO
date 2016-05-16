@@ -1,24 +1,29 @@
-////
-//// Created by sebri on 08.05.2016.
-////
 //
-//#ifndef GRAPH_CONNECTEDCOMPONENT_H
-//#define GRAPH_CONNECTEDCOMPONENT_H
+// Created by sebri on 08.05.2016.
 //
-//
-//#include "../visitors/Visitor.h"
-//
-//class ConnectedComponent : public Visitor {
-////private:
-////    // Table containing the number of the connected component associated
-////    // for each vertex of the graph
-////    vector<int> cc;
-////public:
-////    ~ConnectedComponent();
-////    virtual Graph* visitGraph(Graph& g, const Vertex& v);
-////    virtual DiGraph* visitDiGraph(DiGraph& g, const Vertex& v);
-////    virtual FlowGraph* visitFlowGraph(FlowGraph& g, const Vertex& v);
-//};
-//
-//
-//#endif //GRAPH_CONNECTEDCOMPONENT_H
+
+#ifndef GRAPH_CONNECTEDCOMPONENT_H
+#define GRAPH_CONNECTEDCOMPONENT_H
+
+
+#include "../visitors/Visitor.h"
+#include "../graphs/IGraph.h"
+
+class ConnectedComponent : public Visitor {
+private:
+    // Table containing the number of the connected component associated
+    // for each vertex of the graph
+    std::vector<int> _cc;
+public:
+    ConnectedComponent() : _cc(0) {}
+    ~ConnectedComponent();
+
+    virtual void visit(Graph *g, Vertex *from);
+    virtual void visit(DiGraph *g, Vertex *from);
+    virtual void visit(FlowGraph *g, Vertex *from);
+    virtual IGraph *G() const override;
+    virtual std::vector<int>& table() override;
+};
+
+
+#endif //GRAPH_CONNECTEDCOMPONENT_H

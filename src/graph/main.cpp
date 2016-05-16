@@ -2,6 +2,7 @@
 
 #include "includes.h"
 #include "algorithms/DFS.h"
+#include "algorithms/ConnectedComponent.h"
 
 #include <cassert>
 
@@ -63,7 +64,7 @@ int main() {
     // Test BFS
     cout << "Test BFS" << endl;
     vector<int> distances;
-    IGraph *gBFS = GraphAlgorithm::bfs(&g1, v1, &distances);
+    IGraph *gBFS = GraphAlgorithm::bfs(&g1, v1, distances);
     gBFS->print();
 
     // Test DFS
@@ -72,6 +73,18 @@ int main() {
     g1.accept(dfs, v1);
     IGraph *gDFS = dfs->G();
     gDFS->print();
+
+    // Test Composantes Connexes
+    cout << "Test Composante connexe" << endl;
+    Visitor *cc = new ConnectedComponent;
+//    g1.addVertex(new Vertex);
+//    g1.addVertex(new Vertex);
+    g1.accept(cc, nullptr);
+    vector<int> ccs = cc->table();
+    for (int i : ccs)
+        cout << i << " ";
+
+
 
     return 0;
 }

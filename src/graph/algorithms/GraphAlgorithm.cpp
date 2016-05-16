@@ -6,7 +6,7 @@
 
 #include "BFS.h"
 
-IGraph *GraphAlgorithm::bfs(Graph *g, Vertex *from, vector<int> *distances) {
+IGraph *GraphAlgorithm::bfs(Graph *g, Vertex *from, vector<int>& distances) {
     Visitor *v = new BFS;
     v->visit(g, from);
     distances = v->table();

@@ -24,7 +24,7 @@ public:
     virtual void visit(FlowGraph *g, Vertex *from) override;
 
     virtual IGraph* G() const override ;
-    virtual std::vector<int>* table() override;
+    virtual std::vector<int>& table() override;
 
 
 };
