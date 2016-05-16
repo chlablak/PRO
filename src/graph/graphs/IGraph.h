@@ -20,7 +20,6 @@ public:
      * \return true if the graph is null
      */
     virtual bool isNull() const = 0;
-
     virtual bool isEmpty() const = 0;
     virtual bool isNegativeWeighted() const = 0;
     virtual bool isPlanar() const = 0;
@@ -47,14 +46,9 @@ public:
     virtual void assignEdge(IEdge *e) = 0;
     virtual void print() const = 0;
 
-    virtual void accept(Visitor *v, Vertex *from) = 0;
+    // virtual IGraph* bfs(IGraph *g, Vertex *from, vector<int> *distances) = 0;
 
-//    friend ostream& operator<<(ostream& os, const IGraph& ig) {
-//        for (Vertex *v : ig.vertexList()) {
-//            os << *v << endl;
-//        }
-//        return os;
-//    }
+    virtual void accept(Visitor *v, Vertex *from) = 0;
 };
 
 

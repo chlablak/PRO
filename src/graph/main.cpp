@@ -61,13 +61,13 @@ int main() {
     cout << g1 << endl;
 
     // Test BFS
-    cout << endl << "Test BFS" << endl;
+    cout << "Test BFS" << endl;
     vector<int> distances;
     IGraph *gBFS = GraphAlgorithm::bfs(&g1, v1, &distances);
     gBFS->print();
 
     // Test DFS
-    cout << endl << "Test DFS" << endl;
+    cout << "Test DFS" << endl;
     Visitor *dfs = new DFS;
     g1.accept(dfs, v1);
     IGraph *gDFS = dfs->G();
