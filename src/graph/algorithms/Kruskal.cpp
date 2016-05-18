@@ -49,6 +49,6 @@ IGraph *Kruskal::G() const {
 }
 
 std::vector<int> &Kruskal::table() {
-    throw std::runtime_error("Error : No table in Kruskal algorithm.");
+    throw std::runtime_error("Error : No table for Kruskal algorithm.");
 }
 

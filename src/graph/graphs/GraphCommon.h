@@ -62,6 +62,13 @@ public:
         }
     }
 
+    template <typename Func>
+    void forEachAdjacentEdge(Vertex *v, Func f) {
+        for (IEdge* e : _adjacentList.at(v->id())) {
+            f(e);
+        }
+    }
+
     virtual void print() const override {
         if (this != nullptr) {
             cout << *this << endl;

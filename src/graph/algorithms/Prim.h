@@ -13,7 +13,8 @@ class Prim : public Visitor
 private:
     IGraph *_G;
 public:
-
+    Prim() : _G(nullptr) { }
+    virtual ~Prim() { }
 
     virtual void visit(Graph *g, Vertex *from) override;
     virtual void visit(DiGraph *g, Vertex *from) override;

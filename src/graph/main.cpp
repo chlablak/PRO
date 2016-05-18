@@ -15,7 +15,7 @@ int main() {
     Vertex *v4 = new Vertex("v4");
 
     // Associate Edges to vertices
-    Edge *e1 = new Edge(v1, v1, "e1", 3);
+    Edge *e1 = new Edge(v1, v4, "e1", 3);
     Edge *e2 = new Edge(v1, v3, "e2", 2);
     Edge *e3 = new Edge(v2, v3, "e3", 1);
     Edge *e4 = new Edge(v3, v4, "e4", 4);
@@ -28,9 +28,9 @@ int main() {
     // Create the graph structure with those vertices and edges
     Graph g1(vertices, edges);
 
-    assert(g1.isSimple() == 0);
+    assert(g1.isSimple() == 1);
     assert(g1.isNegativeWeighted() == 0);
-    assert(g1.isPlanar() == 0);
+    assert(g1.isPlanar() == 1);
     assert(g1.V() == 4);
 
     cout << "Avant ponderation :" << endl;
@@ -89,6 +89,13 @@ int main() {
     g1.accept(kruskal, nullptr);
     IGraph *gKruskal = kruskal->G();
     gKruskal->print();
+
+    // Test Prim
+    cout << "Prim" << endl;
+    Visitor *prim = new Prim;
+    g1.accept(prim, v2);
+    IGraph *gPrim = prim->G();
+    gPrim->print();
 
 
     return 0;
