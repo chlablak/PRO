@@ -21,9 +21,9 @@ public:
      */
     virtual bool isNull() const = 0;
     virtual bool isEmpty() const = 0;
+    virtual bool isWeighted() const = 0;
     virtual bool isNegativeWeighted() const = 0;
     virtual bool isPlanar() const = 0;
-    virtual bool isWeighted() const = 0;
     virtual Vertices vertexList() const = 0;
     virtual Edges edgeList() const = 0;
     virtual Edges adjacentEdges(const Vertex* v) const = 0;

@@ -21,5 +21,6 @@
 #include "algorithms/DFS.h"
 #include "algorithms/Kruskal.h"
 #include "algorithms/ConnectedComponent.h"
+#include "algorithms/Prim.h"
 
 #endif //GRAPH_GRAPHCLASS_H

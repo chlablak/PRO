@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Prim.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Prim.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/GraphAlgorithm.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/Dijkstra.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/ConnectedComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.h" isTestSource="false" />
@@ -15,6 +16,7 @@
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Kruskal.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/GraphAlgorithm.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/Dijkstra.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/ConnectedComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/UnionFind.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
