@@ -1,8 +1,6 @@
 #include <iostream>
 
 #include "includes.h"
-#include "algorithms/DFS.h"
-#include "algorithms/ConnectedComponent.h"
 
 #include <cassert>
 
@@ -17,12 +15,12 @@ int main() {
     Vertex *v4 = new Vertex("v4");
 
     // Associate Edges to vertices
-    Edge *e1 = new Edge(v1, v1, "e1");
-    Edge *e2 = new Edge(v1, v3, "e2");
-    Edge *e3 = new Edge(v2, v3, "e3");
-    Edge *e4 = new Edge(v3, v4, "e4");
-    Edge *e5 = new Edge(v1, v2, "e5");
-    Edge *e6 = new Edge(v2, v4, "e6");
+    Edge *e1 = new Edge(v1, v1, "e1", 3);
+    Edge *e2 = new Edge(v1, v3, "e2", 2);
+    Edge *e3 = new Edge(v2, v3, "e3", 1);
+    Edge *e4 = new Edge(v3, v4, "e4", 4);
+    Edge *e5 = new Edge(v1, v2, "e5", 3);
+    Edge *e6 = new Edge(v2, v4, "e6", 2);
 
     vector<Vertex*> vertices = {v1, v2, v3, v4};
     vector<Edge*> edges = {e1, e2, e3, e4, e5, e6};
@@ -38,14 +36,13 @@ int main() {
     cout << "Avant ponderation :" << endl;
     cout << g1 << endl;
 
-    g1.ponderateEdges(-5.1);
     g1.ponderateVertices(3.24);
     cout << "Apres ponderation : " << endl;
     cout << g1 << endl;
 
     assert(g1.E() == 6);
     assert(e1 <= e2);
-    assert(g1.isNegativeWeighted() == 1);
+    assert(g1.isNegativeWeighted() == 0);
 
     // Test clone()
     IGraph *g1Clone = g1.clone();
@@ -83,7 +80,14 @@ int main() {
     vector<int> ccs = cc->table();
     for (int i : ccs)
         cout << i << " ";
+    cout << endl << endl;
 
+    // Test Kruskal
+    cout << "Kruskal" << endl;
+    Visitor *kruskal = new Kruskal;
+    g1.accept(kruskal, nullptr);
+    IGraph *gKruskal = kruskal->G();
+    gKruskal->print();
 
 
     return 0;

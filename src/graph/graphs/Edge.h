@@ -23,6 +23,9 @@ public:
     Edge(Vertex *from, Vertex *to, const string &label)
             : IEdge(from, to, label) { }
 
+    Edge(Vertex *from, Vertex *to, const string &label, const double w)
+            : IEdge(from, to, label, w) { }
+
     Edge(Edge *e) : IEdge(e) {}
 
     virtual ~Edge() {}

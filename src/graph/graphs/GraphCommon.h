@@ -55,6 +55,13 @@ public:
         }
     }
 
+    template <typename Func>
+    void forEachEdge(Func f) {
+        for (IEdge *e : edgeList()) {
+            f(e);
+        }
+    }
+
     virtual void print() const override {
         if (this != nullptr) {
             cout << *this << endl;

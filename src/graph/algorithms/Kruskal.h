@@ -6,13 +6,19 @@
 #define GRAPH_KURSKAL_H
 
 
+#include <queue>
 #include "../visitors/Visitor.h"
+#include "../graphs/Edge.h"
 
-class Kurskal : public Visitor
+class Kruskal : public Visitor
 {
 private:
-    
+    typedef priority_queue<Edge*, vector<Edge*>, greater<Edge>> MinPQ;
+
+    IGraph *_G;
 public:
+    Kruskal() : _G(nullptr) {}
+    ~Kruskal() {}
     virtual void visit(Graph *g, Vertex *from);
     virtual void visit(DiGraph *g, Vertex *from);
     virtual void visit(FlowGraph *g, Vertex *from);
