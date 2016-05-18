@@ -23,7 +23,7 @@ public:
     virtual bool isEmpty() const = 0;
     virtual bool isNegativeWeighted() const = 0;
     virtual bool isPlanar() const = 0;
-    virtual bool isPonderate() const = 0;
+    virtual bool isWeighted() const = 0;
     virtual Vertices vertexList() const = 0;
     virtual Edges edgeList() const = 0;
     virtual Edges adjacentEdges(const Vertex* v) const = 0;
@@ -34,7 +34,7 @@ public:
     virtual size_t V() const = 0;
     virtual size_t E() const = 0;
     virtual bool isSimple() const = 0;
-    virtual bool isConnected() const = 0; // TODO sébastien
+    virtual bool isConnected() const = 0;
     virtual bool isStronglyConnected() const = 0;
     virtual bool isDirected() const = 0;
     virtual void addEdge(IEdge *e) = 0;

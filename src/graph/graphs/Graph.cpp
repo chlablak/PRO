@@ -95,9 +95,8 @@ bool Graph::isConnected() const {
     vector<int> cc = v->table();
     size_t ccSize = cc.size();
     if (ccSize > 1) {
-        int first = cc[0];
         for (size_t i = 1; i < ccSize; ++i) {
-            if (cc[i] != ccSize) {
+            if (cc[i] != cc[0]) {
                 return false;
             }
         }

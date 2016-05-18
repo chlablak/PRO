@@ -8,6 +8,13 @@
 
 
 void Kruskal::visit(Graph *g, Vertex *from) {
+    if (!g->isConnected()) {
+        throw std::runtime_error("Error in Kruskal algorithm. The graph must be connected.");
+    }
+    if (!g->isWeighted()) {
+        throw std::runtime_error("Error in Kruskal algorithm. The graph must be weighted.");
+    }
+
     _G = g->emptyClone();
     MinPQ pq;
     UnionFind uf(g->V());
@@ -42,6 +49,6 @@ IGraph *Kruskal::G() const {
 }
 
 std::vector<int> &Kruskal::table() {
-    throw runtime_error("No table in Kruskal algorithm.");
+    throw std::runtime_error("Error : No table in Kruskal algorithm.");
 }
 

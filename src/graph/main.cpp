@@ -83,6 +83,7 @@ int main() {
     cout << endl << endl;
 
     // Test Kruskal
+    //assert(g1.isPonderate());
     cout << "Kruskal" << endl;
     Visitor *kruskal = new Kruskal;
     g1.accept(kruskal, nullptr);

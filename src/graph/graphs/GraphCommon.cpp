@@ -176,5 +176,15 @@ void GraphCommon<T>::assignVertex(Vertex *v) {
     _vertices.at(v->id()) = v;
 }
 
+template <typename T>
+bool GraphCommon<T>::isWeighted() const {
+    for (IEdge *e : edgeList()) {
+        if (e->weight() == numeric_limits<double>::max()) {
+            return false;
+        }
+    }
+    return true;
+}
+
 
 #endif
