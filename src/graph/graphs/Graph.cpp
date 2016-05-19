@@ -132,9 +132,9 @@ void Graph::removeVertex(Vertex *v) {
     resetEdgeId();
 }
 
-Graph::Graph(vector<Vertex *> &vertices, vector<Edge *> &edges)
+Graph::Graph(vector<Vertex *> &vertices, vector<IEdge *> &edges)
         : GraphCommon(vertices) {
-    for (Edge* e : edges) {
+    for (IEdge* e : edges) {
         addEdge(e);
     }
 }

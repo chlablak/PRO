@@ -15,7 +15,7 @@ public:
     Graph() : GraphCommon() { }
     Graph(const Graph &g);
     Graph(vector<Vertex*> &vertices) : GraphCommon(vertices) { }
-    Graph(vector<Vertex*> &vertices, vector<Edge*> &edges);
+    Graph(vector<Vertex*> &vertices, vector<IEdge*> &edges);
 
     ~Graph();
 
