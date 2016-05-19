@@ -4,7 +4,8 @@
 #include <QGraphicsScene>
 #include <QList>
 
-#include "igraph/IGraph.h"
+#include "../../graph/graphs/IGraph.h"
+
 #include "VertexItem.h"
 #include "EdgeItem.h"
 

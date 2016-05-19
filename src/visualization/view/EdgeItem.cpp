@@ -1,18 +1,19 @@
 #include <QPainter>
 #include <QDebug>
-#include <QtMath>
+
+#include "../../graph/graphs/IEdge.h"
 
 #include "Constants.h"
 #include "EdgeItem.h"
 
 EdgeItem::EdgeItem(const IEdge *edge, VertexItem *source, VertexItem *dest)
-    : edge(edge), sourceItem(source), destItem(dest)
+    : _edge(edge), _sourceItem(source), _destItem(dest)
 {
     setAcceptedMouseButtons(0);
     setZValue(-1);
 
-    sourceItem->addEdge(this);
-    destItem->addEdge(this);
+    _sourceItem->addEdge(this);
+    _destItem->addEdge(this);
 
     adjust();
 }
@@ -22,11 +23,7 @@ EdgeItem::~EdgeItem()
 
 QRectF EdgeItem::boundingRect() const
 {
-    QRectF rect(sourcePoint, destPoint);
-    return rect.normalized().adjusted(-EDGE_ARROW_SIZE,
-                                      -EDGE_ARROW_SIZE,
-                                      EDGE_ARROW_SIZE,
-                                      EDGE_ARROW_SIZE);
+    return QRectF(_sourcePoint, _destPoint).normalized();
 }
 
 void EdgeItem::paint(QPainter *painter,
@@ -42,36 +39,7 @@ void EdgeItem::paint(QPainter *painter,
     pen.setWidth(EDGE_WIDTH);
     painter->setPen(pen);
 
-    QLineF line(sourcePoint, destPoint);
-    painter->drawLine(line);
-
-    // Calcul des points de la flèche en direction du sommet de destination
-    double angle = qAcos(line.dx() / line.length());
-    if (line.dy() >= 0) {
-        angle = 2 * M_PI - angle;
-    }
-    QPointF arrowP1 = destPoint + QPointF(
-                qSin(angle - M_PI / 3) * EDGE_ARROW_SIZE,
-                qCos(angle - M_PI / 3) * EDGE_ARROW_SIZE
-    );
-    QPointF arrowP2 = destPoint + QPointF(
-                qSin(angle - 2 * M_PI / 3) * EDGE_ARROW_SIZE,
-                qCos(angle - 2 * M_PI / 3) * EDGE_ARROW_SIZE
-    );
-    QPolygonF arrow;
-    arrow.push_back(line.p2());
-    arrow.push_back(arrowP1);
-    arrow.push_back(arrowP2);
-
-    // Dessin de la flèche
-    pen = painter->pen();
-    pen.setColor(EDGE_COLOR);
-    painter->setPen(pen);
-    QBrush brush = painter->brush();
-    brush.setColor(EDGE_COLOR);
-    brush.setStyle(Qt::SolidPattern);
-    painter->setBrush(brush);
-    painter->drawPolygon(arrow);
+    painter->drawLine(QLineF(_sourcePoint, _destPoint));
 }
 
 // Ajuste les extrémités de la ligne pour que celle-ci ne soit
@@ -80,9 +48,7 @@ void EdgeItem::paint(QPainter *painter,
 // Effectue un décalage au début et à la fin de la ligne par thalès.
 void EdgeItem::adjust()
 {
-    QPointF sourceCenter = sourceItem->getCenter();
-    QPointF destCenter = destItem->getCenter();
-    QLineF line(sourceCenter, destCenter);
+    QLineF line(_sourceItem->getCenter(), _destItem->getCenter());
 
     qreal diff = (VERTEX_RADIUS +
                   VERTEX_BORDER_WIDTH / 2 +
@@ -92,10 +58,36 @@ void EdgeItem::adjust()
 
     prepareGeometryChange();
 
-    sourcePoint.setX(sourceCenter.x() + dx);
-    sourcePoint.setY(sourceCenter.y() + dy);
-    destPoint.setX(destCenter.x() - dx);
-    destPoint.setY(destCenter.y() - dy);
+    _sourcePoint.setX(_sourceItem->getCenter().x() + dx);
+    _sourcePoint.setY(_sourceItem->getCenter().y() + dy);
+    _destPoint.setX(_destItem->getCenter().x() - dx);
+    _destPoint.setY(_destItem->getCenter().y() - dy);
 
     update();
 }
+
+const IEdge *EdgeItem::edge() const
+{
+    return _edge;
+}
+
+VertexItem *EdgeItem::sourceItem() const
+{
+    return _sourceItem;
+}
+
+VertexItem *EdgeItem::destItem() const
+{
+    return _destItem;
+}
+
+QPointF EdgeItem::sourcePoint() const
+{
+    return _sourcePoint;
+}
+
+QPointF EdgeItem::destPoint() const
+{
+    return _destPoint;
+}
+
