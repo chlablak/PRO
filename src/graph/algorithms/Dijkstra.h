@@ -6,7 +6,7 @@
 #define GRAPH_DIJKSTRA_H
 
 
-#include "../visitors/Visitor.h"
+#include "Visitor.h"
 #include "../graphs/IGraph.h"
 
 class Dijkstra : public Visitor {

@@ -9,7 +9,7 @@
 #include <vector>
 #include "Vertex.h"
 #include "IEdge.h"
-#include "../visitors/Visitor.h"
+#include "../algorithms/Visitor.h"
 #include "IGraph.h"
 
 using namespace std;
@@ -69,11 +69,7 @@ public:
         }
     }
 
-    virtual void print() const override {
-        if (this != nullptr) {
-            cout << *this << endl;
-        }
-    }
+    virtual void print() const override;
 
     virtual bool isWeighted() const override;
 

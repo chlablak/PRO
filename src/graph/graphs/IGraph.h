@@ -8,12 +8,14 @@
 #include <list>
 #include <vector>
 #include "IEdge.h"
-#include "../visitors/Visitor.h"
+#include "../algorithms/Visitor.h"
 
 class IGraph {
 public:
     typedef list<IEdge*> Edges;
     typedef list<Vertex*> Vertices;
+
+    virtual ~IGraph() {}
 
     /*! \brief A graph is null if there isn't any vertex
      *

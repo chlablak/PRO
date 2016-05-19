@@ -186,5 +186,9 @@ bool GraphCommon<T>::isWeighted() const {
     return true;
 }
 
+template <typename T>
+void GraphCommon<T>::print() const {
+    cout << *this << endl;
+}
 
 #endif
