@@ -8,6 +8,11 @@
 using namespace std;
 
 void BFS::visit(Graph *g, Vertex *from) {
+    if (g->isNull()) {
+        _G = new Graph;
+        return;
+    }
+
     _G = g->emptyClone();
     // Table of distances
     _distances.assign(g->V(), numeric_limits<int>::max());
@@ -28,19 +33,21 @@ void BFS::visit(Graph *g, Vertex *from) {
             if (_distances.at(v->id()) == numeric_limits<int>::max()) {
                 _distances.at(v->id()) = _distances.at(u->id()) + 1;
                 _G->assignVertex(v);
-                _G->assignEdge(g->getEdge(u, v));
+                _G->assignEdge(g->getEdges(u, v).front());
                 Q.push_back(v);
             }
         });
     }
 }
 
-void BFS::visit(DiGraph *g, Vertex *v) {
-
+void BFS::visit(DiGraph *g, Vertex *from) {
+    UNUSED(g);
+    UNUSED(from);
 }
 
-void BFS::visit(FlowGraph *g, Vertex *v) {
-
+void BFS::visit(FlowGraph *g, Vertex *from) {
+    UNUSED(g);
+    UNUSED(from);
 }
 
 BFS::~BFS() {

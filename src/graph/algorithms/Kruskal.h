@@ -7,7 +7,7 @@
 
 
 #include <queue>
-#include "../visitors/Visitor.h"
+#include "Visitor.h"
 #include "../graphs/Edge.h"
 
 class Kruskal : public Visitor

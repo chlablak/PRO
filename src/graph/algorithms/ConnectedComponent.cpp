@@ -10,7 +10,7 @@ ConnectedComponent::~ConnectedComponent() {
 
 }
 
-void ConnectedComponent::visit(Graph *g, Vertex *from) {
+void ConnectedComponent::visit(Graph *g, Vertex *from = nullptr) {
     _cc.assign(g->V(), 0);
     int N = 0;
     g->forEachVertex([&g, &N, this](Vertex *v){

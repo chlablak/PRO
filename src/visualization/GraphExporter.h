@@ -3,6 +3,8 @@
 
 #include <QObject>
 
+#include "../graph/graphs/IGraph.h"
+
 #include "view/GraphScene.h"
 
 class GraphExporter : public QObject

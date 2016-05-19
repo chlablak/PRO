@@ -5,9 +5,9 @@
 #include "DiEdge.h"
 
 
-DiEdge::DiEdge(DiEdge *e) : IEdge(e) {
-    _minCapacity = e->_minCapacity;
-    _maxCapacity = e->_maxCapacity;
+DiEdge::DiEdge(const DiEdge &e) : IEdge(e) {
+    _minCapacity = e._minCapacity;
+    _maxCapacity = e._maxCapacity;
 }
 
 

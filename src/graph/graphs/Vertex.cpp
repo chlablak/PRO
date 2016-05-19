@@ -44,7 +44,7 @@ void Vertex::setMinCapacity(const int minCap) {
     _minCapacity = minCap;
 }
 
-void Vertex::setMaxCapacitiy(const int maxCap) {
+void Vertex::setMaxCapacity(const int maxCap) {
     _maxCapacity = maxCap;
 }
 

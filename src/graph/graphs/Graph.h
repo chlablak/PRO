@@ -8,6 +8,7 @@
 #include <vector>
 #include "GraphCommon.h"
 #include "Edge.h"
+#include "../../utility/Global.h"
 
 class Graph : public GraphCommon<Edge>
 {
@@ -15,7 +16,7 @@ public:
     Graph() : GraphCommon() { }
     Graph(const Graph &g);
     Graph(vector<Vertex*> &vertices) : GraphCommon(vertices) { }
-    Graph(vector<Vertex*> &vertices, vector<Edge*> &edges);
+    Graph(vector<Vertex*> &vertices, vector<IEdge*> &edges);
 
     ~Graph();
 
@@ -37,7 +38,7 @@ public:
 
     virtual GraphCommon<Edge>::Edges edgeList() const override;
 
-    virtual Edge* getEdge(Vertex *either, Vertex *other) const override;
+    virtual list<IEdge*> getEdges(Vertex *either, Vertex *other) const override;
 
     virtual Graph* clone() const override;
 

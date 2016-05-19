@@ -57,11 +57,13 @@ void Prim::visit(Graph *g, Vertex *from) {
 }
 
 void Prim::visit(DiGraph *g, Vertex *from) {
-
+    UNUSED(g);
+    UNUSED(from);
 }
 
 void Prim::visit(FlowGraph *g, Vertex *from) {
-
+    UNUSED(g);
+    UNUSED(from);
 }
 
 IGraph *Prim::G() const {

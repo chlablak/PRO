@@ -26,7 +26,7 @@ void GraphCommon<T>::computeId(vector<Vertex*> &result, vector<Vertex*> &table) 
  */
 template <typename T>
 GraphCommon<T>::GraphCommon(vector<Vertex*> &vertices)
-        : _edgeId(0), _adjacentList(vertices.size()) {
+        : _adjacentList(vertices.size()), _edgeId(0) {
     computeId(_vertices, vertices);
 }
 
@@ -186,5 +186,9 @@ bool GraphCommon<T>::isWeighted() const {
     return true;
 }
 
+template <typename T>
+void GraphCommon<T>::print() const {
+    cout << *this << endl;
+}
 
 #endif

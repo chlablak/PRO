@@ -9,7 +9,7 @@
 #include <vector>
 #include "Vertex.h"
 #include "IEdge.h"
-#include "../visitors/Visitor.h"
+#include "../algorithms/Visitor.h"
 #include "IGraph.h"
 
 using namespace std;
@@ -23,14 +23,14 @@ private:
 
 protected:
     // Give access to sub-classes
-    vector<Vertex*> _vertices;
-    size_t _edgeId;
     vector<Edges> _adjacentList;
+    size_t _edgeId;
+    vector<Vertex*> _vertices;
 
     virtual void resetEdgeId();
 
 public:
-    GraphCommon() : _edgeId(0), _vertices(0), _adjacentList(0) { }
+    GraphCommon() : _adjacentList(0), _edgeId(0), _vertices(0) { }
     GraphCommon(vector<Vertex*> &vertices);
     GraphCommon(const GraphCommon &g);
     virtual ~GraphCommon();
@@ -69,11 +69,7 @@ public:
         }
     }
 
-    virtual void print() const override {
-        if (this != nullptr) {
-            cout << *this << endl;
-        }
-    }
+    virtual void print() const override;
 
     virtual bool isWeighted() const override;
 

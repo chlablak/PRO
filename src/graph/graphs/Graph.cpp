@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "Graph.h"
 #include "../algorithms/ConnectedComponent.h"
+#include "../algorithms/CopyToDiGraph.h"
 
 Graph::Graph(const Graph &g) : GraphCommon(g) {
     for (Vertex *v : g.vertexList()) {
@@ -130,11 +131,13 @@ void Graph::removeVertex(Vertex *v) {
     _vertices.erase(_vertices.begin() + v->id());
 
     resetEdgeId();
+
+    delete v;
 }
 
-Graph::Graph(vector<Vertex *> &vertices, vector<Edge *> &edges)
+Graph::Graph(vector<Vertex *> &vertices, vector<IEdge *> &edges)
         : GraphCommon(vertices) {
-    for (Edge* e : edges) {
+    for (IEdge* e : edges) {
         addEdge(e);
     }
 }
@@ -163,13 +166,14 @@ GraphCommon<Edge>::Edges Graph::edgeList() const {
     return list;
 }
 
-Edge* Graph::getEdge(Vertex *either, Vertex *other) const {
+list<IEdge*> Graph::getEdges(Vertex *either, Vertex *other) const {
+    std::list<IEdge*> edges;
     for (IEdge *e : _adjacentList.at(either->id())) {
         if (e->other(either) == other) {
-            return (Edge*)e;
+            edges.push_back((Edge*)e);
         }
     }
-    return nullptr;
+    return edges;
 }
 
 Graph* Graph::clone() const {
@@ -194,6 +198,7 @@ Graph *Graph::emptyClone() const {
     g->_edgeId = this->E();
     return g;
 }
+
 
 
 

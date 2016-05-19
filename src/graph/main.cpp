@@ -15,15 +15,15 @@ int main() {
     Vertex *v4 = new Vertex("v4");
 
     // Associate Edges to vertices
-    Edge *e1 = new Edge(v1, v4, "e1", 3);
-    Edge *e2 = new Edge(v1, v3, "e2", 2);
-    Edge *e3 = new Edge(v2, v3, "e3", 1);
-    Edge *e4 = new Edge(v3, v4, "e4", 4);
-    Edge *e5 = new Edge(v1, v2, "e5", 3);
-    Edge *e6 = new Edge(v2, v4, "e6", 2);
+    IEdge *e1 = new Edge(v1, v4, "e1", 3);
+    IEdge *e2 = new Edge(v1, v3, "e2", 2);
+    IEdge *e3 = new Edge(v2, v3, "e3", 1);
+    IEdge *e4 = new Edge(v3, v4, "e4", 4);
+    IEdge *e5 = new Edge(v1, v2, "e5", 3);
+    IEdge *e6 = new Edge(v2, v4, "e6", 2);
 
     vector<Vertex*> vertices = {v1, v2, v3, v4};
-    vector<Edge*> edges = {e1, e2, e3, e4, e5, e6};
+    vector<IEdge*> edges = {e1, e2, e3, e4, e5, e6};
 
     // Create the graph structure with those vertices and edges
     Graph g1(vertices, edges);
@@ -45,6 +45,7 @@ int main() {
     assert(g1.isNegativeWeighted() == 0);
 
     // Test clone()
+    cout << "Test clone de g1" << endl;
     IGraph *g1Clone = g1.clone();
     g1Clone->ponderateVertices(42.36);
     g1Clone->ponderateEdges(-10);
@@ -54,8 +55,28 @@ int main() {
     g1Clone->addVertex(vb);
     g1Clone->addEdge(new Edge(va, vb));
     assert(g1.V() != g1Clone->V());
-
     g1Clone->print();
+
+    // Test CopyToGraph
+    cout << "Test CopyToGraph(&diGraph) and ponderate it" << endl;
+    IGraph *gCpyToGraph = GraphAlgorithm::copyToGraph(&g1);
+    gCpyToGraph->ponderateVertices(6.7);
+    gCpyToGraph->print();
+
+    // Test CopyToDiGraph
+    cout << "Test CopyToDiGraph(&g1) and ponderate vertex" << endl;
+    IGraph *gCpyToDiGraph = GraphAlgorithm::copyToDiGraph(&g1);
+    gCpyToDiGraph->ponderateVertices(5.5);
+    gCpyToDiGraph->print();
+
+    // Test CopyToFlowGraph
+    cout << "Test CopyToFlowGraph(&g1) and ponderate vertex" << endl;
+    IGraph *gCpyToFlowGraph = GraphAlgorithm::copyToFlowGraph(&g1);
+    gCpyToFlowGraph->ponderateVertices(9.99);
+    gCpyToFlowGraph->print();
+
+    // Ré-afficher g1
+    cout << "g1" << endl;
     cout << g1 << endl;
 
     // Test BFS
@@ -66,37 +87,26 @@ int main() {
 
     // Test DFS
     cout << "Test DFS" << endl;
-    Visitor *dfs = new DFS;
-    g1.accept(dfs, v1);
-    IGraph *gDFS = dfs->G();
+    vector<int> dfsnum;
+    IGraph *gDFS = GraphAlgorithm::dfs(&g1, v1, dfsnum);
     gDFS->print();
 
     // Test Composantes Connexes
     cout << "Test Composante connexe" << endl;
-    Visitor *cc = new ConnectedComponent;
-//    g1.addVertex(new Vertex);
-//    g1.addVertex(new Vertex);
-    g1.accept(cc, nullptr);
-    vector<int> ccs = cc->table();
-    for (int i : ccs)
+    vector<int> cc = GraphAlgorithm::connectedComponent(&g1);
+    for (int i : cc)
         cout << i << " ";
     cout << endl << endl;
 
     // Test Kruskal
-    //assert(g1.isPonderate());
     cout << "Kruskal" << endl;
-    Visitor *kruskal = new Kruskal;
-    g1.accept(kruskal, nullptr);
-    IGraph *gKruskal = kruskal->G();
+    IGraph *gKruskal = GraphAlgorithm::kruskal(&g1);
     gKruskal->print();
 
     // Test Prim
     cout << "Prim" << endl;
-    Visitor *prim = new Prim;
-    g1.accept(prim, v2);
-    IGraph *gPrim = prim->G();
+    IGraph *gPrim = GraphAlgorithm::kruskal(&g1);
     gPrim->print();
-
 
     return 0;
 }

@@ -8,6 +8,8 @@
 
 
 void Kruskal::visit(Graph *g, Vertex *from) {
+    UNUSED(from);
+
     if (!g->isConnected()) {
         throw std::runtime_error("Error in Kruskal algorithm. The graph must be connected.");
     }
@@ -37,11 +39,13 @@ void Kruskal::visit(Graph *g, Vertex *from) {
 }
 
 void Kruskal::visit(DiGraph *g, Vertex *from) {
-
+    UNUSED(g);
+    UNUSED(from);
 }
 
 void Kruskal::visit(FlowGraph *g, Vertex *from) {
-
+    UNUSED(g);
+    UNUSED(from);
 }
 
 IGraph *Kruskal::G() const {

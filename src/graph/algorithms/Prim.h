@@ -6,7 +6,7 @@
 #define GRAPH_PRIM_H
 
 
-#include "../visitors/Visitor.h"
+#include "Visitor.h"
 
 class Prim : public Visitor
 {

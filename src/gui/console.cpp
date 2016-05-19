@@ -1,5 +1,9 @@
 #include "console.h"
 #include <iostream>
+#include <QMenu>
+#include <QApplication>
+#include <QClipboard>
+#include <QFileDialog>
 
 /*
  *
@@ -10,10 +14,15 @@ Console::Console() : Console("") {}
 Console::Console(const QString& s, QWidget *parent) : prompt(s), cursor(textCursor()) {
     cursorPosition = 0;
     insertPlainText(prompt + " > ");
+    setAcceptDrops(false);
+
+    filename = "";
 
     if(parent != 0) {
         QObject::connect(this, SIGNAL(signalChanges()), parent, SLOT(consoleHasChanged()));
         QObject::connect(this, SIGNAL(signalSave()), parent, SLOT(saveConsole()));
+        QObject::connect(this, SIGNAL(askTabName(QString&)), parent, SLOT(getTabName(QString&)));
+        QObject::connect(this, SIGNAL(requestTabNameChanges(const QString&)), parent, SLOT(setTabName(const QString&)));
     }
 
 }
@@ -21,8 +30,16 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s), cursor(textCurs
 void Console::keyPressEvent(QKeyEvent *event) {
     if(!isReadOnly())
     {
+        if(event->matches(QKeySequence::Cut))
+            event->ignore();
+
         if( event->key() == Qt::Key_Escape)
         {
+/*
+            dialogString* d = new dialogString(this, "Enter a name", "Validate");
+            d->setModal(true);
+            d->show();*/
+
             if(currentCommand != commandHistory.end())
             {
                 clearDisplay();
@@ -108,7 +125,8 @@ void Console::keyPressEvent(QKeyEvent *event) {
             moveCursor(QTextCursor::End);
 
             std::cout << buffer.toStdString() << std::endl;
-            commandHistory.insert(commandHistory.begin(), buffer);
+            //commandHistory.insert(commandHistory.begin(), buffer);
+            commandHistory.push_front(buffer);
             currentCommand = commandHistory.end();
 
             //execute(buffer);
@@ -123,19 +141,24 @@ void Console::keyPressEvent(QKeyEvent *event) {
         {
             if(hasChanged)
             {
-                saveChanges();
+                save();
             }
+        }
+        else if( event->modifiers() & Qt::ControlModifier || event->modifiers() & Qt::AltModifier)
+        {
+            //Ne rien faire
         }
         else
         {
-            if(currentCommand != commandHistory.end())
-                currentCommand = commandHistory.end();
-            setTextCursor(cursor);
-            insertPlainText(event->text());
-            buffer.insert(cursorPosition, QLatin1String(event->text().toLatin1()));
-            cursorPosition++;
             if(event->text() != "")
             {
+                if(currentCommand != commandHistory.end())
+                    currentCommand = commandHistory.end();
+                setTextCursor(cursor);
+                insertPlainText(event->text());
+                buffer.insert(cursorPosition, QLatin1String(event->text().toLatin1()));
+                cursorPosition++;
+
                 consoleHasChanged();
             }
         }
@@ -160,8 +183,148 @@ void Console::consoleHasChanged()
     }
 }
 
-void Console::saveChanges()
+void Console::copySelectedText() {
+    copy();
+}
+
+void Console::pasteText() {
+    if(!QApplication::clipboard()->text().contains("§") && !QApplication::clipboard()->text().contains("°"))
+    {
+        setTextCursor(cursor);
+        buffer.insert(cursorPosition, QApplication::clipboard()->text());
+        paste();
+    }
+}
+
+void QTextEdit::contextMenuEvent(QContextMenuEvent *event)
 {
-    hasChanged = false;
+    QMenu *menu = new QMenu();
+    menu->addAction("Copy", this, SLOT(copySelectedText()), QKeySequence("Ctrl+C"));
+    menu->addAction("Paste", this, SLOT(pasteText()), QKeySequence("Ctrl+V"));
+    menu->addAction("Select All", this, SLOT(selectAll()), QKeySequence("Ctrl+A"));
+    menu->exec(event->globalPos());
+    delete menu;
+}
+
+QString Console::getFilename()const
+{
+    return filename;
+}
+
+void Console::setFilename(const QString& name)
+{
+    filename = name;
+}
+
+QByteArray Console::prepareDataForSave() {
+    QByteArray qba("");
+
+    QString tabName = "";
+
+    emit askTabName(tabName);
+
+    qba.append(tabName+"\n");
+    qba.append(filename+"\n");
+    qba.append(prompt+"\n");
+    qba.append(buffer+"\n");
+    qba.append(QString(QString::number(commandHistory.size()))+"\n");
+    for(auto c: commandHistory) {
+        qba.append(c+fileDelimiter+"\n");
+    }
+
+    qba.append(QString(QString::number(toPlainText().count("\n")+1)+"\n"));
+
+    qba.append(toPlainText());
+
+    return qba;
+}
+
+void Console::save() {
+    if(filename == "")
+    {
+        QFileDialog dialog;
+        QString fname = QFileDialog::getSaveFileName(this, QString("Save console"), QString(), QString("Graph (*.gph)"));
+        if(fname.isEmpty()) {
+            return;
+        }
+        filename = fname;
+    }
+
+    QFile file(filename);
+    file.open(QIODevice::WriteOnly);
+
+    QByteArray qba = prepareDataForSave();
+
+    file.write(qba);
+
+    file.close();
+
     emit signalSave();
+    hasChanged = false;
+}
+
+void Console::load() {
+    commandHistory.clear();
+    selectAll();
+    clear();
+    std::cout << "coucou" << std::endl;
+    QFileDialog dialog;
+    QString fname = QFileDialog::getOpenFileName(this, QString("Save console"), QString(), QString("Graph (*.gph)"));
+    if(fname.isEmpty()) {
+        return;
+    }
+    filename = fname;
+
+
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+
+    char data[1024];
+
+    int size = file.readLine(data, 1023);
+    data[size-1] = '\0';
+    emit requestTabNameChanges(QString(data));
+
+    //Lecture du nom de fichier pour s'en débarasser
+    file.readLine(data, 1023);
+
+    size = file.readLine(data, 1023);
+    data[size-1] = '\0';
+    prompt = QString(data);
+
+    size = file.readLine(data, 1023);
+    data[size-1] = '\0';
+    buffer = QString(data);
+
+    size = file.readLine(data, 1023);
+    data[size-1] = '\0';
+    int nbrOfCommand = atoi(data);
+
+    commandHistory.clear();
+
+    for(int i = 0; i < nbrOfCommand;) {
+        size = file.readLine(data, 1023);
+
+        QString line = QString(data);
+
+
+        if(line.contains(QString(fileDelimiter+"\n")))
+            i++;
+
+        commandHistory.push_back(line.replace(QString(fileDelimiter+"\n"), QString("\0")));
+    }
+    currentCommand = commandHistory.end();
+
+    size = file.readLine(data, 1023);
+    data[size-1] = '\0';
+    int nbrLine = atoi(data);
+
+    for(int i = 0; i < nbrLine; i++) {
+        size = file.readLine(data, 1023);
+        data[size-1] = '\0';
+        append(QString(data));
+    }
+
+
+    file.close();
 }

@@ -11,7 +11,7 @@ void DFS::DFSprocedure(Graph *g, Vertex *u) {
         if (_dfsnum[v->id()] == 0) {
             _dfsnum[v->id()] = ++N;
             _G->assignVertex(v);
-            _G->assignEdge(g->getEdge(u, v));
+            _G->assignEdge(g->getEdges(u, v).front());
             DFSprocedure(g, v);
         }
     });
@@ -23,6 +23,11 @@ DFS::~DFS() {
 
 
 void DFS::visit(Graph *g, Vertex *from) {
+    if (g->isNull()) {
+        _G = new Graph;
+        return;
+    }
+
     _G = g->emptyClone();
 
     // Table of vertex discovery order
@@ -37,11 +42,13 @@ void DFS::visit(Graph *g, Vertex *from) {
 }
 
 void DFS::visit(DiGraph *g, Vertex *from) {
-
+    UNUSED(g);
+    UNUSED(from);
 }
 
 void DFS::visit(FlowGraph *g, Vertex *from) {
-
+    UNUSED(g);
+    UNUSED(from);
 }
 
 IGraph *DFS::G() const {
@@ -51,10 +58,4 @@ IGraph *DFS::G() const {
 std::vector<int>& DFS::table() {
     return _dfsnum;
 }
-
-
-
-
-
-
 
