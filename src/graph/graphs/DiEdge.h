@@ -19,8 +19,6 @@ public:
 
     virtual Vertex *other(Vertex *v) const override;
 
-    DiEdge() {}
-
 public:
     // Constructors
     DiEdge(Vertex *from, Vertex *to)
@@ -30,7 +28,7 @@ public:
            const string &label)
             : IEdge(from, to, label) { }
 
-    DiEdge(DiEdge *e);
+    DiEdge(const DiEdge& e);
     // TODO patrick : ajouter plus de constructeurs (aussi pour FlowEdge)
 
     virtual ~DiEdge() {}

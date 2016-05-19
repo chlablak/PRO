@@ -23,14 +23,14 @@ private:
 
 protected:
     // Give access to sub-classes
-    vector<Vertex*> _vertices;
-    size_t _edgeId;
     vector<Edges> _adjacentList;
+    size_t _edgeId;
+    vector<Vertex*> _vertices;
 
     virtual void resetEdgeId();
 
 public:
-    GraphCommon() : _edgeId(0), _vertices(0), _adjacentList(0) { }
+    GraphCommon() : _adjacentList(0), _edgeId(0), _vertices(0) { }
     GraphCommon(vector<Vertex*> &vertices);
     GraphCommon(const GraphCommon &g);
     virtual ~GraphCommon();

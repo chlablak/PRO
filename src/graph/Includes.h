@@ -7,6 +7,9 @@
 
 #include "graphs/Vertex.h"
 
+#include "graphs/IEdge.h"
+#include "graphs/IGraph.h"
+
 #include "graphs/Edge.h"
 #include "graphs/Graph.h"
 

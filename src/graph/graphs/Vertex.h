@@ -22,11 +22,11 @@ private:
 
 public:
     Vertex()
-            : _id(-1), _weight(numeric_limits<double>::max()), _label(""), _minCapacity(-1),
+            : _id(-1), _label(""), _weight(numeric_limits<double>::max()), _minCapacity(-1),
               _maxCapacity(-1) { }
 
     Vertex(const string& label)
-            : _id(-1), _weight(numeric_limits<double>::max()), _label(label), _minCapacity(-1),
+            : _id(-1), _label(label), _weight(numeric_limits<double>::max()), _minCapacity(-1),
               _maxCapacity(-1) { }
 
     Vertex(const double& weight)
@@ -34,7 +34,7 @@ public:
               _minCapacity(-1), _maxCapacity(-1) { }
 
     Vertex(const double& weight, const string& label)
-            : _id(-1), _weight(weight), _label(label),
+            : _id(-1), _label(label), _weight(weight),
               _minCapacity(-1), _maxCapacity(-1) { }
 
     Vertex(const int& maxCapacity)

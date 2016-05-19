@@ -25,15 +25,7 @@ public:
     FlowEdge(Vertex *from, Vertex *to, const string &label, const int &minCapacity, const int &maxCapacity)
             : DiEdge(from, to, label), _minCapacity(minCapacity), _maxCapacity(maxCapacity) { }
 
-    FlowEdge(const FlowEdge& e){
-        _id = e._id;
-        _a = new Vertex(*e._a);
-        _b = new Vertex(*e._b);
-        _label = e._label;
-        _minCapacity = e._minCapacity;
-        _maxCapacity = e._maxCapacity;
-    }
-
+//    FlowEdge(const FlowEdge& e);
 
     // Getters
     int minCapacity() const;

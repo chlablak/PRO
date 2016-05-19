@@ -18,15 +18,14 @@ protected:
     double _weight;
 
 public:
-    IEdge() : _id(-1), _a(nullptr), _b(nullptr), _label(""), _weight(numeric_limits<double>::max()) {}
     IEdge(Vertex *from, Vertex *to)
-            : _a(from), _b(to), _id(-1), _label(""), _weight(numeric_limits<double>::max()) {}
+            : _id(-1), _a(from), _b(to), _label(""), _weight(numeric_limits<double>::max()) {}
     IEdge(Vertex *from, Vertex *to, const double weight)
-            : _a(from), _b(to), _id(-1), _label(""), _weight(weight) {}
+            : _id(-1), _a(from), _b(to), _label(""), _weight(weight) {}
     IEdge(Vertex *from, Vertex *to, const string label)
-            : _a(from), _b(to), _id(-1), _label(label), _weight(numeric_limits<double>::max()) {}
+            : _id(-1), _a(from), _b(to), _label(label), _weight(numeric_limits<double>::max()) {}
     IEdge(Vertex *from, Vertex *to, const string label, const double weight)
-            : _a(from), _b(to), _id(-1), _label(label), _weight(weight) {}
+            : _id(-1), _a(from), _b(to), _label(label), _weight(weight) {}
 
     IEdge(IEdge *e);
 
