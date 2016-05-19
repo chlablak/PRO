@@ -11,7 +11,7 @@ void DFS::DFSprocedure(Graph *g, Vertex *u) {
         if (_dfsnum[v->id()] == 0) {
             _dfsnum[v->id()] = ++N;
             _G->assignVertex(v);
-            _G->assignEdge(g->getEdge(u, v));
+            _G->assignEdge(g->getEdges(u, v).front());
             DFSprocedure(g, v);
         }
     });
@@ -58,10 +58,4 @@ IGraph *DFS::G() const {
 std::vector<int>& DFS::table() {
     return _dfsnum;
 }
-
-
-
-
-
-
 

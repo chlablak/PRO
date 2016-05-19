@@ -166,13 +166,14 @@ GraphCommon<Edge>::Edges Graph::edgeList() const {
     return list;
 }
 
-Edge* Graph::getEdge(Vertex *either, Vertex *other) const {
+list<IEdge*> Graph::getEdges(Vertex *either, Vertex *other) const {
+    std::list<IEdge*> edges;
     for (IEdge *e : _adjacentList.at(either->id())) {
         if (e->other(either) == other) {
-            return (Edge*)e;
+            edges.push_back((Edge*)e);
         }
     }
-    return nullptr;
+    return edges;
 }
 
 Graph* Graph::clone() const {

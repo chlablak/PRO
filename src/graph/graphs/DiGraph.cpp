@@ -56,8 +56,8 @@ DiGraph::~DiGraph() {
     }
 }
 
-IEdge *DiGraph::getEdge(Vertex *v1, Vertex *v2) const {
-    return nullptr;
+list<IEdge*> DiGraph::getEdges(Vertex *v1, Vertex *v2) const {
+    //
 }
 
 IGraph *DiGraph::emptyClone() const {
