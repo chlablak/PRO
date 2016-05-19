@@ -4,19 +4,25 @@
 #include <QWidget>
 #include <QVBoxLayout>
 
-#include "igraph.h"
-#include "graphwidget.h"
+#include "igraph/IGraph.h"
+#include "GraphWidget.h"
+#include "GraphExporter.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QWidget window;
-    QVBoxLayout *layout = new QVBoxLayout;
+    QVBoxLayout *layout = new QVBoxLayout();
 
     IGraph *graph = new IGraph();
 
-    GraphWidget *view = new GraphWidget(graph);
-    layout->addWidget(view);
+    // VUE
+    QWidget *widget = new GraphWidget(graph);
+    layout->addWidget(widget);
+
+    // EXPORT SVG
+    GraphExporter exporter(graph);
+    exporter.exportSVG();
 
     window.setLayout(layout);
     window.show();

@@ -1,4 +1,4 @@
-#include "igraph.h"
+#include "IGraph.h"
 
 IGraph::IGraph()
 {
@@ -50,3 +50,10 @@ const QList<IEdge *> &IGraph::getEdges() const
 {
     return edges;
 }
+
+void IGraph::setTest(int t)
+{
+    this->test = t;
+}
+
+

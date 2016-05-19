@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include "Graph.h"
+#include "../algorithms/ConnectedComponent.h"
 
 Graph::Graph(const Graph &g) : GraphCommon(g) {
     for (Vertex *v : g.vertexList()) {
@@ -88,8 +89,20 @@ bool Graph::isDirected() const {
 }
 
 bool Graph::isConnected() const {
-    // TODO sébastien
-    return false;
+    Visitor *v = new ConnectedComponent;
+    v->visit((Graph*)this, nullptr);
+
+    vector<int> cc = v->table();
+    size_t ccSize = cc.size();
+    if (ccSize > 1) {
+        for (size_t i = 1; i < ccSize; ++i) {
+            if (cc[i] != cc[0]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 void Graph::removeVertex(Vertex *v) {
@@ -163,12 +176,28 @@ Graph* Graph::clone() const {
     return new Graph(*this);
 }
 
-void Graph::assignEdge(Edge *e) {
+void Graph::assignEdge(IEdge *e) {
     _adjacentList.at(e->either()->id()).push_back(e);
     if (e->either() != e->other(e->either())) {
         _adjacentList.at(e->other(e->either())->id()).push_back(e);
     }
 }
+
+void Graph::accept(Visitor *v, Vertex *from) {
+    v->visit(this, from);
+}
+
+Graph *Graph::emptyClone() const {
+    Graph *g = new Graph;
+    g->_vertices.resize(this->V());
+    g->_adjacentList.resize(this->V());
+    g->_edgeId = this->E();
+    return g;
+}
+
+
+
+
 
 
 

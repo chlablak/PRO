@@ -3,11 +3,11 @@
 #include <QPen>
 #include <QBrush>
 
-#include "constants.h"
-#include "vertexitem.h"
-#include "edgeitem.h"
+#include "Constants.h"
+#include "VertexItem.h"
+#include "EdgeItem.h"
 
-VertexItem::VertexItem(IVertex *vertex)
+VertexItem::VertexItem(const IVertex *vertex)
     : vertex(vertex)
 {
     setFlag(QGraphicsItem::ItemIsMovable);
@@ -30,6 +30,9 @@ void VertexItem::paint(QPainter *painter,
                        const QStyleOptionGraphicsItem *option,
                        QWidget *widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
     QPen pen = painter->pen();
     pen.setColor(VERTEX_BORDER_COLOR);
     pen.setWidth(VERTEX_BORDER_WIDTH);

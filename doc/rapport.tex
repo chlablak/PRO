@@ -33,6 +33,12 @@
 % Matrices
 \usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
 
+% Largeur de colonnes de tableau fixes
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
 % Style C++
 \lstset{
 	language=C++,
@@ -1644,7 +1650,6 @@
 			
 		
 		\subsection{Algorithmes}
-			\subsubsection{Liste}
 			\subsubsection{Pattern Visitor}
 			Le patron de conception Visiteur permet d'appliquer facilement un algorithme à un graphe. L'utilisation est la suivante :
 			\begin{itemize}
@@ -1653,6 +1658,7 @@
 			\end{itemize}
 			Le résultat de nos algorithmes retourne toujours un graphe. La recherche d'un plus court chemin par exemple, retournera un chemin de racine r (sommet source du parcours) qui est donc un graphe.\\
 			
+			% TODO corriger UML et code d'exemple
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=2.4]{Conception/visitor.pdf}
@@ -1699,9 +1705,32 @@
 			
 			Nous avons choisi ce pattern car il permet de bien séparer la structure de donnée des algorithmes et il nous permet de collaborer efficacement au sein de l'équipe.
 			
+			% TODO corriger
 			\subsubsection{Type de retour}
 			Nos algorithmes ont une chose en commun : ils retournent tous un graphe. Cependant, vu que nous codons en C++, nous pouvons nous poser la question du type de retour. Le graphe doit-il être retourné par valeur, référence, ou pointeur ?\\
 			Retourner par valeur implique une lourde copie de tout le graphe, ce qui ralentirait le système. De plus, le graphe sera progressivement dynamiquement construit tout au long de l'algorithme et le propriétaire de ce graphe sera celui qui appelle cet algorithme. Pour ces raisons, Nous avons décidé de \textbf{retourner le graphe par pointeur}.
+			
+			\subsubsection{Liste}
+			Dans le tableau ci-dessous figurent les algorithmes traités par l'application. Pour la colonne \textit{Complexité}, $n$ représente le nombre de sommet, et $m$ le nombre d'arcs/arêtes d'un graphe.
+			\begin{figure}[H]
+				\centering
+				\begin{tabular}{lL{10cm}l}
+					\textbf{Nom} & \textbf{Description} & \textbf{Complexité}\\
+					\hline
+					BFS & Breadth First Search : effectue une exploration en largeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(n+m)$\\
+					\hline
+					DFS & Deapth First Search : effectue une exploration en profondeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(n+m)$\\
+					\hline
+					Composante connexe & Calcul les composantes connexes d'un graphe et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(n+m)$\\
+					\hline
+					Kruskal & Implémenté avec UnionFind, recherche de l'arbre recouvrant de poids min. & $O(m * log(n))$\\
+					\hline
+					Prim & Version empressée de Prim, recherche de l'arbre recouvrant de poids min. & $O(m * log(n))$\\
+				\end{tabular}
+			\end{figure}
+			
+			
+			\subsubsection{Utilisation}
 	
 	\section{Annexes}
 	

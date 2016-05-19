@@ -11,8 +11,6 @@
 
 class Graph : public GraphCommon<Edge>
 {
-private:
-    void assignEdge(Edge *e);
 public:
     Graph() : GraphCommon() { }
     Graph(const Graph &g);
@@ -43,6 +41,10 @@ public:
 
     virtual Graph* clone() const override;
 
+    virtual Graph *emptyClone() const override;
+
+    virtual void assignEdge(IEdge *e);
+
     template<typename Func>
     void forEachAdjacentVertex(Vertex *v, Func f) {
         for(IEdge *e : _adjacentList.at(v->id()) ) {
@@ -50,9 +52,7 @@ public:
         }
     }
 
-    virtual Graph* accept(Visitor *v, Vertex *from) override {
-        return v->visit(this, from);
-    }
+    virtual void accept(Visitor *v, Vertex *from) override;
 };
 
 

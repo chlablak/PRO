@@ -5,8 +5,8 @@
 #ifndef GRAPH_BFS_H
 #define GRAPH_BFS_H
 
-#include "../visitor/Visitor.h"
-#include "../graphs/GraphCommon.h"
+#include "../graphs/IGraph.h"
+#include "../visitors/Visitor.h"
 #include <vector>
 
 class BFS : public Visitor {
@@ -14,14 +14,19 @@ private:
     // Vector of distances. The value is the number of Edges from the source
     // vertex. Where the value is 0 means that it's the source vertex.
     vector<int> _distances;
-
+    IGraph *_G;
 public:
-    BFS() : _distances(0) {}
+    BFS() : _distances(0), _G(nullptr) {}
     ~BFS();
 
-    virtual Graph* visit(Graph *g, Vertex *from) override;
-    virtual DiGraph* visit(DiGraph *g, Vertex *from) override;
-    virtual FlowGraph* visit(FlowGraph *g, Vertex *from) override;
+    virtual void visit(Graph *g, Vertex *from) override;
+    virtual void visit(DiGraph *g, Vertex *from) override;
+    virtual void visit(FlowGraph *g, Vertex *from) override;
+
+    virtual IGraph* G() const override ;
+    virtual std::vector<int>& table() override;
+
+
 };
 
 

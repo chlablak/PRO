@@ -3,15 +3,15 @@
 
 #include <QAbstractGraphicsShapeItem>
 
-#include "iedge.h"
-#include "vertexitem.h"
+#include "igraph/IEdge.h"
+#include "VertexItem.h"
 
 class VertexItem;
 
 class EdgeItem : public QAbstractGraphicsShapeItem
 {
 private:
-    IEdge *edge;
+    const IEdge *edge;
     VertexItem *sourceItem;
     VertexItem *destItem;
 
@@ -19,7 +19,7 @@ private:
     QPointF destPoint;
 
 public:
-    EdgeItem(IEdge *edge, VertexItem *source, VertexItem *dest);
+    EdgeItem(const IEdge *edge, VertexItem *source, VertexItem *dest);
 
     ~EdgeItem();
 
