@@ -24,11 +24,6 @@ egli::Number::operator float_t&()
     return value;
 }
 
-egli::Number::operator integer_t() const
-{
-    return value;
-}
-
 bool egli::Number::isInteger() const
 {
     return std::abs(std::modf(value, nullptr))

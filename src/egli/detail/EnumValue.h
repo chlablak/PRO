@@ -21,6 +21,9 @@
         static constexpr Type value = Type::E; \
     };
 
+// Forward declaration
+class IGraph; // workaround
+
 namespace egli
 {
 // Forward declarations
@@ -64,6 +67,8 @@ EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Edge, Edge)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Float, float)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Float, double) // workaround
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Graph, GraphWrapper)
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Graph, IGraph*) // workaround
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Graph, const IGraph*) // workaround
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Integer, int)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Integer, id_type) // workaround
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Number, Number)

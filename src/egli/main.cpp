@@ -74,7 +74,7 @@ ostream &operator<<(ostream &os, egli::VariableTable const &v)
                 os << "Float, value=" << egli::detail::builtins::toString_f(v.get<float>(it));
                 break;
             case egli::Type::Graph:
-                os << "Graph";
+                os << "Graph, value=" << egli::detail::builtins::toString_g(v.get<egli::GraphWrapper>(it));
                 break;
             case egli::Type::Integer:
                 os << "Integer, value=" << egli::detail::builtins::toString_i(v.get<int>(it));
@@ -94,6 +94,10 @@ ostream &operator<<(ostream &os, egli::VariableTable const &v)
     return os;
 }
 
+IGraph *clone(const IGraph *g) {
+    return g->clone();
+}
+
 /*! \brief main
  *
  * \return 0
@@ -109,6 +113,9 @@ int main()
     egli::detail::interfaceBasics(func);
     egli::detail::interfaceBuiltins(func);
     egli::detail::interfaceAlgorithms(func);
+
+    func.interface("clone", clone);
+
     while (getline(cin, in)) {
         try {
             pp.stream() << in;

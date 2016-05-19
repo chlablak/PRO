@@ -206,6 +206,26 @@ private:
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(number_t, numbers)
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(string_t, strings)
     EGLI_VARIABLETABLE_DEF_TABLEHELPER(vertex_t, vertices)
+
+    // Workaround for IGraph
+    template<typename Dummy>
+    struct TableHelperImpl<IGraph*, Dummy>
+    {
+        static void
+            set(VariableTable &table, name_t name, IGraph* value)
+        {
+            table.graphs[name] = GraphWrapper(value->clone());
+        }
+    };
+    template<typename Dummy>
+    struct TableHelperImpl<const IGraph*, Dummy>
+    {
+        static const IGraph*
+            get(const VariableTable &table, name_t name)
+        {
+            return table.graphs.find(name)->second.graph();
+        }
+    };
 };
 
 /*! \brief RAII-style class for enter()/leave() in the VariableTable

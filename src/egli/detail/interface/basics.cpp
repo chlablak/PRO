@@ -10,41 +10,17 @@
 #include "../../Vertex.h"
 #include "../../Edge.h"
 #include "../../GraphWrapper.h"
-
-// usefuls functions
-namespace
-{
-void addEdge(egli::detail::RealType<egli::Type::Graph>::type &g,
-             egli::detail::RealType<egli::Type::Edge>::cref edge)
-{
-
-}
-
-void addVertex(egli::detail::RealType<egli::Type::Graph>::type &g,
-               egli::detail::RealType<egli::Type::Vertex>::cref vertex)
-{
-
-}
-
-void subEdge(egli::detail::RealType<egli::Type::Graph>::type &g,
-             egli::detail::RealType<egli::Type::Edge>::cref edge)
-{
-
-}
-
-void subVertex(egli::detail::RealType<egli::Type::Graph>::type &g,
-               egli::detail::RealType<egli::Type::Vertex>::cref vertex)
-{
-
-}
-}
+#include "../../Array.h"
+#include "../../Exception.h"
 
 egli::detail::RealType<egli::Type::Graph>::type
     egli::detail::basics::__graph_add_a(
         RealType<Type::Graph>::cref graph,
         RealType<Type::Array>::cref infos)
 {
-
+    RealType<Type::Graph>::type g(graph);
+    g.insert(infos);
+    return g;
 }
 
 egli::detail::RealType<egli::Type::Graph>::type
@@ -52,7 +28,9 @@ egli::detail::RealType<egli::Type::Graph>::type
         RealType<Type::Graph>::cref graph,
         RealType<Type::Edge>::cref edge)
 {
-
+    RealType<Type::Graph>::type g(graph);
+    g.insert(edge);
+    return g;
 }
 
 egli::detail::RealType<egli::Type::Graph>::type
@@ -60,7 +38,9 @@ egli::detail::RealType<egli::Type::Graph>::type
         RealType<Type::Graph>::cref graph,
         RealType<Type::Vertex>::cref vertex)
 {
-
+    RealType<Type::Graph>::type g(graph);
+    g.insert(vertex);
+    return g;
 }
 
 egli::detail::RealType<egli::Type::Graph>::type
@@ -68,7 +48,9 @@ egli::detail::RealType<egli::Type::Graph>::type
         RealType<Type::Graph>::cref graph,
         RealType<Type::Array>::cref infos)
 {
-
+    RealType<Type::Graph>::type g(graph);
+    g.erase(infos);
+    return g;
 }
 
 egli::detail::RealType<egli::Type::Graph>::type
@@ -76,7 +58,9 @@ egli::detail::RealType<egli::Type::Graph>::type
         RealType<Type::Graph>::cref graph,
         RealType<Type::Edge>::cref edge)
 {
-
+    RealType<Type::Graph>::type g(graph);
+    g.erase(edge);
+    return g;
 }
 
 egli::detail::RealType<egli::Type::Graph>::type
@@ -84,7 +68,9 @@ egli::detail::RealType<egli::Type::Graph>::type
         RealType<Type::Graph>::cref graph,
         RealType<Type::Vertex>::cref vertex)
 {
-
+    RealType<Type::Graph>::type g(graph);
+    g.erase(vertex);
+    return g;
 }
 
 egli::detail::RealType<egli::Type::Graph>::type
@@ -98,7 +84,11 @@ egli::detail::RealType<egli::Type::Graph>::type
         RealType<Type::Integer>::cref V,
         RealType<Type::Array>::cref infos)
 {
-
+    RealType<Type::Graph>::type g;
+    for (RealType<Type::Integer>::type i = 0; i < V; ++i)
+        g.insert(RealType<Type::Vertex>::type(i));
+    g.insert(infos);
+    return g;
 }
 
 egli::detail::RealType<egli::Type::Edge>::type

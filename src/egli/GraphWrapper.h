@@ -13,6 +13,8 @@
 #  include "../graph/includes.h"
 #pragma GCC diagnostic pop
 
+#include "detail/RealType.h"
+
 namespace egli
 {
 /*! \brief Wrap the IGraph class
@@ -21,8 +23,10 @@ class GraphWrapper
 {
 public:
 
-    // The true Graph type
-    using igraph_ptr_t = IGraph*;
+    // Useful typedefs
+    using igraph_ptr_t = ::IGraph*;
+    using iedge_ptr_t = ::IEdge*;
+    using vertex_t = ::Vertex;
 
     /*! \brief Constructor
      *
@@ -72,7 +76,37 @@ public:
      */
     const igraph_ptr_t graph() const;
 
+    #warning TODO doc
+    void insert(detail::RealType<Type::Array>::cref infos);
+
+    void insert(detail::RealType<Type::Vertex>::cref vertex);
+
+    void insert(detail::RealType<Type::Edge>::cref edge);
+
+    void erase(detail::RealType<Type::Array>::cref infos);
+
+    void erase(detail::RealType<Type::Vertex>::cref vertex);
+
+    void erase(detail::RealType<Type::Edge>::cref edge);
+
 private:
+
+    void createIfNull();
+
+    static void checkInfos(detail::RealType<Type::Array>::cref infos);
+
+    vertex_t *getVertexById(size_t id);
+
+    enum class GraphType
+    {
+        Graph,
+        DiGraph,
+        FlowGraph
+    };
+
+    GraphType graphType() const;
+
+    void transformTo(GraphType type);
 
     // data member
     igraph_ptr_t m_graph;
