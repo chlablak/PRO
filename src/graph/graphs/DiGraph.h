@@ -12,7 +12,11 @@ class DiGraph : public GraphCommon<DiEdge>
 {
 
 public:
+
+    DiGraph() : GraphCommon() { }
     DiGraph(vector<Vertex*> &vertices, vector<DiEdge*> &edges);
+
+    DiGraph(const DiGraph& dg);
 
     ~DiGraph();
 
@@ -31,6 +35,19 @@ public:
     virtual void removeEdge(IEdge *e) override;
 
     virtual void removeVertex(Vertex *v) override;
+
+    virtual DiGraph *clone() const override {
+        return new DiGraph(*this);
+    }
+
+    virtual IEdge *getEdge(Vertex *v1, Vertex *v2) const override;
+
+    virtual IGraph *emptyClone() const override;
+
+    virtual void assignEdge(IEdge *e) override;
+
+    virtual void accept(Visitor *v, Vertex *from) override;
+
 
     virtual size_t E() const override;
 };

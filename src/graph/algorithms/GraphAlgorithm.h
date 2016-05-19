@@ -19,6 +19,9 @@ public:
     static vector<int>& connectedComponent(IGraph *g);
     static IGraph* kruskal(IGraph *g);
     static IGraph* prim(IGraph *g, Vertex *from);
+    static IGraph* copyToGraph(IGraph *g);
+    static IGraph* copyToDiGraph(IGraph *g);
+    static IGraph* copyToFlowGraph(IGraph *g);
 };
 
 

@@ -17,5 +17,5 @@ set(SOURCE_FILES main.cpp graphs/GraphCommon.h graphs/Vertex.cpp graphs/Vertex.h
         graphs/IGraph.h includes.h algorithms/GraphAlgorithm.cpp
         algorithms/GraphAlgorithm.h algorithms/Kruskal.cpp algorithms/Kruskal.h
         algorithms/Prim.cpp algorithms/Prim.h algorithms/UnionFind.cpp
-        algorithms/UnionFind.h algorithms/Dijkstra.cpp algorithms/Dijkstra.h)
+        algorithms/UnionFind.h algorithms/Dijkstra.cpp algorithms/Dijkstra.h algorithms/CopyToGraph.cpp algorithms/CopyToGraph.h algorithms/CopyToDiGraph.cpp algorithms/CopyToDiGraph.h algorithms/CopyToFlowGraph.cpp algorithms/CopyToFlowGraph.h)
 add_executable(graph ${SOURCE_FILES})

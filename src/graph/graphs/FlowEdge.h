@@ -16,6 +16,9 @@ private :
 
 public:
     // Constructors
+    FlowEdge(Vertex *from, Vertex *to, const string &label, const double weight)
+            : DiEdge(from, to, label, weight), _minCapacity(-1), _maxCapacity(-1) { }
+
     FlowEdge(Vertex *from, Vertex *to, const int &maxCapacity)
             : DiEdge(from, to), _minCapacity(-1), _maxCapacity(maxCapacity) { }
 

@@ -28,6 +28,9 @@ public:
            const string &label)
             : IEdge(from, to, label) { }
 
+    DiEdge(Vertex *from, Vertex *to, const string &label, const double weight)
+            : IEdge(from, to, label, weight) { }
+
     DiEdge(const DiEdge& e);
     // TODO patrick : ajouter plus de constructeurs (aussi pour FlowEdge)
 

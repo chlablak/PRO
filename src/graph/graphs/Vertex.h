@@ -73,7 +73,7 @@ public:
     void setLabel(const string& s);
     void setWeight(const double w);
     void setMinCapacity(const int minCap);
-    void setMaxCapacitiy(const int maxCap);
+    void setMaxCapacity(const int maxCap);
 
     // Operators
     friend ostream& operator<<(ostream& os, const Vertex& v);

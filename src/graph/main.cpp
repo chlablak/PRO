@@ -45,6 +45,7 @@ int main() {
     assert(g1.isNegativeWeighted() == 0);
 
     // Test clone()
+    cout << "Test clone de g1" << endl;
     IGraph *g1Clone = g1.clone();
     g1Clone->ponderateVertices(42.36);
     g1Clone->ponderateEdges(-10);
@@ -54,8 +55,28 @@ int main() {
     g1Clone->addVertex(vb);
     g1Clone->addEdge(new Edge(va, vb));
     assert(g1.V() != g1Clone->V());
-
     g1Clone->print();
+
+    // Test CopyToGraph
+    cout << "Test CopyToGraph(&diGraph) and ponderate it" << endl;
+    IGraph *gCpyToGraph = GraphAlgorithm::copyToGraph(&g1);
+    gCpyToGraph->ponderateVertices(6.7);
+    gCpyToGraph->print();
+
+    // Test CopyToDiGraph
+    cout << "Test CopyToDiGraph(&g1) and ponderate vertex" << endl;
+    IGraph *gCpyToDiGraph = GraphAlgorithm::copyToDiGraph(&g1);
+    gCpyToDiGraph->ponderateVertices(5.5);
+    gCpyToDiGraph->print();
+
+    // Test CopyToFlowGraph
+    cout << "Test CopyToFlowGraph(&g1) and ponderate vertex" << endl;
+    IGraph *gCpyToFlowGraph = GraphAlgorithm::copyToFlowGraph(&g1);
+    gCpyToFlowGraph->ponderateVertices(9.99);
+    gCpyToFlowGraph->print();
+
+    // Ré-afficher g1
+    cout << "g1" << endl;
     cout << g1 << endl;
 
     // Test BFS
@@ -86,9 +107,6 @@ int main() {
     cout << "Prim" << endl;
     IGraph *gPrim = GraphAlgorithm::kruskal(&g1);
     gPrim->print();
-
-
-
 
     return 0;
 }

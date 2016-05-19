@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "Graph.h"
 #include "../algorithms/ConnectedComponent.h"
+#include "../algorithms/CopyToDiGraph.h"
 
 Graph::Graph(const Graph &g) : GraphCommon(g) {
     for (Vertex *v : g.vertexList()) {
@@ -130,6 +131,8 @@ void Graph::removeVertex(Vertex *v) {
     _vertices.erase(_vertices.begin() + v->id());
 
     resetEdgeId();
+
+    delete v;
 }
 
 Graph::Graph(vector<Vertex *> &vertices, vector<IEdge *> &edges)
@@ -194,6 +197,7 @@ Graph *Graph::emptyClone() const {
     g->_edgeId = this->E();
     return g;
 }
+
 
 
 

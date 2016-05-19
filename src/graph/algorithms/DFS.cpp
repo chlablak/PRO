@@ -42,11 +42,13 @@ void DFS::visit(Graph *g, Vertex *from) {
 }
 
 void DFS::visit(DiGraph *g, Vertex *from) {
-
+    UNUSED(g);
+    UNUSED(from);
 }
 
 void DFS::visit(FlowGraph *g, Vertex *from) {
-
+    UNUSED(g);
+    UNUSED(from);
 }
 
 IGraph *DFS::G() const {

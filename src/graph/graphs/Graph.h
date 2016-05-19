@@ -8,6 +8,7 @@
 #include <vector>
 #include "GraphCommon.h"
 #include "Edge.h"
+#include "../../utility/Global.h"
 
 class Graph : public GraphCommon<Edge>
 {

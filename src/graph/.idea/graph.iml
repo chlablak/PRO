@@ -22,21 +22,27 @@
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/IEdge.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/Prim.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Kruskal.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Prim.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/Prim.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToDiGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/GraphAlgorithm.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Dijkstra.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToDiGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Visitor.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/ConnectedComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToFlowGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/UnionFind.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Kruskal.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/GraphAlgorithm.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToFlowGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Dijkstra.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/ConnectedComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/UnionFind.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/includes.h" isTestSource="false" />

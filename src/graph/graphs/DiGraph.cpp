@@ -10,6 +10,10 @@ DiGraph::DiGraph(vector<Vertex*> &vertices, vector<DiEdge*> &edges) : GraphCommo
 
 }
 
+DiGraph::DiGraph(const DiGraph &dg) {
+
+}
+
 bool DiGraph::isSimple() const {
     return false;
 }
@@ -50,6 +54,22 @@ DiGraph::~DiGraph() {
     for (IEdge *e : edgeList()) {
         delete e;
     }
+}
+
+IEdge *DiGraph::getEdge(Vertex *v1, Vertex *v2) const {
+    return nullptr;
+}
+
+IGraph *DiGraph::emptyClone() const {
+    return nullptr;
+}
+
+void DiGraph::assignEdge(IEdge *e) {
+
+}
+
+void DiGraph::accept(Visitor *v, Vertex *from) {
+
 }
 
 

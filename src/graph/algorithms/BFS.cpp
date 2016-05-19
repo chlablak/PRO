@@ -40,12 +40,14 @@ void BFS::visit(Graph *g, Vertex *from) {
     }
 }
 
-void BFS::visit(DiGraph *g, Vertex *v) {
-
+void BFS::visit(DiGraph *g, Vertex *from) {
+    UNUSED(g);
+    UNUSED(from);
 }
 
-void BFS::visit(FlowGraph *g, Vertex *v) {
-
+void BFS::visit(FlowGraph *g, Vertex *from) {
+    UNUSED(g);
+    UNUSED(from);
 }
 
 BFS::~BFS() {
