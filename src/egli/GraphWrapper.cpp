@@ -89,7 +89,7 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Vertex>::cref vertex)
     if (vertex.weight.hasValue())
         v->setWeight(vertex.weight.value());
     if (vertex.maxCapacity.hasValue())
-        v->setMaxCapacitiy(vertex.maxCapacity.value());
+        v->setMaxCapacity(vertex.maxCapacity.value());
     if (vertex.minCapacity.hasValue())
         v->setMinCapacity(vertex.minCapacity.value());
 }
@@ -110,9 +110,10 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
     // Get the list of existing Edges
     vertex_t *v = getVertexById(edge.v);
     vertex_t *w = getVertexById(edge.w);
-    // ...
+    std::list<iedge_ptr_t> edges = graph()->getEdges(v, w);
 
     // Create or reach the Edge to create/modify
+    iedge_ptr_t e = nullptr;
     // ...
 
     // Set the Edge informations
