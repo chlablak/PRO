@@ -21,7 +21,6 @@ class Number
 public:
 
     // Useful typedefs
-    using integer_t = detail::RealType<Type::Integer>::type;
     using float_t = detail::RealType<Type::Float>::type;
 
     /*! \brief Constructor
@@ -42,11 +41,12 @@ public:
      */
     operator float_t&();
 
-    /*! \brief Return the value as a int
+    /*! \brief Get the value as type T
      *
      * \return The contained value
      */
-    explicit operator integer_t() const;
+    template<typename T>
+    T as() const;
 
     /*! \brief Is the number an int ?
      *
@@ -65,5 +65,11 @@ private:
     float_t value;
 };
 } // namespace egli
+
+template<typename T>
+T egli::Number::as() const
+{
+    return value;
+}
 
 #endif // EGLI_NUMBER_H_INCLUDED

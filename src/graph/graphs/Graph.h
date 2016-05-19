@@ -38,7 +38,7 @@ public:
 
     virtual GraphCommon<Edge>::Edges edgeList() const override;
 
-    virtual Edge* getEdge(Vertex *either, Vertex *other) const override;
+    virtual list<IEdge*> getEdges(Vertex *either, Vertex *other) const override;
 
     virtual Graph* clone() const override;
 

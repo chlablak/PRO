@@ -28,6 +28,7 @@ class Number;
 struct Vertex;
 struct Edge;
 class Array;
+class GraphWrapper;
 
 namespace detail
 {
@@ -43,13 +44,11 @@ EGLI_DETAIL_TYPES_DEF_REALTYPE(Array, Array)
 EGLI_DETAIL_TYPES_DEF_REALTYPE(Boolean, bool)
 EGLI_DETAIL_TYPES_DEF_REALTYPE(Edge, Edge)
 EGLI_DETAIL_TYPES_DEF_REALTYPE(Float, float)
-//EGLI_DETAIL_TYPES_DEF_REALTYPE(Graph, )
+EGLI_DETAIL_TYPES_DEF_REALTYPE(Graph, GraphWrapper)
 EGLI_DETAIL_TYPES_DEF_REALTYPE(Integer, int)
 EGLI_DETAIL_TYPES_DEF_REALTYPE(Number, Number)
 EGLI_DETAIL_TYPES_DEF_REALTYPE(String, std::string)
 EGLI_DETAIL_TYPES_DEF_REALTYPE(Vertex, Vertex)
-
-#warning missing Graph type
 } // namespace detail
 } // namespace egli
 

@@ -13,6 +13,7 @@ egli::VariableTable::VariableTable() :
     booleans(),
     edges(),
     floats(),
+    graphs(),
     integers(),
     numbers(),
     strings(),
@@ -40,7 +41,7 @@ void egli::VariableTable::erase(name_t name)
             case Type::Boolean: booleans.erase(name); break;
             case Type::Edge: edges.erase(name); break;
             case Type::Float: floats.erase(name); break;
-            //case Type::Graph: graphs.erase(name); break;
+            case Type::Graph: graphs.erase(name); break;
             case Type::Integer: integers.erase(name); break;
             case Type::Number: numbers.erase(name); break;
             case Type::String: strings.erase(name); break;
@@ -57,6 +58,7 @@ void egli::VariableTable::clear()
     booleans.clear();
     edges.clear();
     floats.clear();
+    graphs.clear();
     integers.clear();
     numbers.clear();
     strings.clear();
@@ -114,9 +116,9 @@ void egli::VariableTable::copy(name_t dst, name_t src)
         case Type::Float:
             set(dst, get<detail::RealType<Type::Float>::type>(src));
             break;
-        /*case Type::Graph:
+        case Type::Graph:
             set(dst, get<detail::RealType<Type::Graph>::type>(src));
-            break;*/
+            break;
         case Type::Integer:
             set(dst, get<detail::RealType<Type::Integer>::type>(src));
             break;

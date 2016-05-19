@@ -48,7 +48,7 @@ public:
      *  delete it.
      */
     virtual void removeVertex(Vertex *v) = 0;
-    virtual IEdge* getEdge(Vertex *v1, Vertex *v2) const = 0;
+    virtual Edges getEdges(Vertex *v1, Vertex *v2) const = 0;
     virtual IGraph* clone() const = 0;
     virtual IGraph* emptyClone() const = 0;
     virtual void assignVertex(Vertex *v) = 0;

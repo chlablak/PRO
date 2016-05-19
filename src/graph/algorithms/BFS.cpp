@@ -33,7 +33,7 @@ void BFS::visit(Graph *g, Vertex *from) {
             if (_distances.at(v->id()) == numeric_limits<int>::max()) {
                 _distances.at(v->id()) = _distances.at(u->id()) + 1;
                 _G->assignVertex(v);
-                _G->assignEdge(g->getEdge(u, v));
+                _G->assignEdge(g->getEdges(u, v).front());
                 Q.push_back(v);
             }
         });

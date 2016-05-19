@@ -13,6 +13,7 @@
 #include "../../Edge.h"
 #include "../../Number.h"
 #include "../../Vertex.h"
+#include "../../GraphWrapper.h"
 
 egli::detail::RealType<egli::Type::String>::type
     egli::detail::builtins::toString_a(RealType<Type::Array>::cref var)
@@ -35,9 +36,9 @@ egli::detail::RealType<egli::Type::String>::type
             case Type::Float:
                 oss << toString_f(var.get<RealType<Type::Float>::type>(i));
                 break;
-            /*case Type::Graph:
+            case Type::Graph:
                 oss << toString_g(var.get<RealType<Type::Graph>::type>(i));
-                break;*/
+                break;
             case Type::Integer:
                 oss << toString_i(var.get<RealType<Type::Integer>::type>(i));
                 break;
@@ -109,11 +110,52 @@ egli::detail::RealType<egli::Type::String>::type
     return oss.str();
 }
 
-/*egli::detail::RealType<egli::Type::String>::type
+egli::detail::RealType<egli::Type::String>::type
     egli::detail::builtins::toString_g(RealType<Type::Graph>::cref var)
 {
-
-}*/
+    std::ostringstream oss;
+    oss << '{';
+    bool first = true;
+    for (const auto *it : var.graph()->vertexList()) {
+        if (first)
+            first = false;
+        else
+            oss << ',';
+        oss << it->id();
+        size_t countEmpty = 0;
+        if (!it->label().empty())
+            oss << ':' << '"' << it->label() << '"';
+        else
+            ++countEmpty;
+        if (it->weight() < std::numeric_limits<double>::max()) {
+            for (size_t i = 0; i < countEmpty + 1; ++i)
+                oss << ':';
+            oss << it->weight();
+            countEmpty = 0;
+        }
+        else
+            ++countEmpty;
+        if (it->maxCapacity() != -1) {
+            for (size_t i = 0; i < countEmpty + 1; ++i)
+                oss << ':';
+            oss << it->maxCapacity();
+            countEmpty = 0;
+        }
+        else
+            ++countEmpty;
+        if (it->minCapacity() != -1) {
+            for (size_t i = 0; i < countEmpty + 1; ++i)
+                oss << ':';
+            oss << it->minCapacity();
+            countEmpty = 0;
+        }
+        else
+            ++countEmpty;
+    }
+    #warning TODO toString_g Edge
+    oss << '}';
+    return oss.str();
+}
 
 egli::detail::RealType<egli::Type::String>::type
     egli::detail::builtins::toString_i(RealType<Type::Integer>::cref var)

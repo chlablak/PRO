@@ -40,7 +40,7 @@ public:
         return new DiGraph(*this);
     }
 
-    virtual IEdge *getEdge(Vertex *v1, Vertex *v2) const override;
+    virtual list<IEdge*> getEdges(Vertex *v1, Vertex *v2) const override;
 
     virtual IGraph *emptyClone() const override;
 

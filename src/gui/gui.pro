@@ -16,6 +16,7 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     console.cpp \
     dialogstring.cpp \
+    graphwindow.cpp \
     userHelp/filereader.cpp \
     userHelp/helpbrowser.cpp \
     userHelp/helppage.cpp \
@@ -26,14 +27,16 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     console.h \
     dialogstring.h \
+    graphwindow.h \
     userHelp/filereader.h \
     userHelp/helpbrowser.h \
     userHelp/helppage.h \
     userHelp/helpwindow.h \
     userHelp/keywordsearcher.h \
     userHelp/searchBar.h
-
+	
 FORMS    += mainwindow.ui \
-    dialogstring.ui
+    dialogstring.ui \
+    graphwindow.ui
 
 QMAKE_CXXFLAGS += -std=c++0x
