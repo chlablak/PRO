@@ -1,6 +1,8 @@
 #include <QDebug>
 #include <QVBoxLayout>
 
+#include "../graph/graphs/IGraph.h"
+
 #include "GraphWidget.h"
 #include "view/GraphView.h"
 #include "view/GraphScene.h"

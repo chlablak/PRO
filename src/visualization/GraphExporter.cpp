@@ -4,12 +4,14 @@
 #include <QFileDialog>
 #include <QSvgGenerator>
 
+#include "../graph/graphs/IGraph.h"
+
 #include "GraphExporter.h"
 #include "view/GraphScene.h"
 
 GraphExporter::GraphExporter(const IGraph* graph, QObject *parent)
-    : scene(new GraphScene(graph)),
-      QObject(parent)
+    : QObject(parent),
+      scene(new GraphScene(graph))
 {}
 
 GraphExporter::~GraphExporter()

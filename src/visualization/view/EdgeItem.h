@@ -3,7 +3,8 @@
 
 #include <QAbstractGraphicsShapeItem>
 
-#include "igraph/IEdge.h"
+#include "../../graph/graphs/IEdge.h"
+
 #include "VertexItem.h"
 
 class VertexItem;
@@ -11,25 +12,32 @@ class VertexItem;
 class EdgeItem : public QAbstractGraphicsShapeItem
 {
 private:
-    const IEdge *edge;
-    VertexItem *sourceItem;
-    VertexItem *destItem;
+    const IEdge *_edge;
+    VertexItem *_sourceItem;
+    VertexItem *_destItem;
 
-    QPointF sourcePoint;
-    QPointF destPoint;
+    QPointF _sourcePoint;
+    QPointF _destPoint;
 
 public:
     EdgeItem(const IEdge *edge, VertexItem *source, VertexItem *dest);
 
-    ~EdgeItem();
+    virtual ~EdgeItem();
 
-    QRectF boundingRect() const;
+    virtual QRectF boundingRect() const;
 
-    void paint(QPainter *painter,
-               const QStyleOptionGraphicsItem *option,
-               QWidget *widget = 0) Q_DECL_OVERRIDE;
+    virtual void paint(QPainter *painter,
+                       const QStyleOptionGraphicsItem *option,
+                       QWidget *widget = 0) Q_DECL_OVERRIDE;
 
     void adjust();
+
+protected:
+    const IEdge *edge() const;
+    VertexItem *sourceItem() const;
+    VertexItem *destItem() const;
+    QPointF sourcePoint() const;
+    QPointF destPoint() const;
 };
 
 #endif // VISUALIZATION_EDGEEXITEM_H

@@ -2,12 +2,15 @@
 #include <QPainter>
 #include <QPen>
 #include <QBrush>
+#include <QString>
+
+#include "../../graph/graphs/Vertex.h"
 
 #include "Constants.h"
 #include "VertexItem.h"
 #include "EdgeItem.h"
 
-VertexItem::VertexItem(const IVertex *vertex)
+VertexItem::VertexItem(const Vertex *vertex)
     : vertex(vertex)
 {
     setFlag(QGraphicsItem::ItemIsMovable);
@@ -44,7 +47,8 @@ void VertexItem::paint(QPainter *painter,
     painter->setBrush(brush);
 
     painter->drawEllipse(boundingRect().center(), VERTEX_RADIUS, VERTEX_RADIUS);
-    painter->drawText(boundingRect(), Qt::AlignCenter, vertex->getName());
+    painter->drawText(boundingRect(), Qt::AlignCenter,
+                      QString("v%1").arg(vertex->id()));
 }
 
 QPointF VertexItem::getCenter() const
@@ -55,7 +59,7 @@ QPointF VertexItem::getCenter() const
 
 QVariant VertexItem::itemChange(GraphicsItemChange change,
                     const QVariant &value)
-{
+{    
     if (change == ItemPositionChange && scene()) {
         for (EdgeItem *edge : edgeItems) {
             edge->adjust();
