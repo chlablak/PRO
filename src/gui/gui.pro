@@ -15,13 +15,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     console.cpp \
-    dialogstring.cpp
+    dialogstring.cpp \
+    graphwindow.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
-    dialogstring.h
+    dialogstring.h \
+    graphwindow.h
 
 FORMS    += mainwindow.ui \
-    dialogstring.ui
+    dialogstring.ui \
+    graphwindow.ui
 
 QMAKE_CXXFLAGS += -std=c++0x

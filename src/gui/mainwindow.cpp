@@ -2,8 +2,9 @@
 #include "dialogstring.h"
 #include "ui_mainwindow.h"
 #include <iostream>
-#include <QFileDialog>
 #include <QTextEdit>
+
+#include <QFileDialog>
 
 
 #include <QApplication>
@@ -27,6 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->showHelp, SIGNAL(triggered(bool)), this, SLOT(showHelp()));
     QObject::connect(ui->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     QObject::connect(ui->saveGraph, SIGNAL(triggered(bool)), this, SLOT(saveTab()));
+    QObject::connect(ui->loadGraph, SIGNAL(triggered(bool)), this, SLOT(loadTab()));
+
 }
 
 MainWindow::~MainWindow()
@@ -42,10 +45,11 @@ void MainWindow::newGraph()
     QObject::connect(d, SIGNAL(sendValue(const QString)), this, SLOT(newTab(const QString)));
 }
 
-void MainWindow::newTab(const QString name)
+void MainWindow::newTab(const QString& name)
 {
     QString graphName = name;
     ui->tabWidget->addTab(new Console("", this), graphName);
+    ui->tabWidget->setTabToolTip(ui->tabWidget->count()-1,name);
 }
 
 void MainWindow::loadSession() {
@@ -67,9 +71,13 @@ void MainWindow::saveTab()
 {
     if(ui->tabWidget->count() > 0)
     {
-        ((Console*)ui->tabWidget->currentWidget())->saveChanges();
+        ((Console*)ui->tabWidget->currentWidget())->save();
         //temp->saveChanges();
     }
+}
+
+void MainWindow::loadTab() {
+    ((Console*)ui->tabWidget->currentWidget())->load();
 }
 
 void MainWindow::closeTab(int index)
@@ -79,4 +87,12 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::showHelp() {
 
+}
+
+void MainWindow::getTabName(QString& name) {
+    name = ui->tabWidget->tabToolTip(ui->tabWidget->currentIndex());
+}
+
+void MainWindow::setTabName(const QString& name) {
+    ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), name);
 }
