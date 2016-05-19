@@ -8,6 +8,11 @@
 using namespace std;
 
 void BFS::visit(Graph *g, Vertex *from) {
+    if (g->isNull()) {
+        _G = new Graph;
+        return;
+    }
+
     _G = g->emptyClone();
     // Table of distances
     _distances.assign(g->V(), numeric_limits<int>::max());

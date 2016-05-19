@@ -23,6 +23,11 @@ DFS::~DFS() {
 
 
 void DFS::visit(Graph *g, Vertex *from) {
+    if (g->isNull()) {
+        _G = new Graph;
+        return;
+    }
+
     _G = g->emptyClone();
 
     // Table of vertex discovery order

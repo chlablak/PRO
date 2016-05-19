@@ -66,35 +66,25 @@ int main() {
 
     // Test DFS
     cout << "Test DFS" << endl;
-    Visitor *dfs = new DFS;
-    g1.accept(dfs, v1);
-    IGraph *gDFS = dfs->G();
+    vector<int> dfsnum;
+    IGraph *gDFS = GraphAlgorithm::dfs(&g1, v1, dfsnum);
     gDFS->print();
 
     // Test Composantes Connexes
     cout << "Test Composante connexe" << endl;
-    Visitor *cc = new ConnectedComponent;
-//    g1.addVertex(new Vertex);
-//    g1.addVertex(new Vertex);
-    g1.accept(cc, nullptr);
-    vector<int> ccs = cc->table();
-    for (int i : ccs)
+    vector<int> cc = GraphAlgorithm::connectedComponent(&g1);
+    for (int i : cc)
         cout << i << " ";
     cout << endl << endl;
 
     // Test Kruskal
-    //assert(g1.isPonderate());
     cout << "Kruskal" << endl;
-    Visitor *kruskal = new Kruskal;
-    g1.accept(kruskal, nullptr);
-    IGraph *gKruskal = kruskal->G();
+    IGraph *gKruskal = GraphAlgorithm::kruskal(&g1);
     gKruskal->print();
 
     // Test Prim
     cout << "Prim" << endl;
-    Visitor *prim = new Prim;
-    g1.accept(prim, v2);
-    IGraph *gPrim = prim->G();
+    IGraph *gPrim = GraphAlgorithm::kruskal(&g1);
     gPrim->print();
 
 
