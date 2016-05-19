@@ -22,6 +22,8 @@ int main() {
     IEdge *e5 = new Edge(v1, v2, "e5", 3);
     IEdge *e6 = new Edge(v2, v4, "e6", 2);
 
+    cout << v3->label() << endl;
+
     vector<Vertex*> vertices = {v1, v2, v3, v4};
     vector<IEdge*> edges = {e1, e2, e3, e4, e5, e6};
 

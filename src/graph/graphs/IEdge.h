@@ -22,9 +22,9 @@ public:
             : _id(-1), _a(from), _b(to), _label(""), _weight(numeric_limits<double>::max()) {}
     IEdge(Vertex *from, Vertex *to, const double weight)
             : _id(-1), _a(from), _b(to), _label(""), _weight(weight) {}
-    IEdge(Vertex *from, Vertex *to, const string label)
+    IEdge(Vertex *from, Vertex *to, const string& label)
             : _id(-1), _a(from), _b(to), _label(label), _weight(numeric_limits<double>::max()) {}
-    IEdge(Vertex *from, Vertex *to, const string label, const double weight)
+    IEdge(Vertex *from, Vertex *to, const string& label, const double weight)
             : _id(-1), _a(from), _b(to), _label(label), _weight(weight) {}
 
     IEdge(IEdge *e);

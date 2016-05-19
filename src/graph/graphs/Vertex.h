@@ -5,7 +5,6 @@
 #ifndef GRAPH_VERTEX_H
 #define GRAPH_VERTEX_H
 
-#include <string>
 #include <list>
 #include <limits>
 #include <iostream>
