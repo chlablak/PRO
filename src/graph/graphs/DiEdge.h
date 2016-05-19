@@ -7,50 +7,38 @@
 
 #include "Edge.h"
 
-class DiEdge : public Edge {
+// TODO patrick
+class DiEdge : public IEdge {
+private:
+    int _minCapacity;
+    int _maxCapacity;
+
+protected:
+public:
+    virtual Vertex *either() const override;
+
+    virtual Vertex *other(Vertex *v) const override;
 
 public:
     // Constructors
+    DiEdge(Vertex *from, Vertex *to)
+            : IEdge(from, to) { }
 
-    DiEdge(const Vertex &from, const Vertex &to)
-            : Edge(from, to) { }
-
-    DiEdge(const Vertex &from, const Vertex &to,
-           const double &weight)
-            : Edge(from, to, weight) { }
-
-    DiEdge(const Vertex &from, const Vertex &to,
+    DiEdge(Vertex *from, Vertex *to,
            const string &label)
-            : Edge(from, to, label) { }
+            : IEdge(from, to, label) { }
 
-    DiEdge(const Vertex &from, const Vertex &to,
-           const double &weight, const string &label)
-            : Edge(from, to, weight, label) { }
+    DiEdge(Vertex *from, Vertex *to, const string &label, const double weight)
+            : IEdge(from, to, label, weight) { }
 
-    DiEdge(const Vertex &from, const Vertex &to,
-           const int maxCapacity)
-            : Edge(from, to, maxCapacity) { }
+    DiEdge(const DiEdge& e);
+    // TODO patrick : ajouter plus de constructeurs (aussi pour FlowEdge)
 
-    DiEdge(const Vertex &from, const Vertex &to,
-           const int minCapacity, const int maxCapacity)
-            : Edge(from, to, minCapacity, maxCapacity) { }
+    virtual ~DiEdge() {}
 
-    DiEdge(const Vertex &from, const Vertex &to,
-           const double &weight, const int maxCapacity)
-            : Edge(from, to, weight, maxCapacity) { }
-
-    DiEdge(const Vertex &from, const Vertex &to,
-           const double &weight, const string &label, const int minCapacity,
-           const int maxCapacity)
-            : Edge(from, to, weight, label, maxCapacity, minCapacity) { }
-
-    virtual ~DiEdge() {
-        deleteItem();
-    }
-
-    const Vertex *from();
-
-    const Vertex *to();
+    // Getters
+    Vertex *from() const;
+    Vertex *to() const;
 };
 
 

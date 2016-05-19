@@ -4,87 +4,218 @@
 
 #include <algorithm>
 #include "Graph.h"
+#include "../algorithms/ConnectedComponent.h"
+#include "../algorithms/CopyToDiGraph.h"
 
-
-/**
- * Delete elements in adjacentList
- */
-Graph::~Graph() {
-    size_t size = _adjacentList.size();
-    for (size_t i = 0; i < size; ++i) {
-        for (Edge* e : _adjacentList.at(i)) {
-            delete e;
-        }
+Graph::Graph(const Graph &g) : GraphCommon(g) {
+    for (Vertex *v : g.vertexList()) {
+        _vertices.at(v->id()) = new Vertex(*v);
+    }
+    for (IEdge *ie : g.edgeList()) {
+        Edge *e = (Edge*)ie;
+        Edge *copy = new Edge(e);
+        copy->setA(_vertices.at(e->vertexA()->id()));
+        copy->setB(_vertices.at(e->vertexB()->id()));
+        assignEdge(copy);
     }
 }
 
 /**
- * check weither the graph is simple or not
+ * First delete edges, then automatically call the base class destructor
  */
-bool Graph::isSimple()  const {
-    if(GraphCommon::isNull())
-    return false;
-    list<Edge*> edges = GraphCommon::edgeList();
+Graph::~Graph() {
+    for (IEdge *e : edgeList()) {
+        delete e;
+    }
+}
+
+/**
+ * check wether the graph is simple or not
+ * A graph is simple if it doesn't have multiple edges, or edge loop
+ */
+bool Graph::isSimple() const {
+    if(isNull())
+        return false;
+    list<IEdge*> edges = edgeList();
     bool first;
-    for(list<Edge*>::const_iterator edgeIt = edges.begin(); edgeIt != edges.end(); ++edgeIt){
+    for(list<IEdge*>::const_iterator edgeIt = edges.begin(); edgeIt != edges.end(); ++edgeIt){
         // check if the graph doesn't content a cycle
-        if( (*edgeIt)->either()->operator==((*edgeIt)->other(*(*edgeIt)->either())))
+        if( (*edgeIt)->either()->operator==((*edgeIt)->other((*edgeIt)->either())))
             return false;
         first = true;
-        for(list<Edge*>::const_iterator edgeIt2 = edgeIt; edgeIt2 != edges.end(); ++edgeIt2){
+        for(list<IEdge*>::const_iterator edgeIt2 = edgeIt; edgeIt2 != edges.end(); ++edgeIt2){
 
             if(first){
                 first = false;
                 continue;
             }
-            // check that the graph doesn't content a parallèle edges or cycle
+            // check that the graph doesn't content a parallel edge or cycle
             if((((*edgeIt)->either()->operator==((*edgeIt2)->either()))) &&
-                ((*edgeIt)->other(*(*edgeIt)->either())->operator==((*edgeIt2)->other(*(*edgeIt2)->either()))))
-            return false;
+                ((*edgeIt)->other((*edgeIt)->either())->operator==((*edgeIt2)->other((*edgeIt2)->either()))))
+                return false;
         }
     }
     return true;
 }
 
 /**
- * add un Edge to the graph
+ * add an Edge to the graph
  * NB : the user should not add an edge without add his vertex first
  */
-void Graph::addEdge(const Edge &e) {
-    // TODO ajouter 2x dans la liste d'adjacence
-    Edge *tmpEdge = new Edge(e);
-    tmpEdge->setId(edgeId++);
-    _adjacentList.at(e.either()->id()).push_back(tmpEdge);
-    if(e.either() != e.other(*e.either()))
-        _adjacentList.at(e.other(*e.either())->id()).push_back(tmpEdge);
+void Graph::addEdge(IEdge *e) {
+    // set edge id
+    e->setId(_edgeId++);
+    assignEdge((Edge*)e);
 }
 
 
 /**
- * remove the Edge to graph
+ * remove the Edge from the graph
  */
-void Graph::removeEdge(Edge &edge) {
-    Edge *tmpEdge = nullptr;
-    list<Edge*> eitherList, otherList;
-    for(list<Edge*>::iterator it = _adjacentList.at(edge.either()->id()).begin(); it!=_adjacentList.at(edge.either()->id()).end(); ++it){
-        if((*it)->operator==(&edge)){
-            tmpEdge = *it;
-            continue;
-        }
-        eitherList.push_back(*it);
-    }
-    if(edge.either() != edge.other(*edge.either())){
-        for(list<Edge*>::iterator it = _adjacentList.at(edge.other(*edge.either())->id()).begin(); it!=_adjacentList.at(edge.other(*edge.either())->id()).end(); ++it){
-            if((*it)->operator==(&edge)){
-                continue;
-            }
-            otherList.push_back(*it);
-        }
-    }
-    _adjacentList.at(edge.either()->id()) = eitherList;
-    _adjacentList.at(edge.other(*edge.either())->id()) = otherList;
-    delete tmpEdge;
+void Graph::removeEdge(IEdge *e) {
+    _adjacentList.at(e->either()->id()).remove(e);
+    _adjacentList.at(e->other(e->either())->id()).remove(e);
+
+    // Reset edge ids
+    resetEdgeId();
 }
+
+
+bool Graph::isStronglyConnected() const {
+    return isConnected();
+}
+
+bool Graph::isDirected() const {
+    return false;
+}
+
+bool Graph::isConnected() const {
+    Visitor *v = new ConnectedComponent;
+    v->visit((Graph*)this, nullptr);
+
+    vector<int> cc = v->table();
+    size_t ccSize = cc.size();
+    if (ccSize > 1) {
+        for (size_t i = 1; i < ccSize; ++i) {
+            if (cc[i] != cc[0]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+void Graph::removeVertex(Vertex *v) {
+    Vertex *otherVertex;
+    // First remove the concerned edges from the adjacent List
+    for (IEdge* e : _adjacentList.at(v->id())) {
+        if (((Edge*)e)->either() == v) {
+            otherVertex = ((Edge*)e)->other(v);
+        } else {
+            otherVertex = ((Edge*)e)->either();
+        }
+
+        // Remove edge in that other vertex
+        _adjacentList.at(otherVertex->id()).remove(e);
+
+        // Remove edge in this vertex
+        _adjacentList.at(v->id()).remove(e);
+    }
+
+    _adjacentList.erase(_adjacentList.begin() + v->id());
+
+    for (vector<Vertex*>::iterator it = _vertices.begin() + v->id() + 1; it != _vertices.end(); it++) {
+        (*it)->setId( (*it)->id() - 1 );
+    }
+    _vertices.erase(_vertices.begin() + v->id());
+
+    resetEdgeId();
+
+    delete v;
+}
+
+Graph::Graph(vector<Vertex *> &vertices, vector<IEdge *> &edges)
+        : GraphCommon(vertices) {
+    for (IEdge* e : edges) {
+        addEdge(e);
+    }
+}
+
+size_t Graph::E() const {
+    return edgeList().size();
+}
+
+GraphCommon<Edge>::Edges Graph::edgeList() const {
+    Edges list;
+    bool alreadyInside;
+    for(size_t i = 0; i<_adjacentList.size(); ++i){
+        for(IEdge* e1 : _adjacentList.at(i)){
+            alreadyInside = false;
+            for(IEdge* e2 : list){
+                if(e1 == e2) {
+                    alreadyInside = true;
+                    break;
+                }
+            }
+            if(!alreadyInside) {
+                list.push_back(e1);
+            }
+        }
+    }
+    return list;
+}
+
+Edge* Graph::getEdge(Vertex *either, Vertex *other) const {
+    for (IEdge *e : _adjacentList.at(either->id())) {
+        if (e->other(either) == other) {
+            return (Edge*)e;
+        }
+    }
+    return nullptr;
+}
+
+Graph* Graph::clone() const {
+    return new Graph(*this);
+}
+
+void Graph::assignEdge(IEdge *e) {
+    _adjacentList.at(e->either()->id()).push_back(e);
+    if (e->either() != e->other(e->either())) {
+        _adjacentList.at(e->other(e->either())->id()).push_back(e);
+    }
+}
+
+void Graph::accept(Visitor *v, Vertex *from) {
+    v->visit(this, from);
+}
+
+Graph *Graph::emptyClone() const {
+    Graph *g = new Graph;
+    g->_vertices.resize(this->V());
+    g->_adjacentList.resize(this->V());
+    g->_edgeId = this->E();
+    return g;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

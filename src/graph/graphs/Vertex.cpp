@@ -4,6 +4,13 @@
 
 #include "Vertex.h"
 
+Vertex::Vertex(const Vertex &v) {
+    _id = v.id();
+    _label = v.label();
+    _minCapacity = v.minCapacity();
+    _maxCapacity = v.maxCapacity();
+    _weight = v.weight();
+}
 
 int Vertex::id() const {
     return _id;
@@ -37,11 +44,9 @@ void Vertex::setMinCapacity(const int minCap) {
     _minCapacity = minCap;
 }
 
-void Vertex::setMaxCapacitiy(const int maxCap) {
+void Vertex::setMaxCapacity(const int maxCap) {
     _maxCapacity = maxCap;
 }
-
-void Vertex::deleteItem() { }
 
 void Vertex::setId(const int i) {
     _id = i;
@@ -52,6 +57,3 @@ ostream &operator<<(ostream &os, const Vertex &v) {
            << v.weight() << ", min cap: " << v.minCapacity() << ", max cap: "
            << v.maxCapacity();
 }
-
-
-

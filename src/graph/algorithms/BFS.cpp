@@ -3,50 +3,66 @@
 //
 
 #include "BFS.h"
-#include "../factory/GraphFactory.h"
-#include <limits>
-#include <list>
+#include "../graphs/Graph.h"
 
 using namespace std;
-/**
- * Visit a non-oriented graph
- *
- * @return a tree (graph) containing all accessible vertices from v
- */
-Graph& BFS::visitGraph(Graph &g, const Vertex &v) {
 
-//    // Table of distances
-//    vector<int> d;
-//    d.assign(g.V(), numeric_limits<int>::max());
-//    d.at(v.id()) = 0;
-//
-//    // Initialize list with v
-//    list<Vertex> Q;
-//    Q.push_back(v);
-//
-//    // Initialize a graph with only vertex v
-//    Graph result = GraphFactory::getInstance().createGraph({v});
-//
-//    while (!Q.empty()) {
-//        Vertex u = Q.front();
-//        Q.pop_front();
-//
-//        g.forEachAdjacentVertex(u, [&g](Vertex v){
-//            if (d.at(v.id()) == numeric_limits<int>::max()) {
-//                d.at(v.id()) = d.at(u.id()) + 1;
-//                g.addVertex(v);
-//                g.addEdge(u, v);
-//                Q.push_back(v);
-//            }
-//        });
-//    }
-//
-//    return result;
+void BFS::visit(Graph *g, Vertex *from) {
+    if (g->isNull()) {
+        _G = new Graph;
+        return;
+    }
+
+    _G = g->emptyClone();
+    // Table of distances
+    _distances.assign(g->V(), numeric_limits<int>::max());
+    _distances.at(from->id()) = 0;
+
+    // Initialize list with from
+    list<Vertex*> Q;
+    Q.push_back(from);
+
+    // Initialize a graph with only the source vertex in it
+    _G->assignVertex(from);
+
+    while (!Q.empty()) {
+        Vertex *u = Q.front();
+        Q.pop_front();
+
+        g->forEachAdjacentVertex(u, [&g, this, &u, &Q](Vertex *v){
+            if (_distances.at(v->id()) == numeric_limits<int>::max()) {
+                _distances.at(v->id()) = _distances.at(u->id()) + 1;
+                _G->assignVertex(v);
+                _G->assignEdge(g->getEdge(u, v));
+                Q.push_back(v);
+            }
+        });
+    }
 }
 
-DiGraph& BFS::visitDiGraph(DiGraph &g, const Vertex &v) {
+void BFS::visit(DiGraph *g, Vertex *from) {
+    UNUSED(g);
+    UNUSED(from);
+}
+
+void BFS::visit(FlowGraph *g, Vertex *from) {
+    UNUSED(g);
+    UNUSED(from);
+}
+
+BFS::~BFS() {
 
 }
+
+IGraph* BFS::G() const {
+    return _G;
+}
+
+std::vector<int>& BFS::table() {
+    return _distances;
+}
+
+
 
 
 

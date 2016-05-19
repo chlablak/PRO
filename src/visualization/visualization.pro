@@ -4,26 +4,61 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui svg
+
+CONFIG += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = visualization
 TEMPLATE = app
 
-SOURCES += main.cpp\
-    iedge.cpp \
-    igraph.cpp \
-    ivertex.cpp \
-    vertexitem.cpp \
-    edgeitem.cpp \
-    graphwidget.cpp
+SOURCES += main.cpp \
+    view/GraphView.cpp \
+    view/GraphScene.cpp \
+    view/VertexItem.cpp \
+    view/EdgeItem.cpp \
+    view/DiEdgeItem.cpp \
+    view/FlowEdgeItem.cpp \
+    view/GraphItemFactory.cpp \
+    view/DiGraphItemFactory.cpp \
+    view/FlowGraphItemFactory.cpp \
+    GraphWidget.cpp \
+    GraphExporter.cpp \
+    ../graph/graphs/DiEdge.cpp \
+    ../graph/graphs/DiGraph.cpp \
+    ../graph/graphs/Edge.cpp \
+    ../graph/graphs/FlowEdge.cpp \
+    ../graph/graphs/FlowGraph.cpp \
+    ../graph/graphs/Graph.cpp \
+    ../graph/graphs/GraphCommon.cpp \
+    ../graph/graphs/IEdge.cpp \
+    ../graph/graphs/Vertex.cpp \
+    ../graph/algorithms/ConnectedComponent.cpp
 
 HEADERS  += \
-    iedge.h \
-    igraph.h \
-    ivertex.h \
-    vertexitem.h \
-    edgeitem.h \
-    constants.h \
-    graphwidget.h
+    Constants.h \
+    view/GraphView.h \
+    view/GraphScene.h \
+    view/VertexItem.h \
+    view/EdgeItem.h \
+    view/DiEdgeItem.h \
+    view/FlowEdgeItem.h \
+    view/AbstractGraphItemFactory.h \
+    view/GraphItemFactory.h \
+    view/DiGraphItemFactory.h \
+    view/FlowGraphItemFactory.h \
+    GraphWidget.h \
+    GraphExporter.h \
+    ../graph/Includes.h \
+    ../graph/graphs/DiEdge.h \
+    ../graph/graphs/DiGraph.h \
+    ../graph/graphs/Edge.h \
+    ../graph/graphs/FlowEdge.h \
+    ../graph/graphs/FlowGraph.h \
+    ../graph/graphs/Graph.h \
+    ../graph/graphs/GraphCommon.h \
+    ../graph/graphs/IEdge.h \
+    ../graph/graphs/IGraph.h \
+    ../graph/graphs/Vertex.h \
+    ../graph/algorithms/ConnectedComponent.h

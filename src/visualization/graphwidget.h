@@ -1,23 +1,23 @@
 #ifndef VISUALIZATION_GRAPHWIDGET_H
 #define VISUALIZATION_GRAPHWIDGET_H
 
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QList>
+#include <QWidget>
+#include <QLayout>
 
-#include "igraph.h"
-#include "vertexitem.h"
-#include "edgeitem.h"
+#include "../graph/graphs/IGraph.h"
 
-class GraphWidget : public QGraphicsView
+#include "view/GraphView.h"
+#include "view/GraphScene.h"
+
+class GraphWidget : public QWidget
 {
 private:
-    QGraphicsScene *scene;
-    QList<VertexItem *> vertexItems;
-    QList<EdgeItem *> edgeItems;
+    GraphView *view;
+    GraphScene *scene;
+    QLayout *layout;
 
 public:
-    GraphWidget(IGraph *graph);
+    GraphWidget(const IGraph *graph, QWidget *parent = 0);
     ~GraphWidget();
 };
 

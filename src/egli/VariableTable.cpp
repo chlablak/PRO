@@ -23,7 +23,7 @@ egli::VariableTable::VariableTable() :
 egli::Type egli::VariableTable::typeOf(name_t name) const
 {
     if (!exists(name))
-        throw Exception("Unknown name", "egli::VariableTable::typeOf", name);
+        throw Exception("unknown name", "egli::VariableTable::typeOf", name);
     return names.find(name)->second;
 }
 
@@ -98,7 +98,7 @@ void egli::VariableTable::move(name_t dst, name_t src)
 void egli::VariableTable::copy(name_t dst, name_t src)
 {
     if (!exists(src))
-        throw Exception("Source unavailable", "egli::VariableTable::copy", src);
+        throw Exception("source unavailable", "egli::VariableTable::copy", src);
     if (exists(dst))
         erase(dst);
     switch(typeOf(src)) {
@@ -135,7 +135,7 @@ void egli::VariableTable::copy(name_t dst, name_t src)
 bool egli::VariableTable::isTemporary(name_t name) const
 {
     if (!exists(name))
-        throw Exception("Unknown name", "egli::VariableTable::isTemporary", name);
+        throw Exception("unknown name", "egli::VariableTable::isTemporary", name);
     return !name.empty() && name[0] == '_';
 }
 

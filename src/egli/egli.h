@@ -9,12 +9,15 @@
 #define EGLI_EGLI_H_INCLUDED
 
 #include "Array.h"
+#include "Data.h"
 #include "Edge.h"
 #include "Exception.h"
 #include "Function.h"
 #include "FunctionTable.h"
+#include "Interpreter.h"
 #include "Number.h"
 #include "Parser.h"
+#include "ProcessingUnit.h"
 #include "Statement.h"
 #include "Type.h"
 #include "VariableTable.h"

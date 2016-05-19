@@ -5,74 +5,87 @@
 #ifndef GRAPH_GRAPHCOMMON_H
 #define GRAPH_GRAPHCOMMON_H
 
+#include <iostream>
 #include <vector>
-#include "IGraph.h"
 #include "Vertex.h"
+#include "IEdge.h"
+#include "../algorithms/Visitor.h"
+#include "IGraph.h"
 
 using namespace std;
 
-class GraphCommon : public IGraph {
+template <typename T> // Type of Edges, for example Edge or DiEdge or FlowEdge
+class GraphCommon : public IGraph
+{
 
 private:
-    template <typename T>
-    void computeId(vector<T> &result, const vector<T> &table);
+    void computeId(vector<Vertex*> &result, vector<Vertex*> &table);
+
 protected:
+    // Give access to sub-classes
+    vector<Edges> _adjacentList;
+    size_t _edgeId;
+    vector<Vertex*> _vertices;
 
-    vector<Vertex> _vertices;
-    unsigned int edgeId;
-    vector<list<Edge*>> _adjacentList;
-
-    void fillAdjacentList(const vector<Edge>& edges);
+    virtual void resetEdgeId();
 
 public:
-    GraphCommon() : _vertices(0), _adjacentList(0) { }
+    GraphCommon() : _adjacentList(0), _edgeId(0), _vertices(0) { }
+    GraphCommon(vector<Vertex*> &vertices);
+    GraphCommon(const GraphCommon &g);
+    virtual ~GraphCommon();
 
-    GraphCommon(const vector<Vertex> &vertices);
-
-    GraphCommon(const vector<Vertex> &vertices, const vector<Edge> &edges);
-
-    ~GraphCommon() override { }
-
-    bool isNull() const override;
-
+    bool isNull() const;
     bool isEmpty() const;
+    bool isNegativeWeighted() const;
+    bool isPlanar() const;
+    virtual GraphCommon<T>::Vertices vertexList() const;
+    virtual GraphCommon<T>::Edges adjacentEdges(const Vertex* v) const;
+    virtual vector<Edges> adjacentList() const;
+    void ponderateEdges(const double w);
+    void ponderateVertices(const double w);
+    void addVertex(Vertex *vertex);
+    size_t V() const;
+    void assignVertex(Vertex *v);
 
-    virtual bool isSimple() const = 0; // TODO si définir dans common ou classes filles
+    template<typename Func>
+    void forEachVertex(Func f) {
+        for (Vertex* v : _vertices) {
+            f(v);
+        }
+    }
 
-    bool isConnected() const { return false; }
+    template <typename Func>
+    void forEachEdge(Func f) {
+        for (IEdge *e : edgeList()) {
+            f(e);
+        }
+    }
 
-    virtual bool isStronglyConnected() const = 0; // TODO return isConnected() ici et redéfinir dans DiGraph
+    template <typename Func>
+    void forEachAdjacentEdge(Vertex *v, Func f) {
+        for (IEdge* e : _adjacentList.at(v->id())) {
+            f(e);
+        }
+    }
 
-    virtual bool isDirected() const = 0;
+    virtual void print() const override;
 
-    bool isNegativeWeighted() const override;
+    virtual bool isWeighted() const override;
 
-    bool isPlanar() const override;
 
-    virtual IGraph::vertices vertexList() const override ;
-
-    virtual IGraph::edges edgeList() const override ;
-
-    virtual IGraph::edges adjacentEdges(const Vertex* vertex) const override ;
-
-    virtual vector<edges> adjacentList() const override ;
-
-    void ponderateEdges(const double &weight) override;
-
-    void pondeateVertices(const double &weight) override;
-
-    virtual void addEdge(const Edge &e) = 0;
-
-    void addVertex(Vertex &vertex) override;
-
-    virtual void removeEdge(Edge &edge) = 0;
-
-    void removeVertex(Vertex &vertex) override;
-
-    int V() const override { return _vertices.size(); }
-
-    //virtual void accept(const Visitor& v);
+    friend ostream& operator<<(ostream& os, const GraphCommon<T>& g) {
+        for (Vertex *v : g.vertexList()) {
+            os << *v << endl;
+        }
+        for (IEdge* e : g.edgeList()) {
+            os << *(T*)e << endl;
+        }
+        return os;
+    }
 };
 
+
+#include "GraphCommon.cpp"
 
 #endif //GRAPH_GRAPHCOMMON_H

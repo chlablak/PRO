@@ -5,42 +5,55 @@
 #ifndef GRAPH_GRAPH_H
 #define GRAPH_GRAPH_H
 
-
+#include <vector>
 #include "GraphCommon.h"
+#include "Edge.h"
+#include "../../utility/Global.h"
 
-class Graph : public GraphCommon {
-private:
-
+class Graph : public GraphCommon<Edge>
+{
 public:
-
-    /**
-     * Constructors
-     */
     Graph() : GraphCommon() { }
-    Graph(const vector<Vertex> vertices) : GraphCommon(vertices) { }
-    Graph(const vector<Vertex> &vertices, const vector<Edge> &edges)
-            : GraphCommon(vertices, edges) { }
+    Graph(const Graph &g);
+    Graph(vector<Vertex*> &vertices) : GraphCommon(vertices) { }
+    Graph(vector<Vertex*> &vertices, vector<IEdge*> &edges);
 
     ~Graph();
 
-    bool isSimple() const override ;
+    virtual bool isSimple() const override;
 
-    bool isConnected() const override {
-        return true;
+    virtual bool isStronglyConnected() const override;
+
+    virtual bool isDirected() const override;
+
+    virtual void addEdge(IEdge *e) override;
+
+    virtual void removeVertex(Vertex *v) override;
+
+    virtual void removeEdge(IEdge *e) override;
+
+    virtual bool isConnected() const override;
+
+    virtual size_t E() const override;
+
+    virtual GraphCommon<Edge>::Edges edgeList() const override;
+
+    virtual Edge* getEdge(Vertex *either, Vertex *other) const override;
+
+    virtual Graph* clone() const override;
+
+    virtual Graph *emptyClone() const override;
+
+    virtual void assignEdge(IEdge *e);
+
+    template<typename Func>
+    void forEachAdjacentVertex(Vertex *v, Func f) {
+        for(IEdge *e : _adjacentList.at(v->id()) ) {
+            f(e->other(v));
+        }
     }
 
-    bool isStronglyConnected() const override {
-        return false;
-    }
-
-    bool isDirected() const override {
-        return false;
-    }
-
-    void addEdge(const Edge &e) override;
-
-    void removeEdge(Edge &edge) override;
-    //virtual void accept(Visitor* v)
+    virtual void accept(Visitor *v, Vertex *from) override;
 };
 
 

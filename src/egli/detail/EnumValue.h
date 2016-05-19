@@ -11,6 +11,7 @@
 #include <string>
 
 #include "../Type.h"
+#include "../../utility/Optional.h"
 
 // Quick writing
 #define EGLI_DETAIL_TYPES_DEF_ENUMVALUE(E, T) \
@@ -49,13 +50,21 @@ struct EnumValue<const T> :
     EnumValue<T>
 {};
 
+// Remove Optional
+template<typename T>
+struct EnumValue<utility::Optional<T>> :
+    EnumValue<T>
+{};
+
 // Specialize RealType and EnumValue
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Array, Array)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Boolean, bool)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Edge, Edge)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Float, float)
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Float, double) // workaround
 //EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Graph, )
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Integer, int)
+EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Integer, id_type) // workaround
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Number, Number)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(String, std::string)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Vertex, Vertex)

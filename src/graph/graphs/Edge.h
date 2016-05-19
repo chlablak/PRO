@@ -8,117 +8,36 @@
 #include <string>
 #include <iostream>
 #include "Vertex.h"
+#include "IEdge.h"
 
 using namespace std;
 
-class Edge {
-
-protected:
-    int _id;
-    const Vertex *_a;
-    const Vertex *_b;
-    string _label;
-    double _weight;
-    int _minCapacity;
-    int _maxCapacity;
-
-    void deleteItem();
+class Edge : public IEdge
+{
 
 public:
     // Constructors
-    Edge();
-    Edge(const Vertex &from, const Vertex &to)
-            : _id(-1), _a(&from), _b(&to), _label(""), _weight(numeric_limits<double>::max()),
-              _minCapacity(-1), _maxCapacity(-1) { }
+    Edge(Vertex *from, Vertex *to)
+            : IEdge(from, to) { }
 
-    Edge(const Vertex &from, const Vertex &to,
-         const double &weight)
-            : _id(-1), _a(&from), _b(&to), _label(""),
-              _weight(weight),
-              _minCapacity(-1), _maxCapacity(-1) { }
+    Edge(Vertex *from, Vertex *to, const string &label)
+            : IEdge(from, to, label) { }
 
-    Edge(const Vertex &from, const Vertex &to,
-         const string &label)
-            : _id(-1), _a(&from), _b(&to), _label(label),
-              _weight(numeric_limits<double>::max()), _minCapacity(-1), _maxCapacity(-1) { }
+    Edge(Vertex *from, Vertex *to, const string &label, const double w)
+            : IEdge(from, to, label, w) { }
 
-    Edge(const Vertex &from, const Vertex &to,
-         const double &weight,
-         const string &label)
-            : _id(-1), _a(&from), _b(&to), _label(label),
-              _weight(weight), _minCapacity(-1),
-              _maxCapacity(-1) { }
+    Edge(Edge *e) : IEdge(e) {}
 
-    Edge(const Vertex &from, const Vertex &to,
-         const int &maxCapacity)
-            : _id(-1), _a(&from), _b(&to), _label(""), _weight(numeric_limits<double>::max()),
-              _minCapacity(0),
-              _maxCapacity(maxCapacity) { }
+    virtual ~Edge() {}
 
-    Edge(const Vertex &from, const Vertex &to,
-         const int minCapacity, const int &maxCapacity)
-            : _id(-1), _a(&from), _b(&to), _label(""), _weight(numeric_limits<double>::max()),
-              _minCapacity(minCapacity),
-              _maxCapacity(maxCapacity) { }
+    Vertex* either() const;
 
-    Edge(const Vertex &from, const Vertex &to,
-         const double &weight, const int maxCapacity)
-            : _id(-1), _a(&from), _b(&to), _label(""),
-              _weight(weight), _minCapacity(0),
-              _maxCapacity(maxCapacity) { }
+    Vertex* other(Vertex *v) const;
 
-    Edge(const Vertex &from, const Vertex &to,
-         const double &weight,
-         const string &label, const int minCapacity,
-         const int maxCapacity)
-            : _id(-1), _a(&from), _b(&to), _label(label),
-              _weight(weight),
-              _minCapacity(minCapacity),
-              _maxCapacity(maxCapacity) { }
+    virtual Vertex *from() const override;
 
-    Edge(const Edge& e){
-        _id = e._id;
-        _a = new Vertex(*e._a);
-        _b = new Vertex(*e._b);
-        _label = e._label;
-        _weight = e._weight;
-        _maxCapacity = e._maxCapacity;
-        _minCapacity = e._minCapacity;
-    }
+    virtual Vertex *to() const override;
 
-    virtual ~Edge() {
-        deleteItem();
-    }
-
-    // Getters
-    unsigned int id() const;
-
-    string label() const;
-
-    double weight() const;
-
-    int minCapacity() const;
-
-    int maxCapacity() const;
-
-    const Vertex *either() const;
-
-    const Vertex *other(const Vertex &v) const;
-
-    // Setters
-    void setId(const int i);
-    void setLabel(const string &s);
-
-    void setWeight(const double w);
-
-    void setminCapacity(const int minCap);
-
-    void setMaxCapacitiy(const int maxCap);
-
-
-    // opérateurs
-    // TODO
-    bool operator == (const Edge*  e) const;
     friend ostream& operator<<(ostream& os, const Edge& e);
 };
 

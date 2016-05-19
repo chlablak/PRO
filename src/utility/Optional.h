@@ -130,14 +130,6 @@ public:
 
     /*! \brief Get the value contained
      *
-     * \return A reference to the value contained
-     *
-     * \note Unexpected behavior if !hasValue()
-     */
-    value_type &value();
-
-    /*! \brief Get the value contained
-     *
      * \return A constant reference to the value contained
      *
      * \note Unexpected behavior if !hasValue()
@@ -251,12 +243,6 @@ utility::Optional<T> &
         valuePtr = nullptr;
     }
     return *this;
-}
-
-template<typename T>
-typename utility::Optional<T>::value_type &utility::Optional<T>::value()
-{
-    return *valuePtr;
 }
 
 template<typename T>
