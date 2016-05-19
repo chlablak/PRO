@@ -4,8 +4,8 @@
 #include "../../graph/graphs/IEdge.h"
 
 #include "FlowEdgeItem.h"
-#include "Constants.h"
 #include "EdgeItem.h"
+#include "../Constants.h"
 
 FlowEdgeItem::FlowEdgeItem(const IEdge *edge,
                            VertexItem *source, VertexItem *dest)

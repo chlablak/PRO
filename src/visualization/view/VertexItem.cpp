@@ -6,7 +6,7 @@
 
 #include "../../graph/graphs/Vertex.h"
 
-#include "Constants.h"
+#include "../Constants.h"
 #include "VertexItem.h"
 #include "EdgeItem.h"
 

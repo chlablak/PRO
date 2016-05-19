@@ -5,8 +5,8 @@
 #include "../../graph/graphs/IEdge.h"
 
 #include "DiEdgeItem.h"
-#include "Constants.h"
 #include "EdgeItem.h"
+#include "../Constants.h"
 
 DiEdgeItem::DiEdgeItem(const IEdge *edge, VertexItem *source, VertexItem *dest)
     : EdgeItem(edge, source, dest)

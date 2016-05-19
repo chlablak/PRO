@@ -3,8 +3,8 @@
 
 #include "../../graph/graphs/IEdge.h"
 
-#include "Constants.h"
 #include "EdgeItem.h"
+#include "../Constants.h"
 
 EdgeItem::EdgeItem(const IEdge *edge, VertexItem *source, VertexItem *dest)
     : _edge(edge), _sourceItem(source), _destItem(dest)
