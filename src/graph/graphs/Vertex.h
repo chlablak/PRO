@@ -30,7 +30,7 @@ public:
               _maxCapacity(-1) { }
 
     Vertex(const double& weight)
-            : _id(-1), _label(nullptr), _weight(weight),
+            : _id(-1), _label(""), _weight(weight),
               _minCapacity(-1), _maxCapacity(-1) { }
 
     Vertex(const double& weight, const string& label)
