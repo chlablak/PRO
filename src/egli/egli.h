@@ -20,6 +20,7 @@
 #include "Parser.h"
 #include "ProcessingUnit.h"
 #include "Statement.h"
+#include "toString.h"
 #include "Type.h"
 #include "VariableTable.h"
 #include "Vertex.h"

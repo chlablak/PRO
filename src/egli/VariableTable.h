@@ -158,6 +158,15 @@ public:
      */
     std::string nextTemporaryName();
 
+    /*! \brief Get the String representation of a variable
+     *
+     * \param name - The variable name
+     * \return The String representation
+     *
+     * \throw Exception if !exists(name)
+     */
+    detail::RealType<Type::String>::type toString(name_t name) const;
+
 private:
 
     // Easy writing

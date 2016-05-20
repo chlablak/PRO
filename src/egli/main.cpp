@@ -60,35 +60,8 @@ ostream &operator<<(ostream &os, egli::VariableTable const &v)
 {
     for (auto it : v.find("")) {
         os << it << "(";
-        switch (v.typeOf(it)) {
-            case egli::Type::Array:
-                os << "Array, value=" << egli::detail::builtins::toString_a(v.get<egli::Array>(it));
-                break;
-            case egli::Type::Boolean:
-                os << "Boolean, value=" << egli::detail::builtins::toString_b(v.get<bool>(it));
-                break;
-            case egli::Type::Edge:
-                os << "Edge, value=" << egli::detail::builtins::toString_e(v.get<egli::Edge>(it));
-                break;
-            case egli::Type::Float:
-                os << "Float, value=" << egli::detail::builtins::toString_f(v.get<float>(it));
-                break;
-            case egli::Type::Graph:
-                os << "Graph, value=" << egli::detail::builtins::toString_g(v.get<egli::GraphWrapper>(it));
-                break;
-            case egli::Type::Integer:
-                os << "Integer, value=" << egli::detail::builtins::toString_i(v.get<int>(it));
-                break;
-            case egli::Type::Number:
-                os << "Number, value=" << egli::detail::builtins::toString_n(v.get<egli::Number>(it));
-                break;
-            case egli::Type::String:
-                os << "String, value=" << egli::detail::builtins::toString_s(v.get<string>(it));
-                break;
-            case egli::Type::Vertex:
-                os << "Vertex, value=" << egli::detail::builtins::toString_v(v.get<egli::Vertex>(it));
-                break;
-        }
+        os << egli::toString(v.typeOf(it));
+        os << ", value=" << v.toString(it);
         os << ")" << endl;
     }
     return os;
