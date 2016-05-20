@@ -9,34 +9,32 @@
 #include <iostream>
 #include "Vertex.h"
 #include "IEdge.h"
+#include "EdgeCommon.h"
 
 using namespace std;
 
-class Edge : public IEdge
+class Edge : public EdgeCommon
 {
 
 public:
     // Constructors
     Edge(Vertex *from, Vertex *to)
-            : IEdge(from, to) { }
-
+            : EdgeCommon(from, to) { }
     Edge(Vertex *from, Vertex *to, const string &label)
-            : IEdge(from, to, label) { }
+            : EdgeCommon(from, to, label) { }
+    Edge(Vertex *from, Vertex *to, const double weight)
+            : EdgeCommon(from, to, weight) { }
+    Edge(Vertex *from, Vertex *to, const string &label, const double weight)
+            : EdgeCommon(from, to, label, weight) { }
 
-    Edge(Vertex *from, Vertex *to, const string &label, const double w)
-            : IEdge(from, to, label, w) { }
-
-    Edge(Edge *e) : IEdge(e) {}
+    Edge(const Edge &e) : EdgeCommon(e) { }
 
     virtual ~Edge() {}
 
     Vertex* either() const;
-
     Vertex* other(Vertex *v) const;
+    string toString() const;
 
-    virtual Vertex *from() const override;
-
-    virtual Vertex *to() const override;
 
     friend ostream& operator<<(ostream& os, const Edge& e);
 };

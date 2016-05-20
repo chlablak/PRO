@@ -75,18 +75,12 @@ public:
 
     virtual bool isWeighted() const override;
 
+    virtual string toString() const override;
 
     friend ostream& operator<<(ostream& os, const GraphCommon<T>& g) {
-        for (Vertex *v : g.vertexList()) {
-            os << *v << endl;
-        }
-        for (IEdge* e : g.edgeList()) {
-            os << *(T*)e << endl;
-        }
-        return os;
+        return os << g.toString();
     }
 };
-
 
 #include "GraphCommon.cpp"
 

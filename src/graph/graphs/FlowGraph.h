@@ -11,7 +11,11 @@
 class FlowGraph : public DiGraph
 {
 public:
+    // TODO constructeurs
 
+    virtual IGraph::Edges getEdges(Vertex *v1, Vertex *v2) const override;
+
+    virtual IGraph *emptyClone() const override;
 };
 
 

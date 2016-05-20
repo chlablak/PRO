@@ -44,14 +44,15 @@ public:
 
     virtual Graph *emptyClone() const override;
 
-    virtual void assignEdge(IEdge *e);
+    virtual void assignEdge(IEdge *ie);
 
     virtual IEdge *createEdge(Vertex *v, Vertex *w) const override;
 
 
     template<typename Func>
     void forEachAdjacentVertex(Vertex *v, Func f) {
-        for(IEdge *e : _adjacentList.at(v->id()) ) {
+        for(IEdge *ie : _adjacentList.at(v->id()) ) {
+            Edge *e = (Edge *)ie;
             f(e->other(v));
         }
     }

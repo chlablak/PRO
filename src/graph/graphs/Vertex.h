@@ -8,6 +8,7 @@
 #include <list>
 #include <limits>
 #include <iostream>
+#include "../../utility/Global.h"
 
 using namespace std;
 
@@ -59,6 +60,8 @@ public:
     Vertex(const Vertex &v);
 
     ~Vertex() { }
+
+    string toString() const;
 
     // Getters
     int id() const;

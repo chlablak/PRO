@@ -4,12 +4,6 @@
 
 #include "DiGraph.h"
 
-// TODO patrick
-
-DiGraph::DiGraph(vector<Vertex*> &vertices, vector<DiEdge*> &edges) : GraphCommon(vertices) {
-    // TODO edges
-}
-
 DiGraph::DiGraph(const DiGraph &dg) {
     // TODO
 }
@@ -50,18 +44,22 @@ size_t DiGraph::E() const {
     return 0;
 }
 
-DiGraph::~DiGraph() {
-    for (IEdge *e : edgeList()) {
-        delete e;
+IGraph::Edges DiGraph::getEdges(Vertex *v1, Vertex *v2) const {
+    std::list<IEdge*> edges;
+    for (IEdge *e : this->_adjacentList.at(v1->id())) {
+        if (((DiEdge*)e)->to() == v2) {
+            edges.push_back((DiEdge*)e);
+        }
     }
-}
-
-list<IEdge*> DiGraph::getEdges(Vertex *v1, Vertex *v2) const {
-    // TODO
+    return edges;
 }
 
 IGraph *DiGraph::emptyClone() const {
-    return nullptr;
+    DiGraph *g = new DiGraph;
+    g->_vertices.resize(this->V());
+    g->_adjacentList.resize(this->V());
+    g->_edgeId = this->E();
+    return g;
 }
 
 void DiGraph::assignEdge(IEdge *e) {
@@ -75,15 +73,3 @@ void DiGraph::accept(Visitor *v, Vertex *from) {
 IEdge *DiGraph::createEdge(Vertex *v, Vertex *w) const {
     return new DiEdge(v, w);
 }
-
-
-
-
-
-
-
-
-
-
-
-

@@ -7,18 +7,23 @@
 
 #include "GraphCommon.h"
 #include "DiEdge.h"
+#include "DiGraphCommon.h"
 
-class DiGraph : public GraphCommon<DiEdge>
+class DiGraph : public DiGraphCommon<DiEdge>
 {
 
 public:
 
-    DiGraph() : GraphCommon() { }
-    DiGraph(vector<Vertex*> &vertices, vector<DiEdge*> &edges);
+    DiGraph() : DiGraphCommon() { }
+
+    DiGraph(vector<Vertex *> &vertices) : DiGraphCommon(vertices) { }
+
+    DiGraph(vector<Vertex*> &vertices, vector<DiEdge*> &edges)
+            : DiGraphCommon(vertices, edges) { }
 
     DiGraph(const DiGraph& dg);
 
-    ~DiGraph();
+    virtual ~DiGraph() { }
 
     virtual bool isSimple() const override;
 

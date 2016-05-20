@@ -15,7 +15,7 @@ public:
     typedef list<IEdge*> Edges;
     typedef list<Vertex*> Vertices;
 
-    virtual ~IGraph() {}
+    virtual ~IGraph() { }
 
     /*! \brief A graph is null if there isn't any vertex
      *
@@ -52,12 +52,17 @@ public:
     virtual IGraph* clone() const = 0;
     virtual IGraph* emptyClone() const = 0;
     virtual void assignVertex(Vertex *v) = 0;
-    virtual void assignEdge(IEdge *e) = 0;
+    virtual void assignEdge(IEdge *ie) = 0;
     virtual void print() const = 0;
     virtual Vertex *createVertex() const = 0;
     virtual IEdge *createEdge(Vertex *v, Vertex *w) const = 0;
+    virtual string toString() const = 0;
 
     virtual void accept(Visitor *v, Vertex *from) = 0;
+
+    friend ostream& operator<<(ostream& os, const IGraph& ig) {
+        return os << ig.toString();
+    }
 };
 
 

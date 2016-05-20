@@ -196,5 +196,17 @@ Vertex *GraphCommon<T>::createVertex() const {
     return new Vertex;
 }
 
+template <typename T>
+string GraphCommon<T>::toString() const {
+    string s;
+    for (Vertex *v : vertexList()) {
+        s.append(v->toString() + "\n");
+    }
+    for (IEdge* e : edgeList()) {
+        s.append(e->toString() + "\n");
+    }
+    return s;
+}
+
 
 #endif

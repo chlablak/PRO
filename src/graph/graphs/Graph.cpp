@@ -13,7 +13,7 @@ Graph::Graph(const Graph &g) : GraphCommon(g) {
     }
     for (IEdge *ie : g.edgeList()) {
         Edge *e = (Edge*)ie;
-        Edge *copy = new Edge(e);
+        Edge *copy = new Edge(*e);
         copy->setA(_vertices.at(e->vertexA()->id()));
         copy->setB(_vertices.at(e->vertexB()->id()));
         assignEdge(copy);
@@ -40,7 +40,8 @@ bool Graph::isSimple() const {
     bool first;
     for(list<IEdge*>::const_iterator edgeIt = edges.begin(); edgeIt != edges.end(); ++edgeIt){
         // check if the graph doesn't content a cycle
-        if( (*edgeIt)->either()->operator==((*edgeIt)->other((*edgeIt)->either())))
+        Edge *e = (Edge*)*edgeIt;
+        if( e->either()->operator==(e->other(e->either())))
             return false;
         first = true;
         for(list<IEdge*>::const_iterator edgeIt2 = edgeIt; edgeIt2 != edges.end(); ++edgeIt2){
@@ -49,9 +50,10 @@ bool Graph::isSimple() const {
                 first = false;
                 continue;
             }
+            Edge *e2 = (Edge*)*edgeIt2;
             // check that the graph doesn't content a parallel edge or cycle
-            if((((*edgeIt)->either()->operator==((*edgeIt2)->either()))) &&
-                ((*edgeIt)->other((*edgeIt)->either())->operator==((*edgeIt2)->other((*edgeIt2)->either()))))
+            if(((e2->either()->operator==(e2->either()))) &&
+                (e2->other(e2->either())->operator==(e2->other(e2->either()))))
                 return false;
         }
     }
@@ -73,8 +75,9 @@ void Graph::addEdge(IEdge *e) {
  * remove the Edge from the graph
  */
 void Graph::removeEdge(IEdge *e) {
-    _adjacentList.at(e->either()->id()).remove(e);
-    _adjacentList.at(e->other(e->either())->id()).remove(e);
+    Edge *edge = (Edge*)e;
+    _adjacentList.at(edge->either()->id()).remove(e);
+    _adjacentList.at(edge->other(edge->either())->id()).remove(e);
 
     // Reset edge ids
     resetEdgeId();
@@ -168,9 +171,10 @@ GraphCommon<Edge>::Edges Graph::edgeList() const {
 
 list<IEdge*> Graph::getEdges(Vertex *either, Vertex *other) const {
     std::list<IEdge*> edges;
-    for (IEdge *e : _adjacentList.at(either->id())) {
+    for (IEdge *ie : _adjacentList.at(either->id())) {
+        Edge *e = (Edge*)ie;
         if (e->other(either) == other) {
-            edges.push_back((Edge*)e);
+            edges.push_back(e);
         }
     }
     return edges;
@@ -180,7 +184,8 @@ Graph* Graph::clone() const {
     return new Graph(*this);
 }
 
-void Graph::assignEdge(IEdge *e) {
+void Graph::assignEdge(IEdge *ie) {
+    Edge *e = (Edge*)ie;
     _adjacentList.at(e->either()->id()).push_back(e);
     if (e->either() != e->other(e->either())) {
         _adjacentList.at(e->other(e->either())->id()).push_back(e);
