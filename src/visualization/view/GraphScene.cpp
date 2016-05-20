@@ -9,8 +9,8 @@
 #include "../../graph/graphs/IEdge.h"
 
 #include "GraphScene.h"
-#include "view/EdgeItem.h"
-#include "view/VertexItem.h"
+#include "EdgeItem.h"
+#include "VertexItem.h"
 #include "AbstractGraphItemFactory.h"
 #include "GraphItemFactory.h"
 #include "DiGraphItemFactory.h"

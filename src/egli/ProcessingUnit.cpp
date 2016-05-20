@@ -240,10 +240,10 @@ void egli::ProcessingUnit::processArray(Statement &statement,
                     tmp.add(variables.get<detail::RealType<Type::Float>::type>(
                         param.value));
                     break;
-                /*case Type::Graph:
+                case Type::Graph:
                     tmp.add(variables.get<detail::RealType<Type::Graph>::type>(
                         param.value));
-                    break;*/
+                    break;
                 case Type::Number:
                     tmp.add(variables.get<detail::RealType<Type::Number>::type>(
                         param.value));
@@ -286,10 +286,10 @@ void egli::ProcessingUnit::processArray(Statement &statement,
                 statement.transformToVariable(variables.setTemporary(
                     tmp.get<detail::RealType<Type::Float>::type>(index)));
                 break;
-            /*case Type::Graph:
+            case Type::Graph:
                 statement.transformToVariable(variables.setTemporary(
                     tmp.get<detail::RealType<Type::Graph>::type>(index)));
-                break;*/
+                break;
             case Type::Number:
                 statement.transformToVariable(variables.setTemporary(
                     tmp.get<detail::RealType<Type::Number>::type>(index)));

@@ -4,6 +4,13 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QFileDialog>
+#include "graphwindow.h"
+
+
+#include "../visualization/GraphWidget.h"
+#include "../visualization/GraphExporter.h"
+
+#include "../graph/Includes.h"
 
 /*
  *
@@ -35,10 +42,30 @@ void Console::keyPressEvent(QKeyEvent *event) {
 
         if( event->key() == Qt::Key_Escape)
         {
+            Vertex *v1 = new Vertex("Vertex 1");
+            Vertex *v2 = new Vertex("Vertex 2");
+            Vertex *v3 = new Vertex("Vertex 3");
+            Vertex *v4 = new Vertex("Vertex 4");
+
+            IEdge *e1 = new Edge(v1, v2, "Edge 1", 3.2);
+            IEdge *e2 = new Edge(v1, v4, "Edge 2", 1.0);
+            IEdge *e3 = new Edge(v4, v2, "Edge 1", 5.0);
+
+            vector<Vertex *> vectices = { v1, v2, v3, v4 };
+            vector<IEdge *> edges = { e1, e2, e3 };
+
+            IGraph *graph = new Graph(vectices, edges);
+
+
+            GraphWindow *g = new GraphWindow(this, graph);
+
+            g->show();
+
 /*
             dialogString* d = new dialogString(this, "Enter a name", "Validate");
             d->setModal(true);
             d->show();*/
+
 
             if(currentCommand != commandHistory.end())
             {
