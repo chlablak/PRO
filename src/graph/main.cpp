@@ -44,6 +44,11 @@ int main() {
     assert(e1 <= e2);
     assert(g1.isNegativeWeighted() == 0);
 
+    // Test createEdge
+    IEdge *gg = g1.createEdge(new Vertex, new Vertex);
+    cout << *gg << endl;
+
+
     // Test clone()
     cout << "Test clone de g1" << endl;
     IGraph *g1Clone = g1.clone();

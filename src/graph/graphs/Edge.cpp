@@ -24,6 +24,6 @@ Vertex *Edge::to() const {
 // TODO surcharger l'op == pour les vertex
 
 ostream &operator<<(ostream &os, const Edge &e) {
-    return os << "(EDGE) " << static_cast<const IEdge&>(e);
+    return os << "(EDGE) " << *dynamic_cast<const IEdge*>(&e);
 }
 

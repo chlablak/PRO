@@ -46,6 +46,9 @@ public:
 
     virtual void assignEdge(IEdge *e);
 
+    virtual IEdge *createEdge(Vertex *v, Vertex *w) const override;
+
+
     template<typename Func>
     void forEachAdjacentVertex(Vertex *v, Func f) {
         for(IEdge *e : _adjacentList.at(v->id()) ) {

@@ -48,8 +48,11 @@ public:
 
     virtual void accept(Visitor *v, Vertex *from) override;
 
-
     virtual size_t E() const override;
+
+    virtual IEdge *createEdge(Vertex *v, Vertex *w) const override;
+
+
 };
 
 

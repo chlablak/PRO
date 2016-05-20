@@ -7,11 +7,11 @@
 // TODO patrick
 
 DiGraph::DiGraph(vector<Vertex*> &vertices, vector<DiEdge*> &edges) : GraphCommon(vertices) {
-
+    // TODO edges
 }
 
 DiGraph::DiGraph(const DiGraph &dg) {
-
+    // TODO
 }
 
 bool DiGraph::isSimple() const {
@@ -43,7 +43,7 @@ void DiGraph::removeEdge(IEdge *e) {
 }
 
 void DiGraph::removeVertex(Vertex *v) {
-
+    // TODO
 }
 
 size_t DiGraph::E() const {
@@ -57,7 +57,7 @@ DiGraph::~DiGraph() {
 }
 
 list<IEdge*> DiGraph::getEdges(Vertex *v1, Vertex *v2) const {
-    //
+    // TODO
 }
 
 IGraph *DiGraph::emptyClone() const {
@@ -65,12 +65,18 @@ IGraph *DiGraph::emptyClone() const {
 }
 
 void DiGraph::assignEdge(IEdge *e) {
-
+    // TODO
 }
 
 void DiGraph::accept(Visitor *v, Vertex *from) {
-
+    v->visit(this, from);
 }
+
+IEdge *DiGraph::createEdge(Vertex *v, Vertex *w) const {
+    return new DiEdge(v, w);
+}
+
+
 
 
 

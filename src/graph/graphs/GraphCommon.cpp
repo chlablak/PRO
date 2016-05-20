@@ -191,4 +191,10 @@ void GraphCommon<T>::print() const {
     cout << *this << endl;
 }
 
+template <typename T>
+Vertex *GraphCommon<T>::createVertex() const {
+    return new Vertex;
+}
+
+
 #endif
