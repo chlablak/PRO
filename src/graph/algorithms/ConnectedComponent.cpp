@@ -11,6 +11,8 @@ ConnectedComponent::~ConnectedComponent() {
 }
 
 void ConnectedComponent::visit(Graph *g, Vertex *from = nullptr) {
+    UNUSED(from);
+
     _cc.assign(g->V(), 0);
     int N = 0;
     g->forEachVertex([&g, &N, this](Vertex *v){
@@ -35,11 +37,13 @@ void ConnectedComponent::visit(Graph *g, Vertex *from = nullptr) {
 }
 
 void ConnectedComponent::visit(DiGraph *g, Vertex *from) {
-
+    UNUSED(g);
+    UNUSED(from);
 }
 
 void ConnectedComponent::visit(FlowGraph *g, Vertex *from) {
-
+    UNUSED(g);
+    UNUSED(from);
 }
 
 IGraph *ConnectedComponent::G() const {

@@ -199,6 +199,12 @@ Graph *Graph::emptyClone() const {
     return g;
 }
 
+IEdge *Graph::createEdge(Vertex *v, Vertex *w) const {
+    return new Edge(v, w);
+}
+
+
+
 
 
 

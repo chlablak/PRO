@@ -54,6 +54,8 @@ public:
     virtual void assignVertex(Vertex *v) = 0;
     virtual void assignEdge(IEdge *e) = 0;
     virtual void print() const = 0;
+    virtual Vertex *createVertex() const = 0;
+    virtual IEdge *createEdge(Vertex *v, Vertex *w) const = 0;
 
     virtual void accept(Visitor *v, Vertex *from) = 0;
 };

@@ -37,4 +37,3 @@ IGraph *Dijkstra::G() const {
 std::vector<int> &Dijkstra::table() {
     throw std::runtime_error("no table in Dijkstra");
 }
-

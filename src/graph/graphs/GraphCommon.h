@@ -47,6 +47,8 @@ public:
     void addVertex(Vertex *vertex);
     size_t V() const;
     void assignVertex(Vertex *v);
+    virtual Vertex *createVertex() const override;
+
 
     template<typename Func>
     void forEachVertex(Func f) {
