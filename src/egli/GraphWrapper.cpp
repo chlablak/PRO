@@ -78,7 +78,7 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Vertex>::cref vertex)
     if (graph()->V() > vertex.id)   // update
         v = getVertexById(vertex.id);
     else {                          // new
-        v = new vertex_t;
+        v = graph()->createVertex();
         graph()->addVertex(v);
     }
 
@@ -114,10 +114,25 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
 
     // Create or reach the Edge to create/modify
     iedge_ptr_t e = nullptr;
-    // ...
+    if (edge.id.hasValue() && edge.id.value() < edges.size()) {
+        auto it = edges.begin();
+        for (size_t i = 0; i < edge.id.value(); ++i)
+            ++it;
+        e = *it;
+    } else {
+        e = graph()->createEdge(v, w);
+        graph()->addEdge(e);
+    }
 
     // Set the Edge informations
-    // ...
+    if (edge.weight.hasValue())
+        e->setWeight(edge.weight.value());
+    if (edge.label.hasValue())
+        e->setLabel(edge.label.value());
+    if (edge.maxCapacity.hasValue())
+        dynamic_cast<FlowEdge*>(e)->setMaxCapacity(edge.maxCapacity.value());
+    if (edge.minCapacity.hasValue())
+        dynamic_cast<FlowEdge*>(e)->setMinCapacity(edge.minCapacity.value());
 }
 
 void egli::GraphWrapper::erase(detail::RealType<Type::Array>::cref infos)
