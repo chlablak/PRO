@@ -60,7 +60,9 @@ string EdgeCommon::toString() const {
     s.append(vertexA()->label());
     s.append("(");
     s.append(patch::to_string(vertexA()->id()));
-    s.append(") -- (");
+    s.append(") ");
+    s.append(edgeStyle());
+    s.append(" (");
     s.append(patch::to_string(vertexB()->id()));
     s.append(")");
     s.append(vertexB()->label());

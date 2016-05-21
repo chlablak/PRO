@@ -10,14 +10,11 @@
 
 class IEdge
 {
-
+protected:
+    virtual string edgeStyle() const = 0;
 public:
     virtual ~IEdge() {}
 
-//    virtual Vertex* either() const = 0;
-//    virtual Vertex* other(Vertex *v) const = 0;
-//    virtual Vertex *from() const = 0;
-//    virtual Vertex *to() const = 0;
     virtual string toString() const = 0;
 
     // Getterss

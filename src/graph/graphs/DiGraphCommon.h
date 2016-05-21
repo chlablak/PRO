@@ -10,17 +10,14 @@
 #include "GraphCommon.h"
 #include "DiEdgeCommon.h"
 
-template <typename T> // cant be either DiEdge or FlowEdge
+template <typename T> // can be either DiEdge or FlowEdge
 class DiGraphCommon : public GraphCommon<T> {
-
-private:
-    void assignDiEdge(T *e);
-
 public:
     DiGraphCommon() : GraphCommon<T>::GraphCommon() { }
-    DiGraphCommon(vector<Vertex*> &vertices, vector<T*> &edges): GraphCommon<T>::GraphCommon(vertices) {
-        for(T* diEdge: edges) {
-            addEdge(diEdge);
+    DiGraphCommon(vector<Vertex*> &vertices, vector<IEdge*> &edges): GraphCommon<T>::GraphCommon(vertices) {
+        for(IEdge* ie: edges) {
+            T *e = (T*)ie;
+            addEdge(e);
         }
     }
     DiGraphCommon(vector<Vertex *> &vertices): GraphCommon<T>::GraphCommon(vertices) {}
@@ -40,9 +37,9 @@ public:
 
     virtual void addEdge(IEdge *e) override;
 
-    virtual void removeEdge(IEdge *e) override;
-
     virtual void removeVertex(Vertex *v) override;
+
+    virtual void removeEdge(IEdge *e) override;
 
     virtual size_t E() const override;
 

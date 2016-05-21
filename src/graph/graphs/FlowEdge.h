@@ -15,7 +15,8 @@ private :
 
 public:
     // Constructors
-    FlowEdge(Vertex *from, Vertex *to) : DiEdgeCommon(from, to) { }
+    FlowEdge(Vertex *from, Vertex *to)
+            : DiEdgeCommon(from, to), _minCapacity(-1), _maxCapacity(-1) { }
 
     FlowEdge(Vertex *from, Vertex *to, const string& label)
             : DiEdgeCommon(from, to, label) { }
@@ -24,19 +25,19 @@ public:
             : DiEdgeCommon(from, to, weight) { }
 
     FlowEdge(Vertex *from, Vertex *to, const int maxCapacity)
-            : DiEdgeCommon(from, to), _minCapacity(-1), _maxCapacity(maxCapacity) { }
+            : DiEdgeCommon(from, to), _minCapacity(0), _maxCapacity(maxCapacity) { }
 
     FlowEdge(Vertex *from, Vertex *to, const string &label, const int &maxCapacity)
-            : DiEdgeCommon(from, to, label), _minCapacity(-1), _maxCapacity(maxCapacity) { }
+            : DiEdgeCommon(from, to, label), _minCapacity(0), _maxCapacity(maxCapacity) { }
 
     FlowEdge(Vertex *from, Vertex *to, const string &label, const double weight)
             : DiEdgeCommon(from, to, label, weight), _minCapacity(-1), _maxCapacity(-1) { }
 
     FlowEdge(Vertex *from, Vertex *to, const double weight ,const int &maxCapacity)
-            : DiEdgeCommon(from, to, weight), _minCapacity(-1), _maxCapacity(maxCapacity) { }
+            : DiEdgeCommon(from, to, weight), _minCapacity(0), _maxCapacity(maxCapacity) { }
 
     FlowEdge(Vertex *from, Vertex *to, const string &label, const double weight, const int &maxCapacity)
-            : DiEdgeCommon(from, to, label, weight), _minCapacity(-1), _maxCapacity(maxCapacity) { }
+            : DiEdgeCommon(from, to, label, weight), _minCapacity(0), _maxCapacity(maxCapacity) { }
 
     FlowEdge(Vertex *from, Vertex *to, const int &minCapacity, const int &maxCapacity)
             : DiEdgeCommon(from, to), _minCapacity(minCapacity), _maxCapacity(maxCapacity) { }
@@ -51,6 +52,8 @@ public:
             : DiEdgeCommon(from, to, label, weight), _minCapacity(minCapacity), _maxCapacity(maxCapacity) { }
 
     FlowEdge(const FlowEdge& e);
+
+    string toString() const;
 
     // Getters
     int minCapacity() const;

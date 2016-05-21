@@ -25,6 +25,8 @@ public:
 
     DiEdge(const DiEdge& e) : DiEdgeCommon(e) { }
 
+    string toString() const;
+
     virtual ~DiEdge() {}
 };
 

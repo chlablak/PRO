@@ -15,7 +15,8 @@ using namespace std;
 
 class Edge : public EdgeCommon
 {
-
+protected:
+    virtual string edgeStyle() const override;
 public:
     // Constructors
     Edge(Vertex *from, Vertex *to)
@@ -34,7 +35,6 @@ public:
     Vertex* either() const;
     Vertex* other(Vertex *v) const;
     string toString() const;
-
 
     friend ostream& operator<<(ostream& os, const Edge& e);
 };

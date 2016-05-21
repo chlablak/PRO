@@ -5,11 +5,12 @@
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Prim.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Kruskal.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Prim.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToDiGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/GraphAlgorithm.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Dijkstra.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToDiGraph.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/Visitor.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/ConnectedComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToFlowGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.h" isTestSource="false" />
@@ -18,7 +19,6 @@
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Kruskal.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/GraphAlgorithm.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/Visitor.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToFlowGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Dijkstra.h" isTestSource="false" />
@@ -27,6 +27,8 @@
       <sourceFolder url="file://$MODULE_DIR$/algorithms/UnionFind.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/TestGraph.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/TestDiGraph.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/TestFlowGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/includes.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.cpp" isTestSource="false" />

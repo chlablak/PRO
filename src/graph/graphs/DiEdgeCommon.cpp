@@ -11,3 +11,8 @@ Vertex* DiEdgeCommon::from() const {
 Vertex* DiEdgeCommon::to() const {
     return _b;
 }
+
+string DiEdgeCommon::edgeStyle() const {
+    return "->";
+}
+

@@ -3,3 +3,10 @@
 //
 
 #include "DiEdge.h"
+
+string DiEdge::toString() const {
+    string s = "(DI EDGE) ";
+    s.append(EdgeCommon::toString());
+    return s;
+}
+

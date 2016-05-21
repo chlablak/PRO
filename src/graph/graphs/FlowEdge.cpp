@@ -25,3 +25,15 @@ FlowEdge::FlowEdge(const FlowEdge &e) : DiEdgeCommon(e) {
     _maxCapacity = e._maxCapacity;
 }
 
+string FlowEdge::toString() const {
+    string s = "(FLOW EDGE) ";
+    s.append(EdgeCommon::toString());
+    s.append(", min cap: ");
+    s.append(patch::to_string(minCapacity()));
+    s.append(", max cap: ");
+    s.append(patch::to_string(maxCapacity()));
+    return s;
+}
+
+
+

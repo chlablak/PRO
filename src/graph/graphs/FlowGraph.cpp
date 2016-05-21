@@ -5,16 +5,6 @@
 #include "FlowGraph.h"
 #include "FlowEdge.h"
 
-IGraph::Edges FlowGraph::getEdges(Vertex *v1, Vertex *v2) const {
-    std::list<IEdge*> edges;
-    for (IEdge *e : this->_adjacentList.at(v1->id())) {
-        if (((FlowEdge*)e)->to() == v2) {
-            edges.push_back((FlowEdge*)e);
-        }
-    }
-    return edges;
-}
-
 IGraph *FlowGraph::emptyClone() const {
     FlowGraph *g = new FlowGraph;
     g->_vertices.resize(this->V());
@@ -22,3 +12,24 @@ IGraph *FlowGraph::emptyClone() const {
     g->_edgeId = this->E();
     return g;
 }
+
+FlowGraph::FlowGraph(const FlowGraph &fg) : DiGraphCommon(fg) { }
+
+FlowGraph *FlowGraph::clone() const {
+    return new FlowGraph(*this);
+}
+
+void FlowGraph::accept(Visitor *v, Vertex *from) {
+    v->visit(this, from);
+}
+
+IEdge *FlowGraph::createEdge(Vertex *v, Vertex *w) const {
+    return new FlowEdge(v, w);
+}
+
+
+
+
+
+
+

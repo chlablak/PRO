@@ -9,6 +9,9 @@
 
 class DiEdgeCommon : public EdgeCommon
 {
+protected:
+    virtual string edgeStyle() const override;
+
 public:
     // Constructors
     DiEdgeCommon(Vertex *from, Vertex *to)

@@ -22,17 +22,74 @@ public:
      * \return true if the graph is null
      */
     virtual bool isNull() const = 0;
+
+    /*! \brief A graph is empty if it doesn't contain any edge
+     *
+     * \return true is the graph is empty
+     */
     virtual bool isEmpty() const = 0;
+
+    /*! \brief A graph is weighted if all of his edges have a weight
+     *
+     * \return true if the graph is weighted
+     */
     virtual bool isWeighted() const = 0;
+
+    /*! \brief A graph is negative weighted is at least one of his edges has
+     *  a negative weight.
+     *
+     * \return true if the graph is weighted
+     */
     virtual bool isNegativeWeighted() const = 0;
+
+    /*! \brief A graph is planar if it can be draw on a plan without having his
+     *  edges crossing
+     *
+     * \return true if the graph is planar
+     */
     virtual bool isPlanar() const = 0;
+
+    /*! \brief A graph is simple if it doesn't have loop edges or parallel edges
+     *
+     * \return true if the graph is simple
+     */
     virtual bool isSimple() const = 0;
+
+    /*! \brief A graph is connected if all of his edges can be reached from
+     *  any vertex of the graph
+     *
+     * \return true if the graph is connected
+     */
     virtual bool isConnected() const = 0;
+
+    /*! \brief A directed graph is strongly connected if all of his edges can
+     *  be reached from any vertex of the graph
+     *
+     * \return true if the graph is strongly connected
+     */
     virtual bool isStronglyConnected() const = 0;
+
+    /*! \brief A graph is directed if his edges are directed.
+     *
+     * \return true if the graph is directed
+     */
     virtual bool isDirected() const = 0;
 
+    /*! \return the list of vertices of the graph
+     */
     virtual Vertices vertexList() const = 0;
+
+    /*! \return the list of edges of the graph
+     */
     virtual Edges edgeList() const = 0;
+
+    /*!
+     * \param v - The vertex from which to get the adjacent edges
+     *
+     * \return the adjacent edges from the vertex passed in parameter
+     *
+     * \note For directed graphs, it returns the outer directed edges only
+     */
     virtual Edges adjacentEdges(const Vertex* v) const = 0;
     virtual vector<Edges> adjacentList() const = 0;
     virtual void ponderateEdges(const double w) = 0;
@@ -55,6 +112,17 @@ public:
     virtual void assignEdge(IEdge *ie) = 0;
     virtual void print() const = 0;
     virtual Vertex *createVertex() const = 0;
+
+    /*! \brief Create a specific edge depending on the type of the graph.
+     *  For example, when this method is called on a Graph it returns an Edge,
+     *  on a DiGraph it returns a DiEdge, and on a FlowGraph a FlowEdge.
+     *
+     * \param v - a Vertex
+     * \param w - another Vertex (or it can be even the same as v)
+     * \return the specific edge created seen as an IEdge
+     *
+     * \note Neither the vertices nor the Edge created will be added to this graph.
+     */
     virtual IEdge *createEdge(Vertex *v, Vertex *w) const = 0;
     virtual string toString() const = 0;
 

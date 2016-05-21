@@ -19,3 +19,8 @@ string Edge::toString() const {
 ostream &operator<<(ostream &os, const Edge &e) {
     return os << e.toString();
 }
+
+string Edge::edgeStyle() const {
+    return "--";
+}
+

@@ -7,6 +7,7 @@
 #include "../graphs/Graph.h"
 #include "../graphs/FlowGraph.h"
 #include "../graphs/FlowEdge.h"
+#include "../graphs/DiGraph.h"
 
 
 void CopyToFlowGraph::visit(Graph *g, Vertex *from) {

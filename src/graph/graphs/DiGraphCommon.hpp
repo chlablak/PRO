@@ -5,16 +5,16 @@
 #include "DiGraphCommon.h"
 
 template<typename T>
-DiGraphCommon<T>::DiGraphCommon(const DiGraphCommon &g) {
+DiGraphCommon<T>::DiGraphCommon(const DiGraphCommon &g) : GraphCommon<T>::GraphCommon(g) {
     for (Vertex *v : g.vertexList()) {
         this->_vertices.at(v->id()) = new Vertex(*v);
     }
     for (IEdge *ie : g.edgeList()) {
         T *e = (T*)ie;
-        T *copy = new T(e);
+        T *copy = new T(*e);
         copy->setA(this->_vertices.at(e->vertexA()->id()));
         copy->setB(this->_vertices.at(e->vertexB()->id()));
-        assignDiEdge(copy);
+        assignEdge(copy);
     }
 }
 
@@ -55,11 +55,6 @@ bool DiGraphCommon<T>::isSimple() const {
 }
 
 template<typename T>
-void DiGraphCommon<T>::assignDiEdge(T *e) {
-    this->_adjacentList.at(e->from()->id()).push_back(e);
-}
-
-template<typename T>
 bool DiGraphCommon<T>::isConnected() const {
     // TODO
     return false;
@@ -90,23 +85,42 @@ typename IGraph::Edges DiGraphCommon<T>::edgeList() const {
 template<typename T>
 void DiGraphCommon<T>::addEdge(IEdge *e) {
     e->setId(this->_edgeId++);
-    assignDiEdge((T*)e);
+    assignEdge((T*)e);
+}
+template<typename T>
+void DiGraphCommon<T>::removeVertex(Vertex *v) {
+    Vertex *otherVertex;
+    // First remove the concerned edges from the adjacent List
+    for (IEdge* ie : this->_adjacentList.at(v->id())) {
+        T *e = (T*)ie;
+        if (e->from() == v) {
+            otherVertex = e->to();
+        } else {
+            otherVertex = e->from();
+        }
+
+        // Remove edge in that other vertex
+        this->_adjacentList.at(otherVertex->id()).remove(e);
+
+        // Remove edge in this vertex
+        this->_adjacentList.at(v->id()).remove(e);
+    }
+
+    this->_adjacentList.erase(this->_adjacentList.begin() + v->id());
+
+    for (vector<Vertex*>::iterator it = this->_vertices.begin() + v->id() + 1; it != this->_vertices.end(); it++) {
+        (*it)->setId( (*it)->id() - 1 );
+    }
+    this->_vertices.erase(this->_vertices.begin() + v->id());
+
+    GraphCommon<T>::resetEdgeId();
+
+    delete v;
 }
 
 template<typename T>
 void DiGraphCommon<T>::removeEdge(IEdge *e) {
     this->_adjacentList.at(((T*)e)->from()->id()).remove(e);
-    this->resetEdgeId();
-}
-
-template<typename T>
-void DiGraphCommon<T>::removeVertex(Vertex *v) {
-    this->_adjacentList.erase(this->_adjacentList.begin() + v->id());
-
-    for (vector<Vertex *>::iterator itVertex = this->_vertices.begin() + v->id(); itVertex != this->_vertices.end(); ++itVertex) {
-        (*itVertex)->setId((*itVertex)->id());
-    }
-    this->_vertices.erase(this->_vertices.begin() + v->id());
     this->resetEdgeId();
 }
 
@@ -132,3 +146,5 @@ IGraph::Edges DiGraphCommon<T>::getEdges(Vertex *from, Vertex *to) const {
     }
     return edges;
 }
+
+

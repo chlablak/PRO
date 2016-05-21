@@ -65,7 +65,6 @@ bool Graph::isSimple() const {
  * NB : the user should not add an edge without add his vertex first
  */
 void Graph::addEdge(IEdge *e) {
-    // set edge id
     e->setId(_edgeId++);
     assignEdge((Edge*)e);
 }
