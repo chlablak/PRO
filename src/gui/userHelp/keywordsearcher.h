@@ -7,6 +7,7 @@
 
 #ifndef KEYWORDSEARCHER_H
 #define KEYWORDSEARCHER_H
+
 #include <QVector>
 #include <QString>
 #include <QStringList>
@@ -20,6 +21,7 @@ class KeywordSearcher
 {
 private:
     QVector<HelpPage*> pages;
+	
 public:
 	/*! \brief constructor
 	 * \note must have the keyword index file, or throws an exception

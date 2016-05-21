@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>graph</title>
+  </head>
+  <body>
+    <h1>Graph</h1>
+    <hr size="2" width="100%">
+    <h2>Declaring a new graph</h2>
+    <p>There are many ways to declare a graph, from a simple empty
+      graph:<br>
+    </p>
+    <p><code>g = { };<br>
+      </code> </p>
+    <p>to a graph containing a certain number of elements:</p>
+    <p><code>g = {#3};</code><br>
+    </p>
+    <p>to more complex declarations with labels, weights and capacities.
+      One important rule to note, is that the use of the <code>#</code>
+      shortcut for multiple vertices must be the first element in the <code>{
+        }</code> braces.</p>
+    <p>If you wish to declare a graph with <a href="vertex.html">vertices</a>
+      and <a href="edge.html">edges</a>, it can be done by including
+      them between the <code>{ }</code> braces:</p>
+    <p><code>g = {0,1,2,0--1,1--2};</code><br>
+    </p>
+    <p>or by adding them with the <code>+=</code> operator;<br>
+    </p>
+    <p><code>g += (3);</code><br>
+    </p>
+    <p>for a vertex with the ID <code>3</code>, or<br>
+    </p>
+    <p><code>g += (1--2);</code><br>
+    </p>
+    <p>for an edge joining the edges <code>1</code> and <code>2</code>.
+      There are two important rules adding elements to a graph:<br>
+    </p>
+    <ul>
+      <li>When adding a vertex to a graph, all the previous IDs up the
+        the current one must be already used (e.g. one can only add the
+        vertex <code>3</code> if the vertices <code>0</code>, <code>1</code>
+        and <code>2</code> already exist in the graph). This also means
+        vertices must be added in order when declaring or adding them to
+        the graph. For instance <code>g = {0,1,2,3}</code> is correct,
+        while <code>g = {1,2,3,0}</code> is not.</li>
+      <li>Edges can only be added between already existing vertices. For
+        instance <code>g = {0,1,2,1--2}</code> is correct, while <code>g
+          = {0,1,2,2--3}</code> and <code>g = {0,1,1--2,2}</code> are
+        both incorrect.</li>
+    </ul>
+    <h2>Declaring a graph with vertices or edges<br>
+    </h2>
+    <p>For now, it is only possible to declare a non-empty graph with
+      anonymous edges and vertices, therefore:</p>
+    <p><code>g = {0,1,2};</code></p>
+    <p>is valid, while:</p>
+    <p><code>v = (0);</code></p>
+    <p><code>w = (1);</code></p>
+    <p><code>g = {v,w};</code></p>
+    <p>is not. This possibility will hopefully be implemented in the
+      future. For now, you should declare an empty graph and add element
+      with the <code>+=</code> operator.<br>
+    </p>
+    <p><br>
+    </p>
+    <ul>
+    </ul>
+    <h2>Links</h2>
+    <ul>
+      <li><a href="edge.html">Edge</a></li>
+      <li><a href="vertex.html">Vertex</a><br>
+      </li>
+    </ul>
+  </body>
+</html>

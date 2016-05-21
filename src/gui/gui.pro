@@ -17,11 +17,15 @@ SOURCES += main.cpp\
     console.cpp \
     dialogstring.cpp \
     graphwindow.cpp \
+    userHelp/browserpane.cpp \
+    userHelp/buttonpane.cpp \
     userHelp/filereader.cpp \
-    userHelp/helpbrowser.cpp \
     userHelp/helppage.cpp \
     userHelp/helpwindow.cpp \
     userHelp/keywordsearcher.cpp \
+    userHelp/mainbrowser.cpp \
+    userHelp/navigationmenu.cpp \
+    userHelp/navigationpane.cpp \
     userHelp/searchbar.cpp \
     ../visualization/view/DiEdgeItem.cpp \
     ../visualization/view/DiGraphItemFactory.cpp \
@@ -49,12 +53,16 @@ HEADERS  += mainwindow.h \
     console.h \
     dialogstring.h \
     graphwindow.h \
+    userHelp/browserpane.h \
+    userHelp/buttonpane.h \
     userHelp/filereader.h \
-    userHelp/helpbrowser.h \
     userHelp/helppage.h \
     userHelp/helpwindow.h \
     userHelp/keywordsearcher.h \
-    userHelp/searchBar.h \
+    userHelp/mainbrowser.h \
+    userHelp/navigationmenu.h \
+    userHelp/navigationpane.h \
+    userHelp/searchbar.h \
     ui_dialogstring.h \
     ui_graphwindow.h \
     ui_mainwindow.h \

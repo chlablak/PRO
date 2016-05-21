@@ -1,49 +1,35 @@
-/*! \brief main window for the user help interface
+/*! \brief main help window, acts as controller for all signals/slots
  *
  * \file helpwindow.h
  * \author Christopher Browne
- * \date 22.04.2016
+ * \date 14.05.2016
  */
 
 #ifndef HELPWINDOW_H
 #define HELPWINDOW_H
 
-#include <QObject>
-#include <QLayout>
-#include <QWidget>
-#include <QLabel>
-#include <QLineEdit>
-#include <exception>
-#include "helpbrowser.h"
-#include "searchbar.h"
-#include "keywordsearcher.h"
+#include <QHBoxLayout>
+#include <QString>
+#include "navigationpane.h"
+#include "browserpane.h"
 
-class HelpWindow : public QVBoxLayout
+class HelpWindow : public QHBoxLayout
 {
-    Q_OBJECT
 private:
-    static QString keywordFile;
-    QWidget *parent;
-    static HelpWindow *instance;
-    SearchBar *searchBar;
-    HelpBrowser *helpBrowser;
-
     HelpWindow(QWidget *parent);
+	
+	static HelpWindow *instance;
+    static QString *_baseUrl;
+
+    QWidget *parent;
+	
+    NavigationPane *leftPane;
+    BrowserPane *rightPane;
 
 public:
-	/*! \brief returns and instance of the HelpWindow (singleton)
+	/*! \brief Returns an instance of HelpWindow (singleton)
 	 */
-    static HelpWindow* getInstance(QWidget *parent = 0);
-
-	/* \brief signal emitted to the HelpBrowser when a user enters a searchAsked
-	 */
-signals:
-    void searchResultsRequested(QString searchWord);
-
-	/* \brief slot called when user presses enter to start a searchAsked
-	 */
-public slots:
-    void searchAsked();
+    static HelpWindow *getInstance(QWidget *parent, QString *baseUrl);
 };
 
 #endif // HELPWINDOW_H

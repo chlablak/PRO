@@ -2,7 +2,7 @@
 #include "dialogstring.h"
 #include "ui_mainwindow.h"
 #include "userHelp/helpwindow.h"
-#include "userHelp/helpbrowser.h"
+#include "userHelp/mainbrowser.h"
 #include <iostream>
 #include <QTextEdit>
 
@@ -90,12 +90,13 @@ void MainWindow::closeTab(int index)
 void MainWindow::showHelp() {
     //QApplication app(argc, argv);
     QWidget *window = new QWidget();
-    window->setMinimumSize(600,400);
+    window->setMinimumSize(800,600);
     window->setStyleSheet("background-color:white");
 
-    window->setWindowTitle(QApplication::translate("toplevel", "Guide utilisateur"));
+    window->setWindowTitle(QApplication::translate("toplevel", "User guide"));
 
-    HelpWindow *layout = HelpWindow::getInstance(window);
+    //RightPane *layout = RightPane::getInstance(window);
+    HelpWindow *layout = HelpWindow::getInstance(window, new QString("../userHelp/pages/"));
     window->setLayout(layout);
     window->show();
 

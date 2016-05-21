@@ -1,60 +1,55 @@
-/*! \brief main window for the user help interface
+/*! \brief main help window, acts as controller for all signals/slots
  *
  * \file helpwindow.cpp
  * \author Christopher Browne
- * \date 22.04.2016
+ * \date 14.05.2016
  */
 
 #include "helpwindow.h"
 
-HelpWindow* HelpWindow::instance = nullptr;
-QString HelpWindow::keywordFile = "../UserHelp/pages/keywords.txt";
+HelpWindow *HelpWindow::instance = nullptr;
+QString *HelpWindow::_baseUrl = nullptr;
 
 HelpWindow::HelpWindow(QWidget *parent) : parent(parent)
 {
-    searchBar = new SearchBar();
-    helpBrowser = HelpBrowser::getInstance(parent);
-    addWidget(searchBar);
-    addWidget(helpBrowser);
+    leftPane = NavigationPane::getInstance(parent, _baseUrl);
+    rightPane = BrowserPane::getInstance(parent, _baseUrl);
 
-    QObject::connect(searchBar, SIGNAL(returnPressed()),this,SLOT(searchAsked()));
-    QObject::connect(this, SIGNAL(searchResultsRequested(QString)),helpBrowser, SLOT(searchAsked(QString)));
+    addLayout(leftPane);
+    addLayout(rightPane);
+
+    QObject::connect(leftPane->getButtonPane()->getLeft(),
+                     SIGNAL(clicked(bool)),
+                     rightPane->getMainBrowser(),
+                     SLOT(backward()));
+
+    QObject::connect(leftPane->getButtonPane()->getRight(),
+                     SIGNAL(clicked(bool)),
+                     rightPane->getMainBrowser(),
+                     SLOT(forward()));
+
+    QObject::connect(rightPane->getSearchBar(),
+                     SIGNAL(returnPressed()),
+                     rightPane,
+                     SLOT(searchAsked()));
+
+    QObject::connect(rightPane,
+                     SIGNAL(searchResultsRequested(QString)),
+                     rightPane->getMainBrowser(),
+                     SLOT(searchAsked(QString)));
+
+    QObject::connect(leftPane->getNavMenu(),
+                     SIGNAL(anchorClicked(QUrl)),
+                     rightPane->getMainBrowser(),
+                     SLOT(setSource(QUrl)));
+
 }
 
-HelpWindow* HelpWindow::getInstance(QWidget *parent)
+HelpWindow *HelpWindow::getInstance(QWidget *parent, QString *baseUrl)
 {
-    if(instance == nullptr)
+    if (instance == nullptr) {
+        _baseUrl = baseUrl;
         instance = new HelpWindow(parent);
-    return instance;
-}
-
-void HelpWindow::searchAsked(){
-    QString searchWord = searchBar->text();
-    QString resultPage = "<!DOCTYPE html><html><body><h1>Résultats pour la recherche: \"";
-    resultPage += searchWord + "\"</h1>";
-    try{
-        KeywordSearcher kws(keywordFile);
-        resultPage += "<br/>";
-        QVector<HelpPage*> fileList = kws.getPages(searchWord);
-        int length = fileList.length();
-        if(length == 0){
-            resultPage += "Aucun résultat<hr/>";
-        }else{
-            if(length == 1){
-                resultPage += "1 résultat";
-            }else{
-                resultPage += QString::number(length) + " résultats";
-            }
-            resultPage += "<hr/><ul>";
-            for(HelpPage *hp : fileList)
-                resultPage += "<li><a href=\"" + hp->getPage() + "\">" + hp->getName() + "</a></li>";
-            resultPage += "</ul>";
-        }
-
-    }catch(QString e){
-        resultPage += "<hr/>Fichier des mots clés introuvable<hr/>";
     }
-
-    resultPage += "</body></html>";
-    emit searchResultsRequested(resultPage);
+    return instance;
 }
