@@ -70,6 +70,13 @@ public:
         }
     }
 
+    template <typename Func>
+    void forEachAdjacentVertex(Vertex *v, Func f) {
+        for (IEdge* ie : _adjacentList.at(v->id())) {
+            f(ie->to());
+        }
+    }
+
     virtual void print() const override;
 
     virtual bool isWeighted() const override;

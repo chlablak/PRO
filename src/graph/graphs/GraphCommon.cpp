@@ -200,10 +200,14 @@ template <typename T>
 string GraphCommon<T>::toString() const {
     string s;
     for (Vertex *v : vertexList()) {
-        s.append(v->toString() + "\n");
+        if(v != nullptr) {
+            s.append(v->toString() + "\n");
+        }
     }
     for (IEdge* e : edgeList()) {
-        s.append(e->toString() + "\n");
+        if (e != nullptr) {
+            s.append(e->toString() + "\n");
+        }
     }
     return s;
 }

@@ -4,6 +4,9 @@
 
 #include "BFS.h"
 #include "../graphs/Graph.h"
+#include "../graphs/DiGraph.h"
+#include "../graphs/FlowGraph.h"
+#include <stack>
 
 using namespace std;
 
@@ -41,13 +44,65 @@ void BFS::visit(Graph *g, Vertex *from) {
 }
 
 void BFS::visit(DiGraph *g, Vertex *from) {
-    UNUSED(g);
-    UNUSED(from);
+    if (g->isNull()) {
+        _G = new DiGraph;
+        return;
+    }
+
+    _G = g->emptyClone();
+
+    _distances.assign(g->V(), -1);
+    vector<Vertex*> p;
+    p.assign(g->V(), nullptr);
+    _distances[from->id()] = 0;
+    stack<Vertex*> Q;
+    Q.push(from);
+
+    while (!Q.empty()) {
+        Vertex *u = Q.top(); Q.pop();
+        _G->assignVertex(u);
+        g->forEachAdjacentEdge(u, [&p, &Q, this, &u](IEdge *ie) {
+            Vertex *v = ie->to();
+            if (_distances[v->id()] == -1) {
+                _distances[v->id()] = _distances[u->id()] + 1;
+                p[v->id()] = u;
+                Q.push(v);
+                _G->assignVertex(v);
+                _G->assignEdge(ie);
+            }
+        });
+    }
 }
 
 void BFS::visit(FlowGraph *g, Vertex *from) {
-    UNUSED(g);
-    UNUSED(from);
+    if (g->isNull()) {
+        _G = new FlowGraph;
+        return;
+    }
+
+    _G = g->emptyClone();
+
+    _distances.assign(g->V(), -1);
+    vector<Vertex*> p;
+    p.assign(g->V(), nullptr);
+    _distances[from->id()] = 0;
+    stack<Vertex*> Q;
+    Q.push(from);
+
+    while (!Q.empty()) {
+        Vertex *u = Q.top(); Q.pop();
+        _G->assignVertex(u);
+        g->forEachAdjacentEdge(u, [&p, &Q, this, &u](IEdge *ie) {
+            Vertex *v = ie->to();
+            if (_distances[v->id()] == -1) {
+                _distances[v->id()] = _distances[u->id()] + 1;
+                p[v->id()] = u;
+                Q.push(v);
+                _G->assignVertex(v);
+                _G->assignEdge(ie);
+            }
+        });
+    }
 }
 
 BFS::~BFS() {
@@ -61,8 +116,3 @@ IGraph* BFS::G() const {
 std::vector<int>& BFS::table() {
     return _distances;
 }
-
-
-
-
-
