@@ -34,6 +34,8 @@ public:
 
     Vertex* either() const;
     Vertex* other(Vertex *v) const;
+    virtual Vertex *from() const override;
+    virtual Vertex *to() const override;
     string toString() const;
 
     friend ostream& operator<<(ostream& os, const Edge& e);

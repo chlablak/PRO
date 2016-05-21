@@ -16,3 +16,16 @@ string DiEdgeCommon::edgeStyle() const {
     return "->";
 }
 
+Vertex *DiEdgeCommon::either() const {
+    return from();
+}
+
+Vertex *DiEdgeCommon::other(Vertex *v) const {
+    UNUSED(v);
+    return to();
+}
+
+
+
+
+

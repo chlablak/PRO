@@ -17,7 +17,11 @@ public:
 
     virtual string toString() const = 0;
 
-    // Getterss
+    // Getters
+    virtual Vertex* either() const = 0;
+    virtual Vertex* other(Vertex *v) const = 0;
+    virtual Vertex* from() const = 0;
+    virtual Vertex* to() const = 0;
     virtual int id() const = 0;
     virtual Vertex* vertexA() const = 0;
     virtual Vertex* vertexB() const = 0;

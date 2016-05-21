@@ -30,6 +30,8 @@ public:
     // Getters
     Vertex *from() const;
     Vertex *to() const;
+    virtual Vertex *either() const override;
+    virtual Vertex *other(Vertex *v) const override;
 };
 
 

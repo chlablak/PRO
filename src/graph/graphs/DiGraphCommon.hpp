@@ -87,25 +87,32 @@ void DiGraphCommon<T>::addEdge(IEdge *e) {
     e->setId(this->_edgeId++);
     assignEdge((T*)e);
 }
+
+/**
+ *  this->_adjacentList.erase(this->_adjacentList.begin() + v->id());
+
+    for (vector<Vertex *>::iterator itVertex = this->_vertices.begin() + v->id(); itVertex != this->_vertices.end(); ++itVertex) {
+        (*itVertex)->setId((*itVertex)->id());
+    }
+    this->_vertices.erase(this->_vertices.begin() + v->id());
+    this->resetEdgeId();
+ */
 template<typename T>
 void DiGraphCommon<T>::removeVertex(Vertex *v) {
-    Vertex *otherVertex;
-    // First remove the concerned edges from the adjacent List
-    for (IEdge* ie : this->_adjacentList.at(v->id())) {
-        T *e = (T*)ie;
-        if (e->from() == v) {
-            otherVertex = e->to();
-        } else {
-            otherVertex = e->from();
+
+    // Remove all edges that are connected to v
+    for (size_t i = 0; i < this->V(); ++i) {
+        for (list<IEdge*>::iterator it = this->_adjacentList.at(i).begin(); it != this->_adjacentList.at(i).end(); it++ ) {
+            T *eTo = (T*)*it;
+            if ( eTo->to() == v) {
+                list<IEdge*>::iterator temp = it;
+                it--;
+                this->_adjacentList.at(i).erase(temp);
+            }
         }
-
-        // Remove edge in that other vertex
-        this->_adjacentList.at(otherVertex->id()).remove(e);
-
-        // Remove edge in this vertex
-        this->_adjacentList.at(v->id()).remove(e);
     }
 
+    // Remove all edges from v
     this->_adjacentList.erase(this->_adjacentList.begin() + v->id());
 
     for (vector<Vertex*>::iterator it = this->_vertices.begin() + v->id() + 1; it != this->_vertices.end(); it++) {

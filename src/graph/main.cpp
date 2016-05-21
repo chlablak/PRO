@@ -8,9 +8,9 @@ using namespace std;
 
 int main() {
 
-    TestGraph testGraph;
+    //TestGraph testGraph;
     TestDiGraph testDiGraph;
-    TestFlowGraph testFlowGraph;
+    //TestFlowGraph testFlowGraph;
 
     return 0;
 }

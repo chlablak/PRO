@@ -88,6 +88,11 @@ public:
         cout << "_G" << endl;
         cout << *_G << endl;
 
+        // Test removeVertex
+        cout << "_G.removeVertex(v1)" << endl;
+        _G->removeVertex(v2);
+        cout << *_G << endl;
+
         // ALGOS NOT WORKING YET WITH DIGRAPH
         // Test BFS
 //        cout << "Test BFS" << endl;

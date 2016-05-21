@@ -24,3 +24,15 @@ string Edge::edgeStyle() const {
     return "--";
 }
 
+Vertex *Edge::from() const {
+    return either();
+}
+
+Vertex *Edge::to() const {
+    return other(either());
+}
+
+
+
+
+
