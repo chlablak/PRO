@@ -1,2 +1,6 @@
-home.html:Home:home%aide%cmd
-commande.html:Commande:commande%cmd%salut
+home.html:Home:homes%helps%helping%starting%started
+getting_started.html:Getting Started:getting%started%tutorials
+graph.html:Graph:graphs%main
+functions.html:Functions:functions%fcts%algorithms
+vertex.html:Vertex:vertex%vertices
+edge.html:Edge:edges%directed

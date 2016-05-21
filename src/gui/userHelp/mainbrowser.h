@@ -1,10 +1,9 @@
 /*! \brief main help utility HTML browser
  *
- * \file helpbrowser.h
+ * \file mainbrowser.h
  * \author Christopher Browne
  * \date 22.04.2016
  */
-
 
 #include <QMouseEvent>
 #include <QLabel>
@@ -16,32 +15,36 @@
 #include <QDir>
 #include <QTextStream>
 #include <exception>
+
 #include "filereader.h"
+#include "searchBar.h"
 
-#ifndef HELPBROWSER_H
-#define HELPBROWSER_H
+#ifndef MAINBROWSER_H
+#define MAINBROWSER_H
 
 
-class HelpBrowser : public QTextBrowser
+class MainBrowser : public QTextBrowser
 {
     Q_OBJECT
 private:
-    QWidget *parent;
-    QString baseUrl;
-    static HelpBrowser *instance;
+    MainBrowser(QWidget *parent);
 
-    HelpBrowser(QWidget *parent);
+    static QString *_baseUrl;
+    static MainBrowser *instance;
+	
+	QWidget *parent;
 
 public:
 	/*! \brief returns the instance of the HelpBrowser (singleton)
 	 */
-    static HelpBrowser* getInstance(QWidget *parent = 0);
+    static MainBrowser* getInstance(QWidget *parent, QString *baseUrl);
 
 public slots:
 	/*! \brief displays the result HTML page
 	 */
     void searchAsked(QString search);
+    void setSource(const QUrl &name);
 
 };
 
-#endif // HELPBROWSER_H
+#endif // MAINBROWSER_H

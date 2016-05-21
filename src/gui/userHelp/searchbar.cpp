@@ -9,6 +9,6 @@
 
 SearchBar::SearchBar()
 {
-    setPlaceholderText("Entrer un terme de recherche: (ex.: Graphe)");
+    setPlaceholderText("Enter a search term (e.g.: \"Graph\")");
 }
 

@@ -8,14 +8,21 @@
 
 #include "helppage.h"
 
-HelpPage::HelpPage(QString page, QString name, QStringList keywords) : page(page), name(name), keywords(keywords)
+HelpPage::HelpPage(QString page, QString name, QStringList keywords) :
+          page(page), name(name), keywords(keywords)
 {
 
 }
 
 bool HelpPage::hasKeyword(QString word)
 {
-    return keywords.contains(word);
+    for (QString k : keywords) {
+        if (k.startsWith(word, Qt::CaseInsensitive)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 QString HelpPage::getPage()
