@@ -14,11 +14,11 @@
     <p><code>v = (1);</code> </p>
     <p> If you wish to create vertices with more information you can do
       so, by separating the information with a <code>:</code> colon,
-      according to the following grammar:<br>
+      according to the following grammar:
     </p>
-    <p><code>variableName = (ID:"label":weight:maxCap:minCap);</code><br>
+    <p><code>variableName = (ID:"label":weight:maxCap:minCap);</code>
     </p>
-    <p>for example:<br>
+    <p>for example:
     </p>
     <p><code>v = (0:"myFirstVertex":3:5:2);</code></p>
     <p>If you only need to add max capacity and min capacity, you can
@@ -29,7 +29,7 @@
       subsequent <code>:</code> colons:</p>
     <p><code>v = (0:"myFirstVertex");</code> </p>
     <p> </p>
-    <h2>Adding vertices to an existing graph</h2>
+    <h2><br>Adding vertices to an existing graph</h2>
     <p>Once your graph is created you can add a single vertex with:</p>
     <p><code>g += v;</code></p>
     <p>or add many vertices with:</p>
@@ -40,24 +40,24 @@
     <p><code>g += (1); </code></p>
     <p>or add many, even mixing the notation:<code></code></p>
     <p><code></code></p>
-    <p><code>g += [(1), (2:"myOtherVertex"), w]; <br>
+    <p><code>g += [(1), (2:"myOtherVertex"), w]; 
       </code><code></code></p>
-    <h2>Modifying an existing vertex</h2>
+    <h2><br>Modifying an existing vertex</h2>
     <p>The properties of a vertex can be modified using the <code>+=</code>
       operator. For this, you should specify the ID of an existing
       vertex and then its properties, as if adding a new vertex, e.g.:</p>
     <p><code>g = { };</code></p>
-    <p><code>g += [(0::5),(1::5)];</code><code><br>
+    <p><code>g += [(0::5),(1::5)];</code><code>
       </code></p>
     <p><code>g += (1::3);</code></p>
     <p>will have the effect of changing the weight of the vertex with ID
-      <code>1</code> from <code>5</code> to <code>3</code>.<br>
+      <code>1</code> from <code>5</code> to <code>3</code>.
     </p>
     <p>Note: parameters are passed by value, so modifying them after
       adding them to the graph will not have any influence. More on this
-      <a href="functions.html">here</a>.<br>
+      <a href="functions.html">here</a>.
     </p>
-    <h2>Removing vertices from a graph</h2>
+    <h2><br>Removing vertices from a graph</h2>
     <p>Removing vertices is done in a very similar way to adding them,
       with the <code>-=</code> operator. Just like the <code>+=</code>
       operator, you can remove a single vertex, or many vertices with
@@ -68,7 +68,7 @@
       be deleted.</p>
     <p>Note: if you try to delete a non existing vertex, nothing will
       happen. </p>
-    <h2>ID order</h2>
+    <h2><br>ID order</h2>
     <p>All vertices must be added in a sequential order to the graph and
       the first ID must be <code>0</code>. This rule is valid for
       direct declaration of a graph and when adding a vertex. Here are a
@@ -84,12 +84,12 @@
     <p><code>g = { };</code></p>
     <p><code>g += [(0), (1), (3)];</code></p>
     <p>are invalid because they do not use the ID <code>2</code>.</p>
-    <h2>Links</h2>
-    <p><br>
+    <h2><br>Links</h2>
+    <p>
     </p>
     <p><code></code></p>
     <p> </p>
-    <p><br>
+    <p>
     </p>
   </body>
 </html>

@@ -96,7 +96,7 @@ void MainWindow::showHelp() {
     window->setWindowTitle(QApplication::translate("toplevel", "User guide"));
 
     //RightPane *layout = RightPane::getInstance(window);
-    HelpWindow *layout = HelpWindow::getInstance(window, new QString("../userHelp/pages/"));
+    HelpWindow *layout = HelpWindow::getInstance(window, new QString("../gui/userHelp/pages/"));
     window->setLayout(layout);
     window->show();
 

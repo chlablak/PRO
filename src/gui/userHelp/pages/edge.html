@@ -5,8 +5,7 @@
     <title>edge</title>
   </head>
   <body>
-    <h1>Edge<br>
-    </h1>
+    <h1>Edge</h1>
     <hr size="2" width="100%">
     <h2>Declaration</h2>
     <p></p>
@@ -18,24 +17,22 @@
       capacity and min capacity. These properties must be separated by a
       <code>:</code> colon and are all optional. Here are two examples
       of how this can be done, using only the label property and using
-      the max capacity and min capacity:<br>
+      the max capacity and min capacity:
     </p>
     <p><code>e = (0--1:"myFirstEdge");</code></p>
-    <p><code>e = (0--1:::5:2);<br>
-      </code></p>
-    <p>the complete grammar for declaring an edge is:<code><br>
-      </code></p>
+    <p><code>e = (0--1:::5:2);</code></p>
+    <p>the complete grammar for declaring an edge is:</p>
     <p><code>variableName =
-        (firstVertex--SecondVertex:"label":weight:maxCap:minCap);<br>
+        (firstVertex--SecondVertex:"label":weight:maxCap:minCap);
       </code></p>
-    <h2>Edge ID</h2>
+    <h2><br>Edge ID</h2>
     <p>Each edge has an ID that is local to the connection. A connection
       is a symbolic relationship between two vertices. This means there
       can be as many edges with the same ID as there are pairs in a
       graph. This ID is mainly used to differentiate edges when removing
-      one from a connection containing many edges.<br>
+      one from a connection containing many edges.
     </p>
-    <h2>Adding edges to a graph</h2>
+    <h2><br>Adding edges to a graph</h2>
     <p>To add an edge to a graph, the two vertices connected to this
       edge must already be present. This rule is applicable for
       anonymous declaration between the <code>{ }</code> braces and
@@ -43,7 +40,7 @@
       operator. This means the following declaration:</p>
     <p><code>g = {0,1,1--2,2,3};</code></p>
     <p>is not valid, and should instead be written:</p>
-    <p><code>g = {0,1,2,1--2,3};</code> or <code>g = {0,1,2,3,1--2};</code><br>
+    <p><code>g = {0,1,2,1--2,3};</code> or <code>g = {0,1,2,3,1--2};</code>
     </p>
     <p></p>
     <p>The <code>+=</code> operator works the same way as with
@@ -52,47 +49,47 @@
     <p><code>g += (0--1);</code></p>
     <p></p>
     <p>as well as edges previously declared:</p>
-    <p><code>g += e;<br>
+    <p><code>g += e;
       </code></p>
-    <h2>Modifying an existing edge</h2>
+    <h2><br>Modifying an existing edge</h2>
     <p>Modifying the properties of an edge can be done using the <code>+=</code>
       operator. To do so, you must specify the vertices that define the
       edge and its local ID with the <code>[ ]</code> brackets, which
-      should be visible in the graphical representation. For example:<br>
+      should be visible in the graphical representation. For example:
     </p>
     <p><code>g = {#3};</code><code></code></p>
     <p><code></code><code>g += (0--1::5);</code><code></code></p>
-    <p><code></code><code>g += (0--1[0]::3);</code><br>
+    <p><code></code><code>g += (0--1[0]::3);</code>
     </p>
     <p>will change the weight of the current edge from <samp>5</samp>
-      to <samp>3</samp>.<br>
+      to <samp>3</samp>.
     </p>
     <p>If the ID specified does not exit (<code>0</code> in the example
       above), this command will have the effect of adding a new edge to
-      the graph.<br>
+      the graph.
     </p>
     <p>Note: parameters are passed by value, so modifying them after
       adding them to the graph will not have any influence. More on this
       <a
-href="file:///C:/Users/JohnnyJay/Documents/HEIG/2eme/PRO/src/gui/userHelp/pages/functions.html">here</a>.<br>
+href="file:///C:/Users/JohnnyJay/Documents/HEIG/2eme/PRO/src/gui/userHelp/pages/functions.html">here</a>.
     </p>
-    <h2>Removing edges from a graph</h2>
+    <h2><br>Removing edges from a graph</h2>
     <p>Removing all the edges between two vertices is accomplished with
-      the <code>-= </code>operator, e.g.:<br>
+      the <code>-= </code>operator, e.g.:
     </p>
-    <p><code>g -= (0--1);</code><br>
+    <p><code>g -= (0--1);</code>
     </p>
     <p>If you with however to remove one of many parallel edges, you can
-      do so using their ID, for example:<br>
+      do so using their ID, for example:
     </p>
-    <p><code>g -= (0--1[1]);</code><br>
+    <p><code>g -= (0--1[1]);</code>
     </p>
     <p>And you can also remove many edges from different connections,
-      using the <code>[ ]</code> brackets:<br>
+      using the <code>[ ]</code> brackets:
     </p>
-    <p><code>g -= [(0--1[0]), (1--2)];<br>
+    <p><code>g -= [(0--1[0]), (1--2)];
       </code></p>
-    <h2>Directed edges</h2>
+    <h2><br>Directed edges</h2>
     <p>As well as <code>--</code> regular edges shown above, a graph
       can be composed of <code>-&gt;</code> or <code>&lt;- </code>directed
 
@@ -100,22 +97,22 @@ href="file:///C:/Users/JohnnyJay/Documents/HEIG/2eme/PRO/src/gui/userHelp/pages/
       edges will change the graph type to a directed graph and create
       two directed edges of opposite direction between the appropriate
       vertices. For example:</p>
-    <p><code>dg = {#3, 0--1};</code><code><br>
+    <p><code>dg = {#3, 0--1};</code><code>
       </code></p>
-    <p><code>dg += (1-&gt;2);</code><br>
+    <p><code>dg += (1-&gt;2);</code>
     </p>
-    <p>will create the same graph as:<br>
+    <p>will create the same graph as:
     </p>
-    <p><code>dg = {#3, 0-&gt;1, 1-&gt;0, 1-&gt;2};<br>
+    <p><code>dg = {#3, 0-&gt;1, 1-&gt;0, 1-&gt;2};
       </code></p>
     <p>All the rules specified above also apply to these directed
-      graphs.<br>
+      graphs.
     </p>
-    <h2>Links</h2>
+    <h2><br>Links</h2>
     <ul>
       <li><a href="home.html">Home</a></li>
       <li><a href="graph.html">Graph</a></li>
-      <li><a href="vertex.html">Vertex</a><br>
+      <li><a href="vertex.html">Vertex</a>
       </li>
     </ul>
     <p> </p>
