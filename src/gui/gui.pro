@@ -46,8 +46,9 @@ SOURCES += main.cpp\
     ../graph/graphs/FlowGraph.cpp \
     ../graph/graphs/Graph.cpp \
     ../graph/graphs/GraphCommon.cpp \
-    ../graph/graphs/IEdge.cpp \
-    ../graph/graphs/Vertex.cpp
+    ../graph/graphs/Vertex.cpp \
+    ../graph/graphs/DiEdgeCommon.cpp \
+    ../graph/graphs/EdgeCommon.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
@@ -90,7 +91,11 @@ HEADERS  += mainwindow.h \
     ../graph/graphs/IEdge.h \
     ../graph/graphs/IGraph.h \
     ../graph/graphs/Vertex.h \
-    ../graph/Includes.h
+    ../graph/Includes.h \
+    ../graph/graphs/DiEdgeCommon.h \
+    ../graph/graphs/DiGraphCommon.h \
+    ../graph/graphs/DiGraphCommon.hpp \
+    ../graph/graphs/EdgeCommon.h
 	
 FORMS    += mainwindow.ui \
     dialogstring.ui \

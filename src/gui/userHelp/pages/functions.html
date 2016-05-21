@@ -6,38 +6,38 @@
     <title>functions</title>
   </head>
   <body>
-    <h1>Functions<br>
+    <h1>Functions
     </h1>
     <hr size="2" width="100%">
     <h2>Calling functions</h2>
     <p>All graph transformations are done by passing a graph to a
       function. Once a function is called, the result can be assigned to
       an existing graph, the same graph or even a new graph. The
-      notation is similar to many programming languages:<br>
+      notation is similar to many programming languages:
     </p>
-    <p><code>result = dijkstra(g, 1);</code><br>
+    <p><code>result = dijkstra(g, 1);</code>
     </p>
-    <h2>Built-in functions</h2>
+    <h2><br>Built-in functions</h2>
     <ul>
       <li><code>toString (a : T) : String;</code> returns a string
-        describing the element <code>a</code>.<br>
+        describing the element <code>a</code>.
       </li>
     </ul>
-    <h2>Parameter passing mode</h2>
+    <h2><br>Parameter passing mode</h2>
     <p>All parameters in <i>Graphy</i> are passed by value. This means
       modifying a vertex after having added it to the graph will not
-      change its properties in the graph, for instance if you write:<br>
+      change its properties in the graph, for instance if you write:
     </p>
     <p><code>g = { };</code></p>
-    <code>v = (0::5);</code><code><br>
-    </code><code><br>
-    </code><code>g += v;</code><code><br>
-    </code><code><br>
-    </code><code>v = (0::3);</code><br>
-    <br>
+    <code>v = (0::5);</code><code>
+    </code><code>
+    </code><code>g += v;</code><code>
+    </code><code>
+    </code><code>v = (0::3);</code>
+    
     the vertex with ID <code>0</code> in the graph will still have a
     weight of <code>5</code>.
-    <p><br>
+    <p>
     </p>
   </body>
 </html>
