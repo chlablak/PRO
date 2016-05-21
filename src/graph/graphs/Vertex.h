@@ -5,10 +5,10 @@
 #ifndef GRAPH_VERTEX_H
 #define GRAPH_VERTEX_H
 
-#include <string>
 #include <list>
 #include <limits>
 #include <iostream>
+#include "../../utility/Global.h"
 
 using namespace std;
 
@@ -22,19 +22,19 @@ private:
 
 public:
     Vertex()
-            : _id(-1), _weight(numeric_limits<double>::max()), _label(""), _minCapacity(-1),
+            : _id(-1), _label(""), _weight(numeric_limits<double>::max()), _minCapacity(-1),
               _maxCapacity(-1) { }
 
     Vertex(const string& label)
-            : _id(-1), _weight(numeric_limits<double>::max()), _label(label), _minCapacity(-1),
+            : _id(-1), _label(label), _weight(numeric_limits<double>::max()), _minCapacity(-1),
               _maxCapacity(-1) { }
 
     Vertex(const double& weight)
-            : _id(-1), _label(nullptr), _weight(weight),
+            : _id(-1), _label(""), _weight(weight),
               _minCapacity(-1), _maxCapacity(-1) { }
 
     Vertex(const double& weight, const string& label)
-            : _id(-1), _weight(weight), _label(label),
+            : _id(-1), _label(label), _weight(weight),
               _minCapacity(-1), _maxCapacity(-1) { }
 
     Vertex(const int& maxCapacity)
@@ -61,6 +61,8 @@ public:
 
     ~Vertex() { }
 
+    string toString() const;
+
     // Getters
     int id() const;
     string label() const;
@@ -73,7 +75,7 @@ public:
     void setLabel(const string& s);
     void setWeight(const double w);
     void setMinCapacity(const int minCap);
-    void setMaxCapacitiy(const int maxCap);
+    void setMaxCapacity(const int maxCap);
 
     // Operators
     friend ostream& operator<<(ostream& os, const Vertex& v);

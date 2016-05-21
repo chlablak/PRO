@@ -8,16 +8,15 @@
 #include <vector>
 #include "GraphCommon.h"
 #include "Edge.h"
+#include "../../utility/Global.h"
 
 class Graph : public GraphCommon<Edge>
 {
-private:
-    void assignEdge(Edge *e);
 public:
     Graph() : GraphCommon() { }
     Graph(const Graph &g);
     Graph(vector<Vertex*> &vertices) : GraphCommon(vertices) { }
-    Graph(vector<Vertex*> &vertices, vector<Edge*> &edges);
+    Graph(vector<Vertex*> &vertices, vector<IEdge*> &edges);
 
     ~Graph();
 
@@ -39,20 +38,26 @@ public:
 
     virtual GraphCommon<Edge>::Edges edgeList() const override;
 
-    virtual Edge* getEdge(Vertex *either, Vertex *other) const override;
+    virtual list<IEdge*> getEdges(Vertex *either, Vertex *other) const override;
 
     virtual Graph* clone() const override;
 
+    virtual Graph *emptyClone() const override;
+
+    virtual void assignEdge(IEdge *ie);
+
+    virtual IEdge *createEdge(Vertex *v, Vertex *w) const override;
+
+
     template<typename Func>
     void forEachAdjacentVertex(Vertex *v, Func f) {
-        for(IEdge *e : _adjacentList.at(v->id()) ) {
+        for(IEdge *ie : _adjacentList.at(v->id()) ) {
+            Edge *e = (Edge *)ie;
             f(e->other(v));
         }
     }
 
-    virtual Graph* accept(Visitor *v, Vertex *from) override {
-        return v->visit(this, from);
-    }
+    virtual void accept(Visitor *v, Vertex *from) override;
 };
 
 

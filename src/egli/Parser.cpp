@@ -5,7 +5,10 @@
  * \date 20.04.2016
  */
 
-#include <boost/spirit/include/qi.hpp>
+#pragma GCC diagnostic push
+# pragma GCC diagnostic warning "-w"
+#  include <boost/spirit/include/qi.hpp>
+#pragma GCC diagnostic pop
 
 #include "Parser.h"
 #include "Exception.h"

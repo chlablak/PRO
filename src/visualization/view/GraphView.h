@@ -3,10 +3,6 @@
 
 #include <QGraphicsView>
 
-#include "igraph/IGraph.h"
-#include "VertexItem.h"
-#include "EdgeItem.h"
-
 class GraphView : public QGraphicsView
 {
 public:

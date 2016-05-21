@@ -4,60 +4,26 @@
 
 #include "DiGraph.h"
 
-// TODO patrick
+DiGraph::DiGraph(const DiGraph &dg) : DiGraphCommon(dg) { }
 
-DiGraph::DiGraph(vector<Vertex*> &vertices, vector<DiEdge*> &edges) : GraphCommon(vertices) {
-
+IGraph *DiGraph::emptyClone() const {
+    DiGraph *g = new DiGraph;
+    g->_vertices.resize(this->V());
+    g->_adjacentList.resize(this->V());
+    g->_edgeId = this->E();
+    return g;
 }
 
-bool DiGraph::isSimple() const {
-    return false;
+void DiGraph::accept(Visitor *v, Vertex *from) {
+    v->visit(this, from);
 }
 
-bool DiGraph::isConnected() const {
-    return false;
+IEdge *DiGraph::createEdge(Vertex *v, Vertex *w) const {
+    return new DiEdge(v, w);
 }
 
-bool DiGraph::isStronglyConnected() const {
-    return false;
+DiGraph *DiGraph::clone() const {
+    return new DiGraph(*this);
 }
-
-bool DiGraph::isDirected() const {
-    return true;
-}
-
-GraphCommon<DiEdge>::Edges DiGraph::edgeList() const {
-    return std::list<IEdge *>();
-}
-
-void DiGraph::addEdge(IEdge *e) {
-    //TODO caster e en DiEdge
-}
-
-void DiGraph::removeEdge(IEdge *e) {
-    //TODO caster e en DiEdge
-}
-
-void DiGraph::removeVertex(Vertex *v) {
-
-}
-
-size_t DiGraph::E() const {
-    return 0;
-}
-
-DiGraph::~DiGraph() {
-    for (IEdge *e : edgeList()) {
-        delete e;
-    }
-}
-
-
-
-
-
-
-
-
 
 

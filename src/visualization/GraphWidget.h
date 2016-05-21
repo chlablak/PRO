@@ -4,9 +4,10 @@
 #include <QWidget>
 #include <QLayout>
 
+#include "../graph/graphs/IGraph.h"
+
 #include "view/GraphView.h"
 #include "view/GraphScene.h"
-#include "igraph/IGraph.h"
 
 class GraphWidget : public QWidget
 {

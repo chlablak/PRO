@@ -16,6 +16,9 @@ namespace detail
 {
 namespace builtins
 {
+//load
+//save
+
 /*! \brief Get the String representation of a variable
  *
  * \param var
@@ -27,7 +30,7 @@ RealType<Type::String>::type toString_a(RealType<Type::Array>::cref var);
 RealType<Type::String>::type toString_b(RealType<Type::Boolean>::cref var);
 RealType<Type::String>::type toString_e(RealType<Type::Edge>::cref var);
 RealType<Type::String>::type toString_f(RealType<Type::Float>::cref var);
-//RealType<Type::String>::type toString_g(RealType<Type::Graph>::cref var);
+RealType<Type::String>::type toString_g(RealType<Type::Graph>::cref var);
 RealType<Type::String>::type toString_i(RealType<Type::Integer>::cref var);
 RealType<Type::String>::type toString_n(RealType<Type::Number>::cref var);
 RealType<Type::String>::type toString_s(RealType<Type::String>::cref var);

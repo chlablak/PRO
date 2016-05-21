@@ -9,7 +9,7 @@
 #include <vector>
 #include "Vertex.h"
 #include "IEdge.h"
-#include "../visitor/Visitor.h"
+#include "../algorithms/Visitor.h"
 #include "IGraph.h"
 
 using namespace std;
@@ -23,14 +23,14 @@ private:
 
 protected:
     // Give access to sub-classes
-    vector<Vertex*> _vertices;
-    size_t _edgeId;
     vector<Edges> _adjacentList;
+    size_t _edgeId;
+    vector<Vertex*> _vertices;
 
     virtual void resetEdgeId();
 
 public:
-    GraphCommon() : _edgeId(0), _vertices(0), _adjacentList(0) { }
+    GraphCommon() : _adjacentList(0), _edgeId(0), _vertices(0) { }
     GraphCommon(vector<Vertex*> &vertices);
     GraphCommon(const GraphCommon &g);
     virtual ~GraphCommon();
@@ -46,23 +46,40 @@ public:
     void ponderateVertices(const double w);
     void addVertex(Vertex *vertex);
     size_t V() const;
+    void assignVertex(Vertex *v);
+    virtual Vertex *createVertex() const override;
 
     template<typename Func>
     void forEachVertex(Func f) {
         for (Vertex* v : _vertices) {
-            f(*v);
+            f(v);
         }
     }
+
+    template <typename Func>
+    void forEachEdge(Func f) {
+        for (IEdge *e : edgeList()) {
+            f(e);
+        }
+    }
+
+    template <typename Func>
+    void forEachAdjacentEdge(Vertex *v, Func f) {
+        for (IEdge* e : _adjacentList.at(v->id())) {
+            f(e);
+        }
+    }
+
+    virtual void print() const override;
+
+    virtual bool isWeighted() const override;
+
+    virtual string toString() const override;
 
     friend ostream& operator<<(ostream& os, const GraphCommon<T>& g) {
-        os << static_cast<const IGraph&>(g);
-        for (IEdge* e : g.edgeList()) {
-            os << *(T*)e << endl;
-        }
-        return os;
+        return os << g.toString();
     }
 };
-
 
 #include "GraphCommon.cpp"
 

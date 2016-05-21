@@ -4,6 +4,8 @@
 
 #include <algorithm>
 #include "Graph.h"
+#include "../algorithms/ConnectedComponent.h"
+#include "../algorithms/CopyToDiGraph.h"
 
 Graph::Graph(const Graph &g) : GraphCommon(g) {
     for (Vertex *v : g.vertexList()) {
@@ -11,7 +13,7 @@ Graph::Graph(const Graph &g) : GraphCommon(g) {
     }
     for (IEdge *ie : g.edgeList()) {
         Edge *e = (Edge*)ie;
-        Edge *copy = new Edge(e);
+        Edge *copy = new Edge(*e);
         copy->setA(_vertices.at(e->vertexA()->id()));
         copy->setB(_vertices.at(e->vertexB()->id()));
         assignEdge(copy);
@@ -38,7 +40,8 @@ bool Graph::isSimple() const {
     bool first;
     for(list<IEdge*>::const_iterator edgeIt = edges.begin(); edgeIt != edges.end(); ++edgeIt){
         // check if the graph doesn't content a cycle
-        if( (*edgeIt)->either()->operator==((*edgeIt)->other((*edgeIt)->either())))
+        Edge *e = (Edge*)*edgeIt;
+        if( e->either()->operator==(e->other(e->either())))
             return false;
         first = true;
         for(list<IEdge*>::const_iterator edgeIt2 = edgeIt; edgeIt2 != edges.end(); ++edgeIt2){
@@ -47,9 +50,10 @@ bool Graph::isSimple() const {
                 first = false;
                 continue;
             }
+            Edge *e2 = (Edge*)*edgeIt2;
             // check that the graph doesn't content a parallel edge or cycle
-            if((((*edgeIt)->either()->operator==((*edgeIt2)->either()))) &&
-                ((*edgeIt)->other((*edgeIt)->either())->operator==((*edgeIt2)->other((*edgeIt2)->either()))))
+            if(((e2->either()->operator==(e2->either()))) &&
+                (e2->other(e2->either())->operator==(e2->other(e2->either()))))
                 return false;
         }
     }
@@ -61,7 +65,6 @@ bool Graph::isSimple() const {
  * NB : the user should not add an edge without add his vertex first
  */
 void Graph::addEdge(IEdge *e) {
-    // set edge id
     e->setId(_edgeId++);
     assignEdge((Edge*)e);
 }
@@ -71,8 +74,9 @@ void Graph::addEdge(IEdge *e) {
  * remove the Edge from the graph
  */
 void Graph::removeEdge(IEdge *e) {
-    _adjacentList.at(e->either()->id()).remove(e);
-    _adjacentList.at(e->other(e->either())->id()).remove(e);
+    Edge *edge = (Edge*)e;
+    _adjacentList.at(edge->either()->id()).remove(e);
+    _adjacentList.at(edge->other(edge->either())->id()).remove(e);
 
     // Reset edge ids
     resetEdgeId();
@@ -88,8 +92,20 @@ bool Graph::isDirected() const {
 }
 
 bool Graph::isConnected() const {
-    // TODO sébastien
-    return false;
+    Visitor *v = new ConnectedComponent;
+    v->visit((Graph*)this, nullptr);
+
+    vector<int> cc = v->table();
+    size_t ccSize = cc.size();
+    if (ccSize > 1) {
+        for (size_t i = 1; i < ccSize; ++i) {
+            if (cc[i] != cc[0]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 void Graph::removeVertex(Vertex *v) {
@@ -117,11 +133,13 @@ void Graph::removeVertex(Vertex *v) {
     _vertices.erase(_vertices.begin() + v->id());
 
     resetEdgeId();
+
+    delete v;
 }
 
-Graph::Graph(vector<Vertex *> &vertices, vector<Edge *> &edges)
+Graph::Graph(vector<Vertex *> &vertices, vector<IEdge *> &edges)
         : GraphCommon(vertices) {
-    for (Edge* e : edges) {
+    for (IEdge* e : edges) {
         addEdge(e);
     }
 }
@@ -150,25 +168,51 @@ GraphCommon<Edge>::Edges Graph::edgeList() const {
     return list;
 }
 
-Edge* Graph::getEdge(Vertex *either, Vertex *other) const {
-    for (IEdge *e : _adjacentList.at(either->id())) {
+list<IEdge*> Graph::getEdges(Vertex *either, Vertex *other) const {
+    std::list<IEdge*> edges;
+    for (IEdge *ie : _adjacentList.at(either->id())) {
+        Edge *e = (Edge*)ie;
         if (e->other(either) == other) {
-            return (Edge*)e;
+            edges.push_back(e);
         }
     }
-    return nullptr;
+    return edges;
 }
 
 Graph* Graph::clone() const {
     return new Graph(*this);
 }
 
-void Graph::assignEdge(Edge *e) {
+void Graph::assignEdge(IEdge *ie) {
+    Edge *e = (Edge*)ie;
     _adjacentList.at(e->either()->id()).push_back(e);
     if (e->either() != e->other(e->either())) {
         _adjacentList.at(e->other(e->either())->id()).push_back(e);
     }
 }
+
+void Graph::accept(Visitor *v, Vertex *from) {
+    v->visit(this, from);
+}
+
+Graph *Graph::emptyClone() const {
+    Graph *g = new Graph;
+    g->_vertices.resize(this->V());
+    g->_adjacentList.resize(this->V());
+    g->_edgeId = this->E();
+    return g;
+}
+
+IEdge *Graph::createEdge(Vertex *v, Vertex *w) const {
+    return new Edge(v, w);
+}
+
+
+
+
+
+
+
 
 
 

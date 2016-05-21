@@ -9,6 +9,87 @@
 #include "../../Number.h"
 #include "../../Vertex.h"
 #include "../../Edge.h"
+#include "../../GraphWrapper.h"
+#include "../../Array.h"
+#include "../../Exception.h"
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::basics::__graph_add_a(
+        RealType<Type::Graph>::cref graph,
+        RealType<Type::Array>::cref infos)
+{
+    RealType<Type::Graph>::type g(graph);
+    g.insert(infos);
+    return g;
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::basics::__graph_add_e(
+        RealType<Type::Graph>::cref graph,
+        RealType<Type::Edge>::cref edge)
+{
+    RealType<Type::Graph>::type g(graph);
+    g.insert(edge);
+    return g;
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::basics::__graph_add_v(
+        RealType<Type::Graph>::cref graph,
+        RealType<Type::Vertex>::cref vertex)
+{
+    RealType<Type::Graph>::type g(graph);
+    g.insert(vertex);
+    return g;
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::basics::__graph_sub_a(
+        RealType<Type::Graph>::cref graph,
+        RealType<Type::Array>::cref infos)
+{
+    RealType<Type::Graph>::type g(graph);
+    g.erase(infos);
+    return g;
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::basics::__graph_sub_e(
+        RealType<Type::Graph>::cref graph,
+        RealType<Type::Edge>::cref edge)
+{
+    RealType<Type::Graph>::type g(graph);
+    g.erase(edge);
+    return g;
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::basics::__graph_sub_v(
+        RealType<Type::Graph>::cref graph,
+        RealType<Type::Vertex>::cref vertex)
+{
+    RealType<Type::Graph>::type g(graph);
+    g.erase(vertex);
+    return g;
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::basics::__graph_create(RealType<Type::Array>::cref infos)
+{
+    return __graph_create_with_shortcut(0, infos);
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::basics::__graph_create_with_shortcut(
+        RealType<Type::Integer>::cref V,
+        RealType<Type::Array>::cref infos)
+{
+    RealType<Type::Graph>::type g;
+    for (RealType<Type::Integer>::type i = 0; i < V; ++i)
+        g.insert(RealType<Type::Vertex>::type(i));
+    g.insert(infos);
+    return g;
+}
 
 egli::detail::RealType<egli::Type::Edge>::type
     egli::detail::basics::__edge_create(

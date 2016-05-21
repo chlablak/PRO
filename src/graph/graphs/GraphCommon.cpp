@@ -26,7 +26,7 @@ void GraphCommon<T>::computeId(vector<Vertex*> &result, vector<Vertex*> &table) 
  */
 template <typename T>
 GraphCommon<T>::GraphCommon(vector<Vertex*> &vertices)
-        : _edgeId(0), _adjacentList(vertices.size()) {
+        : _adjacentList(vertices.size()), _edgeId(0) {
     computeId(_vertices, vertices);
 }
 
@@ -169,6 +169,43 @@ GraphCommon<T>::GraphCommon(const GraphCommon &g) {
     _vertices.resize(g.V());
     _edgeId = g.E();
     _adjacentList.resize(g.V());
+}
+
+template <typename T>
+void GraphCommon<T>::assignVertex(Vertex *v) {
+    _vertices.at(v->id()) = v;
+}
+
+template <typename T>
+bool GraphCommon<T>::isWeighted() const {
+    for (IEdge *e : edgeList()) {
+        if (e->weight() == numeric_limits<double>::max()) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template <typename T>
+void GraphCommon<T>::print() const {
+    cout << *this << endl;
+}
+
+template <typename T>
+Vertex *GraphCommon<T>::createVertex() const {
+    return new Vertex;
+}
+
+template <typename T>
+string GraphCommon<T>::toString() const {
+    string s;
+    for (Vertex *v : vertexList()) {
+        s.append(v->toString() + "\n");
+    }
+    for (IEdge* e : edgeList()) {
+        s.append(e->toString() + "\n");
+    }
+    return s;
 }
 
 

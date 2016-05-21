@@ -18,11 +18,14 @@ public slots:
     void newGraph();
     void loadSession();
     void showHelp();
-    void newTab(const QString);
+    void newTab(const QString&);
     void saveTab();
+    void loadTab();
     void closeTab(int index);
     void consoleHasChanged();
     void saveConsole();
+    void getTabName(QString&);
+    void setTabName(const QString&);
 private:
     Ui::MainWindow *ui;
 };

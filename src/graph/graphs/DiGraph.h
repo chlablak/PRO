@@ -7,32 +7,33 @@
 
 #include "GraphCommon.h"
 #include "DiEdge.h"
+#include "DiGraphCommon.h"
 
-class DiGraph : public GraphCommon<DiEdge>
+class DiGraph : public DiGraphCommon<DiEdge>
 {
 
 public:
-    DiGraph(vector<Vertex*> &vertices, vector<DiEdge*> &edges);
 
-    ~DiGraph();
+    DiGraph() : DiGraphCommon() { }
 
-    virtual bool isSimple() const override;
+    DiGraph(vector<Vertex *> &vertices) : DiGraphCommon(vertices) { }
 
-    virtual bool isConnected() const override;
+    DiGraph(vector<Vertex*> &vertices, vector<IEdge*> &edges)
+            : DiGraphCommon(vertices, edges) { }
 
-    virtual bool isStronglyConnected() const override;
+    DiGraph(const DiGraph& dg);
 
-    virtual bool isDirected() const override;
+    virtual ~DiGraph() { }
 
-    virtual Edges edgeList() const override;
+    virtual DiGraph *clone() const override;
 
-    virtual void addEdge(IEdge *e) override;
+    virtual IGraph *emptyClone() const override;
 
-    virtual void removeEdge(IEdge *e) override;
+    // Visitor
+    virtual void accept(Visitor *v, Vertex *from) override;
 
-    virtual void removeVertex(Vertex *v) override;
-
-    virtual size_t E() const override;
+    // Factory method
+    virtual IEdge *createEdge(Vertex *v, Vertex *w) const override;
 };
 
 
