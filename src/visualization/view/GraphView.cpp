@@ -1,5 +1,3 @@
-#include <QDebug>
-
 #include "GraphView.h"
 
 GraphView::GraphView(QWidget *parent)

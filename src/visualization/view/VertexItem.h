@@ -1,8 +1,10 @@
 #ifndef VISUALIZATION_VERTEXITEM_H
 #define VISUALIZATION_VERTEXITEM_H
 
-#include <QAbstractGraphicsShapeItem>
-#include <QDebug>
+#include <QGraphicsItemGroup>
+#include <QGraphicsEllipseItem>
+#include <QGraphicsTextItem>
+#include <QList>
 
 #include "../../graph/graphs/Vertex.h"
 
@@ -10,23 +12,21 @@
 
 class EdgeItem;
 
-class VertexItem : public QAbstractGraphicsShapeItem
+class VertexItem : public QGraphicsItemGroup
 {
 public:
-    const Vertex *vertex;
-    QList<EdgeItem *> edgeItems;
+    const Vertex *_vertex;
+    QList<EdgeItem *> _edgeItems;
+
+    QGraphicsEllipseItem *_circle;
+    QGraphicsTextItem *_text;
+    QGraphicsTextItem *_label;
 
 public:
     VertexItem(const Vertex *vertex);
 
     ~VertexItem();
 
-    QRectF boundingRect() const;
-
-    void paint(QPainter *painter,
-               const QStyleOptionGraphicsItem *option,
-               QWidget *widget = 0) Q_DECL_OVERRIDE;
-    
     QPointF getCenter() const;
 
     void addEdge(EdgeItem *edge);
