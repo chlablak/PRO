@@ -38,6 +38,7 @@ SOURCES += main.cpp\
     ../visualization/view/DiGraphItemFactory.cpp \
     ../visualization/view/FlowGraphItemFactory.cpp \
     ../visualization/view/items/ArrowItem.cpp \
+    ../visualization/view/GraphSceneManager.cpp \
     ../visualization/GraphWidget.cpp \
     ../visualization/GraphExporter.cpp \
     ../graph/algorithms/ConnectedComponent.cpp \
@@ -81,8 +82,10 @@ HEADERS  += mainwindow.h \
     ../visualization/view/DiGraphItemFactory.h \
     ../visualization/view/FlowGraphItemFactory.h \
     ../visualization/view/items/ArrowItem.h \
+    ../visualization/view/GraphSceneManager.h \
     ../visualization/GraphWidget.h \
     ../visualization/GraphExporter.h \
+    ../utility/Hash.h \
     ../graph/algorithms/ConnectedComponent.h \
     ../graph/graphs/DiEdge.h \
     ../graph/graphs/DiGraph.h \
