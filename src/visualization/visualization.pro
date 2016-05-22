@@ -24,6 +24,7 @@ SOURCES += main.cpp \
     view/DiGraphItemFactory.cpp \
     view/FlowGraphItemFactory.cpp \
     view/items/ArrowItem.cpp \
+    view/GraphSceneManager.cpp \
     GraphWidget.cpp \
     GraphExporter.cpp \
     ../graph/graphs/DiEdge.cpp \
@@ -51,8 +52,10 @@ HEADERS  += \
     view/DiGraphItemFactory.h \
     view/FlowGraphItemFactory.h \
     view/items/ArrowItem.h \
+    view/GraphSceneManager.h \
     GraphWidget.h \
     GraphExporter.h \
+    ../utility/Hash.h \
     ../graph/Includes.h \
     ../graph/graphs/DiEdge.h \
     ../graph/graphs/DiEdgeCommon.h \

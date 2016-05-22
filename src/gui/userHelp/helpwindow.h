@@ -1,35 +1,24 @@
-/*! \brief main help window, acts as controller for all signals/slots
- *
- * \file helpwindow.h
- * \author Christopher Browne
- * \date 14.05.2016
- */
-
 #ifndef HELPWINDOW_H
 #define HELPWINDOW_H
 
-#include <QHBoxLayout>
-#include <QString>
-#include "navigationpane.h"
-#include "browserpane.h"
+#include <QDialog>
 
-class HelpWindow : public QHBoxLayout
+#include "helpmainlayout.h"
+
+class HelpWindow : public QDialog
 {
 private:
     HelpWindow(QWidget *parent);
-	
-	static HelpWindow *instance;
+
+    static HelpWindow *instance;
     static QString *_baseUrl;
 
     QWidget *parent;
-	
-    NavigationPane *leftPane;
-    BrowserPane *rightPane;
 
 public:
-	/*! \brief Returns an instance of HelpWindow (singleton)
-	 */
     static HelpWindow *getInstance(QWidget *parent, QString *baseUrl);
+
+
 };
 
 #endif // HELPWINDOW_H

@@ -1737,6 +1737,15 @@
 			
 			
 			\subsubsection{Utilisation}
+			
+	\section{Interface}
+		\subsection{Auto complétion}
+			\subsubsection{Implémentation du dictionnaire}
+			La première étape pour permettre l'implémentation de l'auto complétion est le choix d'une structure de donnée adéquate. Après quelques recherches, le \textit{ternary search try} se montre le plus adéquat. En effet, sa mise en œuvre permet une recherche très rapide. Pour une recherche réussie (\textit{search hit}), sa complexité est de l'ordre de $O(L + ln(N))$ avec $L$ la longueur de la chaine recherchée et $N$ le nombre de mots dans le dictionnaire \cite{tries}. Une recherche ratée (\textit{search miss}) prend quant à elle $O(ln(N))$. Il est vrai qu'une hash map effectue toutes ses opérations en moyenne en $O(L)$, mais le temps de hachage et non-négligeable et la performance globale en temps et en espace mémoire est souvent moins bonne \cite{sedgewick}.
+			
+		\subsection{Aide utilisateur}
+			\subsubsection{Conception générale}
+			Les fichiers d'aide utilisateur ont été écrit au format HTML, afin qu'ils soient rapidement écrits et que l'utilisateur puisse naviguer d'une page à l'autre.
 	
 	\section{Annexes}
 	
@@ -1771,6 +1780,16 @@
 		
 		\bibitem{boost.spirit}
 		Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
+		
+		\bibitem{tries}
+		Robert Sedgewick, Kevin Wayne.\\
+		\emph{Algorithms, fourth edition}\\
+		\url{http://algs4.cs.princeton.edu/lectures/52Tries.pdf}
+		
+		\bibitem{sedgewick}
+		Robert Sedgewick.\\
+		\emph{Course on ternary search tries}
+		\url{https://www.youtube.com/watch?v=CIGyewO7868}
 	\end{thebibliography}			
 
 \end{document}
