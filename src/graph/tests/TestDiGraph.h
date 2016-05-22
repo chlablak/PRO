@@ -136,6 +136,17 @@ public:
 //        cout << "Prim" << endl;
 //        IGraph *gPrim = GraphAlgorithm::kruskal(_G);
 //        gPrim->print();
+
+        // Test Bellman-Ford
+        cout << "Bellman-Ford" << endl;
+        IGraph *gBellmanFord = GraphAlgorithm::bellmanFord(_G, v3);
+        cout << *gBellmanFord << endl;
+
+        // Test Dijkstra
+        cout << "Dijkstra" << endl;
+        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v3);
+        cout << *gDijkstra << endl;
+
     }
 
     ~TestDiGraph() { delete _G; }

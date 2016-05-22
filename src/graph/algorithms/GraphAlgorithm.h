@@ -23,6 +23,8 @@ public:
     static IGraph* copyToGraph(IGraph *g);
     static IGraph* copyToDiGraph(IGraph *g);
     static IGraph* copyToFlowGraph(IGraph *g);
+    static IGraph* bellmanFord(IGraph *g, Vertex *from);
+    static IGraph* dijkstra(IGraph *g, Vertex *from);
 };
 
 
