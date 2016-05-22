@@ -6,11 +6,12 @@
 
 QT       += core gui svg
 
+CONFIG += c++11
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = gui
 TEMPLATE = app
-
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -27,17 +28,18 @@ SOURCES += main.cpp\
     userHelp/navigationmenu.cpp \
     userHelp/navigationpane.cpp \
     userHelp/searchbar.cpp \
-    ../visualization/view/DiEdgeItem.cpp \
-    ../visualization/view/DiGraphItemFactory.cpp \
-    ../visualization/view/EdgeItem.cpp \
-    ../visualization/view/FlowEdgeItem.cpp \
-    ../visualization/view/FlowGraphItemFactory.cpp \
-    ../visualization/view/GraphItemFactory.cpp \
-    ../visualization/view/GraphScene.cpp \
     ../visualization/view/GraphView.cpp \
+    ../visualization/view/GraphScene.cpp \
     ../visualization/view/VertexItem.cpp \
+    ../visualization/view/EdgeItem.cpp \
+    ../visualization/view/DiEdgeItem.cpp \
+    ../visualization/view/FlowEdgeItem.cpp \
+    ../visualization/view/GraphItemFactory.cpp \
+    ../visualization/view/DiGraphItemFactory.cpp \
+    ../visualization/view/FlowGraphItemFactory.cpp \
+    ../visualization/view/items/ArrowItem.cpp \
+    ../visualization/GraphWidget.cpp \
     ../visualization/GraphExporter.cpp \
-    ../visualization/graphwidget.cpp \
     ../graph/algorithms/ConnectedComponent.cpp \
     ../graph/graphs/DiEdge.cpp \
     ../graph/graphs/DiGraph.cpp \
@@ -67,19 +69,20 @@ HEADERS  += mainwindow.h \
     ui_dialogstring.h \
     ui_graphwindow.h \
     ui_mainwindow.h \
-    ../visualization/view/AbstractGraphItemFactory.h \
-    ../visualization/view/DiEdgeItem.h \
-    ../visualization/view/DiGraphItemFactory.h \
-    ../visualization/view/EdgeItem.h \
-    ../visualization/view/FlowEdgeItem.h \
-    ../visualization/view/FlowGraphItemFactory.h \
-    ../visualization/view/GraphItemFactory.h \
-    ../visualization/view/GraphScene.h \
+    ../visualization/Constants.h \
     ../visualization/view/GraphView.h \
+    ../visualization/view/GraphScene.h \
     ../visualization/view/VertexItem.h \
-    ../visualization/constants.h \
+    ../visualization/view/EdgeItem.h \
+    ../visualization/view/DiEdgeItem.h \
+    ../visualization/view/FlowEdgeItem.h \
+    ../visualization/view/AbstractGraphItemFactory.h \
+    ../visualization/view/GraphItemFactory.h \
+    ../visualization/view/DiGraphItemFactory.h \
+    ../visualization/view/FlowGraphItemFactory.h \
+    ../visualization/view/items/ArrowItem.h \
+    ../visualization/GraphWidget.h \
     ../visualization/GraphExporter.h \
-    ../visualization/graphwidget.h \
     ../graph/algorithms/ConnectedComponent.h \
     ../graph/graphs/DiEdge.h \
     ../graph/graphs/DiGraph.h \
