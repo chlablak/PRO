@@ -13,6 +13,7 @@
 #include "CopyToDiGraph.h"
 #include "CopyToGraph.h"
 #include "CopyToFlowGraph.h"
+#include "SCCTarjan.h"
 
 IGraph *GraphAlgorithm::bfs(IGraph *g, Vertex *from, vector<int>& distances) {
     Visitor *v = new BFS;
@@ -30,6 +31,12 @@ IGraph *GraphAlgorithm::dfs(IGraph *g, Vertex *from, vector<int> &dfsnum) {
 
 vector<int> &GraphAlgorithm::connectedComponent(IGraph *g) {
     Visitor *v = new ConnectedComponent;
+    g->accept(v, nullptr);
+    return v->table();
+}
+
+vector<int> &GraphAlgorithm::stronglyConnectedComponent(IGraph *g) {
+    Visitor *v = new SCCTarjan;
     g->accept(v, nullptr);
     return v->table();
 }
@@ -68,5 +75,3 @@ IGraph *GraphAlgorithm::copyToFlowGraph(IGraph *g) {
     g->accept(v, nullptr);
     return v->G();
 }
-
-

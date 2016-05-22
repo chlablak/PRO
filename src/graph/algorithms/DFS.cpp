@@ -81,6 +81,11 @@ void DFS::visit(FlowGraph *g, Vertex *from) {
 
     _G = g->emptyClone();
 
+    // Table of vertex discovery order
+    _dfsnum.assign(g->V(), 0);
+    N = 1;
+    _dfsnum.at(from->id()) = N;
+
     vector<int> debut, fin;
     debut.assign(g->V(), 0);
     fin.assign(g->V(), 0);
