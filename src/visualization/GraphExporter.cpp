@@ -1,5 +1,3 @@
-#include <QDebug>
-#include <QObject>
 #include <QPainter>
 #include <QFileDialog>
 #include <QSvgGenerator>
@@ -7,7 +5,6 @@
 #include "../graph/graphs/IGraph.h"
 
 #include "GraphExporter.h"
-#include "view/GraphScene.h"
 
 GraphExporter::GraphExporter(const IGraph* graph, QObject *parent)
     : QObject(parent),
