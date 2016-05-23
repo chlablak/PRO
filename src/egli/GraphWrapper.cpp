@@ -243,8 +243,12 @@ void egli::GraphWrapper::checkInfos(detail::RealType<Type::Array>::cref infos)
     }
 }
 
-egli::GraphWrapper::vertex_t *egli::GraphWrapper::getVertexById(size_t id)
+egli::GraphWrapper::vertex_t *egli::GraphWrapper::getVertexById(size_t id) const
 {
+    if (id >= graph()->V())
+        throw Exception("vertex id does not exist",
+                        "egli::GraphWrapper::getVertexById",
+                        detail::builtins::toString_i(id));
     for(vertex_t *it : graph()->vertexList()) {
         if (it->id() == id)
             return it;

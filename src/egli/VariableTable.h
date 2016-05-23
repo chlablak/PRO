@@ -12,8 +12,6 @@
 #include <list>
 #include <string>
 
-#warning replace std::map with utility::TstMap
-
 #include "Exception.h"
 #include "Array.h"
 #include "TEdge.h"

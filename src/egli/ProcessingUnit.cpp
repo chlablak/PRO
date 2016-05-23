@@ -89,8 +89,7 @@ void egli::ProcessingUnit::process(Statement &statement,
                                    VariableTable &variables)
 {
     // Enter a new temporary level
-    //TemporaryScope scope(variables);
-    #warning level are not used
+    TemporaryScope scope(variables);
 
     // Process the statement
     processStatement(statement, functions, variables);

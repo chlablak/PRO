@@ -44,5 +44,5 @@ void egli::detail::interfaceBuiltins(FunctionTable &table)
 
 void egli::detail::interfaceAlgorithms(FunctionTable &table)
 {
-
+    table.interface("bfs", algorithms::bfs);
 }
