@@ -9,16 +9,11 @@
 
 #include "GraphWrapper.h"
 #include "Array.h"
-#include "Edge.h"
-#include "Vertex.h"
+#include "TEdge.h"
+#include "TVertex.h"
 #include "Exception.h"
 #include "Number.h"
 #include "detail/interface/builtins.h"
-
-#warning D
-#include <iostream>
-#define D(v) std::cerr << __LINE__ << ":" << #v << "=" << v << std::endl;
-#define DL std::cerr << __FILE__ << ":" << __LINE__ << std::endl;
 
 egli::GraphWrapper::GraphWrapper(igraph_ptr_t g) :
     m_graph(g)
@@ -113,7 +108,6 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
 
     // Transform the Graph if necessary
     GraphType type = graphType();
-    D((int)type)
     if (type != GraphType::FlowGraph
         && (edge.maxCapacity.hasValue() || edge.minCapacity.hasValue())) {
         transformTo(GraphType::FlowGraph);
@@ -123,12 +117,10 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
         transformTo(GraphType::DiGraph);
         type = GraphType::DiGraph;
     }
-    D((int)type)
 
     // Edge to 2 DiEdge case
     if(type != GraphType::Graph
        && edge.connection == egli::Edge::Connection::Bidirectional) {
-        DL
         egli::Edge tmp(edge);
         tmp.connection = egli::Edge::Connection::Unidirectional;
         insert(tmp);
@@ -159,7 +151,6 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
         e->setWeight(edge.weight.value());
     if (edge.label.hasValue())
         e->setLabel(edge.label.value());
-    D(dynamic_cast<FlowEdge*>(e))
     if (edge.maxCapacity.hasValue())
         dynamic_cast<FlowEdge*>(e)->setMaxCapacity(edge.maxCapacity.value());
     if (edge.minCapacity.hasValue())

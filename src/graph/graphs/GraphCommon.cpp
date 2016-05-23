@@ -81,8 +81,9 @@ bool GraphCommon<T>::isPlanar() const {
         return false;
 
     size_t n = _vertices.size();
-    if (n < 3)
+    if (n < 3) {
         return true;
+    }
 
     return E() <= 3*n - 6;
 }
@@ -137,20 +138,9 @@ void GraphCommon<T>::ponderateEdges(const double w) {
 
 template <typename T>
 void GraphCommon<T>::addVertex(Vertex *v) {
-    bool inserted = false;
-    for (size_t i = 0; i < _vertices.size(); ++i) {
-        if (_vertices.at(i) == nullptr) {
-            v->setId(i);
-            _vertices.at(i) = v;
-            inserted = true;
-        }
-    }
-
-    if(!inserted) {
-        v->setId(_vertices.size());
-        _vertices.push_back(v);
-        _adjacentList.resize(_vertices.size());
-    }
+    v->setId(_vertices.size());
+    _vertices.push_back(v);
+    _adjacentList.resize(_vertices.size());
 }
 
 /**
@@ -158,13 +148,7 @@ void GraphCommon<T>::addVertex(Vertex *v) {
  */
 template <typename T>
 size_t GraphCommon<T>::V() const {
-    size_t count = 0;
-    for (Vertex *v : _vertices) {
-        if (v != nullptr) {
-            ++count;
-        }
-    }
-    return count;
+    return _vertices.size();
 }
 
 /**

@@ -48,15 +48,6 @@ public:
 
     virtual IEdge *createEdge(Vertex *v, Vertex *w) const override;
 
-
-    template<typename Func>
-    void forEachAdjacentVertex(Vertex *v, Func f) {
-        for(IEdge *ie : _adjacentList.at(v->id()) ) {
-            Edge *e = (Edge *)ie;
-            f(e->other(v));
-        }
-    }
-
     virtual void accept(Visitor *v, Vertex *from) override;
 };
 

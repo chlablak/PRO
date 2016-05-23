@@ -19,6 +19,10 @@ class Data
 {
 public:
 
+    /*! \brief Constructor
+     */
+    Data();
+
     // Preprocessor are not copyable
     Data(const Data&) = delete;
     Data &operator=(const Data&) = delete;

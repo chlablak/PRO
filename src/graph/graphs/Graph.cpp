@@ -14,8 +14,8 @@ Graph::Graph(const Graph &g) : GraphCommon(g) {
     for (IEdge *ie : g.edgeList()) {
         Edge *e = (Edge*)ie;
         Edge *copy = new Edge(*e);
-        copy->setA(_vertices.at(e->either()->id()));
-        copy->setB(_vertices.at(e->other(e->either())->id()));
+        copy->setA(_vertices.at(e->from()->id()));
+        copy->setB(_vertices.at(e->to()->id()));
         assignEdge(copy);
     }
 }
@@ -52,8 +52,10 @@ bool Graph::isSimple() const {
             }
             Edge *e2 = (Edge*)*edgeIt2;
             // check that the graph doesn't content a parallel edge or cycle
-            if(((e2->either()->operator==(e2->either()))) &&
-                (e2->other(e2->either())->operator==(e2->other(e2->either()))))
+            if((((e->either()->operator==(e2->either()))) &&
+                (e->other(e->either())->operator==(e2->other(e2->either())))) ||
+                 ((e->either()->operator==(e2->other(e2->either()))) &&
+                         (e->other(e->either())->operator==(e2->either()))) )
                 return false;
         }
     }

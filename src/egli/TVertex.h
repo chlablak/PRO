@@ -1,6 +1,6 @@
 /*! \brief Vertex structure
  *
- * \file Vertex.h
+ * \file TVertex.h (T for Type)
  * \author Patrick Champion
  * \date 26.04.2016
  */
