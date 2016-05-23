@@ -4,13 +4,6 @@
 
 #include "Vertex.h"
 
-Vertex::Vertex(const Vertex &v) {
-    _id = v.id();
-    _label = v.label();
-    _minCapacity = v.minCapacity();
-    _maxCapacity = v.maxCapacity();
-    _weight = v.weight();
-}
 
 int Vertex::id() const {
     return _id;
@@ -54,15 +47,15 @@ void Vertex::setId(const int i) {
 
 string Vertex::toString() const {
     string s = "(VERTEX) id: ";
-    s.append(patch::to_string(id()));
+    s.append(utility::toString(id()));
     s.append(", \"");
     s.append(label());
     s.append("\", weight: ");
-    s.append(patch::to_string(weight()));
+    s.append(utility::toString(weight()));
     s.append(", min cap: ");
-    s.append(patch::to_string(minCapacity()));
+    s.append(utility::toString(minCapacity()));
     s.append(", max cap: ");
-    s.append(patch::to_string(maxCapacity()));
+    s.append(utility::toString(maxCapacity()));
     return s;
 }
 

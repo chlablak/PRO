@@ -89,14 +89,6 @@ public:
 
     void erase(detail::RealType<Type::Edge>::cref edge);
 
-private:
-
-    void createIfNull();
-
-    static void checkInfos(detail::RealType<Type::Array>::cref infos);
-
-    vertex_t *getVertexById(size_t id);
-
     enum class GraphType
     {
         Graph,
@@ -105,6 +97,14 @@ private:
     };
 
     GraphType graphType() const;
+
+private:
+
+    void createIfNull();
+
+    static void checkInfos(detail::RealType<Type::Array>::cref infos);
+
+    vertex_t *getVertexById(size_t id);
 
     void transformTo(GraphType type);
 

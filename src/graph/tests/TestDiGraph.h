@@ -15,7 +15,7 @@ class TestDiGraph
 private:
     IGraph *_G;
 public:
-    TestDiGraph() {
+    TestDiGraph() : _G(nullptr) {
         // Create vertices
         Vertex *v1 = new Vertex("v1");
         Vertex *v2 = new Vertex("v2");

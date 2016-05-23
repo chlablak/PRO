@@ -35,7 +35,7 @@ IGraph *SCCTarjan::G() const {
     return nullptr;
 }
 
-std::vector<int> &SCCTarjan::table() {
+std::vector<int> SCCTarjan::table() {
     return _scc;
 }
 

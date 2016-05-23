@@ -12,8 +12,8 @@ DiGraphCommon<T>::DiGraphCommon(const DiGraphCommon &g) : GraphCommon<T>::GraphC
     for (IEdge *ie : g.edgeList()) {
         T *e = (T*)ie;
         T *copy = new T(*e);
-        copy->setA(this->_vertices.at(e->vertexA()->id()));
-        copy->setB(this->_vertices.at(e->vertexB()->id()));
+        copy->setA(this->_vertices.at(e->from()->id()));
+        copy->setB(this->_vertices.at(e->to()->id()));
         assignEdge(copy);
     }
 }

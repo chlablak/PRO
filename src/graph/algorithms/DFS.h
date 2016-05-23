@@ -22,14 +22,14 @@ private:
     void DFSprocedure(DiGraph *g, Vertex *u, vector<int> &debut, vector<int> &fin, int date);
     void DFSprocedure(FlowGraph *g, Vertex *u, vector<int> &debut, vector<int> &fin, int date);
 public:
-    DFS() : _dfsnum(0), _G(nullptr) {}
+    DFS() : _dfsnum(0), N(0), _G(nullptr) {}
     ~DFS();
 
     virtual void visit(Graph *g, Vertex *from) override;
     virtual void visit(DiGraph *g, Vertex *from) override;
     virtual void visit(FlowGraph *g, Vertex *from) override;
     virtual IGraph *G() const override;
-    virtual std::vector<int>& table() override;
+    virtual std::vector<int> table() override;
 };
 
 

@@ -24,13 +24,13 @@ private:
     void SCC(Vertex *u, DiGraph *g);
 
 public:
-    SCCTarjan() : _scc(0), _dfsnum(0), _low(0), _N(0), _K(0) { }
+    SCCTarjan() : _scc(0), _dfsnum(0), _low(0), _N(0), _K(0), _P() { }
     ~SCCTarjan();
     virtual void visit(Graph *g, Vertex *from) override;
     virtual void visit(DiGraph *g, Vertex *from) override;
     virtual void visit(FlowGraph *g, Vertex *from) override;
     virtual IGraph *G() const override;
-    virtual std::vector<int> &table() override;
+    virtual std::vector<int> table() override;
 
 };
 

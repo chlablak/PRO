@@ -1,3 +1,11 @@
+/*!
+ * \brief IGraph exporter class
+ *
+ * \file GraphExporter.cpp
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #include <QPainter>
 #include <QFileDialog>
 #include <QSvgGenerator>

@@ -13,7 +13,7 @@ class TestGraph
 private:
     IGraph *_G;
 public:
-    TestGraph() {
+    TestGraph() : _G(nullptr) {
         // Create vertices
         Vertex *v1 = new Vertex("v1");
         Vertex *v2 = new Vertex("v2");

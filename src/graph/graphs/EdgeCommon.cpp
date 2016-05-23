@@ -3,12 +3,13 @@
 //
 
 #include "EdgeCommon.h"
+#include "../../utility/Global.h"
 
 
 EdgeCommon::EdgeCommon(const EdgeCommon& e) {
     _id = e.id();
-    _a = e.vertexA(); // Superficial copy
-    _b = e.vertexB(); // Superficial copy
+    _a = e._a; // Superficial copy
+    _b = e._b; // Superficial copy
     _label = e.label();
     _weight = e.weight();
 }
@@ -16,15 +17,6 @@ EdgeCommon::EdgeCommon(const EdgeCommon& e) {
 
 int EdgeCommon::id() const {
     return _id;
-}
-
-
-Vertex *EdgeCommon::vertexA() const {
-    return _a;
-}
-
-Vertex *EdgeCommon::vertexB() const {
-    return _b;
 }
 
 string EdgeCommon::label() const {
@@ -57,23 +49,29 @@ void EdgeCommon::setWeight(double weight) {
 
 string EdgeCommon::toString() const {
     string s;
-    s.append(vertexA()->label());
+    s.append(from()->label());
     s.append("(");
-    s.append(patch::to_string(vertexA()->id()));
+    s.append(utility::toString(from()->id()));
     s.append(") ");
     s.append(edgeStyle());
     s.append(" (");
-    s.append(patch::to_string(vertexB()->id()));
+    s.append(utility::toString(to()->id()));
     s.append(")");
-    s.append(vertexB()->label());
+    s.append(to()->label());
     s.append(" id: ");
-    s.append(patch::to_string(id()));
+    s.append(utility::toString(id()));
     s.append(", \"");
     s.append(label());
     s.append("\", weight: ");
-    s.append(patch::to_string(weight()));
+    s.append(utility::toString(weight()));
 
     return s;
+}
+
+EdgeCommon &EdgeCommon::operator=(const EdgeCommon &e) {
+    UNUSED(e);
+
+    // TODO
 }
 
 

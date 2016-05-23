@@ -14,8 +14,8 @@ Graph::Graph(const Graph &g) : GraphCommon(g) {
     for (IEdge *ie : g.edgeList()) {
         Edge *e = (Edge*)ie;
         Edge *copy = new Edge(*e);
-        copy->setA(_vertices.at(e->vertexA()->id()));
-        copy->setB(_vertices.at(e->vertexB()->id()));
+        copy->setA(_vertices.at(e->either()->id()));
+        copy->setB(_vertices.at(e->other(e->either())->id()));
         assignEdge(copy);
     }
 }
