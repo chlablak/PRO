@@ -16,20 +16,28 @@
 
 class FileReader
 {
+public:
+    /*!
+     * \brief constructor
+     * \param fileName
+     */
+    FileReader(QString fileName);
+
+    /*!
+     * \brief return a list of strings from the file
+     * \return QStringList a.k.a QList<QString>
+     */
+    QStringList getStringList();
+
+    /*!
+     * \brief returns a single string representing the whole file
+     * \return QString
+     */
+    QString getString();
+
 private:
     QString fileName;
     QStringList lines;
-
-public:
-    FileReader(QString fileName);
-	
-	/*! \brief return a list of strings from the file
-	 */
-    QStringList getStringList();
-	
-	/*! \brief returns a single string representing the whole file
-	 */
-    QString getString();
 };
 
 #endif // FILEREADER_H

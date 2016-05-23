@@ -6,7 +6,6 @@
 #include "CopyToFlowGraph.h"
 #include "../graphs/Graph.h"
 #include "../graphs/FlowGraph.h"
-#include "../graphs/FlowEdge.h"
 #include "../graphs/DiGraph.h"
 
 

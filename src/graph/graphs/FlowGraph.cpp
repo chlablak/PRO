@@ -3,7 +3,6 @@
 //
 
 #include "FlowGraph.h"
-#include "FlowEdge.h"
 
 IGraph *FlowGraph::emptyClone() const {
     FlowGraph *g = new FlowGraph;

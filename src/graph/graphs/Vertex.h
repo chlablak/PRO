@@ -84,14 +84,14 @@ public:
 
     // L'utilisateur de cette classe devra respcter la contrainte qui est
     // deux vertexs ne devra jamais avoir le même label
-    bool operator == (const Vertex v) const{
-        return _label == v._label;
+    bool operator == (const Vertex &v) const{
+        return _id == v._id;
     }
     bool operator == (const Vertex *v) const{
-        return _label == v->_label;
+        return _id == v->_id;
     }
     bool operator != (const Vertex* v) const{
-        return _label != v->_label;
+        return _id != v->_id;
     }
 };
 

@@ -18,28 +18,28 @@ SOURCES += main.cpp\
     console.cpp \
     dialogstring.cpp \
     graphwindow.cpp \
-    userHelp/browserpane.cpp \
-    userHelp/buttonpane.cpp \
-    userHelp/filereader.cpp \
-    userHelp/helppage.cpp \
-    userHelp/keywordsearcher.cpp \
-    userHelp/mainbrowser.cpp \
-    userHelp/navigationmenu.cpp \
-    userHelp/navigationpane.cpp \
-    userHelp/searchbar.cpp \
-    userHelp/helpmainlayout.cpp \
-    userHelp/helpwindow.cpp \
+    ../userHelp/browserpane.cpp \
+    ../userHelp/buttonpane.cpp \
+    ../userHelp/filereader.cpp \
+    ../userHelp/helppage.cpp \
+    ../userHelp/keywordsearcher.cpp \
+    ../userHelp/mainbrowser.cpp \
+    ../userHelp/navigationmenu.cpp \
+    ../userHelp/navigationpane.cpp \
+    ../userHelp/searchbar.cpp \
+    ../userHelp/helpmainlayout.cpp \
+    ../userHelp/helpwindow.cpp \
     ../visualization/view/items/ArrowItem.cpp \
+    ../visualization/view/GraphView.cpp \
+    ../visualization/view/GraphScene.cpp \
+    ../visualization/view/VertexItem.cpp \
+    ../visualization/view/EdgeItem.cpp \
     ../visualization/view/DiEdgeItem.cpp \
     ../visualization/view/DiGraphItemFactory.cpp \
-    ../visualization/view/EdgeItem.cpp \
     ../visualization/view/FlowEdgeItem.cpp \
     ../visualization/view/FlowGraphItemFactory.cpp \
     ../visualization/view/GraphItemFactory.cpp \
-    ../visualization/view/GraphScene.cpp \
     ../visualization/view/GraphSceneManager.cpp \
-    ../visualization/view/GraphView.cpp \
-    ../visualization/view/VertexItem.cpp \
     ../visualization/GraphExporter.cpp \
     ../visualization/GraphWidget.cpp \
     ../graph/algorithms/BellmanFordSP.cpp \
@@ -90,20 +90,20 @@ HEADERS  += mainwindow.h \
     console.h \
     dialogstring.h \
     graphwindow.h \
-    userHelp/browserpane.h \
-    userHelp/buttonpane.h \
-    userHelp/filereader.h \
-    userHelp/helppage.h \
-    userHelp/keywordsearcher.h \
-    userHelp/mainbrowser.h \
-    userHelp/navigationmenu.h \
-    userHelp/navigationpane.h \
-    userHelp/searchbar.h \
+    ../userHelp/browserpane.h \
+    ../userHelp/buttonpane.h \
+    ../userHelp/filereader.h \
+    ../userHelp/helppage.h \
+    ../userHelp/keywordsearcher.h \
+    ../userHelp/mainbrowser.h \
+    ../userHelp/navigationmenu.h \
+    ../userHelp/navigationpane.h \
+    ../userHelp/searchbar.h \
+    ../userHelp/helpmainlayout.h \
+    ../userHelp/helpwindow.h \
     ui_dialogstring.h \
     ui_graphwindow.h \
     ui_mainwindow.h \
-    userHelp/helpmainlayout.h \
-    userHelp/helpwindow.h \
     ../visualization/view/items/ArrowItem.h \
     ../visualization/view/AbstractGraphItemFactory.h \
     ../visualization/view/DiEdgeItem.h \
@@ -181,7 +181,6 @@ HEADERS  += mainwindow.h \
     ../egli/TVertex.h \
     ../egli/Type.h \
     ../egli/VariableTable.h
-
 	
 FORMS    += mainwindow.ui \
     dialogstring.ui \

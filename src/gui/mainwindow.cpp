@@ -132,7 +132,7 @@ void MainWindow::closeTab(int index)
 void MainWindow::showHelp() {
     helpWindow = HelpWindow::getInstance(
                                 this,
-                                new QString("../gui/userHelp/pages/"));
+                                new QString("../userHelp/pages/"));
     helpWindow->show();
 }
 

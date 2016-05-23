@@ -26,7 +26,12 @@ Console* Console::currentConsole = nullptr;
 
 Console::Console() : Console("") {}
 
-Console::Console(const QString& s, QWidget *parent) : prompt(s), cursor(textCursor()), c(0), QTextEdit(parent){
+
+Console::Console(const QString& s, QWidget *parent) : prompt(s),
+                                                      cursor(textCursor()),
+                                                      completer(nullptr),
+                                                      completerWordList(nullptr)
+{
     cursorPosition = 0;
     insertPlainText(prompt + " > ");
     setAcceptDrops(false);
@@ -40,33 +45,16 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s), cursor(textCurs
         QObject::connect(this, SIGNAL(requestTabNameChanges(const QString&)), parent, SLOT(setTabName(const QString&)));
     }
 
-    c = new QCompleter(parent);
-    setCompleter(c);
-
     if (!interfaced) {
         interpreter.functions().interface("draw", drawGraph);
         interfaced = true;
     }
 }
 
-void Console::keyPressEvent(QKeyEvent *event) {
+void Console::processKeyboardInput(QKeyEvent *event)
+{
     if(!isReadOnly())
     {
-        if(c && c->popup()->isVisible())
-        {
-            switch(event->key())
-            {
-            case Qt::Key_Enter:
-            case Qt::Key_Return:
-            case Qt::Key_Escape:
-            case Qt::Key_Tab:
-            case Qt::Key_Backtab:
-                event->ignore();
-                return;
-            default:
-                break;
-            }
-        }
 
         if(event->matches(QKeySequence::Cut))
             event->ignore();
@@ -176,21 +164,6 @@ void Console::keyPressEvent(QKeyEvent *event) {
                 save();
             }
         }
-        else if( event->key() == Qt::Key_Space && event->modifiers() & Qt::ControlModifier)
-        {
-            std::cout << "Code completion" << std::endl;
-
-            QRect cr = cursorRect();
-            std::cout << cr.left() << " " << cr.top() << std::endl;
-            cr.setWidth(c->popup()->sizeHintForColumn(0) + c->popup()->verticalScrollBar()->sizeHint().width());
-            std::cout << cr.width() << std::endl;
-            c->complete(cr);
-            std::cout << c->popup()->pos().x() << " " << c->popup()->pos().y() << std::endl;
-        }
-        /*else if( event->modifiers() & Qt::ControlModifier || event->modifiers() & Qt::AltModifier)
-        {
-            event->ignore();
-        }*/
         else
         {
             if(event->text() != "")
@@ -389,75 +362,104 @@ bool Console::drawGraph(const IGraph* graph)
     return true;
 }
 
-
-
-//COMPLETER=============================================================
-void Console::setCompleter(QCompleter *completer)
+void Console::insertCompletion(const QString &completion)
 {
-    if(c)
-    {
-        QObject::disconnect(c, 0, this, 0);
-    }
-
-    c = completer;
-
-    if(!c)
-    {
+    if (completer == nullptr) {
         return;
     }
-
-    c->setWidget(this);
-    c->setCompletionMode(QCompleter::PopupCompletion);
-    c->setCaseSensitivity(Qt::CaseInsensitive);
-    QObject::connect(c, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
-}
-
-QCompleter* Console::completer() const
-{
-    return c;
-}
-
-void Console::insertCompletion(const QString& completion)
-{
-    if(c->widget() != this)
-    {
-        return;
-    }
-
-    int extra = completion.length() - c->completionPrefix().length();
-
     QTextCursor tc = textCursor();
-
+    int extra = completion.length() - completer->completionPrefix().length();
     tc.movePosition(QTextCursor::Left);
     tc.movePosition(QTextCursor::EndOfWord);
     tc.insertText(completion.right(extra));
     setTextCursor(tc);
-
-
-    /*
-    cursor.movePosition(QTextCursor::Left);
-    cursor.movePosition(QTextCursor::EndOfWord);
-    cursor.insertText(completion.right(extra));
-
-    setTextCursor(cursor);
-    //*/
-
-    buffer.insert(cursorPosition, completion.right(extra));
-    cursorPosition += extra;
 }
 
 QString Console::textUnderCursor() const
 {
-    QTextCursor tc = cursor;
+    QTextCursor tc = textCursor();
     tc.select(QTextCursor::WordUnderCursor);
     return tc.selectedText();
 }
 
-void Console::focusInEvent(QFocusEvent* event)
+void Console::focusInEvent(QFocusEvent *e)
 {
-    if(c)
-    {
-        c->setWidget(this);
+    if (completer)
+        completer->setWidget(this);
+    QTextEdit::focusInEvent(e);
+}
+
+bool Console::caseInsensitiveLessThan(const QString &s1, const QString &s2)
+{
+    return s1.toLower() < s2.toLower();
+}
+
+void Console::setCompleterList(QStringList l)
+{
+    qSort(l.begin(), l.end(), Console::caseInsensitiveLessThan);
+
+    completerWordList = new QStringList(l);
+
+    if (completer)
+        QObject::disconnect(completer, 0, this, 0);
+
+    completer = new QCompleter(*completerWordList);
+    completer->setWidget(this);
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    QObject::connect(completer, SIGNAL(activated(QString)),
+                     this, SLOT(insertCompletion(QString)));
+
+}
+
+void Console::keyPressEvent(QKeyEvent *e)
+{
+    if (completer && completer->popup()->isVisible()) {
+        switch (e->key()) {
+            case Qt::Key_Enter:
+            case Qt::Key_Return:
+            case Qt::Key_Escape:
+            case Qt::Key_Tab:
+            case Qt::Key_Backtab:
+                e->ignore();
+                return;
+            default:
+                break;
+        }
     }
-    QTextEdit::focusInEvent(event);
+
+    bool isShortcut = ((e->modifiers() & Qt::ControlModifier) &&
+                        e->key() == Qt::Key_Space);
+
+    if (!completer || !isShortcut)
+        processKeyboardInput(e);
+
+    bool ctrlOrShift = e->modifiers() &
+                       (Qt::ControlModifier | Qt::ShiftModifier);
+
+    if (!completer || (ctrlOrShift && e->text().isEmpty()))
+        return;
+
+    static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-="); // end of word
+
+    bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
+    QString completionPrefix = textUnderCursor();
+
+    if (!isShortcut && (hasModifier || e->text().isEmpty()||
+                        completionPrefix.length() < 3 ||
+                        eow.contains(e->text().right(1)))) {
+        completer->popup()->hide();
+        return;
+    }
+
+    if (completionPrefix != completer->completionPrefix()) {
+        completer->setCompletionPrefix(completionPrefix);
+        completer->popup()->
+                 setCurrentIndex(completer->completionModel()->index(0, 0));
+    }
+
+    QRect cr = cursorRect();
+    cr.setWidth(completer->popup()->sizeHintForColumn(0)
+                + completer->popup()->verticalScrollBar()->sizeHint().width());
+    completer->complete(cr);
 }

@@ -7,7 +7,13 @@
 #include <QLinkedList>
 #include <QByteArray>
 #include <QCompleter>
-#include <QAbstractItemModel>
+#include <QCompleter>
+#include <QStringList>
+#include <QAbstractItemView>
+#include <QApplication>
+#include <QModelIndex>
+#include <QScrollBar>
+#include <QtAlgorithms>
 #include "../egli/egli.h"
 
 class Console : public QTextEdit
@@ -21,12 +27,32 @@ public:
     QByteArray prepareDataForSave();
     void loadDataToConsole(QByteArray& data, bool ignoreFilename = true);
 
-    void setCompleter(QCompleter *completer);
-    QCompleter* completer() const;
+    /*!
+     * \brief completer word list mutator
+     * \param l: list of words
+     */
+    void setCompleterList(QStringList l);
+
+    /*!
+     * \brief returns if s1 < s2 (case insensitive
+     * \param s1
+     * \param s2
+     * \return bool
+     */
+    static bool caseInsensitiveLessThan(const QString &s1, const QString &s2);
 
 protected:
-    void keyPressEvent(QKeyEvent* event);
-    void focusInEvent(QFocusEvent* event);
+    /*!
+     * \brief processes the raw keyboard input
+     * \param e: keyEvent
+     */
+    void keyPressEvent(QKeyEvent *e);
+
+    /*!
+     * \brief redefined to focus on the completer when needed
+     * \param e: focusEvent
+     */
+    void focusInEvent(QFocusEvent *e);
 
 private:
     QString buffer;    
@@ -34,8 +60,6 @@ private:
     QLinkedList<QString> commandHistory;
     QLinkedList<QString>::iterator currentCommand;
     QString filename;
-
-    const QString fileDelimiter = "°§§°";
 
     static egli::Interpreter interpreter;
     static bool interfaced;
@@ -47,17 +71,26 @@ private:
     bool hasChanged;
     size_t cursorPosition;
     QTextCursor cursor;
-
-    QCompleter *c;
+    const QString fileDelimiter = "°§§°";
 
     void clearDisplay();
-
     void consoleHasChanged();
-
-    QString textUnderCursor() const;
 
     static bool drawGraph(const IGraph* graph);
     static Console* currentConsole;
+
+    /*!
+     * \brief gets the current word under cursor
+     * \return word under cursor
+     */
+    QString textUnderCursor() const;
+
+    /*! \brief Custom keyboard input processing for console use
+     */
+    void processKeyboardInput(QKeyEvent *e);
+
+    QCompleter *completer;
+    QStringList *completerWordList;
 
 signals:
     void signalChanges();
@@ -72,7 +105,9 @@ public slots:
     void load();
 
 private slots:
-    void insertCompletion(const QString& completion);
+    /*! \brief Inserts the end of selected word to cursor position
+     */
+    void insertCompletion(const QString &completion);
 };
 
 #endif // CONSOLE_H

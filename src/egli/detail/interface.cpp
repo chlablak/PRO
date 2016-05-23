@@ -29,6 +29,8 @@ void egli::detail::interfaceBasics(FunctionTable &table)
 
 void egli::detail::interfaceBuiltins(FunctionTable &table)
 {
+    table.interface("save", builtins::save);
+    table.interface("load", builtins::load);
     table.interface("toString", builtins::toString_a);
     table.interface("toString", builtins::toString_b);
     table.interface("toString", builtins::toString_e);
