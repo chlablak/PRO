@@ -188,5 +188,4 @@ FORMS    += mainwindow.ui \
 
 QMAKE_CXXFLAGS += -std=c++0x -fpermissive
 
-INCLUDEPATH += C:/boost_1_60_0/
-LIBS += "-LC:/boost_1_60_0/stage/lib/"
+INCLUDEPATH += "C:/Program Files/boost/boost_1_60_0/"
