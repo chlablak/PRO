@@ -26,6 +26,16 @@
 class MainBrowser : public QTextBrowser
 {
     Q_OBJECT
+
+public:
+    /*!
+     * \brief Returns the instance of the HelpBrowser (singleton)
+     * \param parent: parent widget
+     * \param baseUrl: base url for html files
+     * \return MainBrowser*
+     */
+    static MainBrowser* getInstance(QWidget *parent, QString *baseUrl);
+
 private:
     MainBrowser(QWidget *parent);
 
@@ -34,17 +44,18 @@ private:
 	
 	QWidget *parent;
 
-public:
-	/*! \brief returns the instance of the HelpBrowser (singleton)
-	 */
-    static MainBrowser* getInstance(QWidget *parent, QString *baseUrl);
-
 public slots:
-	/*! \brief displays the result HTML page
-	 */
+    /*!
+     * \brief Displays the result HTML page
+     * \param search: search word
+     */
     void searchAsked(QString search);
-    void setSource(const QUrl &name);
 
+    /*!
+     * \brief Loads specified html page
+     * \param name: url of page
+     */
+    void setSource(const QUrl &name);
 };
 
 #endif // MAINBROWSER_H

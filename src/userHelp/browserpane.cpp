@@ -13,7 +13,7 @@ QString BrowserPane::keywordFile = nullptr;
 
 BrowserPane::BrowserPane(QWidget *parent) : parent(parent)
 {
-    searchBar = new SearchBar();
+    searchBar = SearchBar::getInstance(parent);
     mainBrowser = MainBrowser::getInstance(parent, _baseUrl);
 
     addWidget(searchBar);

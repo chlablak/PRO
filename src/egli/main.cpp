@@ -110,7 +110,7 @@ int main()
                 cout << "TABLE:\n" << var;
             }
             cout << endl;
-        } catch (const egli::Exception &e) {
+        } catch (const runtime_error &e) {
             cout << e.what() << endl;
         }
         cout << endl;

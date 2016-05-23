@@ -2,6 +2,7 @@
 // Created by sebri on 16.05.2016.
 //
 
+#include <stdexcept>
 #include "Kruskal.h"
 #include "UnionFind.h"
 #include "../graphs/Graph.h"

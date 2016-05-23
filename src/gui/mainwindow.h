@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#include "userHelp/helpwindow.h"
+#include "../userHelp/helpwindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,12 +18,14 @@ public:
     ~MainWindow();
 public slots:
     void newGraph();
+    void saveSession();
     void loadSession();
     void showHelp();
     void newTab(const QString&);
     void saveTab();
     void loadTab();
     void closeTab(int index);
+    void closeCurrent();
     void consoleHasChanged();
     void saveConsole();
     void getTabName(QString&);
@@ -32,8 +34,8 @@ private:
     Ui::MainWindow *ui;
     HelpWindow *helpWindow;
 
-protected:
-    void keyPressEvent(QKeyEvent *e);
+//protected:
+    //void keyPressEvent(QKeyEvent *e);
 };
 
 #endif // MAINWINDOW_H
