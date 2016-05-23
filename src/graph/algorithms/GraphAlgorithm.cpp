@@ -31,13 +31,13 @@ IGraph *GraphAlgorithm::dfs(IGraph *g, Vertex *from, vector<int> &dfsnum) {
     return v->G();
 }
 
-vector<int> &GraphAlgorithm::connectedComponent(IGraph *g) {
+vector<int> GraphAlgorithm::connectedComponent(IGraph *g) {
     Visitor *v = new ConnectedComponent;
     g->accept(v, nullptr);
     return v->table();
 }
 
-vector<int> &GraphAlgorithm::stronglyConnectedComponent(IGraph *g) {
+vector<int> GraphAlgorithm::stronglyConnectedComponent(IGraph *g) {
     Visitor *v = new SCCTarjan;
     g->accept(v, nullptr);
     return v->table();

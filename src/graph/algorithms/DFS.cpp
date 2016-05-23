@@ -107,7 +107,7 @@ IGraph *DFS::G() const {
     return _G;
 }
 
-std::vector<int>& DFS::table() {
+std::vector<int> DFS::table() {
     return _dfsnum;
 }
 

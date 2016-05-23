@@ -83,6 +83,6 @@ IGraph *BellmanFordSP::G() const {
     return _G;
 }
 
-std::vector<int> &BellmanFordSP::table() {
-    throw std::runtime_error("caca");
+std::vector<int> BellmanFordSP::table() {
+    throw std::runtime_error("caca"); // TODO
 }

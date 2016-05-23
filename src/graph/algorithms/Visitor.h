@@ -23,7 +23,7 @@ public:
 
     virtual IGraph* G() const = 0;
 
-    virtual std::vector<int>& table() = 0;
+    virtual std::vector<int> table() = 0;
 };
 
 

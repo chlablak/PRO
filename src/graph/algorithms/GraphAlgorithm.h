@@ -16,8 +16,8 @@ class GraphAlgorithm
 public:
     static IGraph* bfs(IGraph *g, Vertex *from, vector<int>& distances);
     static IGraph* dfs(IGraph *g, Vertex *from, vector<int>& dfsnum);
-    static vector<int>& connectedComponent(IGraph *g);
-    static vector<int>& stronglyConnectedComponent(IGraph *g);
+    static vector<int> connectedComponent(IGraph *g);
+    static vector<int> stronglyConnectedComponent(IGraph *g);
     static IGraph* kruskal(IGraph *g);
     static IGraph* prim(IGraph *g, Vertex *from);
     static IGraph* copyToGraph(IGraph *g);

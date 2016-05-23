@@ -72,7 +72,7 @@ IGraph *Prim::G() const {
     return _G;
 }
 
-std::vector<int> &Prim::table() {
+std::vector<int> Prim::table() {
     throw std::runtime_error("No table for Prim algorithm");
 }
 

@@ -112,7 +112,7 @@ IGraph *DijkstraSP::G() const {
     return _G;
 }
 
-std::vector<int> &DijkstraSP::table() {
+std::vector<int> DijkstraSP::table() {
     throw std::runtime_error("no table in DijkstraSP");
 }
 
