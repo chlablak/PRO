@@ -1,3 +1,11 @@
+/*!
+ * \brief IGraph widget visualizer class
+ *
+ * \file GraphWidget.cpp
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #include <QVBoxLayout>
 
 #include "../graph/graphs/IGraph.h"

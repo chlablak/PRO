@@ -151,6 +151,19 @@ struct Fetcher<utility::Optional<T>>
     }
 };
 
+// Specialize for std::vector
+template<typename T>
+struct Fetcher<std::vector<T>>
+{
+    using cref = std::vector<T>;
+
+    static cref get(const VariableTable &table, const std::string &name)
+    {
+        return Fetcher<RealType<Type::Array>::type>::get(table, name)
+            .toVector<T>();
+    }
+};
+
 // id_type -> Integer
 template<>
 struct Fetcher<id_type> :
