@@ -16,28 +16,34 @@ void BFS::visit(Graph *g, Vertex *from) {
         return;
     }
 
-    _G = g->emptyClone();
+    Graph *gClone = g->clone();
+    _G = gClone->emptyClone();
+
     // Table of distances
-    _distances.assign(g->V(), numeric_limits<int>::max());
+    _distances.assign(gClone->V(), numeric_limits<int>::max());
     _distances.at(from->id()) = 0;
 
     // Initialize list with from
     list<Vertex*> Q;
-    Q.push_back(from);
-
-    // Initialize a graph with only the source vertex in it
-    _G->assignVertex(from);
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            Q.push_back(v);
+            break;
+        }
+    }
 
     while (!Q.empty()) {
-        Vertex *u = Q.front();
-        Q.pop_front();
+        Vertex *u = Q.front(); Q.pop_front();
+        _G->assignVertex(u);
 
-        g->forEachAdjacentVertex(u, [&g, this, &u, &Q](Vertex *v){
+        gClone->forEachAdjacentEdge(u, [this, &u, &Q](IEdge *ie){
+            Vertex *v = ie->other(u);
+
             if (_distances.at(v->id()) == numeric_limits<int>::max()) {
                 _distances.at(v->id()) = _distances.at(u->id()) + 1;
-                _G->assignVertex(v);
-                _G->assignEdge(g->getEdges(u, v).front());
                 Q.push_back(v);
+                _G->assignVertex(v);
+                _G->assignEdge(ie);
             }
         });
     }
@@ -49,24 +55,34 @@ void BFS::visit(DiGraph *g, Vertex *from) {
         return;
     }
 
-    _G = g->emptyClone();
+    DiGraph *gClone = g->clone();
+    _G = gClone->emptyClone();
 
-    _distances.assign(g->V(), -1);
+    _distances.assign(gClone->V(), -1);
     vector<Vertex*> p;
-    p.assign(g->V(), nullptr);
+    p.assign(gClone->V(), nullptr);
     _distances[from->id()] = 0;
+
     stack<Vertex*> Q;
-    Q.push(from);
+    // Initialize stack with from
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            Q.push(v);
+            break;
+        }
+    }
 
     while (!Q.empty()) {
         Vertex *u = Q.top(); Q.pop();
         _G->assignVertex(u);
-        g->forEachAdjacentEdge(u, [&p, &Q, this, &u](IEdge *ie) {
+
+        gClone->forEachAdjacentEdge(u, [&p, &Q, this, &u](IEdge *ie) {
             Vertex *v = ie->to();
             if (_distances[v->id()] == -1) {
                 _distances[v->id()] = _distances[u->id()] + 1;
                 p[v->id()] = u;
                 Q.push(v);
+
                 _G->assignVertex(v);
                 _G->assignEdge(ie);
             }
@@ -80,24 +96,34 @@ void BFS::visit(FlowGraph *g, Vertex *from) {
         return;
     }
 
-    _G = g->emptyClone();
+    FlowGraph *gClone = g->clone();
+    _G = gClone->emptyClone();
 
-    _distances.assign(g->V(), -1);
+    _distances.assign(gClone->V(), -1);
     vector<Vertex*> p;
-    p.assign(g->V(), nullptr);
+    p.assign(gClone->V(), nullptr);
     _distances[from->id()] = 0;
+
     stack<Vertex*> Q;
-    Q.push(from);
+    // Initialize stack with from
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            Q.push(v);
+            break;
+        }
+    }
 
     while (!Q.empty()) {
         Vertex *u = Q.top(); Q.pop();
         _G->assignVertex(u);
-        g->forEachAdjacentEdge(u, [&p, &Q, this, &u](IEdge *ie) {
+
+        gClone->forEachAdjacentEdge(u, [&p, &Q, this, &u](IEdge *ie) {
             Vertex *v = ie->to();
             if (_distances[v->id()] == -1) {
                 _distances[v->id()] = _distances[u->id()] + 1;
                 p[v->id()] = u;
                 Q.push(v);
+
                 _G->assignVertex(v);
                 _G->assignEdge(ie);
             }

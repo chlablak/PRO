@@ -4,12 +4,10 @@
 
 #include "ConnectedComponent.h"
 #include "../graphs/Graph.h"
-#include <stdexcept>
-
 
 ConnectedComponent::~ConnectedComponent() { }
 
-void ConnectedComponent::visit(Graph *g, Vertex *from = nullptr) {
+void ConnectedComponent::visit(Graph *g, Vertex *from) {
     UNUSED(from);
 
     _cc.assign(g->V(), 0);

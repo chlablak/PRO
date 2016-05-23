@@ -5,8 +5,6 @@
 #include <stack>
 #include "DFS.h"
 #include "../graphs/Graph.h"
-#include "../graphs/DiGraph.h"
-#include "../graphs/FlowGraph.h"
 
 void DFS::DFSprocedure(Graph *g, Vertex *u) {
     g->forEachAdjacentVertex(u, [&g, &u, this](Vertex *v){

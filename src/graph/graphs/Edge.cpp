@@ -7,7 +7,7 @@
 Vertex* Edge::either() const { return _a; }
 
 Vertex* Edge::other(Vertex *v) const {
-    return v == this->_a ? this->_b : this->_a;
+    return (v == this->_a) ? this->_b : this->_a;
 }
 
 string Edge::toString() const {

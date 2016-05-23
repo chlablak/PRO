@@ -221,6 +221,10 @@ public:
     friend ostream& operator<<(ostream& os, const IGraph& ig) {
         return os << ig.toString();
     }
+
+
+
+    virtual void printAdjList() const = 0;
 };
 
 

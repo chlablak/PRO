@@ -86,6 +86,18 @@ public:
     friend ostream& operator<<(ostream& os, const GraphCommon<T>& g) {
         return os << g.toString();
     }
+
+    virtual void printAdjList() const override {
+        for (Vertex *v : _vertices) {
+            cout << "|" << v->label() << "(" << v->id() << ") | --- ";
+            for(IEdge *ie : _adjacentList.at(v->id())) {
+                cout << ie->label() << "(" << ie->id() << ") --- ";
+            }
+            cout << "/" << endl;
+        }
+    }
+
+
 };
 
 #include "GraphCommon.cpp"
