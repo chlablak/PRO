@@ -1,19 +1,16 @@
-#include "console.h"
 #include <iostream>
 #include <QMenu>
 #include <QApplication>
 #include <QClipboard>
 #include <QFileDialog>
-#include "graphwindow.h"
 #include <QBuffer>
 #include <QCompleter>
 #include <QAbstractItemView>
 #include <QScrollBar>
 
-#include <QStringListModel>
-#include <QStringList>
 
-
+#include "graphwindow.h"
+#include "console.h"
 #include "../visualization/GraphWidget.h"
 #include "../visualization/GraphExporter.h"
 
@@ -22,6 +19,10 @@
 /*
  *
  */
+
+egli::Interpreter Console::interpreter;
+bool Console::interfaced = false;
+Console* Console::currentConsole = nullptr;
 
 Console::Console() : Console("") {}
 
@@ -41,6 +42,11 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s), cursor(textCurs
 
     c = new QCompleter(parent);
     setCompleter(c);
+
+    if (!interfaced) {
+        interpreter.functions().interface("draw", drawGraph);
+        interfaced = true;
+    }
 }
 
 void Console::keyPressEvent(QKeyEvent *event) {
@@ -67,27 +73,6 @@ void Console::keyPressEvent(QKeyEvent *event) {
 
         if( event->key() == Qt::Key_Escape)
         {
-            /*
-            Vertex *v1 = new Vertex("Vertex 1");
-            Vertex *v2 = new Vertex("Vertex 2");
-            Vertex *v3 = new Vertex("Vertex 3");
-            Vertex *v4 = new Vertex("Vertex 4");
-
-            IEdge *e1 = new Edge(v1, v2, "Edge 1", 3.2);
-            IEdge *e2 = new Edge(v1, v4, "Edge 2", 1.0);
-            IEdge *e3 = new Edge(v4, v2, "Edge 1", 5.0);
-
-            vector<Vertex *> vectices = { v1, v2, v3, v4 };
-            vector<IEdge *> edges = { e1, e2, e3 };
-
-            IGraph *graph = new Graph(vectices, edges);
-
-
-            /*GraphWindow *g = new GraphWindow(this, graph, "salut");
-
-            g->show();*/
-
-
             clearDisplay();
             currentCommand = commandHistory.end();
         }
@@ -173,13 +158,16 @@ void Console::keyPressEvent(QKeyEvent *event) {
             currentCommand = commandHistory.end();
 
             std::cout << buffer.toStdString() << std::endl;
-            //execute(buffer);
+
+
+            execute(buffer);
 
             insertPlainText("\n" + prompt + " > ");
             cursor.movePosition(QTextCursor::End);
             cursorPosition = 0;
             buffer = "";
             consoleHasChanged();
+            ensureCursorVisible();
         }
         else if( event->key() == Qt::Key_S && event->modifiers() & Qt::ControlModifier)
         {
@@ -191,10 +179,6 @@ void Console::keyPressEvent(QKeyEvent *event) {
         else if( event->key() == Qt::Key_Space && event->modifiers() & Qt::ControlModifier)
         {
             std::cout << "Code completion" << std::endl;
-
-
-
-            c->setModel(modelFromFile(":/resources/wordlist.txt"));
 
             QRect cr = cursorRect();
             std::cout << cr.left() << " " << cr.top() << std::endl;
@@ -221,6 +205,23 @@ void Console::keyPressEvent(QKeyEvent *event) {
                 consoleHasChanged();
             }
         }
+    }
+}
+
+void Console::execute(const QString &buffer)
+{
+    currentConsole = this;
+    interpreter.setData(&dataState);
+    interpreter.writer() << buffer.toStdString();
+    while(interpreter.available()) {
+        try {
+            egli::Statement statement = interpreter.next();
+            insertPlainText("\n => "+QString::fromStdString(statement.value+" = "+dataState.variables().toString(statement.value)));
+
+        } catch(const std::runtime_error& e) {
+            insertPlainText("\n => "+QString(e.what()));
+        }
+        ensureCursorVisible();
     }
 }
 
@@ -265,29 +266,6 @@ void QTextEdit::contextMenuEvent(QContextMenuEvent *event)
     delete menu;
 }
 
-QByteArray Console::prepareDataForSave() {
-    QByteArray qba("");
-
-    QString tabName = "";
-
-    emit askTabName(tabName);
-
-    qba.append(tabName+"\n");
-    qba.append(filename+"\n");
-    qba.append(prompt+"\n");
-    qba.append(buffer+"\n");
-    qba.append(QString::number(commandHistory.size())+"\n");
-    for(auto c: commandHistory) {
-        qba.append(c+fileDelimiter+"\n");
-    }
-
-    qba.append(QString(QString::number(toPlainText().count("\n")+1)+"\n"));
-
-    qba.append(toPlainText()+"\n");
-
-    return qba;
-}
-
 void Console::save() {
     if(filename == "")
     {
@@ -310,6 +288,24 @@ void Console::save() {
 
     emit signalSave();
     hasChanged = false;
+}
+
+QByteArray Console::prepareDataForSave() {
+    QByteArray qba("");
+
+    QString tabName = "";
+
+    emit askTabName(tabName);
+
+    qba.append(tabName+"\n");
+    qba.append(filename+"\n");
+    qba.append(prompt+"\n");
+    qba.append(QString::number(commandHistory.size())+"\n");
+    for(auto c: commandHistory) {
+        qba.append(c+fileDelimiter+"\n");
+    }
+
+    return qba;
 }
 
 void Console::load() {
@@ -364,10 +360,6 @@ void Console::loadDataToConsole(QByteArray& data, bool ignoreFilename)
 
     size = dataBuffer.readLine(charArray, 1023);
     charArray[size-1] = '\0';
-    buffer = QString(charArray);
-
-    size = dataBuffer.readLine(charArray, 1023);
-    charArray[size-1] = '\0';
     int nbrOfCommand = atoi(charArray);
 
     for(int i = 0; i < nbrOfCommand;) {
@@ -383,21 +375,18 @@ void Console::loadDataToConsole(QByteArray& data, bool ignoreFilename)
     }
     currentCommand = commandHistory.end();
 
-    size = dataBuffer.readLine(charArray, 1023);
-    charArray[size-1] = '\0';
-    int nbrLine = atoi(charArray);
-
-    for(int i = 0; i < nbrLine; i++) {
-        size = dataBuffer.readLine(charArray, 1023);
-        charArray[size-1] = '\0';
-        append(QString(charArray));
-    }
-
     cursorPosition = buffer.size();
     cursor.movePosition(QTextCursor::End);
     setTextCursor(cursor);
 
     dataBuffer.close();
+}
+
+bool Console::drawGraph(const IGraph* graph)
+{
+    GraphWindow *g = new GraphWindow(currentConsole, graph, QString());
+    g->show();
+    return true;
 }
 
 

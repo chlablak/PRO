@@ -83,6 +83,19 @@ void MainWindow::loadSession() {
     if(fname.isEmpty()) {
         return;
     }
+
+    QFile file(fname);
+    file.open(QIODevice::ReadOnly);
+
+    QByteArray qba = file.readAll();
+
+    //qba = QByteArray::fromHex(qba);
+
+
+
+
+
+    file.close();
 }
 
 void MainWindow::consoleHasChanged()

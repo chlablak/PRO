@@ -27,33 +27,43 @@ SOURCES += main.cpp\
     userHelp/navigationmenu.cpp \
     userHelp/navigationpane.cpp \
     userHelp/searchbar.cpp \
-    ../visualization/view/GraphView.cpp \
-    ../visualization/view/GraphScene.cpp \
-    ../visualization/view/VertexItem.cpp \
-    ../visualization/view/EdgeItem.cpp \
-    ../visualization/view/DiEdgeItem.cpp \
-    ../visualization/view/FlowEdgeItem.cpp \
-    ../visualization/view/GraphItemFactory.cpp \
-    ../visualization/view/DiGraphItemFactory.cpp \
-    ../visualization/view/FlowGraphItemFactory.cpp \
+    userHelp/helpmainlayout.cpp \
+    userHelp/helpwindow.cpp \
     ../visualization/view/items/ArrowItem.cpp \
+    ../visualization/view/DiEdgeItem.cpp \
+    ../visualization/view/DiGraphItemFactory.cpp \
+    ../visualization/view/EdgeItem.cpp \
+    ../visualization/view/FlowEdgeItem.cpp \
+    ../visualization/view/FlowGraphItemFactory.cpp \
+    ../visualization/view/GraphItemFactory.cpp \
+    ../visualization/view/GraphScene.cpp \
     ../visualization/view/GraphSceneManager.cpp \
-    ../visualization/GraphWidget.cpp \
+    ../visualization/view/GraphView.cpp \
+    ../visualization/view/VertexItem.cpp \
     ../visualization/GraphExporter.cpp \
+    ../visualization/GraphWidget.cpp \
+    ../graph/algorithms/BellmanFordSP.cpp \
+    ../graph/algorithms/BFS.cpp \
     ../graph/algorithms/ConnectedComponent.cpp \
+    ../graph/algorithms/CopyToDiGraph.cpp \
+    ../graph/algorithms/CopyToFlowGraph.cpp \
+    ../graph/algorithms/CopyToGraph.cpp \
+    ../graph/algorithms/DFS.cpp \
+    ../graph/algorithms/DijkstraSP.cpp \
+    ../graph/algorithms/GraphAlgorithm.cpp \
+    ../graph/algorithms/Kruskal.cpp \
+    ../graph/algorithms/Prim.cpp \
+    ../graph/algorithms/SCCTarjan.cpp \
+    ../graph/algorithms/UnionFind.cpp \
     ../graph/graphs/DiEdge.cpp \
+    ../graph/graphs/DiEdgeCommon.cpp \
     ../graph/graphs/DiGraph.cpp \
     ../graph/graphs/Edge.cpp \
+    ../graph/graphs/EdgeCommon.cpp \
     ../graph/graphs/FlowEdge.cpp \
     ../graph/graphs/FlowGraph.cpp \
     ../graph/graphs/Graph.cpp \
     ../graph/graphs/GraphCommon.cpp \
-    ../graph/graphs/Vertex.cpp \
-    ../graph/graphs/DiEdgeCommon.cpp \
-    ../graph/graphs/EdgeCommon.cpp \
-    userHelp/helpmainlayout.cpp \
-    userHelp/helpwindow.cpp \
-    ../graph/graphs/IEdge.cpp \
     ../graph/graphs/Vertex.cpp \
     ../egli/detail/interface/algorithms.cpp \
     ../egli/detail/interface/basics.cpp \
@@ -63,18 +73,18 @@ SOURCES += main.cpp\
     ../egli/detail/TemporaryName.cpp \
     ../egli/Array.cpp \
     ../egli/Data.cpp \
-    ../egli/Edge.cpp \
     ../egli/Exception.cpp \
     ../egli/FunctionTable.cpp \
     ../egli/GraphWrapper.cpp \
     ../egli/Interpreter.cpp \
-    ../egli/main.cpp \
     ../egli/Number.cpp \
     ../egli/Parser.cpp \
     ../egli/ProcessingUnit.cpp \
     ../egli/Statement.cpp \
-    ../egli/VariableTable.cpp \
-    ../egli/Vertex.cpp
+    ../egli/TEdge.cpp \
+    ../egli/toString.cpp \
+    ../egli/TVertex.cpp \
+    ../egli/VariableTable.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
@@ -92,26 +102,44 @@ HEADERS  += mainwindow.h \
     ui_dialogstring.h \
     ui_graphwindow.h \
     ui_mainwindow.h \
-    ../visualization/Constants.h \
-    ../visualization/view/GraphView.h \
-    ../visualization/view/GraphScene.h \
-    ../visualization/view/VertexItem.h \
-    ../visualization/view/EdgeItem.h \
-    ../visualization/view/DiEdgeItem.h \
-    ../visualization/view/FlowEdgeItem.h \
-    ../visualization/view/AbstractGraphItemFactory.h \
-    ../visualization/view/GraphItemFactory.h \
-    ../visualization/view/DiGraphItemFactory.h \
-    ../visualization/view/FlowGraphItemFactory.h \
+    userHelp/helpmainlayout.h \
+    userHelp/helpwindow.h \
     ../visualization/view/items/ArrowItem.h \
+    ../visualization/view/AbstractGraphItemFactory.h \
+    ../visualization/view/DiEdgeItem.h \
+    ../visualization/view/DiGraphItemFactory.h \
+    ../visualization/view/EdgeItem.h \
+    ../visualization/view/FlowEdgeItem.h \
+    ../visualization/view/FlowGraphItemFactory.h \
+    ../visualization/view/GraphItemFactory.h \
+    ../visualization/view/GraphScene.h \
     ../visualization/view/GraphSceneManager.h \
-    ../visualization/GraphWidget.h \
+    ../visualization/view/GraphView.h \
+    ../visualization/view/VertexItem.h \
+    ../visualization/Constants.h \
     ../visualization/GraphExporter.h \
-    ../utility/Hash.h \
+    ../visualization/GraphWidget.h \
+    ../graph/algorithms/BellmanFordSP.h \
+    ../graph/algorithms/BFS.h \
     ../graph/algorithms/ConnectedComponent.h \
+    ../graph/algorithms/CopyToDiGraph.h \
+    ../graph/algorithms/CopyToFlowGraph.h \
+    ../graph/algorithms/CopyToGraph.h \
+    ../graph/algorithms/DFS.h \
+    ../graph/algorithms/DijkstraSP.h \
+    ../graph/algorithms/GraphAlgorithm.h \
+    ../graph/algorithms/Kruskal.h \
+    ../graph/algorithms/Prim.h \
+    ../graph/algorithms/SCCTarjan.h \
+    ../graph/algorithms/UnionFind.h \
+    ../graph/algorithms/Visitor.h \
     ../graph/graphs/DiEdge.h \
+    ../graph/graphs/DiEdgeCommon.h \
     ../graph/graphs/DiGraph.h \
+    ../graph/graphs/DiGraphCommon.h \
+    ../graph/graphs/DiGraphCommon.hpp \
     ../graph/graphs/Edge.h \
+    ../graph/graphs/EdgeCommon.h \
     ../graph/graphs/FlowEdge.h \
     ../graph/graphs/FlowGraph.h \
     ../graph/graphs/Graph.h \
@@ -120,12 +148,12 @@ HEADERS  += mainwindow.h \
     ../graph/graphs/IGraph.h \
     ../graph/graphs/Vertex.h \
     ../graph/Includes.h \
-    ../graph/graphs/DiEdgeCommon.h \
-    ../graph/graphs/DiGraphCommon.h \
-    ../graph/graphs/DiGraphCommon.hpp \
-    ../graph/graphs/EdgeCommon.h \
-    userHelp/helpmainlayout.h \
-    userHelp/helpwindow.h \
+    ../utility/dictionary/Node.h \
+    ../utility/dictionary/TST.h \
+    ../utility/dictionary/TST_implem.h \
+    ../utility/Global.h \
+    ../utility/Hash.h \
+    ../utility/Optional.h \
     ../egli/detail/interface/algorithms.h \
     ../egli/detail/interface/basics.h \
     ../egli/detail/interface/builtins.h \
@@ -138,7 +166,6 @@ HEADERS  += mainwindow.h \
     ../egli/detail/TemporaryName.h \
     ../egli/Array.h \
     ../egli/Data.h \
-    ../egli/Edge.h \
     ../egli/egli.h \
     ../egli/Exception.h \
     ../egli/Function.h \
@@ -149,15 +176,18 @@ HEADERS  += mainwindow.h \
     ../egli/Parser.h \
     ../egli/ProcessingUnit.h \
     ../egli/Statement.h \
+    ../egli/TEdge.h \
+    ../egli/toString.h \
+    ../egli/TVertex.h \
     ../egli/Type.h \
-    ../egli/VariableTable.h \
-    ../egli/Vertex.h
+    ../egli/VariableTable.h
+
 	
 FORMS    += mainwindow.ui \
     dialogstring.ui \
     graphwindow.ui
 
-QMAKE_CXXFLAGS += -std=c++0x
+QMAKE_CXXFLAGS += -std=c++0x -fpermissive
 
 INCLUDEPATH += C:/boost_1_60_0/
 LIBS += "-LC:/boost_1_60_0/stage/lib/"

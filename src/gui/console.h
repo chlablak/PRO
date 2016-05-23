@@ -8,6 +8,7 @@
 #include <QByteArray>
 #include <QCompleter>
 #include <QAbstractItemModel>
+#include "../egli/egli.h"
 
 class Console : public QTextEdit
 {
@@ -34,6 +35,15 @@ private:
     QLinkedList<QString>::iterator currentCommand;
     QString filename;
 
+    const QString fileDelimiter = "°§§°";
+
+    static egli::Interpreter interpreter;
+    static bool interfaced;
+    egli::Data dataState;
+
+    void execute(const QString& buffer);
+
+
     bool hasChanged;
     size_t cursorPosition;
     QTextCursor cursor;
@@ -46,7 +56,8 @@ private:
 
     QString textUnderCursor() const;
 
-    const QString fileDelimiter = "°§§°";
+    static bool drawGraph(const IGraph* graph);
+    static Console* currentConsole;
 
 signals:
     void signalChanges();

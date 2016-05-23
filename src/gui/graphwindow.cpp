@@ -8,7 +8,7 @@
 
 #include "../graph/Includes.h"
 
-GraphWindow::GraphWindow(QWidget *parent, IGraph *graph, const QString& name) :
+GraphWindow::GraphWindow(QWidget *parent, const IGraph* graph, const QString& name) :
     QDialog(parent),
     ui(new Ui::GraphWindow)
 {

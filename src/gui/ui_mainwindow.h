@@ -118,10 +118,8 @@ public:
         menuBar->addAction(menuFile->menuAction());
         menuBar->addAction(menuGraph->menuAction());
         menuBar->addAction(menuHelp->menuAction());
-        menuFile->addAction(newSession);
-        menuFile->addAction(loadSession);
-        menuFile->addSeparator();
         menuFile->addAction(saveSession);
+        menuFile->addAction(loadSession);
         menuEdit->addAction(actionExit);
         menuGraph->addAction(newGraph);
         menuGraph->addAction(loadGraph);
