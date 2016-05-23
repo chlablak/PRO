@@ -6,9 +6,9 @@
  */
 
 #include "Array.h"
-#include "Edge.h"
+#include "TEdge.h"
 #include "Number.h"
-#include "Vertex.h"
+#include "TVertex.h"
 #include "GraphWrapper.h"
 
 // Quick writing

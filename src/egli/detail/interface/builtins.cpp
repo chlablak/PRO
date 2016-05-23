@@ -10,9 +10,9 @@
 
 #include "builtins.h"
 #include "../../Array.h"
-#include "../../Edge.h"
+#include "../../TEdge.h"
 #include "../../Number.h"
-#include "../../Vertex.h"
+#include "../../TVertex.h"
 #include "../../GraphWrapper.h"
 
 egli::detail::RealType<egli::Type::String>::type

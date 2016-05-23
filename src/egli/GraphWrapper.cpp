@@ -9,8 +9,8 @@
 
 #include "GraphWrapper.h"
 #include "Array.h"
-#include "Edge.h"
-#include "Vertex.h"
+#include "TEdge.h"
+#include "TVertex.h"
 #include "Exception.h"
 #include "Number.h"
 #include "detail/interface/builtins.h"
