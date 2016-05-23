@@ -61,6 +61,7 @@ void Prim::visit(Graph *g, Vertex *from) {
         marked[v->id()] = true;
 
         pq.erase(pq.begin());
+
         gClone->forEachAdjacentEdge(v,[&](IEdge* ie) {
             Edge *e2 = (Edge*)ie;
             Vertex *w = e2->other(v);
