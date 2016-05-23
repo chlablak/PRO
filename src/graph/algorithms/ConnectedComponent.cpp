@@ -4,6 +4,7 @@
 
 #include "ConnectedComponent.h"
 #include "../graphs/Graph.h"
+#include <stdexcept>
 
 
 ConnectedComponent::~ConnectedComponent() { }
@@ -37,7 +38,7 @@ void ConnectedComponent::visit(Graph *g, Vertex *from = nullptr) {
 void ConnectedComponent::visit(DiGraph *g, Vertex *from) {
     UNUSED(g);
     UNUSED(from);
-    throw runtime_error("The 'Connected Component' algorithm doesn't apply for"
+    throw std::runtime_error("The 'Connected Component' algorithm doesn't apply for"
                                 "directed graphs. Use the 'Strongly Connect"
                                 "Componnent Tarjan' algorithm instead");
 }
@@ -45,7 +46,7 @@ void ConnectedComponent::visit(DiGraph *g, Vertex *from) {
 void ConnectedComponent::visit(FlowGraph *g, Vertex *from) {
     UNUSED(g);
     UNUSED(from);
-    throw runtime_error("The 'Connected Component' algorithm doesn't apply for"
+    throw std::runtime_error("The 'Connected Component' algorithm doesn't apply for"
                                 "directed graphs. Use the 'Strongly Connect"
                                 "Componnent Tarjan' algorithm instead");
 }
