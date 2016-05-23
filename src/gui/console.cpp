@@ -43,6 +43,7 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s),
         QObject::connect(this, SIGNAL(signalSave()), parent, SLOT(saveConsole()));
         QObject::connect(this, SIGNAL(askTabName(QString&)), parent, SLOT(getTabName(QString&)));
         QObject::connect(this, SIGNAL(requestTabNameChanges(const QString&)), parent, SLOT(setTabName(const QString&)));
+        //QObject::connect(this, SIGNAL(requestChanges(int) parent, SLOT(changeTab(int)));
     }
 
     if (!interfaced) {

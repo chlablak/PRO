@@ -24,13 +24,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->setStyleSheet("QTabBar::tab{width:100px;}");
 
     QObject::connect(ui->newGraph, SIGNAL(triggered(bool)), this, SLOT(newGraph()));
-    QObject::connect(ui->newSession, SIGNAL(triggered(bool)), this, SLOT(saveSession()));
+    QObject::connect(ui->saveSession, SIGNAL(triggered(bool)), this, SLOT(saveSession()));
     QObject::connect(ui->loadSession, SIGNAL(triggered(bool)), this, SLOT(loadSession()));
     QObject::connect(ui->showHelp, SIGNAL(triggered(bool)), this, SLOT(showHelp()));
     QObject::connect(ui->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     QObject::connect(ui->saveGraph, SIGNAL(triggered(bool)), this, SLOT(saveTab()));
     QObject::connect(ui->loadGraph, SIGNAL(triggered(bool)), this, SLOT(loadTab()));
-
+    QObject::connect(ui->closeGraph, SIGNAL(triggered(bool)), this, SLOT(closeCurrent()));
 
 }
 
@@ -129,6 +129,11 @@ void MainWindow::closeTab(int index)
     ui->tabWidget->removeTab(index);
 }
 
+void MainWindow::closeCurrent()
+{
+    ui->tabWidget->removeTab(ui->tabWidget->currentIndex());
+}
+
 void MainWindow::showHelp() {
     helpWindow = HelpWindow::getInstance(
                                 this,
@@ -142,13 +147,4 @@ void MainWindow::getTabName(QString& name) {
 
 void MainWindow::setTabName(const QString& name) {
     ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), name);
-}
-
-void MainWindow::keyPressEvent(QKeyEvent *e)
-{
-    if (e->key() == Qt::Key_F1) {
-        showHelp();
-    } else {
-        QMainWindow::keyPressEvent(e);
-    }
 }

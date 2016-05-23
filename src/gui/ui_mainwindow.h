@@ -26,7 +26,6 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
-    QAction *newSession;
     QAction *loadSession;
     QAction *saveSession;
     QAction *actionSave_all;
@@ -54,8 +53,6 @@ public:
         MainWindow->resize(800, 600);
         MainWindow->setDocumentMode(false);
         MainWindow->setDockNestingEnabled(true);
-        newSession = new QAction(MainWindow);
-        newSession->setObjectName(QStringLiteral("newSession"));
         loadSession = new QAction(MainWindow);
         loadSession->setObjectName(QStringLiteral("loadSession"));
         saveSession = new QAction(MainWindow);
@@ -139,15 +136,20 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "GraphY", 0));
-        newSession->setText(QApplication::translate("MainWindow", "New", 0));
         loadSession->setText(QApplication::translate("MainWindow", "Load", 0));
+        loadSession->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+L", 0));
         saveSession->setText(QApplication::translate("MainWindow", "Save", 0));
+        saveSession->setShortcut(QApplication::translate("MainWindow", "Ctrl+Shift+S", 0));
         actionSave_all->setText(QApplication::translate("MainWindow", "Save all", 0));
         newGraph->setText(QApplication::translate("MainWindow", "New", 0));
+        newGraph->setShortcut(QApplication::translate("MainWindow", "Ctrl+N", 0));
         loadGraph->setText(QApplication::translate("MainWindow", "Load", 0));
+        loadGraph->setShortcut(QApplication::translate("MainWindow", "Ctrl+L", 0));
         closeGraph->setText(QApplication::translate("MainWindow", "Close", 0));
+        closeGraph->setShortcut(QApplication::translate("MainWindow", "Ctrl+W", 0));
         closeAllGraphs->setText(QApplication::translate("MainWindow", "Close All", 0));
         saveGraph->setText(QApplication::translate("MainWindow", "Save", 0));
+        saveGraph->setShortcut(QApplication::translate("MainWindow", "Ctrl+S", 0));
         saveAllGraphs->setText(QApplication::translate("MainWindow", "Save All", 0));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
         showHelp->setText(QApplication::translate("MainWindow", "Show help", 0));

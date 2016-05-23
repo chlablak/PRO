@@ -25,6 +25,7 @@ public slots:
     void saveTab();
     void loadTab();
     void closeTab(int index);
+    void closeCurrent();
     void consoleHasChanged();
     void saveConsole();
     void getTabName(QString&);
@@ -33,8 +34,8 @@ private:
     Ui::MainWindow *ui;
     HelpWindow *helpWindow;
 
-protected:
-    void keyPressEvent(QKeyEvent *e);
+//protected:
+    //void keyPressEvent(QKeyEvent *e);
 };
 
 #endif // MAINWINDOW_H
