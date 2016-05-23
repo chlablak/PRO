@@ -7,6 +7,15 @@
 
 class HelpWindow : public QDialog
 {
+public:
+    /*!
+     * \brief Returns an instance of HelpWindow (singleton)
+     * \param parent: parent widget
+     * \param baseUrl: base url for html files
+     * \return HelpWindow*
+     */
+    static HelpWindow *getInstance(QWidget *parent, QString *baseUrl);
+
 private:
     HelpWindow(QWidget *parent);
 
@@ -14,11 +23,6 @@ private:
     static QString *_baseUrl;
 
     QWidget *parent;
-
-public:
-    static HelpWindow *getInstance(QWidget *parent, QString *baseUrl);
-
-
 };
 
 #endif // HELPWINDOW_H

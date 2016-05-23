@@ -22,6 +22,23 @@
 class BrowserPane : public QVBoxLayout
 {
     Q_OBJECT
+
+public:
+    /*!
+     * \brief returns an instance of the HelpWindow (singleton)
+     * \param parent: parent widget
+     * \param baseUrl: base url for html pages
+     * \return BrowserPane*
+     */
+    static BrowserPane *getInstance(QWidget *parent, QString *baseUrl);
+
+    /*!
+     * \brief MainBrowser accessor
+     * \return MainBrowser*
+     */
+    MainBrowser *getMainBrowser();
+    SearchBar *getSearchBar();
+
 private:
     BrowserPane(QWidget *parent);
 
@@ -34,21 +51,16 @@ private:
     SearchBar *searchBar;
     MainBrowser *mainBrowser;
 
-public:
-	/*! \brief returns an instance of the HelpWindow (singleton)
-	 */
-    static BrowserPane *getInstance(QWidget *parent, QString *baseUrl);
-
-    MainBrowser *getMainBrowser();
-    SearchBar *getSearchBar();
-
 signals:
-    /* \brief signal emitted to the HelpBrowser when a user enters a search
+    /*!
+     * \brief emitted to the HelpBrowser when a user enters a search
+     * \param searchWord
      */
     void searchResultsRequested(QString searchWord);
 
 public slots:
-    /* \brief slot called when user presses enter to start a searchAsked
+    /*!
+     * \brief called when user presses enter to start a searchAsked
      */
     void searchAsked();
 };

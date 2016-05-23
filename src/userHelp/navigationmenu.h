@@ -12,7 +12,15 @@
 
 class NavigationMenu : public QTextBrowser
 {
-    Q_OBJECT
+public:
+    /*!
+     * \brief Returns an instance of NavigationMenu (singleton)
+     * \param parent: parent widget
+     * \param baseUrl: base url for html files
+     * \return NavigationMenu*
+     */
+    static NavigationMenu *getInstance(QWidget *parent, QString *baseUrl);
+
 private:
     NavigationMenu(QWidget *parent);
 	
@@ -20,11 +28,6 @@ private:
     static QString *_baseUrl;
 
     QWidget *parent;
-    
-public:
-	/*! \brief Returns an instance of NavigationMenu (singleton)
-	 */
-    static NavigationMenu *getInstance(QWidget *parent, QString *baseUrl);
 };
 
 #endif // NAVIGATIONMENU_H

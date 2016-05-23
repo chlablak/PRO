@@ -18,15 +18,17 @@ SOURCES += main.cpp\
     console.cpp \
     dialogstring.cpp \
     graphwindow.cpp \
-    userHelp/browserpane.cpp \
-    userHelp/buttonpane.cpp \
-    userHelp/filereader.cpp \
-    userHelp/helppage.cpp \
-    userHelp/keywordsearcher.cpp \
-    userHelp/mainbrowser.cpp \
-    userHelp/navigationmenu.cpp \
-    userHelp/navigationpane.cpp \
-    userHelp/searchbar.cpp \
+    ../userHelp/browserpane.cpp \
+    ../userHelp/buttonpane.cpp \
+    ../userHelp/filereader.cpp \
+    ../userHelp/helppage.cpp \
+    ../userHelp/keywordsearcher.cpp \
+    ../userHelp/mainbrowser.cpp \
+    ../userHelp/navigationmenu.cpp \
+    ../userHelp/navigationpane.cpp \
+    ../userHelp/searchbar.cpp \
+    ../userHelp/helpmainlayout.cpp \
+    ../userHelp/helpwindow.cpp \
     ../visualization/view/GraphView.cpp \
     ../visualization/view/GraphScene.cpp \
     ../visualization/view/VertexItem.cpp \
@@ -50,23 +52,23 @@ SOURCES += main.cpp\
     ../graph/graphs/GraphCommon.cpp \
     ../graph/graphs/Vertex.cpp \
     ../graph/graphs/DiEdgeCommon.cpp \
-    ../graph/graphs/EdgeCommon.cpp \
-    userHelp/helpmainlayout.cpp \
-    userHelp/helpwindow.cpp
+    ../graph/graphs/EdgeCommon.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
     dialogstring.h \
     graphwindow.h \
-    userHelp/browserpane.h \
-    userHelp/buttonpane.h \
-    userHelp/filereader.h \
-    userHelp/helppage.h \
-    userHelp/keywordsearcher.h \
-    userHelp/mainbrowser.h \
-    userHelp/navigationmenu.h \
-    userHelp/navigationpane.h \
-    userHelp/searchbar.h \
+    ../userHelp/browserpane.h \
+    ../userHelp/buttonpane.h \
+    ../userHelp/filereader.h \
+    ../userHelp/helppage.h \
+    ../userHelp/keywordsearcher.h \
+    ../userHelp/mainbrowser.h \
+    ../userHelp/navigationmenu.h \
+    ../userHelp/navigationpane.h \
+    ../userHelp/searchbar.h \
+    ../userHelp/helpmainlayout.h \
+    ../userHelp/helpwindow.h \
     ui_dialogstring.h \
     ui_graphwindow.h \
     ui_mainwindow.h \
@@ -101,9 +103,7 @@ HEADERS  += mainwindow.h \
     ../graph/graphs/DiEdgeCommon.h \
     ../graph/graphs/DiGraphCommon.h \
     ../graph/graphs/DiGraphCommon.hpp \
-    ../graph/graphs/EdgeCommon.h \
-    userHelp/helpmainlayout.h \
-    userHelp/helpwindow.h
+    ../graph/graphs/EdgeCommon.h
 	
 FORMS    += mainwindow.ui \
     dialogstring.ui \

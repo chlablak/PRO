@@ -18,7 +18,11 @@
 
 Console::Console() : Console("") {}
 
-Console::Console(const QString& s, QWidget *parent) : prompt(s), cursor(textCursor()) {
+Console::Console(const QString& s, QWidget *parent) : prompt(s),
+                                                      cursor(textCursor()),
+                                                      completer(nullptr),
+                                                      completerWordList(nullptr)
+{
     cursorPosition = 0;
     insertPlainText(prompt + " > ");
     setAcceptDrops(false);
@@ -32,9 +36,14 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s), cursor(textCurs
         QObject::connect(this, SIGNAL(requestTabNameChanges(const QString&)), parent, SLOT(setTabName(const QString&)));
     }
 
+    QStringList list;
+    list << "alpha" << "bravo" << "charlie" << "delta";
+
+    setCompleterList(list);
 }
 
-void Console::keyPressEvent(QKeyEvent *event) {
+void Console::processKeyboardInput(QKeyEvent *event)
+{
     if(!isReadOnly())
     {
         if(event->matches(QKeySequence::Cut))
@@ -351,7 +360,107 @@ void Console::load() {
         data[size-1] = '\0';
         append(QString(data));
     }
-
-
     file.close();
+}
+
+void Console::insertCompletion(const QString &completion)
+{
+    if (completer == nullptr) {
+        return;
+    }
+    QTextCursor tc = textCursor();
+    int extra = completion.length() - completer->completionPrefix().length();
+    tc.movePosition(QTextCursor::Left);
+    tc.movePosition(QTextCursor::EndOfWord);
+    tc.insertText(completion.right(extra));
+    setTextCursor(tc);
+}
+
+QString Console::textUnderCursor() const
+{
+    QTextCursor tc = textCursor();
+    tc.select(QTextCursor::WordUnderCursor);
+    return tc.selectedText();
+}
+
+void Console::focusInEvent(QFocusEvent *e)
+{
+    if (completer)
+        completer->setWidget(this);
+    QTextEdit::focusInEvent(e);
+}
+
+bool Console::caseInsensitiveLessThan(const QString &s1, const QString &s2)
+{
+    return s1.toLower() < s2.toLower();
+}
+
+void Console::setCompleterList(QStringList l)
+{
+    qSort(l.begin(), l.end(), Console::caseInsensitiveLessThan);
+
+    completerWordList = new QStringList(l);
+
+    if (completer)
+        QObject::disconnect(completer, 0, this, 0);
+
+    completer = new QCompleter(*completerWordList);
+    completer->setWidget(this);
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    QObject::connect(completer, SIGNAL(activated(QString)),
+                     this, SLOT(insertCompletion(QString)));
+
+}
+
+void Console::keyPressEvent(QKeyEvent *e)
+{
+    if (completer && completer->popup()->isVisible()) {
+        switch (e->key()) {
+            case Qt::Key_Enter:
+            case Qt::Key_Return:
+            case Qt::Key_Escape:
+            case Qt::Key_Tab:
+            case Qt::Key_Backtab:
+                e->ignore();
+                return;
+            default:
+                break;
+        }
+    }
+
+    bool isShortcut = ((e->modifiers() & Qt::ControlModifier) &&
+                        e->key() == Qt::Key_Space);
+
+    if (!completer || !isShortcut)
+        processKeyboardInput(e);
+
+    bool ctrlOrShift = e->modifiers() &
+                       (Qt::ControlModifier | Qt::ShiftModifier);
+
+    if (!completer || (ctrlOrShift && e->text().isEmpty()))
+        return;
+
+    static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-="); // end of word
+
+    bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
+    QString completionPrefix = textUnderCursor();
+
+    if (!isShortcut && (hasModifier || e->text().isEmpty()||
+                        completionPrefix.length() < 3 ||
+                        eow.contains(e->text().right(1)))) {
+        completer->popup()->hide();
+        return;
+    }
+
+    if (completionPrefix != completer->completionPrefix()) {
+        completer->setCompletionPrefix(completionPrefix);
+        completer->popup()->
+                 setCurrentIndex(completer->completionModel()->index(0, 0));
+    }
+
+    QRect cr = cursorRect();
+    cr.setWidth(completer->popup()->sizeHintForColumn(0)
+                + completer->popup()->verticalScrollBar()->sizeHint().width());
+    completer->complete(cr);
 }

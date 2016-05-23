@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#include "userHelp/helpwindow.h"
+#include "../userHelp/helpwindow.h"
 
 namespace Ui {
 class MainWindow;
