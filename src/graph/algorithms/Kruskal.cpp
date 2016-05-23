@@ -56,11 +56,17 @@ void Kruskal::visit(Graph *g, Vertex *from) {
 void Kruskal::visit(DiGraph *g, Vertex *from) {
     UNUSED(g);
     UNUSED(from);
+
+    throw std::runtime_error("Error. A directed graph can't be applied"
+                                     "to 'Kruskal algorithm'");
 }
 
 void Kruskal::visit(FlowGraph *g, Vertex *from) {
     UNUSED(g);
     UNUSED(from);
+
+    throw std::runtime_error("Error. A flo graph can't be applied"
+                                     "to 'Kruskal' algorithm.");
 }
 
 IGraph *Kruskal::G() const {
