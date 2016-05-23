@@ -1751,7 +1751,7 @@
 	
 		\subsection{Fonctions incluses}
 			\label{subsec:annexes-fonctions-incluses}
-			Cet annexe recense les fonctions incluses dans l'interpréteur et disponibles pour l'utilisateur de l'application. Les fonctions \textit{built-in} viennent de l'interpréteur directement, et les fonctions \textit{algo} proviennent de la couche sur les graphes et ses algorithmes.\\
+			Cet annexe recense les fonctions incluses dans l'interpréteur et disponibles pour l'utilisateur de l'application. Les fonctions \textit{built-in} viennent de l'interpréteur directement, les fonctions \textit{algo} proviennent de la couche sur les graphes et ses algorithmes, et les fonctions \texttt{GUI} sont spécifiques à la couche interface GUI.\\
 			
 			Note: les paramètres de type \texttt{T} indiquent qu'il existe une surcharge de la fonction pour chacun des types disponible dans le langage.
 			
@@ -1761,7 +1761,9 @@
 					Prototype & Description & Origine\\
 					\hline
 					\texttt{String toString(T a)} & Retourne la représentation de \texttt{a} sous forme de chaîne & \textit{built-in}\\
-					\texttt{} & & \textit{}\\
+					\texttt{Boolean save(Graph g, String file)} & Sauvegarde le graphe \texttt{g} dans le fichier \texttt{file} & \textit{built-in}\\
+					\texttt{Graph load(String file)} & Charge le graphe contenu dans le fichier \texttt{file} & \texttt{built-in}\\
+					\texttt{Boolean draw(Graph g)} & Dessine le graphe \texttt{g} & \texttt{GUI}\\
 				\end{tabular}
 			\end{figure}
 	
