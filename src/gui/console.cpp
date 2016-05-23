@@ -50,6 +50,8 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s),
         interpreter.functions().interface("draw", drawGraph);
         interfaced = true;
     }
+
+    updateCompleterList();
 }
 
 void Console::processKeyboardInput(QKeyEvent *event)
@@ -197,6 +199,7 @@ void Console::execute(const QString &buffer)
         }
         ensureCursorVisible();
     }
+    updateCompleterList();
 }
 
 void Console::clearDisplay()
@@ -368,12 +371,20 @@ void Console::insertCompletion(const QString &completion)
     if (completer == nullptr) {
         return;
     }
-    QTextCursor tc = textCursor();
+
     int extra = completion.length() - completer->completionPrefix().length();
-    tc.movePosition(QTextCursor::Left);
-    tc.movePosition(QTextCursor::EndOfWord);
-    tc.insertText(completion.right(extra));
-    setTextCursor(tc);
+    cursor.movePosition(QTextCursor::EndOfWord);
+    cursor.insertText(completion.right(extra));
+    buffer.insert(cursorPosition, completion.right(extra));
+
+    cursorPosition += extra;
+
+    if (completion.endsWith("()")) {
+       cursor.movePosition(QTextCursor::Left);
+       cursorPosition--;
+    }
+
+    setTextCursor(cursor);
 }
 
 QString Console::textUnderCursor() const
@@ -395,11 +406,34 @@ bool Console::caseInsensitiveLessThan(const QString &s1, const QString &s2)
     return s1.toLower() < s2.toLower();
 }
 
-void Console::setCompleterList(QStringList l)
+void Console::updateCompleterList()
 {
-    qSort(l.begin(), l.end(), Console::caseInsensitiveLessThan);
+    QStringList varList;
 
-    completerWordList = new QStringList(l);
+    for (std::string s : dataState.variables().find("")) {
+        QString tmp(s.c_str());
+        if(!varList.contains(tmp)) {
+            varList << tmp;
+        }
+    }
+
+    qSort(varList.begin(), varList.end(),
+          Console::caseInsensitiveLessThan);
+
+    QStringList functionList;
+    for (std::string s : interpreter.functions().find("")) {
+        QString tmp(s.c_str());
+        tmp.append("()");
+        if (!tmp.startsWith("__") && !functionList.contains(tmp)) {
+            functionList << tmp;
+        }
+    }
+
+    qSort(functionList.begin(), functionList.end(),
+          Console::caseInsensitiveLessThan);
+
+
+    completerWordList = new QStringList(varList + functionList);
 
     if (completer)
         QObject::disconnect(completer, 0, this, 0);
