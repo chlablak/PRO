@@ -2,11 +2,11 @@
 // Created by sebri on 01.05.2016.
 //
 
+#include <stack>
 #include "BFS.h"
 #include "../graphs/Graph.h"
 #include "../graphs/DiGraph.h"
 #include "../graphs/FlowGraph.h"
-#include <stack>
 
 using namespace std;
 

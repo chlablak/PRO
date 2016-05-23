@@ -19,24 +19,39 @@ void Prim::visit(Graph *g, Vertex *from) {
         throw std::runtime_error("Error in Prim algorithm. The graph must have a ponderation.");
     }
 
-    _G = g->emptyClone();
+    Graph *gClone = g->clone();
+    _G = gClone->emptyClone();
 
     typedef std::pair<Edge*,Vertex*> EdgeVertex;
     std::set<EdgeVertex> pq;
-    std::vector<Edge*> edge(g->V());
-    std::vector<bool> marked(g->V(),false);
+    std::vector<Edge*> edge(gClone->V());
+    std::vector<bool> marked(gClone->V(),false);
 
-    marked[from->id()] = true;
+    Vertex *fromCpy;
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            fromCpy = v;
+            break;
+        }
+    }
 
-    g->forEachAdjacentEdge(from,[&](IEdge* ie) {
+    marked[fromCpy->id()] = true;
+
+    gClone->forEachAdjacentEdge(fromCpy,[&](IEdge* ie) {
         Edge *e = (Edge*)ie;
-        Vertex *w = e->other(from);
+        Vertex *w = e->other(fromCpy);
         edge[w->id()] = e;
         pq.insert(std::make_pair(e,w));
     });
 
-    while ( !pq.empty() && _G->E() < g->V()-1 ) {
+//    while (!pq.empty()) {
+//        cout << *pq.begin()->first << "  " << *pq.begin()->second << endl;
+//        pq.erase(pq.begin());
+//    }
 
+    while ( !pq.empty() && _G->E() < gClone->V()-1 ) {
+        cout << *pq.begin()->first << "  " << *pq.begin()->second << endl;
+//        pq.erase(pq.begin());
         Edge *e = pq.begin()->first;
         _G->assignVertex(e->either());
         _G->assignVertex(e->other(e->either()));
@@ -46,10 +61,10 @@ void Prim::visit(Graph *g, Vertex *from) {
         marked[v->id()] = true;
 
         pq.erase(pq.begin());
-        g->forEachAdjacentEdge(v,[&](IEdge* ie) {
+        gClone->forEachAdjacentEdge(v,[&](IEdge* ie) {
             Edge *e2 = (Edge*)ie;
             Vertex *w = e2->other(v);
-            if(!marked[w->id()] && *edge[w->id()] > *e2) {
+            if(!marked[w->id()] && edge[w->id()] > e2) {
                 pq.erase(std::make_pair(edge[w->id()],w));
                 pq.insert(std::make_pair(e2,w));
                 edge[w->id()] = e2;
