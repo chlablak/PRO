@@ -235,6 +235,17 @@ private:
             return table.graphs.find(name)->second.graph();
         }
     };
+
+    // Workaround for std::vector
+    template<typename T, typename Dummy>
+    struct TableHelperImpl<std::vector<T>, Dummy>
+    {
+        static void
+            set(VariableTable &table, name_t name, const std::vector<T> &value)
+        {
+            table.arrays[name] = Array(value);
+        }
+    };
 };
 
 /*! \brief RAII-style class for enter()/leave() in the VariableTable
