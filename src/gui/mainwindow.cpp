@@ -1,8 +1,6 @@
 #include "mainwindow.h"
 #include "dialogstring.h"
 #include "ui_mainwindow.h"
-#include "userHelp/helpwindow.h"
-#include "userHelp/mainbrowser.h"
 #include <iostream>
 #include <QTextEdit>
 
@@ -88,19 +86,10 @@ void MainWindow::closeTab(int index)
 }
 
 void MainWindow::showHelp() {
-    //QApplication app(argc, argv);
-    QWidget *window = new QWidget();
-    window->setMinimumSize(800,600);
-    window->setStyleSheet("background-color:white");
-
-    window->setWindowTitle(QApplication::translate("toplevel", "User guide"));
-
-    //RightPane *layout = RightPane::getInstance(window);
-    HelpWindow *layout = HelpWindow::getInstance(window, new QString("../gui/userHelp/pages/"));
-    window->setLayout(layout);
-    window->show();
-
-    //app.exec();
+    helpWindow = HelpWindow::getInstance(
+                                this,
+                                new QString("../gui/userHelp/pages/"));
+    helpWindow->show();
 }
 
 void MainWindow::getTabName(QString& name) {
@@ -109,4 +98,13 @@ void MainWindow::getTabName(QString& name) {
 
 void MainWindow::setTabName(const QString& name) {
     ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), name);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_F1) {
+        showHelp();
+    } else {
+        QMainWindow::keyPressEvent(e);
+    }
 }

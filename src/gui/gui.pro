@@ -22,7 +22,6 @@ SOURCES += main.cpp\
     userHelp/buttonpane.cpp \
     userHelp/filereader.cpp \
     userHelp/helppage.cpp \
-    userHelp/helpwindow.cpp \
     userHelp/keywordsearcher.cpp \
     userHelp/mainbrowser.cpp \
     userHelp/navigationmenu.cpp \
@@ -51,7 +50,9 @@ SOURCES += main.cpp\
     ../graph/graphs/GraphCommon.cpp \
     ../graph/graphs/Vertex.cpp \
     ../graph/graphs/DiEdgeCommon.cpp \
-    ../graph/graphs/EdgeCommon.cpp
+    ../graph/graphs/EdgeCommon.cpp \
+    userHelp/helpmainlayout.cpp \
+    userHelp/helpwindow.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
@@ -61,7 +62,6 @@ HEADERS  += mainwindow.h \
     userHelp/buttonpane.h \
     userHelp/filereader.h \
     userHelp/helppage.h \
-    userHelp/helpwindow.h \
     userHelp/keywordsearcher.h \
     userHelp/mainbrowser.h \
     userHelp/navigationmenu.h \
@@ -101,7 +101,9 @@ HEADERS  += mainwindow.h \
     ../graph/graphs/DiEdgeCommon.h \
     ../graph/graphs/DiGraphCommon.h \
     ../graph/graphs/DiGraphCommon.hpp \
-    ../graph/graphs/EdgeCommon.h
+    ../graph/graphs/EdgeCommon.h \
+    userHelp/helpmainlayout.h \
+    userHelp/helpwindow.h
 	
 FORMS    += mainwindow.ui \
     dialogstring.ui \

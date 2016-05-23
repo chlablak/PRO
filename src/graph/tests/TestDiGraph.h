@@ -15,7 +15,7 @@ class TestDiGraph
 private:
     IGraph *_G;
 public:
-    TestDiGraph() {
+    TestDiGraph() : _G(nullptr) {
         // Create vertices
         Vertex *v1 = new Vertex("v1");
         Vertex *v2 = new Vertex("v2");
@@ -119,14 +119,14 @@ public:
         vector<int> dfsnum;
         IGraph *gDFS = GraphAlgorithm::dfs(_G, v3, dfsnum);
         gDFS->print();
-//
-//        // Test Composantes Connexes
-//        cout << "Test Composante connexe" << endl;
-//        vector<int> cc = GraphAlgorithm::connectedComponent(_G);
-//        for (int i : cc)
-//            cout << i << " ";
-//        cout << endl << endl;
-//
+
+        // Test Composantes fortement Connexes
+        cout << "Test Composantes fortement connexes" << endl;
+        vector<int> scc = GraphAlgorithm::stronglyConnectedComponent(_G);
+        for (int i : scc)
+            cout << i << " ";
+        cout << endl << endl;
+
 //        // Test Kruskal
 //        cout << "Kruskal" << endl;
 //        IGraph *gKruskal = GraphAlgorithm::kruskal(_G);
@@ -136,6 +136,17 @@ public:
 //        cout << "Prim" << endl;
 //        IGraph *gPrim = GraphAlgorithm::kruskal(_G);
 //        gPrim->print();
+
+        // Test Bellman-Ford
+        cout << "Bellman-Ford" << endl;
+        IGraph *gBellmanFord = GraphAlgorithm::bellmanFord(_G, v3);
+        cout << *gBellmanFord << endl;
+
+        // Test Dijkstra
+        cout << "Dijkstra" << endl;
+        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v3);
+        cout << *gDijkstra << endl;
+
     }
 
     ~TestDiGraph() { delete _G; }

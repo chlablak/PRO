@@ -26,7 +26,7 @@ void GraphCommon<T>::computeId(vector<Vertex*> &result, vector<Vertex*> &table) 
  */
 template <typename T>
 GraphCommon<T>::GraphCommon(vector<Vertex*> &vertices)
-        : _adjacentList(vertices.size()), _edgeId(0) {
+        : _adjacentList(vertices.size()), _edgeId(0), _vertices() {
     computeId(_vertices, vertices);
 }
 
@@ -135,14 +135,22 @@ void GraphCommon<T>::ponderateEdges(const double w) {
                edge->setWeight(w);
 }
 
-/**
- * add a vertex to the graph
- */
 template <typename T>
 void GraphCommon<T>::addVertex(Vertex *v) {
-    v->setId(_vertices.size());
-    _vertices.push_back(v);
-    _adjacentList.resize(_vertices.size());
+    bool inserted = false;
+    for (size_t i = 0; i < _vertices.size(); ++i) {
+        if (_vertices.at(i) == nullptr) {
+            v->setId(i);
+            _vertices.at(i) = v;
+            inserted = true;
+        }
+    }
+
+    if(!inserted) {
+        v->setId(_vertices.size());
+        _vertices.push_back(v);
+        _adjacentList.resize(_vertices.size());
+    }
 }
 
 /**
@@ -150,7 +158,13 @@ void GraphCommon<T>::addVertex(Vertex *v) {
  */
 template <typename T>
 size_t GraphCommon<T>::V() const {
-    return _vertices.size();
+    size_t count = 0;
+    for (Vertex *v : _vertices) {
+        if (v != nullptr) {
+            ++count;
+        }
+    }
+    return count;
 }
 
 /**
@@ -162,13 +176,6 @@ void GraphCommon<T>::resetEdgeId() {
     for (IEdge* e : edgeList()) {
         e->setId(_edgeId++);
     }
-}
-
-template <typename T>
-GraphCommon<T>::GraphCommon(const GraphCommon &g) {
-    _vertices.resize(g.V());
-    _edgeId = g.E();
-    _adjacentList.resize(g.V());
 }
 
 template <typename T>

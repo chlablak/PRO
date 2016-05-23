@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "userHelp/helpwindow.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -28,6 +30,10 @@ public slots:
     void setTabName(const QString&);
 private:
     Ui::MainWindow *ui;
+    HelpWindow *helpWindow;
+
+protected:
+    void keyPressEvent(QKeyEvent *e);
 };
 
 #endif // MAINWINDOW_H

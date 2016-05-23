@@ -15,6 +15,11 @@
 #include "Number.h"
 #include "detail/interface/builtins.h"
 
+#warning D
+#include <iostream>
+#define D(v) std::cerr << __LINE__ << ":" << #v << "=" << v << std::endl;
+#define DL std::cerr << __FILE__ << ":" << __LINE__ << std::endl;
+
 egli::GraphWrapper::GraphWrapper(igraph_ptr_t g) :
     m_graph(g)
 {}
@@ -78,7 +83,7 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Vertex>::cref vertex)
     if (graph()->V() > vertex.id)   // update
         v = getVertexById(vertex.id);
     else {                          // new
-        v = new vertex_t;
+        v = graph()->createVertex();
         graph()->addVertex(v);
     }
 
@@ -86,6 +91,8 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Vertex>::cref vertex)
     v->setId(vertex.id);
     if (vertex.label.hasValue())
         v->setLabel(vertex.label.value());
+    else
+        v->setLabel(detail::builtins::toString_i(vertex.id));
     if (vertex.weight.hasValue())
         v->setWeight(vertex.weight.value());
     if (vertex.maxCapacity.hasValue())
@@ -105,7 +112,30 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
                         detail::builtins::toString_e(edge));
 
     // Transform the Graph if necessary
-    // ...
+    GraphType type = graphType();
+    D((int)type)
+    if (type != GraphType::FlowGraph
+        && (edge.maxCapacity.hasValue() || edge.minCapacity.hasValue())) {
+        transformTo(GraphType::FlowGraph);
+        type = GraphType::FlowGraph;
+    } else if (type == GraphType::Graph
+               && edge.connection == egli::Edge::Connection::Unidirectional) {
+        transformTo(GraphType::DiGraph);
+        type = GraphType::DiGraph;
+    }
+    D((int)type)
+
+    // Edge to 2 DiEdge case
+    if(type != GraphType::Graph
+       && edge.connection == egli::Edge::Connection::Bidirectional) {
+        DL
+        egli::Edge tmp(edge);
+        tmp.connection = egli::Edge::Connection::Unidirectional;
+        insert(tmp);
+        std::swap(tmp.v, tmp.w);
+        insert(tmp);
+        return;
+    }
 
     // Get the list of existing Edges
     vertex_t *v = getVertexById(edge.v);
@@ -114,10 +144,26 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
 
     // Create or reach the Edge to create/modify
     iedge_ptr_t e = nullptr;
-    // ...
+    if (edge.id.hasValue() && edge.id.value() < edges.size()) { // update
+        auto it = edges.begin();
+        for (size_t i = 0; i < edge.id.value(); ++i)
+            ++it;
+        e = *it;
+    } else {                                                    // new
+        e = graph()->createEdge(v, w);
+        graph()->addEdge(e);
+    }
 
     // Set the Edge informations
-    // ...
+    if (edge.weight.hasValue())
+        e->setWeight(edge.weight.value());
+    if (edge.label.hasValue())
+        e->setLabel(edge.label.value());
+    D(dynamic_cast<FlowEdge*>(e))
+    if (edge.maxCapacity.hasValue())
+        dynamic_cast<FlowEdge*>(e)->setMaxCapacity(edge.maxCapacity.value());
+    if (edge.minCapacity.hasValue())
+        dynamic_cast<FlowEdge*>(e)->setMinCapacity(edge.minCapacity.value());
 }
 
 void egli::GraphWrapper::erase(detail::RealType<Type::Array>::cref infos)
@@ -147,6 +193,46 @@ void egli::GraphWrapper::erase(detail::RealType<Type::Vertex>::cref vertex)
 void egli::GraphWrapper::erase(detail::RealType<Type::Edge>::cref edge)
 {
     createIfNull();
+
+    // Check if the vertices are in the Graph
+    if (edge.v < graph()->V() && edge.w < graph()->V()) {
+
+        // Edge to 2 DiEdge case
+        GraphType type = graphType();
+        if (type != GraphType::Graph
+            && edge.connection == egli::Edge::Connection::Bidirectional) {
+            egli::Edge tmp(edge);
+            tmp.connection = egli::Edge::Connection::Unidirectional;
+            erase(tmp);
+            std::swap(tmp.v, tmp.w);
+            erase(tmp);
+            return;
+        }
+
+        // There is no DiEdge in a simple Graph
+        if (type == GraphType::Graph
+            && edge.connection != egli::Edge::Connection::Bidirectional) {
+            return;
+        }
+
+        // Get the edges
+        vertex_t *v = getVertexById(edge.v);
+        vertex_t *w = getVertexById(edge.w);
+        std::list<iedge_ptr_t> edges = graph()->getEdges(v, w);
+
+        // Remove all edges or just one ?
+        if (edge.id.hasValue()) { // one
+            if (edge.id.value() < edges.size()) {
+                auto it = edges.begin();
+                for (size_t i = 0; i < edge.id.value(); ++i)
+                    ++it;
+                graph()->removeEdge(*it);
+            }
+        } else { // all
+            for (auto it = edges.begin(); it != edges.end(); ++it)
+                graph()->removeEdge(*it);
+        }
+    }
 }
 
 void egli::GraphWrapper::createIfNull()
@@ -178,7 +264,7 @@ egli::GraphWrapper::vertex_t *egli::GraphWrapper::getVertexById(size_t id)
 egli::GraphWrapper::GraphType egli::GraphWrapper::graphType() const
 {
     // Workaround because there is currently no better solution
-    const std::type_info &type = typeid(graph());
+    const std::type_info &type = typeid(*graph());
     if (type == typeid(::Graph))
         return GraphType::Graph;
     else if (type == typeid(::DiGraph))
@@ -189,5 +275,12 @@ egli::GraphWrapper::GraphType egli::GraphWrapper::graphType() const
 
 void egli::GraphWrapper::transformTo(GraphType type)
 {
-
+    GraphWrapper tmp;
+    if (type == GraphType::Graph)
+        tmp = GraphAlgorithm::copyToGraph(graph());
+    else if (type == GraphType::DiGraph)
+        tmp = GraphAlgorithm::copyToDiGraph(graph());
+    else
+        tmp = GraphAlgorithm::copyToFlowGraph(graph());
+    operator=(tmp);
 }

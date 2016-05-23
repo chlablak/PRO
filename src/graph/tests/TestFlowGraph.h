@@ -16,23 +16,32 @@ class TestFlowGraph
 private:
     IGraph *_G;
 public:
-    TestFlowGraph() {
+    TestFlowGraph() : _G(nullptr) {
         // Create vertices
         Vertex *v1 = new Vertex("v1");
         Vertex *v2 = new Vertex("v2");
         Vertex *v3 = new Vertex("v3");
         Vertex *v4 = new Vertex("v4");
+        Vertex *v5 = new Vertex("v5");
+        Vertex *v6 = new Vertex("v6");
+        Vertex *v7 = new Vertex("v7");
 
         // Associate Edges to vertices
-        IEdge *e1 = new FlowEdge(v1, v4, "e1", 3);
-        IEdge *e2 = new FlowEdge(v1, v3, "e2", 2);
-        IEdge *e3 = new FlowEdge(v2, v3, "e3", 1);
-        IEdge *e4 = new FlowEdge(v3, v4, "e4", 4);
-        IEdge *e5 = new FlowEdge(v1, v2, "e5", 3);
-        IEdge *e6 = new FlowEdge(v2, v4, "e6", 2);
+        IEdge *e1 = new FlowEdge(v1, v2, "e1", 3.);
+        IEdge *e2 = new FlowEdge(v1, v4, "e2", 2.);
+        IEdge *e3 = new FlowEdge(v1, v6, "e3", 1.);
+        IEdge *e4 = new FlowEdge(v2, v1, "e4", 4.);
+        IEdge *e5 = new FlowEdge(v2, v5, "e5", 3.);
+        IEdge *e6 = new FlowEdge(v3, v2, "e6", 2.);
+        IEdge *e7 = new FlowEdge(v3, v5, "e7", 1.);
+        IEdge *e8 = new FlowEdge(v4, v5, "e8", 3.);
+        IEdge *e9 = new FlowEdge(v5, v4, "e9", 2.);
+        IEdge *e10 = new FlowEdge(v6, v4, "e10", 6.);
+        IEdge *e11 = new FlowEdge(v6, v7, "e11", 5.);
+        IEdge *e12 = new FlowEdge(v7, v1, "e12", 4.);
 
-        vector<Vertex*> vertices = {v1, v2, v3, v4};
-        vector<IEdge*> edges = {e1, e2, e3, e4, e5, e6};
+        vector<Vertex*> vertices = {v1, v2, v3, v4, v5, v6, v7};
+        vector<IEdge*> edges = {e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12};
 
         // Create the graph structure with those vertices and edges
         _G = new FlowGraph(vertices, edges);
@@ -40,13 +49,12 @@ public:
         assert(_G->isSimple() == 0);
         assert(_G->isNegativeWeighted() == 0);
         assert(_G->isPlanar() == 0);
-        assert(_G->V() == 4);
-        assert(_G->E() == 6);
+        assert(_G->V() == 7);
+        assert(_G->E() == 12);
 
         cout << "Avant ponderation :" << endl;
         cout << *_G << endl;
         _G->ponderateVertices(3.24);
-        _G->ponderateEdges(1.7);
         cout << "Apres ponderation : " << endl;
         cout << *_G << endl;
 
@@ -92,23 +100,23 @@ public:
 
         // ALGOS NOT WORKING YET WITH FLOWGRAPH
         // Test BFS
-//        cout << "Test BFS" << endl;
-//        vector<int> distances;
-//        IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
-//        gBFS->print();
-//
-//        // Test DFS
-//        cout << "Test DFS" << endl;
-//        vector<int> dfsnum;
-//        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
-//        gDFS->print();
-//
-//        // Test Composantes Connexes
-//        cout << "Test Composante connexe" << endl;
-//        vector<int> cc = GraphAlgorithm::connectedComponent(_G);
-//        for (int i : cc)
-//            cout << i << " ";
-//        cout << endl << endl;
+        cout << "Test BFS" << endl;
+        vector<int> distances;
+        IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
+        gBFS->print();
+
+        // Test DFS
+        cout << "Test DFS" << endl;
+        vector<int> dfsnum;
+        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
+        gDFS->print();
+
+        // Test Composantes fortement Connexes
+        cout << "Test Composantes fortement connexes" << endl;
+        vector<int> scc = GraphAlgorithm::stronglyConnectedComponent(_G);
+        for (int i : scc)
+            cout << i << " ";
+        cout << endl << endl;
 //
 //        // Test Kruskal
 //        cout << "Kruskal" << endl;
@@ -119,6 +127,11 @@ public:
 //        cout << "Prim" << endl;
 //        IGraph *gPrim = GraphAlgorithm::kruskal(_G);
 //        gPrim->print();
+
+        // Test Bellman-Ford
+        cout << "Bellman-Ford" << endl;
+        IGraph *gBellmanFord = GraphAlgorithm::bellmanFord(_G, v3);
+        cout << *gBellmanFord << endl;
     }
 
     ~TestFlowGraph() { delete _G; }
