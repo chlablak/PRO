@@ -149,16 +149,43 @@ egli::detail::RealType<egli::Type::String>::type
             oss << it->minCapacity();
             countEmpty = 0;
         }
+    }
+    GraphWrapper::GraphType type = var.graphType();
+    for (const auto *it : var.graph()->edgeList()) {
+        oss << ',';
+        oss << it->from()->id();
+        oss << (type == GraphWrapper::GraphType::Graph ? "--" : "->");
+        oss << it->to()->id();
+        size_t countEmpty = 0;
+        if (it->weight() < std::numeric_limits<double>::max())
+            oss << ':' << it->weight();
         else
             ++countEmpty;
-    }
-    for (const auto *it : var.graph()->edgeList()) {
-        if (first)
-            first = false;
+        if (!it->label().empty()) {
+            for (size_t i = 0; i < countEmpty + 1; ++i)
+                oss << ':';
+            oss << '"' << it->label() << '"';
+            countEmpty = 0;
+        }
         else
-            oss << ',';
-        oss << *it;
-        #warning TODO toString_g Edge
+            ++countEmpty;
+        if (type == GraphWrapper::GraphType::FlowGraph) {
+            const FlowEdge *fe = dynamic_cast<const FlowEdge*>(it);
+            if (fe->maxCapacity() != -1) {
+                for (size_t i = 0; i < countEmpty + 1; ++i)
+                    oss << ':';
+                oss << fe->maxCapacity();
+                countEmpty = 0;
+            }
+            else
+                ++countEmpty;
+            if (fe->minCapacity() != -1) {
+                for (size_t i = 0; i < countEmpty + 1; ++i)
+                    oss << ':';
+                oss << fe->minCapacity();
+                countEmpty = 0;
+            }
+        }
     }
     oss << '}';
     return oss.str();
