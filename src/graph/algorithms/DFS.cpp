@@ -7,11 +7,12 @@
 #include "../graphs/Graph.h"
 
 void DFS::DFSprocedure(Graph *g, Vertex *u) {
-    g->forEachAdjacentVertex(u, [&g, &u, this](Vertex *v){
+    g->forEachAdjacentEdge(u, [&g, &u, this](IEdge *ie){
+        Vertex *v = ie->other(u);
         if (_dfsnum[v->id()] == 0) {
             _dfsnum[v->id()] = ++N;
             _G->assignVertex(v);
-            _G->assignEdge(g->getEdges(u, v).front());
+            _G->assignEdge(ie);
             DFSprocedure(g, v);
         }
     });
@@ -28,17 +29,26 @@ void DFS::visit(Graph *g, Vertex *from) {
         return;
     }
 
-    _G = g->emptyClone();
+    Graph *gClone = g->clone();
+    _G = gClone->emptyClone();
 
     // Table of vertex discovery order
     _dfsnum.assign(g->V(), 0);
     N = 1;
     _dfsnum.at(from->id()) = N;
 
-    // Create a graph with only vertex 'from'
-    _G->assignVertex(from);
+    Vertex *fromCpy;
 
-    DFSprocedure(g, from);
+    // Create a graph with only vertex 'from'
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            fromCpy = v;
+            break;
+        }
+    }
+
+    _G->assignVertex(fromCpy);
+    DFSprocedure(gClone, fromCpy);
 }
 
 void DFS::visit(DiGraph *g, Vertex *from) {
@@ -47,7 +57,8 @@ void DFS::visit(DiGraph *g, Vertex *from) {
         return;
     }
 
-    _G = g->emptyClone();
+    DiGraph *gClone = g->clone();
+    _G = gClone->emptyClone();
 
     // Table of vertex discovery order
     _dfsnum.assign(g->V(), 0);
@@ -59,14 +70,22 @@ void DFS::visit(DiGraph *g, Vertex *from) {
     fin.assign(g->V(), 0);
     int date = 0;
     debut[from->id()] = ++date;
-    _G->assignVertex(from);
 
-    g->forEachAdjacentEdge(from, [&g, &debut, &fin, &date, this](IEdge *ie){
+    Vertex *fromCpy;
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            fromCpy = v;
+            break;
+        }
+    }
+    _G->assignVertex(fromCpy);
+
+    gClone->forEachAdjacentEdge(fromCpy, [&gClone, &debut, &fin, &date, this](IEdge *ie) {
         if (debut[ie->to()->id()] == 0) {
             _dfsnum[ie->to()->id()] = ++N;
             _G->assignVertex(ie->to());
             _G->assignEdge(ie);
-            DFSprocedure(g, ie->to(), debut, fin, date);
+            DFSprocedure(gClone, ie->to(), debut, fin, date);
         }
     });
 }
@@ -77,7 +96,8 @@ void DFS::visit(FlowGraph *g, Vertex *from) {
         return;
     }
 
-    _G = g->emptyClone();
+    FlowGraph *gClone = g->clone();
+    _G = gClone->emptyClone();
 
     // Table of vertex discovery order
     _dfsnum.assign(g->V(), 0);
@@ -89,14 +109,22 @@ void DFS::visit(FlowGraph *g, Vertex *from) {
     fin.assign(g->V(), 0);
     int date = 0;
     debut[from->id()] = ++date;
-    _G->assignVertex(from);
 
-    g->forEachAdjacentEdge(from, [&g, &debut, &fin, &date, this](IEdge *ie){
+    Vertex *fromCpy;
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            fromCpy = v;
+            break;
+        }
+    }
+    _G->assignVertex(fromCpy);
+
+    gClone->forEachAdjacentEdge(fromCpy, [&gClone, &debut, &fin, &date, this](IEdge *ie){
         if (debut[ie->to()->id()] == 0) {
             _dfsnum[ie->to()->id()] = ++N;
             _G->assignVertex(ie->to());
             _G->assignEdge(ie);
-            DFSprocedure(g, ie->to(), debut, fin, date);
+            DFSprocedure(gClone, ie->to(), debut, fin, date);
         }
     });
 }

@@ -103,12 +103,12 @@ public:
         gBFS->ponderateEdges(50);
         gBFS->print();
 
-//        // Test DFS
-//        cout << "Test DFS" << endl;
-//        vector<int> dfsnum;
-//        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
-//        gDFS->print();
-//
+        // Test DFS
+        cout << "Test DFS" << endl;
+        vector<int> dfsnum;
+        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
+        gDFS->print();
+
 //        // Test Composantes Connexes
 //        cout << "Test Composante connexe" << endl;
 //        vector<int> cc = GraphAlgorithm::connectedComponent(_G);
