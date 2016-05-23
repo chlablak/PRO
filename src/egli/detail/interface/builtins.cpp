@@ -7,6 +7,7 @@
 
 #include <sstream>
 #include <string>
+#include <fstream>
 
 #include "builtins.h"
 #include "../../Array.h"
@@ -14,6 +15,34 @@
 #include "../../Number.h"
 #include "../../TVertex.h"
 #include "../../GraphWrapper.h"
+#include "../../Exception.h"
+#include "../../Data.h"
+#include "../../Interpreter.h"
+#include "../../Statement.h"
+
+egli::detail::RealType<egli::Type::Boolean>::type
+    egli::detail::builtins::save(RealType<Type::Graph>::cref g,
+                                 RealType<Type::String>::cref file)
+{
+    std::ofstream ofs(file.c_str(), std::ios::out | std::ios::trunc);
+    if (!ofs)
+        throw Exception("can't open file", "egli::builtins::save", file);
+    ofs << toString_g(g);
+    return true;
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::builtins::load(RealType<Type::String>::cref file)
+{
+    std::ifstream ifs(file.c_str(), std::ios::in);
+    if (!ifs)
+        throw Exception("can't open file", "egli::builtins::load", file);
+    Data data;
+    Interpreter interpreter(&data);
+    interpreter.writer() << "g=" << ifs.rdbuf() << ';';
+    Statement statement = interpreter.next();
+    return data.variables().get<RealType<Type::Graph>::type>(statement.value);
+}
 
 egli::detail::RealType<egli::Type::String>::type
     egli::detail::builtins::toString_a(RealType<Type::Array>::cref var)

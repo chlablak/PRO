@@ -16,8 +16,25 @@ namespace detail
 {
 namespace builtins
 {
-//load
-//save
+/*! \brief Save the Graph to a file
+ *
+ * \param g - The Graph to save
+ * \param file - The file name
+ * \return true on success
+ *
+ * \throw Exception if there is a error
+ */
+RealType<Type::Boolean>::type
+    save(RealType<Type::Graph>::cref g, RealType<Type::String>::cref file);
+
+/*! \brief Load a Graph from a file
+ *
+ * \param file - The file name
+ * \return The loaded Graph
+ *
+ * \throw Exception if there is a error
+ */
+RealType<Type::Graph>::type load(RealType<Type::String>::cref file);
 
 /*! \brief Get the String representation of a variable
  *
