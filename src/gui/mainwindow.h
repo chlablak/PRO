@@ -16,6 +16,7 @@ public:
     ~MainWindow();
 public slots:
     void newGraph();
+    void saveSession();
     void loadSession();
     void showHelp();
     void newTab(const QString&);

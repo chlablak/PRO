@@ -5,6 +5,9 @@
 #include <QTextEdit>
 #include <QKeyEvent>
 #include <QLinkedList>
+#include <QByteArray>
+#include <QCompleter>
+#include <QAbstractItemModel>
 
 class Console : public QTextEdit
 {
@@ -14,11 +17,15 @@ public:
     Console(const QString&, QWidget *parent = 0);
     void saveChanges();
 
-    QString getFilename()const;
-    void setFilename(const QString& name);
+    QByteArray prepareDataForSave();
+    void loadDataToConsole(QByteArray& data, bool ignoreFilename = true);
+
+    void setCompleter(QCompleter *completer);
+    QCompleter* completer() const;
 
 protected:
-    void keyPressEvent(QKeyEvent*);
+    void keyPressEvent(QKeyEvent* event);
+    void focusInEvent(QFocusEvent* event);
 
 private:
     QString buffer;    
@@ -31,12 +38,13 @@ private:
     size_t cursorPosition;
     QTextCursor cursor;
 
+    QCompleter *c;
+
     void clearDisplay();
 
     void consoleHasChanged();
 
-    QByteArray prepareDataForSave();
-
+    QString textUnderCursor() const;
 
     const QString fileDelimiter = "°§§°";
 
@@ -51,6 +59,9 @@ public slots:
     void pasteText();
     void save();
     void load();
+
+private slots:
+    void insertCompletion(const QString& completion);
 };
 
 #endif // CONSOLE_H

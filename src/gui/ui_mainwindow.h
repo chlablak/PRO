@@ -153,6 +153,7 @@ public:
         saveAllGraphs->setText(QApplication::translate("MainWindow", "Save All", 0));
         actionExit->setText(QApplication::translate("MainWindow", "Exit", 0));
         showHelp->setText(QApplication::translate("MainWindow", "Show help", 0));
+        showHelp->setShortcut(QApplication::translate("MainWindow", "F1", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "Session", 0));
         menuEdit->setTitle(QApplication::translate("MainWindow", "File", 0));
         menuGraph->setTitle(QApplication::translate("MainWindow", "Graph", 0));

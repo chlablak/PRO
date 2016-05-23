@@ -14,29 +14,19 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_GraphWindow
 {
 public:
-    QWidget *horizontalLayoutWidget;
-    QHBoxLayout *horizontalLayout;
 
     void setupUi(QDialog *GraphWindow)
     {
         if (GraphWindow->objectName().isEmpty())
             GraphWindow->setObjectName(QStringLiteral("GraphWindow"));
         GraphWindow->resize(400, 300);
-        horizontalLayoutWidget = new QWidget(GraphWindow);
-        horizontalLayoutWidget->setObjectName(QStringLiteral("horizontalLayoutWidget"));
-        horizontalLayoutWidget->setGeometry(QRect(20, 20, 361, 271));
-        horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setContentsMargins(0, 0, 0, 0);
 
         retranslateUi(GraphWindow);
 

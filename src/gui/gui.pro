@@ -43,7 +43,27 @@ SOURCES += main.cpp\
     ../graph/graphs/Graph.cpp \
     ../graph/graphs/GraphCommon.cpp \
     ../graph/graphs/IEdge.cpp \
-    ../graph/graphs/Vertex.cpp
+    ../graph/graphs/Vertex.cpp \
+    ../egli/detail/interface/algorithms.cpp \
+    ../egli/detail/interface/basics.cpp \
+    ../egli/detail/interface/builtins.cpp \
+    ../egli/detail/interface.cpp \
+    ../egli/detail/Preprocessor.cpp \
+    ../egli/detail/TemporaryName.cpp \
+    ../egli/Array.cpp \
+    ../egli/Data.cpp \
+    ../egli/Edge.cpp \
+    ../egli/Exception.cpp \
+    ../egli/FunctionTable.cpp \
+    ../egli/GraphWrapper.cpp \
+    ../egli/Interpreter.cpp \
+    ../egli/main.cpp \
+    ../egli/Number.cpp \
+    ../egli/Parser.cpp \
+    ../egli/ProcessingUnit.cpp \
+    ../egli/Statement.cpp \
+    ../egli/VariableTable.cpp \
+    ../egli/Vertex.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
@@ -82,10 +102,39 @@ HEADERS  += mainwindow.h \
     ../graph/graphs/IEdge.h \
     ../graph/graphs/IGraph.h \
     ../graph/graphs/Vertex.h \
-    ../graph/Includes.h
+    ../graph/Includes.h \
+    ../egli/detail/interface/algorithms.h \
+    ../egli/detail/interface/basics.h \
+    ../egli/detail/interface/builtins.h \
+    ../egli/detail/EnumValue.h \
+    ../egli/detail/FunctionImpl.h \
+    ../egli/detail/Grammar.h \
+    ../egli/detail/interface.h \
+    ../egli/detail/Preprocessor.h \
+    ../egli/detail/RealType.h \
+    ../egli/detail/TemporaryName.h \
+    ../egli/Array.h \
+    ../egli/Data.h \
+    ../egli/Edge.h \
+    ../egli/egli.h \
+    ../egli/Exception.h \
+    ../egli/Function.h \
+    ../egli/FunctionTable.h \
+    ../egli/GraphWrapper.h \
+    ../egli/Interpreter.h \
+    ../egli/Number.h \
+    ../egli/Parser.h \
+    ../egli/ProcessingUnit.h \
+    ../egli/Statement.h \
+    ../egli/Type.h \
+    ../egli/VariableTable.h \
+    ../egli/Vertex.h
 	
 FORMS    += mainwindow.ui \
     dialogstring.ui \
     graphwindow.ui
 
 QMAKE_CXXFLAGS += -std=c++0x
+
+INCLUDEPATH += C:/boost_1_60_0/
+LIBS += "-LC:/boost_1_60_0/stage/lib/"

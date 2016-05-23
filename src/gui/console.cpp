@@ -5,6 +5,13 @@
 #include <QClipboard>
 #include <QFileDialog>
 #include "graphwindow.h"
+#include <QBuffer>
+#include <QCompleter>
+#include <QAbstractItemView>
+#include <QScrollBar>
+
+#include <QStringListModel>
+#include <QStringList>
 
 
 #include "../visualization/GraphWidget.h"
@@ -18,7 +25,7 @@
 
 Console::Console() : Console("") {}
 
-Console::Console(const QString& s, QWidget *parent) : prompt(s), cursor(textCursor()) {
+Console::Console(const QString& s, QWidget *parent) : prompt(s), cursor(textCursor()), c(0), QTextEdit(parent){
     cursorPosition = 0;
     insertPlainText(prompt + " > ");
     setAcceptDrops(false);
@@ -32,16 +39,35 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s), cursor(textCurs
         QObject::connect(this, SIGNAL(requestTabNameChanges(const QString&)), parent, SLOT(setTabName(const QString&)));
     }
 
+    c = new QCompleter(parent);
+    setCompleter(c);
 }
 
 void Console::keyPressEvent(QKeyEvent *event) {
     if(!isReadOnly())
     {
+        if(c && c->popup()->isVisible())
+        {
+            switch(event->key())
+            {
+            case Qt::Key_Enter:
+            case Qt::Key_Return:
+            case Qt::Key_Escape:
+            case Qt::Key_Tab:
+            case Qt::Key_Backtab:
+                event->ignore();
+                return;
+            default:
+                break;
+            }
+        }
+
         if(event->matches(QKeySequence::Cut))
             event->ignore();
 
         if( event->key() == Qt::Key_Escape)
         {
+            /*
             Vertex *v1 = new Vertex("Vertex 1");
             Vertex *v2 = new Vertex("Vertex 2");
             Vertex *v3 = new Vertex("Vertex 3");
@@ -57,21 +83,13 @@ void Console::keyPressEvent(QKeyEvent *event) {
             IGraph *graph = new Graph(vectices, edges);
 
 
-            GraphWindow *g = new GraphWindow(this, graph);
+            /*GraphWindow *g = new GraphWindow(this, graph, "salut");
 
-            g->show();
-
-/*
-            dialogString* d = new dialogString(this, "Enter a name", "Validate");
-            d->setModal(true);
-            d->show();*/
+            g->show();*/
 
 
-            if(currentCommand != commandHistory.end())
-            {
-                clearDisplay();
-                currentCommand = commandHistory.end();
-            }
+            clearDisplay();
+            currentCommand = commandHistory.end();
         }
         else if( event->key() == Qt::Key_Up)
         {
@@ -151,11 +169,10 @@ void Console::keyPressEvent(QKeyEvent *event) {
         {
             moveCursor(QTextCursor::End);
 
-            std::cout << buffer.toStdString() << std::endl;
-            //commandHistory.insert(commandHistory.begin(), buffer);
             commandHistory.push_front(buffer);
             currentCommand = commandHistory.end();
 
+            std::cout << buffer.toStdString() << std::endl;
             //execute(buffer);
 
             insertPlainText("\n" + prompt + " > ");
@@ -171,10 +188,25 @@ void Console::keyPressEvent(QKeyEvent *event) {
                 save();
             }
         }
-        else if( event->modifiers() & Qt::ControlModifier || event->modifiers() & Qt::AltModifier)
+        else if( event->key() == Qt::Key_Space && event->modifiers() & Qt::ControlModifier)
         {
-            //Ne rien faire
+            std::cout << "Code completion" << std::endl;
+
+
+
+            c->setModel(modelFromFile(":/resources/wordlist.txt"));
+
+            QRect cr = cursorRect();
+            std::cout << cr.left() << " " << cr.top() << std::endl;
+            cr.setWidth(c->popup()->sizeHintForColumn(0) + c->popup()->verticalScrollBar()->sizeHint().width());
+            std::cout << cr.width() << std::endl;
+            c->complete(cr);
+            std::cout << c->popup()->pos().x() << " " << c->popup()->pos().y() << std::endl;
         }
+        /*else if( event->modifiers() & Qt::ControlModifier || event->modifiers() & Qt::AltModifier)
+        {
+            event->ignore();
+        }*/
         else
         {
             if(event->text() != "")
@@ -233,16 +265,6 @@ void QTextEdit::contextMenuEvent(QContextMenuEvent *event)
     delete menu;
 }
 
-QString Console::getFilename()const
-{
-    return filename;
-}
-
-void Console::setFilename(const QString& name)
-{
-    filename = name;
-}
-
 QByteArray Console::prepareDataForSave() {
     QByteArray qba("");
 
@@ -254,14 +276,14 @@ QByteArray Console::prepareDataForSave() {
     qba.append(filename+"\n");
     qba.append(prompt+"\n");
     qba.append(buffer+"\n");
-    qba.append(QString(QString::number(commandHistory.size()))+"\n");
+    qba.append(QString::number(commandHistory.size())+"\n");
     for(auto c: commandHistory) {
         qba.append(c+fileDelimiter+"\n");
     }
 
     qba.append(QString(QString::number(toPlainText().count("\n")+1)+"\n"));
 
-    qba.append(toPlainText());
+    qba.append(toPlainText()+"\n");
 
     return qba;
 }
@@ -270,7 +292,7 @@ void Console::save() {
     if(filename == "")
     {
         QFileDialog dialog;
-        QString fname = QFileDialog::getSaveFileName(this, QString("Save console"), QString(), QString("Graph (*.gph)"));
+        QString fname = QFileDialog::getSaveFileName(this, QString("Save graph"), QString(), QString("Graph (*.gph)"));
         if(fname.isEmpty()) {
             return;
         }
@@ -282,7 +304,7 @@ void Console::save() {
 
     QByteArray qba = prepareDataForSave();
 
-    file.write(qba);
+    file.write(qba.toHex());
 
     file.close();
 
@@ -294,45 +316,64 @@ void Console::load() {
     commandHistory.clear();
     selectAll();
     clear();
-    std::cout << "coucou" << std::endl;
-    QFileDialog dialog;
-    QString fname = QFileDialog::getOpenFileName(this, QString("Save console"), QString(), QString("Graph (*.gph)"));
+
+    QString fname = QFileDialog::getOpenFileName(this, QString("Load graph"), QString(), QString("Graph (*.gph)"));
     if(fname.isEmpty()) {
         return;
     }
     filename = fname;
 
-
     QFile file(filename);
     file.open(QIODevice::ReadOnly);
 
-    char data[1024];
+    QByteArray qba = file.readAll();
 
-    int size = file.readLine(data, 1023);
-    data[size-1] = '\0';
-    emit requestTabNameChanges(QString(data));
+    qba = QByteArray::fromHex(qba);
+
+    loadDataToConsole(qba, true);
+
+    file.close();
+}
+
+
+void Console::loadDataToConsole(QByteArray& data, bool ignoreFilename)
+{
+    commandHistory.clear();
+    selectAll();
+    clear();
+
+    QBuffer dataBuffer(&data);
+    dataBuffer.open(QIODevice::ReadOnly);
+
+    char charArray[1024];
+
+    int size = dataBuffer.readLine(charArray, 1023);
+    charArray[size-1] = '\0';
+    emit requestTabNameChanges(QString(charArray));
 
     //Lecture du nom de fichier pour s'en débarasser
-    file.readLine(data, 1023);
+    size = dataBuffer.readLine(charArray, 1023);
+    if(!ignoreFilename) {
+        charArray[size-1] = '\0';
+        filename = QString(charArray);
+    }
 
-    size = file.readLine(data, 1023);
-    data[size-1] = '\0';
-    prompt = QString(data);
+    size = dataBuffer.readLine(charArray, 1023);
+    charArray[size-1] = '\0';
+    prompt = QString(charArray);
 
-    size = file.readLine(data, 1023);
-    data[size-1] = '\0';
-    buffer = QString(data);
+    size = dataBuffer.readLine(charArray, 1023);
+    charArray[size-1] = '\0';
+    buffer = QString(charArray);
 
-    size = file.readLine(data, 1023);
-    data[size-1] = '\0';
-    int nbrOfCommand = atoi(data);
-
-    commandHistory.clear();
+    size = dataBuffer.readLine(charArray, 1023);
+    charArray[size-1] = '\0';
+    int nbrOfCommand = atoi(charArray);
 
     for(int i = 0; i < nbrOfCommand;) {
-        size = file.readLine(data, 1023);
+        size = dataBuffer.readLine(charArray, 1023);
 
-        QString line = QString(data);
+        QString line = QString(charArray);
 
 
         if(line.contains(QString(fileDelimiter+"\n")))
@@ -342,16 +383,92 @@ void Console::load() {
     }
     currentCommand = commandHistory.end();
 
-    size = file.readLine(data, 1023);
-    data[size-1] = '\0';
-    int nbrLine = atoi(data);
+    size = dataBuffer.readLine(charArray, 1023);
+    charArray[size-1] = '\0';
+    int nbrLine = atoi(charArray);
 
     for(int i = 0; i < nbrLine; i++) {
-        size = file.readLine(data, 1023);
-        data[size-1] = '\0';
-        append(QString(data));
+        size = dataBuffer.readLine(charArray, 1023);
+        charArray[size-1] = '\0';
+        append(QString(charArray));
     }
 
+    cursorPosition = buffer.size();
+    cursor.movePosition(QTextCursor::End);
+    setTextCursor(cursor);
 
-    file.close();
+    dataBuffer.close();
+}
+
+
+
+//COMPLETER=============================================================
+void Console::setCompleter(QCompleter *completer)
+{
+    if(c)
+    {
+        QObject::disconnect(c, 0, this, 0);
+    }
+
+    c = completer;
+
+    if(!c)
+    {
+        return;
+    }
+
+    c->setWidget(this);
+    c->setCompletionMode(QCompleter::PopupCompletion);
+    c->setCaseSensitivity(Qt::CaseInsensitive);
+    QObject::connect(c, SIGNAL(activated(QString)), this, SLOT(insertCompletion(QString)));
+}
+
+QCompleter* Console::completer() const
+{
+    return c;
+}
+
+void Console::insertCompletion(const QString& completion)
+{
+    if(c->widget() != this)
+    {
+        return;
+    }
+
+    int extra = completion.length() - c->completionPrefix().length();
+
+    QTextCursor tc = textCursor();
+
+    tc.movePosition(QTextCursor::Left);
+    tc.movePosition(QTextCursor::EndOfWord);
+    tc.insertText(completion.right(extra));
+    setTextCursor(tc);
+
+
+    /*
+    cursor.movePosition(QTextCursor::Left);
+    cursor.movePosition(QTextCursor::EndOfWord);
+    cursor.insertText(completion.right(extra));
+
+    setTextCursor(cursor);
+    //*/
+
+    buffer.insert(cursorPosition, completion.right(extra));
+    cursorPosition += extra;
+}
+
+QString Console::textUnderCursor() const
+{
+    QTextCursor tc = cursor;
+    tc.select(QTextCursor::WordUnderCursor);
+    return tc.selectedText();
+}
+
+void Console::focusInEvent(QFocusEvent* event)
+{
+    if(c)
+    {
+        c->setWidget(this);
+    }
+    QTextEdit::focusInEvent(event);
 }

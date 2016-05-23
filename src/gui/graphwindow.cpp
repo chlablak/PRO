@@ -8,14 +8,18 @@
 
 #include "../graph/Includes.h"
 
-GraphWindow::GraphWindow(QWidget *parent, IGraph *graph) :
+GraphWindow::GraphWindow(QWidget *parent, IGraph *graph, const QString& name) :
     QDialog(parent),
     ui(new Ui::GraphWindow)
 {
     QWidget *graphWidget = new GraphWidget(graph);
-    ui->horizontalLayout->addWidget(graphWidget);
+    QLayout* l = new QVBoxLayout(this);
+    l->addWidget(graphWidget);
+    l->setMargin(0);
 
     ui->setupUi(this);
+
+    setWindowTitle(name);
 }
 
 GraphWindow::~GraphWindow()
