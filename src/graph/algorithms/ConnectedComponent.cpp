@@ -2,6 +2,7 @@
 // Created by sebri on 08.05.2016.
 //
 
+#include <stdexcept>
 #include "ConnectedComponent.h"
 #include "../graphs/Graph.h"
 

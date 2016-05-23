@@ -18,7 +18,7 @@ class GraphWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit GraphWindow(QWidget *parent, IGraph *graph);
+    explicit GraphWindow(QWidget *parent, const IGraph* graph, const QString& name);
     ~GraphWindow();
 
 private:

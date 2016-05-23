@@ -70,10 +70,8 @@
     <property name="title">
      <string>Session</string>
     </property>
-    <addaction name="newSession"/>
-    <addaction name="loadSession"/>
-    <addaction name="separator"/>
     <addaction name="saveSession"/>
+    <addaction name="loadSession"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -166,6 +164,9 @@
   <action name="showHelp">
    <property name="text">
     <string>Show help</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
  </widget>

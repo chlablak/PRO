@@ -24,11 +24,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->tabWidget->setStyleSheet("QTabBar::tab{width:100px;}");
 
     QObject::connect(ui->newGraph, SIGNAL(triggered(bool)), this, SLOT(newGraph()));
+    QObject::connect(ui->newSession, SIGNAL(triggered(bool)), this, SLOT(saveSession()));
     QObject::connect(ui->loadSession, SIGNAL(triggered(bool)), this, SLOT(loadSession()));
     QObject::connect(ui->showHelp, SIGNAL(triggered(bool)), this, SLOT(showHelp()));
     QObject::connect(ui->tabWidget, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
     QObject::connect(ui->saveGraph, SIGNAL(triggered(bool)), this, SLOT(saveTab()));
     QObject::connect(ui->loadGraph, SIGNAL(triggered(bool)), this, SLOT(loadTab()));
+
 
 }
 
@@ -52,9 +54,48 @@ void MainWindow::newTab(const QString& name)
     ui->tabWidget->setTabToolTip(ui->tabWidget->count()-1,name);
 }
 
+void MainWindow::saveSession() {
+    QString fname = QFileDialog::getSaveFileName(this, QString("Save session"), QString(), QString("Graphy session (*.ghy))"));
+    if(fname.isEmpty()) {
+        return;
+    }
+
+    QFile file(fname);
+    file.open(QIODevice::WriteOnly);
+
+    QByteArray qba("");
+
+    int nbrOfWidget = ui->tabWidget->count();
+
+    qba.append(QString::number(nbrOfWidget)+"\n");
+
+    for(int i = 0; i < nbrOfWidget; i++) {
+        qba.append(((Console*)ui->tabWidget->widget(i))->prepareDataForSave());
+    }
+
+    file.write(qba);
+
+    file.close();
+}
+
 void MainWindow::loadSession() {
-    QString stringaMoi = QFileDialog::getOpenFileName();
-    cout << stringaMoi.toStdString() << endl;
+    QString fname = QFileDialog::getOpenFileName(this, QString("Load session"), QString(), QString("Graphy session (*.ghy)"));
+    if(fname.isEmpty()) {
+        return;
+    }
+
+    QFile file(fname);
+    file.open(QIODevice::ReadOnly);
+
+    QByteArray qba = file.readAll();
+
+    //qba = QByteArray::fromHex(qba);
+
+
+
+
+
+    file.close();
 }
 
 void MainWindow::consoleHasChanged()
@@ -69,15 +110,18 @@ void MainWindow::saveConsole()
 
 void MainWindow::saveTab()
 {
-    if(ui->tabWidget->count() > 0)
-    {
+    if(ui->tabWidget->count() > 0) {
         ((Console*)ui->tabWidget->currentWidget())->save();
         //temp->saveChanges();
     }
 }
 
-void MainWindow::loadTab() {
-    ((Console*)ui->tabWidget->currentWidget())->load();
+void MainWindow::loadTab()
+{
+    if(ui->tabWidget->count() > 0)
+    {
+        ((Console*)ui->tabWidget->currentWidget())->load();
+    }
 }
 
 void MainWindow::closeTab(int index)
@@ -88,7 +132,7 @@ void MainWindow::closeTab(int index)
 void MainWindow::showHelp() {
     helpWindow = HelpWindow::getInstance(
                                 this,
-                                new QString("../gui/userHelp/pages/"));
+                                new QString("../userHelp/pages/"));
     helpWindow->show();
 }
 

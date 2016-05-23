@@ -13,7 +13,9 @@
 #include "detail/RealType.h"
 
 // std::stoi, std::stof and std::stoul not defined in MinGW
-namespace
+namespace egli
+{
+namespace detail
 {
 int stoi(const std::string &str)
 {
@@ -27,7 +29,8 @@ unsigned long stoul(const std::string &str)
 {
     return std::strtoul(str.c_str(), nullptr, 10);
 }
-} // namespace
+} // namespace detail
+} // namespace egli
 
 void egli::ProcessingUnit::check(const Statement &statement,
                                  const FunctionTable &functions,
@@ -56,7 +59,7 @@ void egli::ProcessingUnit::check(const Statement &statement,
                                 "egli::ProcessingUnit::check",
                                 statement.value);
             if (!statement.value.empty()
-                && stoul(statement.parameters.at(0).value) >=
+                && detail::stoul(statement.parameters.at(0).value) >=
                     variables.get<detail::RealType<Type::Array>::type>(
                         statement.value).size())
                 throw Exception("indexed array out of range",
@@ -120,7 +123,7 @@ void egli::ProcessingUnit::checkFunction(const Statement &statement,
                 else // indexed-array
                     paramsType.push_back(
                         variables.get<detail::RealType<Type::Array>::type>(
-                            param.value).typeOf(stoul(param.parameters.at(0).value)));
+                            param.value).typeOf(detail::stoul(param.parameters.at(0).value)));
                 break;
 
             case Statement::Type::Constant:
@@ -324,12 +327,12 @@ void egli::ProcessingUnit::processConstant(Statement &statement,
 
         case Statement::ConstantType::Float:
             statement.transformToVariable(
-                variables.setTemporary(stof(statement.value)));
+                variables.setTemporary(detail::stof(statement.value)));
             break;
 
         case Statement::ConstantType::Integer:
             statement.transformToVariable(
-                variables.setTemporary(stoi(statement.value)));
+                variables.setTemporary(detail::stoi(statement.value)));
             break;
 
         case Statement::ConstantType::String:

@@ -154,3 +154,11 @@ fabric.properties
 build
 *.user
 *.user.*
+
+# GUI's stuff#
+src/gui/*.gph
+src/gui/Makefile*
+src/gui/debug/*
+src/gui/object_script*
+src/gui/
+src/gui/*.ghy

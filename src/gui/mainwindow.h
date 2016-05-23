@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#include "userHelp/helpwindow.h"
+#include "../userHelp/helpwindow.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,6 +18,7 @@ public:
     ~MainWindow();
 public slots:
     void newGraph();
+    void saveSession();
     void loadSession();
     void showHelp();
     void newTab(const QString&);

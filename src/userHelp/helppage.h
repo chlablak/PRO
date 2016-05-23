@@ -13,20 +13,32 @@
 
 class HelpPage
 {
+public:
+    HelpPage(QString page, QString name, QStringList keywords);
+
+    /*!
+     * \brief checks for a keyword or part of keyword (case insensitive)
+     * \param word
+     * \return bool: if keyword is present for this page
+     */
+    bool hasKeyword(QString word);
+
+    /*!
+     * \brief Page accessor
+     * \return
+     */
+    QString getPage();
+
+    /*!
+     * \brief page name accessor
+     * \return
+     */
+    QString getName();
+
 private:
     QString page;
     QString name;
     QStringList keywords;
-
-public:
-    HelpPage(QString page, QString name, QStringList keywords);
-	
-	/*! \brief checks for a keyword or part of keyword (case insensitive)
-	 */
-    bool hasKeyword(QString word);
-	
-    QString getPage();
-    QString getName();
 };
 
 #endif // HELPPAGE_H
