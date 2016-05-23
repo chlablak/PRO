@@ -73,7 +73,12 @@ public:
     template <typename Func>
     void forEachAdjacentVertex(Vertex *v, Func f) {
         for (IEdge* ie : _adjacentList.at(v->id())) {
-            f(ie->to());
+            if (ie->either() == v) {
+                f(ie->other(ie->either()));
+            } else {
+                f(ie->either());
+            }
+
         }
     }
 

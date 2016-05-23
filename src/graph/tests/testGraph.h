@@ -109,13 +109,13 @@ public:
         IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
         gDFS->print();
 
-//        // Test Composantes Connexes
-//        cout << "Test Composante connexe" << endl;
-//        vector<int> cc = GraphAlgorithm::connectedComponent(_G);
-//        for (int i : cc)
-//            cout << i << " ";
-//        cout << endl << endl;
-//
+        // Test Composantes Connexes
+        cout << "Test Composante connexe" << endl;
+        vector<int> cc = GraphAlgorithm::connectedComponent(_G);
+        for (int i : cc)
+            cout << i << " ";
+        cout << endl << endl;
+
 //        // Test Kruskal
 //        cout << "Kruskal" << endl;
 //        IGraph *gKruskal = GraphAlgorithm::kruskal(_G);
