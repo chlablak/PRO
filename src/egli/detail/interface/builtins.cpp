@@ -152,7 +152,7 @@ egli::detail::RealType<egli::Type::String>::type
             oss << ',';
         oss << it->id();
         size_t countEmpty = 0;
-        if (!it->label().empty())
+        if (!it->label().empty() && it->label() != toString_i(it->id()))
             oss << ':' << '"' << it->label() << '"';
         else
             ++countEmpty;
