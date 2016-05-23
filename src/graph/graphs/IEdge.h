@@ -82,6 +82,11 @@ public:
     inline bool operator<=(const IEdge& e) const { return !(*this > e); }
     inline bool operator>=(const IEdge& e) const { return !(*this < e); }
 
+    inline bool operator< (const IEdge* e) const { return weight() < e->weight(); }
+    inline bool operator> (const IEdge* e) const { return e < this; }
+    inline bool operator<=(const IEdge* e) const { return !(this > e); }
+    inline bool operator>=(const IEdge* e) const { return !(this < e); }
+
     friend ostream& operator<<(ostream& os, const IEdge& e) {
         return os << e.toString();
     }

@@ -48,4 +48,5 @@ void egli::detail::interfaceAlgorithms(FunctionTable &table)
     table.interface("dfs", algorithms::dfs);
     table.interface("cc", algorithms::cc);
     table.interface("scc", algorithms::scc);
+    table.interface("kruskal", algorithms::kruskal);
 }
