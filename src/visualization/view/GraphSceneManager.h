@@ -1,3 +1,11 @@
+/*!
+ * \brief Visualization scenes manager class
+ *
+ * \file GraphSceneManager.h
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #ifndef VISUALIZATION_GRAPHSCENEMANAGER_H
 #define VISUALIZATION_GRAPHSCENEMANAGER_H
 

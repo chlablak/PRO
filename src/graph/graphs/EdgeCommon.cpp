@@ -69,6 +69,8 @@ string EdgeCommon::toString() const {
 }
 
 EdgeCommon &EdgeCommon::operator=(const EdgeCommon &e) {
+    UNUSED(e);
+
     // TODO
 }
 

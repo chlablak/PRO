@@ -1,3 +1,11 @@
+/*!
+ * \brief Graph factory class
+ *
+ * \file GraphItemFactory.cpp
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #include "../../graph/graphs/IEdge.h"
 
 #include "GraphItemFactory.h"
