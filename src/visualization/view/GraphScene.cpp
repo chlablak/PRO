@@ -1,4 +1,3 @@
-#include <QDebug>
 #include <QGraphicsScene>
 
 #include "../../graph/graphs/IGraph.h"

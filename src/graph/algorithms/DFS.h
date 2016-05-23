@@ -8,6 +8,8 @@
 
 #include "Visitor.h"
 #include "../graphs/IGraph.h"
+#include "../graphs/DiGraph.h"
+#include "../graphs/FlowGraph.h"
 
 class DFS : public Visitor {
 private:
@@ -17,6 +19,8 @@ private:
     int N;
     IGraph *_G;
     void DFSprocedure(Graph *g, Vertex *u);
+    void DFSprocedure(DiGraph *g, Vertex *u, vector<int> &debut, vector<int> &fin, int date);
+    void DFSprocedure(FlowGraph *g, Vertex *u, vector<int> &debut, vector<int> &fin, int date);
 public:
     DFS() : _dfsnum(0), _G(nullptr) {}
     ~DFS();

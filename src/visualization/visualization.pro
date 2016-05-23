@@ -23,16 +23,19 @@ SOURCES += main.cpp \
     view/GraphItemFactory.cpp \
     view/DiGraphItemFactory.cpp \
     view/FlowGraphItemFactory.cpp \
+    view/items/ArrowItem.cpp \
+    view/GraphSceneManager.cpp \
     GraphWidget.cpp \
     GraphExporter.cpp \
     ../graph/graphs/DiEdge.cpp \
+    ../graph/graphs/DiEdgeCommon.cpp \
     ../graph/graphs/DiGraph.cpp \
     ../graph/graphs/Edge.cpp \
+    ../graph/graphs/EdgeCommon.cpp \
     ../graph/graphs/FlowEdge.cpp \
     ../graph/graphs/FlowGraph.cpp \
     ../graph/graphs/Graph.cpp \
     ../graph/graphs/GraphCommon.cpp \
-    ../graph/graphs/IEdge.cpp \
     ../graph/graphs/Vertex.cpp \
     ../graph/algorithms/ConnectedComponent.cpp
 
@@ -48,12 +51,19 @@ HEADERS  += \
     view/GraphItemFactory.h \
     view/DiGraphItemFactory.h \
     view/FlowGraphItemFactory.h \
+    view/items/ArrowItem.h \
+    view/GraphSceneManager.h \
     GraphWidget.h \
     GraphExporter.h \
+    ../utility/Hash.h \
     ../graph/Includes.h \
     ../graph/graphs/DiEdge.h \
+    ../graph/graphs/DiEdgeCommon.h \
     ../graph/graphs/DiGraph.h \
+    ../graph/graphs/DiGraphCommon.h \
+    ../graph/graphs/DiGraphCommon.hpp \
     ../graph/graphs/Edge.h \
+    ../graph/graphs/EdgeCommon.h \
     ../graph/graphs/FlowEdge.h \
     ../graph/graphs/FlowGraph.h \
     ../graph/graphs/Graph.h \

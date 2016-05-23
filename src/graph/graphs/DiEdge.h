@@ -5,40 +5,29 @@
 #ifndef SRC_DiEdge_H
 #define SRC_DiEdge_H
 
-#include "Edge.h"
+#include "DiEdgeCommon.h"
 
-// TODO patrick
-class DiEdge : public IEdge {
-private:
-    int _minCapacity;
-    int _maxCapacity;
-
-protected:
-public:
-    virtual Vertex *either() const override;
-
-    virtual Vertex *other(Vertex *v) const override;
+class DiEdge : public DiEdgeCommon {
 
 public:
     // Constructors
     DiEdge(Vertex *from, Vertex *to)
-            : IEdge(from, to) { }
+        : DiEdgeCommon(from, to) {}
 
-    DiEdge(Vertex *from, Vertex *to,
-           const string &label)
-            : IEdge(from, to, label) { }
+    DiEdge(Vertex *from, Vertex *to, const string &label)
+        : DiEdgeCommon(from, to, label) {}
 
-    DiEdge(Vertex *from, Vertex *to, const string &label, const double weight)
-            : IEdge(from, to, label, weight) { }
+    DiEdge(Vertex *from, Vertex *to, const double weight)
+        : DiEdgeCommon(from, to,  weight) {}
 
-    DiEdge(const DiEdge& e);
-    // TODO patrick : ajouter plus de constructeurs (aussi pour FlowEdge)
+    DiEdge(Vertex *from, Vertex *to, const string label, const double weight)
+        : DiEdgeCommon(from, to, label, weight) {}
+
+    DiEdge(const DiEdge& e) : DiEdgeCommon(e) { }
+
+    string toString() const;
 
     virtual ~DiEdge() {}
-
-    // Getters
-    Vertex *from() const;
-    Vertex *to() const;
 };
 
 

@@ -20,7 +20,11 @@ private:
 
 public:
     HelpPage(QString page, QString name, QStringList keywords);
+	
+	/*! \brief checks for a keyword or part of keyword (case insensitive)
+	 */
     bool hasKeyword(QString word);
+	
     QString getPage();
     QString getName();
 };

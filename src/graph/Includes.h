@@ -5,6 +5,8 @@
 #ifndef GRAPH_GRAPHCLASS_H
 #define GRAPH_GRAPHCLASS_H
 
+#include <typeinfo>
+
 #include "graphs/Vertex.h"
 
 #include "graphs/IEdge.h"

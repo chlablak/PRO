@@ -49,7 +49,6 @@ public:
     void assignVertex(Vertex *v);
     virtual Vertex *createVertex() const override;
 
-
     template<typename Func>
     void forEachVertex(Func f) {
         for (Vertex* v : _vertices) {
@@ -71,22 +70,23 @@ public:
         }
     }
 
+    template <typename Func>
+    void forEachAdjacentVertex(Vertex *v, Func f) {
+        for (IEdge* ie : _adjacentList.at(v->id())) {
+            f(ie->to());
+        }
+    }
+
     virtual void print() const override;
 
     virtual bool isWeighted() const override;
 
+    virtual string toString() const override;
 
     friend ostream& operator<<(ostream& os, const GraphCommon<T>& g) {
-        for (Vertex *v : g.vertexList()) {
-            os << *v << endl;
-        }
-        for (IEdge* e : g.edgeList()) {
-            os << *(T*)e << endl;
-        }
-        return os;
+        return os << g.toString();
     }
 };
-
 
 #include "GraphCommon.cpp"
 

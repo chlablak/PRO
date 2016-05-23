@@ -1,7 +1,9 @@
 #ifndef VISUALIZATION_EDGEITEM_H
 #define VISUALIZATION_EDGEITEM_H
 
-#include <QAbstractGraphicsShapeItem>
+#include <QGraphicsItemGroup>
+#include <QGraphicsLineItem>
+#include <QGraphicsTextItem>
 
 #include "../../graph/graphs/IEdge.h"
 
@@ -9,7 +11,7 @@
 
 class VertexItem;
 
-class EdgeItem : public QAbstractGraphicsShapeItem
+class EdgeItem : public QGraphicsItemGroup
 {
 private:
     const IEdge *_edge;
@@ -19,20 +21,17 @@ private:
     QPointF _sourcePoint;
     QPointF _destPoint;
 
+    QGraphicsLineItem *_line;
+    QGraphicsTextItem *_label;
+
 public:
     EdgeItem(const IEdge *edge, VertexItem *source, VertexItem *dest);
-
     virtual ~EdgeItem();
 
-    virtual QRectF boundingRect() const;
-
-    virtual void paint(QPainter *painter,
-                       const QStyleOptionGraphicsItem *option,
-                       QWidget *widget = 0) Q_DECL_OVERRIDE;
-
-    void adjust();
+    virtual void adjust();
 
 protected:
+    virtual QString label() const;
     const IEdge *edge() const;
     VertexItem *sourceItem() const;
     VertexItem *destItem() const;

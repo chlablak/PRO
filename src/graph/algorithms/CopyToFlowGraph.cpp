@@ -7,6 +7,7 @@
 #include "../graphs/Graph.h"
 #include "../graphs/FlowGraph.h"
 #include "../graphs/FlowEdge.h"
+#include "../graphs/DiGraph.h"
 
 
 void CopyToFlowGraph::visit(Graph *g, Vertex *from) {
@@ -43,7 +44,7 @@ void CopyToFlowGraph::visit(DiGraph *g, Vertex *from) {
     // Copy each edge
     for (IEdge *ie : g->edgeList()) {
         DiEdge *de = (DiEdge *)ie;
-        _G->addEdge( new FlowEdge(de->either(), de->other(de->either()), de->label(), de->weight()) );
+        _G->addEdge( new FlowEdge(de->from(), de->to(), de->label(), de->weight()) );
     }
 }
 

@@ -13,7 +13,7 @@
 class Kruskal : public Visitor
 {
 private:
-    typedef priority_queue<Edge*, vector<Edge*>, greater<Edge>> MinPQ;
+    typedef priority_queue<IEdge*, vector<IEdge*>, greater<IEdge*>> MinPQ;
 
     IGraph *_G;
 public:

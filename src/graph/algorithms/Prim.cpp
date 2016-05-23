@@ -28,10 +28,11 @@ void Prim::visit(Graph *g, Vertex *from) {
 
     marked[from->id()] = true;
 
-    g->forEachAdjacentEdge(from,[&](IEdge* e) {
+    g->forEachAdjacentEdge(from,[&](IEdge* ie) {
+        Edge *e = (Edge*)ie;
         Vertex *w = e->other(from);
-        edge[w->id()] = (Edge*)e;
-        pq.insert(std::make_pair((Edge*)e,w));
+        edge[w->id()] = e;
+        pq.insert(std::make_pair(e,w));
     });
 
     while ( !pq.empty() && _G->E() < g->V()-1 ) {
@@ -45,12 +46,13 @@ void Prim::visit(Graph *g, Vertex *from) {
         marked[v->id()] = true;
 
         pq.erase(pq.begin());
-        g->forEachAdjacentEdge(v,[&](IEdge* e) {
+        g->forEachAdjacentEdge(v,[&](IEdge* ie) {
+            Edge *e = (Edge*)ie;
             Vertex *w = e->other(v);
             if(!marked[w->id()] && *edge[w->id()] > *e) {
                 pq.erase(std::make_pair(edge[w->id()],w));
-                pq.insert(std::make_pair((Edge*)e,w));
-                edge[w->id()] = (Edge*)e;
+                pq.insert(std::make_pair(e,w));
+                edge[w->id()] = e;
             }
         });
     }

@@ -52,8 +52,23 @@ void Vertex::setId(const int i) {
     _id = i;
 }
 
-ostream &operator<<(ostream &os, const Vertex &v) {
-    return os << "(VERTEX) id: " << v.id() << ", \"" << v.label() << "\", weight: "
-           << v.weight() << ", min cap: " << v.minCapacity() << ", max cap: "
-           << v.maxCapacity();
+string Vertex::toString() const {
+    string s = "(VERTEX) id: ";
+    s.append(patch::to_string(id()));
+    s.append(", \"");
+    s.append(label());
+    s.append("\", weight: ");
+    s.append(patch::to_string(weight()));
+    s.append(", min cap: ");
+    s.append(patch::to_string(minCapacity()));
+    s.append(", max cap: ");
+    s.append(patch::to_string(maxCapacity()));
+    return s;
 }
+
+ostream &operator<<(ostream &os, const Vertex &v) {
+    return os << v.toString();
+}
+
+
+

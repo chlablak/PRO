@@ -5,7 +5,6 @@
 #ifndef GRAPH_CONNECTEDCOMPONENT_H
 #define GRAPH_CONNECTEDCOMPONENT_H
 
-
 #include "Visitor.h"
 #include "../graphs/IGraph.h"
 

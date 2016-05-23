@@ -25,8 +25,6 @@ public:
 
     virtual IGraph* G() const override ;
     virtual std::vector<int>& table() override;
-
-
 };
 
 
