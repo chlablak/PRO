@@ -47,3 +47,10 @@ egli::detail::RealType<egli::Type::Array>::type
     return RealType<Type::Array>::type(
         GraphAlgorithm::stronglyConnectedComponent(g.graph()));
 }
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::algorithms::kruskal(RealType<Type::Graph>::cref g)
+{
+    return RealType<egli::Type::Graph>::type(
+        GraphAlgorithm::kruskal(g.graph()));
+}
