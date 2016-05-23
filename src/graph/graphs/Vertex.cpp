@@ -54,15 +54,15 @@ void Vertex::setId(const int i) {
 
 string Vertex::toString() const {
     string s = "(VERTEX) id: ";
-    s.append(patch::to_string(id()));
+    s.append(utility::toString(id()));
     s.append(", \"");
     s.append(label());
     s.append("\", weight: ");
-    s.append(patch::to_string(weight()));
+    s.append(utility::toString(weight()));
     s.append(", min cap: ");
-    s.append(patch::to_string(minCapacity()));
+    s.append(utility::toString(minCapacity()));
     s.append(", max cap: ");
-    s.append(patch::to_string(maxCapacity()));
+    s.append(utility::toString(maxCapacity()));
     return s;
 }
 

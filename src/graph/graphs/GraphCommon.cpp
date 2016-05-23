@@ -43,6 +43,7 @@ GraphCommon<T>::~GraphCommon() {
 template <typename T>
 bool GraphCommon<T>::isNull() const {
     return _vertices.size() == 0;
+    return _vertices.size() == 0;
 }
 
 /**
@@ -135,14 +136,22 @@ void GraphCommon<T>::ponderateEdges(const double w) {
                edge->setWeight(w);
 }
 
-/**
- * add a vertex to the graph
- */
 template <typename T>
 void GraphCommon<T>::addVertex(Vertex *v) {
-    v->setId(_vertices.size());
-    _vertices.push_back(v);
-    _adjacentList.resize(_vertices.size());
+    bool inserted = false;
+    for (size_t i = 0; i < _vertices.size(); ++i) {
+        if (_vertices.at(i) == nullptr) {
+            v->setId(i);
+            _vertices.at(i) = v;
+            inserted = true;
+        }
+    }
+
+    if(!inserted) {
+        v->setId(_vertices.size());
+        _vertices.push_back(v);
+        _adjacentList.resize(_vertices.size());
+    }
 }
 
 /**
@@ -150,7 +159,13 @@ void GraphCommon<T>::addVertex(Vertex *v) {
  */
 template <typename T>
 size_t GraphCommon<T>::V() const {
-    return _vertices.size();
+    size_t count = 0;
+    for (Vertex *v : _vertices) {
+        if (v != nullptr) {
+            ++count;
+        }
+    }
+    return count;
 }
 
 /**

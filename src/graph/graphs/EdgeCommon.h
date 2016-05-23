@@ -33,8 +33,6 @@ public:
 
     virtual string toString() const override;
     virtual int id() const override;
-    virtual Vertex *vertexA() const override;
-    virtual Vertex *vertexB() const override;
     virtual string label() const override;
     virtual double weight() const override;
     virtual void setId(int _id) override;
