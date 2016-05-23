@@ -152,7 +152,14 @@ egli::detail::RealType<egli::Type::String>::type
         else
             ++countEmpty;
     }
-    #warning TODO toString_g Edge
+    for (const auto *it : var.graph()->edgeList()) {
+        if (first)
+            first = false;
+        else
+            oss << ',';
+        oss << *it;
+        #warning TODO toString_g Edge
+    }
     oss << '}';
     return oss.str();
 }

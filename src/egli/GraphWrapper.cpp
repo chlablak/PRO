@@ -15,6 +15,11 @@
 #include "Number.h"
 #include "detail/interface/builtins.h"
 
+#warning D
+#include <iostream>
+#define D(v) std::cerr << __LINE__ << ":"#v"=" << v << std::endl;
+#define DL std::cerr << __LINE__ << std::endl;
+
 egli::GraphWrapper::GraphWrapper(igraph_ptr_t g) :
     m_graph(g)
 {}
@@ -105,21 +110,37 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
                         detail::builtins::toString_e(edge));
 
     // Transform the Graph if necessary
-    // ...
+    GraphType type = graphType();
+    if (type != GraphType::FlowGraph
+        && (edge.maxCapacity.hasValue() || edge.minCapacity.hasValue())) {
+        transformTo(GraphType::FlowGraph);
+    } else if (type != GraphType::DiGraph
+               && edge.connection == egli::Edge::Connection::Unidirectional) {
+        transformTo(GraphType::DiGraph);
+    }
 
     // Get the list of existing Edges
     vertex_t *v = getVertexById(edge.v);
     vertex_t *w = getVertexById(edge.w);
+    {
+        DL
+        D(v)
+        D(w)
+        std::list<iedge_ptr_t> edges = graph()->getEdges(v, w);
+        D(edges.size());
+        DL
+    }
+    DL
     std::list<iedge_ptr_t> edges = graph()->getEdges(v, w);
 
     // Create or reach the Edge to create/modify
     iedge_ptr_t e = nullptr;
-    if (edge.id.hasValue() && edge.id.value() < edges.size()) {
+    if (edge.id.hasValue() && edge.id.value() < edges.size()) { // update
         auto it = edges.begin();
         for (size_t i = 0; i < edge.id.value(); ++i)
             ++it;
         e = *it;
-    } else {
+    } else {                                                    // new
         e = graph()->createEdge(v, w);
         graph()->addEdge(e);
     }
@@ -204,5 +225,15 @@ egli::GraphWrapper::GraphType egli::GraphWrapper::graphType() const
 
 void egli::GraphWrapper::transformTo(GraphType type)
 {
-
+    D(detail::builtins::toString_g(*this))
+    GraphWrapper tmp;
+    if (type == GraphType::Graph)
+        tmp = GraphAlgorithm::copyToGraph(graph());
+    else if (type == GraphType::DiGraph)
+        tmp = GraphAlgorithm::copyToDiGraph(graph());
+    else
+        tmp = GraphAlgorithm::copyToFlowGraph(graph());
+    operator=(tmp);
+    D((int)type)
+    D(detail::builtins::toString_g(*this))
 }
