@@ -1,3 +1,11 @@
+/*!
+ * \brief Visualization scenes manager class
+ *
+ * \file GraphSceneManager.cpp
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #include "GraphSceneManager.h"
 
 GraphSceneManager::GraphSceneManager()

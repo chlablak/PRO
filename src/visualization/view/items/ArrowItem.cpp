@@ -1,4 +1,13 @@
+/*!
+ * \brief Arrow graphics item class
+ *
+ * \file ArrowItem.cpp
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #include <QPen>
+#include <QDebug>
 #include <QBrush>
 #include <QtMath>
 
@@ -58,21 +67,20 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 void ArrowItem::doShape()
 {
-    prepareGeometryChange();
-
-    // Calcul du polygon
     QPointF arrowP1 = _point + QPointF(
                 qSin(_angle - M_PI / 3) * _width,
                 qCos(_angle - M_PI / 3) * _width
     );
     QPointF arrowP2 = _point + QPointF(
-                qSin(_angle - 2 * M_PI / 3) * _width,
-                qCos(_angle - 2 * M_PI / 3) * _width
+                qSin(_angle - M_PI + M_PI / 3) * _width,
+                qCos(_angle - M_PI + M_PI / 3) * _width
     );
     _shape.clear();
     _shape.push_back(_point);
     _shape.push_back(arrowP1);
     _shape.push_back(arrowP2);
 
-    update();
+    // Indicates that the item shape and
+    // the bounding rect has changed
+    prepareGeometryChange();
 }

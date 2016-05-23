@@ -8,6 +8,11 @@ QT       += core gui svg
 
 CONFIG += c++11
 
+QMAKE_CXXFLAGS += -std=c++0x
+QMAKE_CXXFLAGS += -Wall
+QMAKE_CXXFLAGS += -Wextra
+QMAKE_CXXFLAGS += -Weffc++
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = visualization
