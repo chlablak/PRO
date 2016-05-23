@@ -3,13 +3,13 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Prim.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToDiGraph.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/SCCTarjan.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Kruskal.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Prim.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToDiGraph.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/SCCTarjan.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/GraphAlgorithm.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToDiGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToFlowGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/ConnectedComponent.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Visitor.h" isTestSource="false" />
@@ -33,14 +33,14 @@
       <sourceFolder url="file://$MODULE_DIR$/tests/TestGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/TestDiGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/tests/TestFlowGraph.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/includes.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Includes.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Vertex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/EdgeCommon.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/GraphCommon.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/EdgeCommon.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraphCommon.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraphCommon.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowEdge.h" isTestSource="false" />
@@ -50,15 +50,15 @@
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/IEdge.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraphCommon.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdgeCommon.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdgeCommon.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdgeCommon.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowEdge.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/IGraph.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraphCommon.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.h" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">

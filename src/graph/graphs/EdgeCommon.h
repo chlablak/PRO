@@ -40,6 +40,8 @@ public:
     virtual void setB(Vertex *v) override;
     virtual void setLabel(const string &label) override;
     virtual void setWeight(double weight) override;
+
+    EdgeCommon& operator=(const EdgeCommon& e);
 };
 
 

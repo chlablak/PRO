@@ -26,7 +26,7 @@ void GraphCommon<T>::computeId(vector<Vertex*> &result, vector<Vertex*> &table) 
  */
 template <typename T>
 GraphCommon<T>::GraphCommon(vector<Vertex*> &vertices)
-        : _adjacentList(vertices.size()), _edgeId(0) {
+        : _adjacentList(vertices.size()), _edgeId(0), _vertices() {
     computeId(_vertices, vertices);
 }
 
@@ -42,7 +42,6 @@ GraphCommon<T>::~GraphCommon() {
 
 template <typename T>
 bool GraphCommon<T>::isNull() const {
-    return _vertices.size() == 0;
     return _vertices.size() == 0;
 }
 
@@ -177,13 +176,6 @@ void GraphCommon<T>::resetEdgeId() {
     for (IEdge* e : edgeList()) {
         e->setId(_edgeId++);
     }
-}
-
-template <typename T>
-GraphCommon<T>::GraphCommon(const GraphCommon &g) {
-    _vertices.resize(g.V());
-    _edgeId = g.E();
-    _adjacentList.resize(g.V());
 }
 
 template <typename T>

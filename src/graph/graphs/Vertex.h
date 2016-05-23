@@ -57,7 +57,9 @@ public:
               _minCapacity(minCapacity),
               _maxCapacity(maxCapacity) { }
 
-    Vertex(const Vertex &v);
+    Vertex(const Vertex &v)
+            : _id(v.id()), _label(v.label()), _weight(v.weight()),
+              _minCapacity(v.minCapacity()), _maxCapacity(v.maxCapacity()) { }
 
     ~Vertex() { }
 

@@ -20,11 +20,6 @@ void FlowEdge::setMaxCapacity(const int m) {
     _maxCapacity = m;
 }
 
-FlowEdge::FlowEdge(const FlowEdge &e) : DiEdgeCommon(e) {
-    _minCapacity = e._minCapacity;
-    _maxCapacity = e._maxCapacity;
-}
-
 string FlowEdge::toString() const {
     string s = "(FLOW EDGE) ";
     s.append(EdgeCommon::toString());

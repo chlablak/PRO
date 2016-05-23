@@ -6,9 +6,9 @@
 #include <string>
 #include <sstream>
 
-namespace patch
+namespace utility
 {
-    template < typename T > std::string to_string( const T& n )
+    template < typename T > std::string toString( const T& n )
     {
         std::ostringstream stm ;
         stm << n ;

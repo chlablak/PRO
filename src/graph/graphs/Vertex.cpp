@@ -4,13 +4,6 @@
 
 #include "Vertex.h"
 
-Vertex::Vertex(const Vertex &v) {
-    _id = v.id();
-    _label = v.label();
-    _minCapacity = v.minCapacity();
-    _maxCapacity = v.maxCapacity();
-    _weight = v.weight();
-}
 
 int Vertex::id() const {
     return _id;

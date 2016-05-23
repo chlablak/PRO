@@ -68,6 +68,10 @@ string EdgeCommon::toString() const {
     return s;
 }
 
+EdgeCommon &EdgeCommon::operator=(const EdgeCommon &e) {
+    // TODO
+}
+
 
 ostream &operator<<(ostream &os, const EdgeCommon &e) {
     return os << e.toString();

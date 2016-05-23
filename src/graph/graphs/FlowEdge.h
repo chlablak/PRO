@@ -19,10 +19,10 @@ public:
             : DiEdgeCommon(from, to), _minCapacity(-1), _maxCapacity(-1) { }
 
     FlowEdge(Vertex *from, Vertex *to, const string& label)
-            : DiEdgeCommon(from, to, label) { }
+            : DiEdgeCommon(from, to, label), _minCapacity(-1), _maxCapacity(-1) { }
 
     FlowEdge(Vertex *from, Vertex *to, const double weight)
-            : DiEdgeCommon(from, to, weight) { }
+            : DiEdgeCommon(from, to, weight), _minCapacity(-1), _maxCapacity(-1) { }
 
     FlowEdge(Vertex *from, Vertex *to, const int maxCapacity)
             : DiEdgeCommon(from, to), _minCapacity(0), _maxCapacity(maxCapacity) { }
@@ -51,7 +51,8 @@ public:
     FlowEdge(Vertex *from, Vertex *to, const string &label, const double weight, const int &minCapacity, const int &maxCapacity)
             : DiEdgeCommon(from, to, label, weight), _minCapacity(minCapacity), _maxCapacity(maxCapacity) { }
 
-    FlowEdge(const FlowEdge& e);
+    FlowEdge(const FlowEdge &e)
+            : DiEdgeCommon(e), _minCapacity(e._minCapacity), _maxCapacity(e._maxCapacity) { }
 
     string toString() const;
 
