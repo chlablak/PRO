@@ -158,6 +158,15 @@ public:
      */
     std::string nextTemporaryName();
 
+    /*! \brief Get the String representation of a variable
+     *
+     * \param name - The variable name
+     * \return The String representation
+     *
+     * \throw Exception if !exists(name)
+     */
+    detail::RealType<Type::String>::type toString(name_t name) const;
+
 private:
 
     // Easy writing
@@ -224,6 +233,17 @@ private:
             get(const VariableTable &table, name_t name)
         {
             return table.graphs.find(name)->second.graph();
+        }
+    };
+
+    // Workaround for std::vector
+    template<typename T, typename Dummy>
+    struct TableHelperImpl<std::vector<T>, Dummy>
+    {
+        static void
+            set(VariableTable &table, name_t name, const std::vector<T> &value)
+        {
+            table.arrays[name] = Array(value);
         }
     };
 };

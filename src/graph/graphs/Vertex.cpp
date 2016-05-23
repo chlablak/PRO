@@ -4,13 +4,6 @@
 
 #include "Vertex.h"
 
-Vertex::Vertex(const Vertex &v) {
-    _id = v.id();
-    _label = v.label();
-    _minCapacity = v.minCapacity();
-    _maxCapacity = v.maxCapacity();
-    _weight = v.weight();
-}
 
 int Vertex::id() const {
     return _id;
@@ -52,8 +45,23 @@ void Vertex::setId(const int i) {
     _id = i;
 }
 
-ostream &operator<<(ostream &os, const Vertex &v) {
-    return os << "(VERTEX) id: " << v.id() << ", \"" << v.label() << "\", weight: "
-           << v.weight() << ", min cap: " << v.minCapacity() << ", max cap: "
-           << v.maxCapacity();
+string Vertex::toString() const {
+    string s = "(VERTEX) id: ";
+    s.append(utility::toString(id()));
+    s.append(", \"");
+    s.append(label());
+    s.append("\", weight: ");
+    s.append(utility::toString(weight()));
+    s.append(", min cap: ");
+    s.append(utility::toString(minCapacity()));
+    s.append(", max cap: ");
+    s.append(utility::toString(maxCapacity()));
+    return s;
 }
+
+ostream &operator<<(ostream &os, const Vertex &v) {
+    return os << v.toString();
+}
+
+
+

@@ -4,20 +4,9 @@
 
 #include "DiEdge.h"
 
-
-DiEdge::DiEdge(const DiEdge &e) : IEdge(e) {
-    _minCapacity = e._minCapacity;
-    _maxCapacity = e._maxCapacity;
+string DiEdge::toString() const {
+    string s = "(DI EDGE) ";
+    s.append(EdgeCommon::toString());
+    return s;
 }
 
-
-Vertex* DiEdge::from() const { return _a; }
-Vertex* DiEdge::to() const { return _b; }
-
-Vertex *DiEdge::either() const {
-    return either();
-}
-
-Vertex *DiEdge::other(Vertex *v) const {
-    return other(either());
-}

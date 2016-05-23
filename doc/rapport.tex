@@ -1711,26 +1711,41 @@
 			Retourner par valeur implique une lourde copie de tout le graphe, ce qui ralentirait le système. De plus, le graphe sera progressivement dynamiquement construit tout au long de l'algorithme et le propriétaire de ce graphe sera celui qui appelle cet algorithme. Pour ces raisons, Nous avons décidé de \textbf{retourner le graphe par pointeur}.
 			
 			\subsubsection{Liste}
-			Dans le tableau ci-dessous figurent les algorithmes traités par l'application. Pour la colonne \textit{Complexité}, $n$ représente le nombre de sommet, et $m$ le nombre d'arcs/arêtes d'un graphe.
+			Dans le tableau ci-dessous figurent les algorithmes traités par l'application. Pour la colonne \textit{Complexité}, $V$ représente le nombre de sommet (Vertex), et $E$ le nombre d'arcs/arêtes (Edge) d'un graphe.
 			\begin{figure}[H]
 				\centering
-				\begin{tabular}{lL{10cm}l}
+				\begin{tabular}{L{3cm}L{10cm}l}
 					\textbf{Nom} & \textbf{Description} & \textbf{Complexité}\\
 					\hline
-					BFS & Breadth First Search : effectue une exploration en largeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(n+m)$\\
+					BFS & Breadth First Search : effectue une exploration en largeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(V+E)$\\
 					\hline
-					DFS & Deapth First Search : effectue une exploration en profondeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(n+m)$\\
+					DFS & Deapth First Search : effectue une exploration en profondeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(V+E)$\\
 					\hline
-					Composante connexe & Calcul les composantes connexes d'un graphe et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(n+m)$\\
+					Composante connexe & Calcul les composantes connexes d'un graphe et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
 					\hline
-					Kruskal & Implémenté avec UnionFind, recherche de l'arbre recouvrant de poids min. & $O(m * log(n))$\\
+					Composante fortement connexe & Calcul les composantes fortement connexes d'un graphe orienté et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
 					\hline
-					Prim & Version empressée de Prim, recherche de l'arbre recouvrant de poids min. & $O(m * log(n))$\\
+					Kruskal & Implémenté avec UnionFind, recherche de l'arbre recouvrant de poids min. & $O(E * log(V))$\\
+					\hline
+					Prim & Version empressée de Prim, recherche de l'arbre recouvrant de poids min. & $O(E * log(V))$\\
+					\hline
+					Bellman-Ford & Recherche les plus courts chemins depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré. & $O(E*V)$\\
+					\hline
+					Dijkstra & Implémenté à l'aide d'une queue de priorité, recherche d'un plus court chemin depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré positivement (ou nul). & $O(E * log(V))$\\
 				\end{tabular}
 			\end{figure}
 			
 			
 			\subsubsection{Utilisation}
+			
+	\section{Interface}
+		\subsection{Auto complétion}
+			\subsubsection{Implémentation du dictionnaire}
+			La première étape pour permettre l'implémentation de l'auto complétion est le choix d'une structure de donnée adéquate. Après quelques recherches, le \textit{ternary search try} se montre le plus adéquat. En effet, sa mise en œuvre permet une recherche très rapide. Pour une recherche réussie (\textit{search hit}), sa complexité est de l'ordre de $O(L + ln(N))$ avec $L$ la longueur de la chaine recherchée et $N$ le nombre de mots dans le dictionnaire \cite{tries}. Une recherche ratée (\textit{search miss}) prend quant à elle $O(ln(N))$. Il est vrai qu'une hash map effectue toutes ses opérations en moyenne en $O(L)$, mais le temps de hachage et non-négligeable et la performance globale en temps et en espace mémoire est souvent moins bonne \cite{sedgewick}.
+			
+		\subsection{Aide utilisateur}
+			\subsubsection{Conception générale}
+			Les fichiers d'aide utilisateur ont été écrit au format HTML, afin qu'ils soient rapidement écrits et que l'utilisateur puisse naviguer d'une page à l'autre.
 	
 	\section{Annexes}
 	
@@ -1765,6 +1780,16 @@
 		
 		\bibitem{boost.spirit}
 		Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
+		
+		\bibitem{tries}
+		Robert Sedgewick, Kevin Wayne.\\
+		\emph{Algorithms, fourth edition}\\
+		\url{http://algs4.cs.princeton.edu/lectures/52Tries.pdf}
+		
+		\bibitem{sedgewick}
+		Robert Sedgewick.\\
+		\emph{Course on ternary search tries}
+		\url{https://www.youtube.com/watch?v=CIGyewO7868}
 	\end{thebibliography}			
 
 \end{document}

@@ -1,4 +1,11 @@
-#include <QDebug>
+/*!
+ * \brief Directed edge graphics item class
+ *
+ * \file DiEdgeItem.cpp
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #include <QPainter>
 #include <QtMath>
 
@@ -10,52 +17,32 @@
 
 DiEdgeItem::DiEdgeItem(const IEdge *edge, VertexItem *source, VertexItem *dest)
     : EdgeItem(edge, source, dest)
-{}
-
-DiEdgeItem::~DiEdgeItem()
-{}
-
-QRectF DiEdgeItem::boundingRect() const
 {
-    return EdgeItem::boundingRect().adjusted(-EDGE_ARROW_SIZE,
-                                             -EDGE_ARROW_SIZE,
-                                             EDGE_ARROW_SIZE,
-                                             EDGE_ARROW_SIZE);
+    // Set the arrow
+    _arrow = new ArrowItem(destPoint(), EDGE_ARROW_SIZE, 0, EDGE_COLOR);
+    _arrow->setZValue(30);
+    addToGroup(_arrow);
+
+    adjust();
 }
 
-void DiEdgeItem::paint(QPainter *painter,
-                       const QStyleOptionGraphicsItem *option,
-                       QWidget *widget)
+DiEdgeItem::~DiEdgeItem()
 {
-    EdgeItem::paint(painter, option, widget);
+    delete _arrow;
+}
 
-    QLineF line(sourceItem()->getCenter(), destItem()->getCenter());
+void DiEdgeItem::adjust()
+{
+    EdgeItem::adjust();
 
-    // Calcul des points de la flèche en direction du sommet de destination
-    double angle = qAcos(line.dx() / line.length());
+    // Compute the angle to draw the arrow
+    QLineF line(sourcePoint(), destPoint());
+    qreal angle = qAcos(line.dx() / line.length());
     if (line.dy() >= 0) {
         angle = 2 * M_PI - angle;
     }
-    QPointF arrowP1 = destPoint() + QPointF(
-                qSin(angle - M_PI / 3) * EDGE_ARROW_SIZE,
-                qCos(angle - M_PI / 3) * EDGE_ARROW_SIZE
-    );
-    QPointF arrowP2 = destPoint() + QPointF(
-                qSin(angle - 2 * M_PI / 3) * EDGE_ARROW_SIZE,
-                qCos(angle - 2 * M_PI / 3) * EDGE_ARROW_SIZE
-    );
-    QPolygonF arrow;
-    arrow.push_back(line.p2());
-    arrow.push_back(arrowP1);
-    arrow.push_back(arrowP2);
 
-    // Dessin de la flèche
-    QPen pen = painter->pen();
-    pen.setColor(EDGE_COLOR);
-    painter->setPen(pen);
-    QBrush brush = painter->brush();
-    brush.setColor(EDGE_COLOR);
-    brush.setStyle(Qt::SolidPattern);
-    painter->setBrush(brush);
-    painter->drawPolygon(arrow);
+    // Update the point and the angle of the arrow
+    _arrow->setPoint(destPoint());
+    _arrow->setAngle(angle);
 }

@@ -14,7 +14,8 @@ KeywordSearcher::KeywordSearcher(QString indexFile)
     QString pageName;
     QStringList pageAndKeywords;
     QStringList keywords;
-    for(QString str : fr.getStringList()){
+
+    for (QString str : fr.getStringList()) {
         pageAndKeywords = str.split(":", QString::SkipEmptyParts);
         page = pageAndKeywords[0];
         pageName = pageAndKeywords[1];
@@ -26,10 +27,14 @@ KeywordSearcher::KeywordSearcher(QString indexFile)
 QVector<HelpPage*> KeywordSearcher::getPages(QString keyword)
 {
     QVector<HelpPage*> pagesWithKeyword;
-    for(HelpPage *hp : pages)
-        if(hp->hasKeyword(keyword))
-            pagesWithKeyword.append(hp);
-
+    QStringList words = keyword.split(" ", QString::SkipEmptyParts);
+    for (QString word : words) {
+        for (HelpPage *hp : pages) {
+            if (hp->hasKeyword(word) && !pagesWithKeyword.contains(hp)) {
+                pagesWithKeyword.append(hp);
+            }
+        }
+    }
     return pagesWithKeyword;
 }
 

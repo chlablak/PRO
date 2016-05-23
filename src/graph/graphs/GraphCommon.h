@@ -32,7 +32,7 @@ protected:
 public:
     GraphCommon() : _adjacentList(0), _edgeId(0), _vertices(0) { }
     GraphCommon(vector<Vertex*> &vertices);
-    GraphCommon(const GraphCommon &g);
+    GraphCommon(const GraphCommon &g) : _adjacentList(g.V()), _edgeId(g.E()), _vertices(g.V()) { }
     virtual ~GraphCommon();
 
     bool isNull() const;
@@ -47,6 +47,7 @@ public:
     void addVertex(Vertex *vertex);
     size_t V() const;
     void assignVertex(Vertex *v);
+    virtual Vertex *createVertex() const override;
 
     template<typename Func>
     void forEachVertex(Func f) {
@@ -69,22 +70,23 @@ public:
         }
     }
 
+    template <typename Func>
+    void forEachAdjacentVertex(Vertex *v, Func f) {
+        for (IEdge* ie : _adjacentList.at(v->id())) {
+            f(ie->to());
+        }
+    }
+
     virtual void print() const override;
 
     virtual bool isWeighted() const override;
 
+    virtual string toString() const override;
 
     friend ostream& operator<<(ostream& os, const GraphCommon<T>& g) {
-        for (Vertex *v : g.vertexList()) {
-            os << *v << endl;
-        }
-        for (IEdge* e : g.edgeList()) {
-            os << *(T*)e << endl;
-        }
-        return os;
+        return os << g.toString();
     }
 };
-
 
 #include "GraphCommon.cpp"
 

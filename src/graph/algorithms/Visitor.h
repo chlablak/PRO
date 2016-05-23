@@ -22,7 +22,8 @@ public:
     virtual void visit(FlowGraph *g, Vertex *from) = 0;
 
     virtual IGraph* G() const = 0;
-    virtual std::vector<int>& table() = 0;
+
+    virtual std::vector<int> table() = 0;
 };
 
 

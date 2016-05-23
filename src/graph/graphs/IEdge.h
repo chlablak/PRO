@@ -11,58 +11,80 @@
 class IEdge
 {
 protected:
-    int _id;
-    Vertex *_a;
-    Vertex *_b;
-    string _label;
-    double _weight;
-
+    virtual string edgeStyle() const = 0;
 public:
-    IEdge(Vertex *from, Vertex *to)
-            : _id(-1), _a(from), _b(to), _label(""), _weight(numeric_limits<double>::max()) {}
-    IEdge(Vertex *from, Vertex *to, const double weight)
-            : _id(-1), _a(from), _b(to), _label(""), _weight(weight) {}
-    IEdge(Vertex *from, Vertex *to, const string& label)
-            : _id(-1), _a(from), _b(to), _label(label), _weight(numeric_limits<double>::max()) {}
-    IEdge(Vertex *from, Vertex *to, const string& label, const double weight)
-            : _id(-1), _a(from), _b(to), _label(label), _weight(weight) {}
-
-    IEdge(IEdge *e);
-
     virtual ~IEdge() {}
 
+    /*!
+     * \return a stringify representation of an edge
+     */
+    virtual string toString() const = 0;
+
+    /*!
+     * \return one of the two vertices of an edge
+     */
     virtual Vertex* either() const = 0;
+
+    /*!
+     * \param v - The vertex already found
+     *
+     * \return the other vertex of the edge from which passed in parameter
+     */
     virtual Vertex* other(Vertex *v) const = 0;
-    virtual Vertex *from() const = 0;
-    virtual Vertex *to() const = 0;
-    // Getters
-    int id() const;
 
-    Vertex* vertexA() const;
+    /*!
+     * \return the source vertex of the edge
+     */
+    virtual Vertex* from() const = 0;
 
-    Vertex* vertexB() const;
+    /*!
+     * \return the destination vertex of the edge
+     */
+    virtual Vertex* to() const = 0;
 
-    string label() const;
+    /*!
+     * \return the id of the edge
+     */
+    virtual int id() const = 0;
 
-    double weight() const;
+    /*!
+     * \return the label of the edge
+     */
+    virtual string label() const = 0;
+
+    /*!
+     * \return the weight of the edge
+     */
+    virtual double weight() const = 0;
 
     // Setters
-    void setId(int _id);
 
-    void setA(Vertex *v);
+    // TODO : should be protected
+    virtual void setId(int _id) = 0;
+    virtual void setA(Vertex *v) = 0;
+    virtual void setB(Vertex *v) = 0;
 
-    void setB(Vertex *v);
+    /*! \brief Change the label of the edge
+     *
+     * \param label - The new label to give to the edge
+     */
+    virtual void setLabel(const string &label) = 0;
 
-    void setLabel(const string &label);
+    /*! \brief Change the weight of the edge
+     *
+     * \param weight - The new weight to give to the edge
+     */
+    virtual void setWeight(double weight) = 0;
 
-    void setWeight(double weight);
-
-    inline bool operator< (const IEdge& e) const { return _weight < e.weight(); }
+    // Overloaded operators
+    inline bool operator< (const IEdge& e) const { return weight() < e.weight(); }
     inline bool operator> (const IEdge& e) const { return e < *this; }
     inline bool operator<=(const IEdge& e) const { return !(*this > e); }
     inline bool operator>=(const IEdge& e) const { return !(*this < e); }
 
-    friend ostream& operator<<(ostream& os, const IEdge& e);
+    friend ostream& operator<<(ostream& os, const IEdge& e) {
+        return os << e.toString();
+    }
 };
 
 

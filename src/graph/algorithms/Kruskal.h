@@ -13,7 +13,7 @@
 class Kruskal : public Visitor
 {
 private:
-    typedef priority_queue<Edge*, vector<Edge*>, greater<Edge>> MinPQ;
+    typedef priority_queue<IEdge*, vector<IEdge*>, greater<IEdge*>> MinPQ;
 
     IGraph *_G;
 public:
@@ -23,7 +23,7 @@ public:
     virtual void visit(DiGraph *g, Vertex *from);
     virtual void visit(FlowGraph *g, Vertex *from);
     virtual IGraph *G() const override;
-    virtual std::vector<int> &table() override;
+    virtual std::vector<int> table() override;
 };
 
 

@@ -6,6 +6,7 @@
  */
 
 #include "VariableTable.h"
+#include "toString.h"
 
 egli::VariableTable::VariableTable() :
     names(),        // avoid warning -Weffc++
@@ -144,6 +145,34 @@ bool egli::VariableTable::isTemporary(name_t name) const
 std::string egli::VariableTable::nextTemporaryName()
 {
     return temporaryName.next();
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::VariableTable::toString(name_t name) const
+{
+    if (!exists(name))
+        throw Exception("unknown name", "egli::VariableTable::toString", name);
+
+    switch (typeOf(name)) {
+        case Type::Array:
+            return egli::toString(get<detail::RealType<Type::Array>::type>(name));
+        case Type::Boolean:
+            return egli::toString(get<detail::RealType<Type::Boolean>::type>(name));
+        case Type::Edge:
+            return egli::toString(get<detail::RealType<Type::Edge>::type>(name));
+        case Type::Float:
+            return egli::toString(get<detail::RealType<Type::Float>::type>(name));
+        case Type::Graph:
+            return egli::toString(get<detail::RealType<Type::Graph>::type>(name));
+        case Type::Integer:
+            return egli::toString(get<detail::RealType<Type::Integer>::type>(name));
+        case Type::Number:
+            return egli::toString(get<detail::RealType<Type::Number>::type>(name));
+        case Type::String:
+            return egli::toString(get<detail::RealType<Type::String>::type>(name));
+        case Type::Vertex:
+            return egli::toString(get<detail::RealType<Type::Vertex>::type>(name));
+    }
 }
 
 egli::TemporaryScope::TemporaryScope(VariableTable &table_) :

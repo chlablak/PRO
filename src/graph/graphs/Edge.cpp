@@ -4,13 +4,24 @@
 
 #include "Edge.h"
 
-
-
-// Getters
 Vertex* Edge::either() const { return _a; }
 
 Vertex* Edge::other(Vertex *v) const {
     return v == this->_a ? this->_b : this->_a;
+}
+
+string Edge::toString() const {
+    string s = "(EDGE) ";
+    s.append(EdgeCommon::toString());
+    return s;
+}
+
+ostream &operator<<(ostream &os, const Edge &e) {
+    return os << e.toString();
+}
+
+string Edge::edgeStyle() const {
+    return "--";
 }
 
 Vertex *Edge::from() const {
@@ -21,9 +32,7 @@ Vertex *Edge::to() const {
     return other(either());
 }
 
-// TODO surcharger l'op == pour les vertex
 
-ostream &operator<<(ostream &os, const Edge &e) {
-    return os << "(EDGE) " << static_cast<const IEdge&>(e);
-}
+
+
 

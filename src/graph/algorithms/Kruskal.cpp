@@ -25,7 +25,9 @@ void Kruskal::visit(Graph *g, Vertex *from) {
     });
 
     while ( !pq.empty() && _G->E() < g->V()-1 ) {
-        Edge *e = pq.top(); pq.pop();
+        IEdge *ie = pq.top(); pq.pop();
+        Edge *e = (Edge*)ie;
+
         int v = e->either()->id();
         int w = e->other(e->either())->id();
 
@@ -52,7 +54,7 @@ IGraph *Kruskal::G() const {
     return _G;
 }
 
-std::vector<int> &Kruskal::table() {
+std::vector<int> Kruskal::table() {
     throw std::runtime_error("Error : No table for Kruskal algorithm.");
 }
 

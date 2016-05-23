@@ -5,13 +5,32 @@
 #ifndef GRAPH_FLOWGRAPH_H
 #define GRAPH_FLOWGRAPH_H
 
+#include "DiGraphCommon.h"
+#include "FlowEdge.h"
 
-#include "DiGraph.h"
-
-class FlowGraph : public DiGraph
+class FlowGraph : public DiGraphCommon<FlowEdge>
 {
 public:
+    FlowGraph() : DiGraphCommon() { }
 
+    FlowGraph(vector<Vertex *> &vertices) : DiGraphCommon(vertices) { }
+
+    FlowGraph(vector<Vertex*> &vertices, vector<IEdge*> &edges)
+    : DiGraphCommon(vertices, edges) { }
+
+    FlowGraph(const FlowGraph& dg);
+
+    virtual ~FlowGraph() { }
+
+    virtual FlowGraph *clone() const override;
+
+    virtual IGraph *emptyClone() const override;
+
+    // Visitor
+    virtual void accept(Visitor *v, Vertex *from) override;
+
+    // Factory method
+    virtual IEdge *createEdge(Vertex *v, Vertex *w) const override;
 };
 
 

@@ -1,3 +1,11 @@
+/*!
+ * \brief Flow graphs factory class
+ *
+ * \file FlowGraphItemFactory.cpp
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #include "../../graph/graphs/IEdge.h"
 
 #include "FlowGraphItemFactory.h"
