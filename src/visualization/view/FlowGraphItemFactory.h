@@ -1,3 +1,11 @@
+/*!
+ * \brief Flow graphs factory class
+ *
+ * \file FlowGraphItemFactory.h
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #ifndef VISUALIZATION_FLOWGRAPHITEMFACTORY_H
 #define VISUALIZATION_FLOWGRAPHITEMFACTORY_H
 
@@ -10,6 +18,10 @@
 class FlowGraphItemFactory : public AbstractGraphItemFactory
 {
 public:
+
+    /*!
+     * \brief Implements AbstractGraphItemFactory::createEdge()
+     */
     virtual EdgeItem *createEdge(const IEdge *edge,
                                  VertexItem *source, VertexItem *dest);
 };

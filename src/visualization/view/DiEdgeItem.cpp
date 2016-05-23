@@ -1,3 +1,11 @@
+/*!
+ * \brief Directed edge graphics item class
+ *
+ * \file DiEdgeItem.cpp
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #include <QPainter>
 #include <QtMath>
 
@@ -10,8 +18,9 @@
 DiEdgeItem::DiEdgeItem(const IEdge *edge, VertexItem *source, VertexItem *dest)
     : EdgeItem(edge, source, dest)
 {
-    // Création de la flèche
+    // Set the arrow
     _arrow = new ArrowItem(destPoint(), EDGE_ARROW_SIZE, 0, EDGE_COLOR);
+    _arrow->setZValue(30);
     addToGroup(_arrow);
 
     adjust();
@@ -26,13 +35,14 @@ void DiEdgeItem::adjust()
 {
     EdgeItem::adjust();
 
-    // Calcul de l'angle de la flèche
+    // Compute the angle to draw the arrow
     QLineF line(sourcePoint(), destPoint());
     qreal angle = qAcos(line.dx() / line.length());
     if (line.dy() >= 0) {
         angle = 2 * M_PI - angle;
     }
 
+    // Update the point and the angle of the arrow
     _arrow->setPoint(destPoint());
     _arrow->setAngle(angle);
 }

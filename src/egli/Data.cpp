@@ -7,6 +7,11 @@
 
 #include "Data.h"
 
+egli::Data::Data() :
+    m_variables(),
+    m_preprocessor()
+{}
+
 egli::VariableTable &egli::Data::variables()
 {
     return m_variables;

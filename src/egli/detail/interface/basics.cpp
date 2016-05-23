@@ -7,8 +7,8 @@
 
 #include "basics.h"
 #include "../../Number.h"
-#include "../../Vertex.h"
-#include "../../Edge.h"
+#include "../../TVertex.h"
+#include "../../TEdge.h"
 #include "../../GraphWrapper.h"
 #include "../../Array.h"
 #include "../../Exception.h"

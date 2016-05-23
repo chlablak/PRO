@@ -10,7 +10,6 @@
 
 #include "Array.h"
 #include "Data.h"
-#include "Edge.h"
 #include "Exception.h"
 #include "Function.h"
 #include "FunctionTable.h"
@@ -20,9 +19,10 @@
 #include "Parser.h"
 #include "ProcessingUnit.h"
 #include "Statement.h"
+#include "TEdge.h"
 #include "toString.h"
+#include "TVertex.h"
 #include "Type.h"
 #include "VariableTable.h"
-#include "Vertex.h"
 
 #endif // EGLI_EGLI_H_INCLUDED

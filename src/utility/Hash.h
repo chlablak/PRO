@@ -1,3 +1,10 @@
+/*! \brief Utility methods for IGraph hashing
+ *
+ * \file Hash.h
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #ifndef UTILITY_HASH_H
 #define UTILITY_HASH_H
 

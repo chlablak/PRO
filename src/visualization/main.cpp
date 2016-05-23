@@ -1,3 +1,11 @@
+/*!
+ * \brief Tests for IGraph visualization
+ *
+ * \file main.cpp
+ * \author Damien Rochat
+ * \date 23.05.2016
+ */
+
 #include <QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -53,7 +61,7 @@ int main(int argc, char *argv[])
     QWidget *widget2 = new GraphWidget(graph2);
     layout->addWidget(widget2);
 
-    // DIGRAPH
+    // FLOWGRAPH
 
     Vertex *v31 = new Vertex("Vertex 1");
     Vertex *v32 = new Vertex("Vertex 2");
@@ -74,7 +82,7 @@ int main(int argc, char *argv[])
 
     // EXPORT SVG
 
-    //GraphExporter exporter(graph);
+    //GraphExporter exporter(graph3);
     //exporter.exportSVG();
 
     window.setLayout(layout);

@@ -76,4 +76,5 @@ egli::detail::RealType<egli::Type::String>::type egli::toString(Type type)
         case Type::String: return "String";
         case Type::Vertex: return "Vertex";
     }
+    return ""; // impossible case
 }
