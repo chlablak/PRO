@@ -45,4 +45,7 @@ void egli::detail::interfaceBuiltins(FunctionTable &table)
 void egli::detail::interfaceAlgorithms(FunctionTable &table)
 {
     table.interface("bfs", algorithms::bfs);
+    table.interface("dfs", algorithms::dfs);
+    table.interface("cc", algorithms::cc);
+    table.interface("scc", algorithms::scc);
 }

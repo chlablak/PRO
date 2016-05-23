@@ -21,3 +21,29 @@ egli::detail::RealType<egli::Type::Array>::type
     result.add(RealType<Type::Array>::type(d));
     return result;
 }
+
+egli::detail::RealType<egli::Type::Array>::type
+    egli::detail::algorithms::dfs(RealType<Type::Graph>::cref g,
+                                  RealType<Type::Integer>::cref from)
+{
+    std::vector<int> d;
+    ::Vertex *f = g.getVertexById(from);
+    RealType<Type::Array>::type result;
+    result.add(GraphAlgorithm::dfs(g.graph(), f, d));
+    result.add(RealType<Type::Array>::type(d));
+    return result;
+}
+
+egli::detail::RealType<egli::Type::Array>::type
+    egli::detail::algorithms::cc(RealType<Type::Graph>::cref g)
+{
+    return RealType<Type::Array>::type(
+        GraphAlgorithm::connectedComponent(g.graph()));
+}
+
+egli::detail::RealType<egli::Type::Array>::type
+    egli::detail::algorithms::scc(RealType<Type::Graph>::cref g)
+{
+    return RealType<Type::Array>::type(
+        GraphAlgorithm::stronglyConnectedComponent(g.graph()));
+}
