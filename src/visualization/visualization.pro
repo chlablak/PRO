@@ -9,9 +9,6 @@ QT       += core gui svg
 CONFIG += c++11
 
 QMAKE_CXXFLAGS += -std=c++0x
-QMAKE_CXXFLAGS += -Wall
-QMAKE_CXXFLAGS += -Wextra
-QMAKE_CXXFLAGS += -Weffc++
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,6 +22,7 @@ SOURCES += main.cpp \
     view/EdgeItem.cpp \
     view/DiEdgeItem.cpp \
     view/FlowEdgeItem.cpp \
+    view/AbstractGraphItemFactory.cpp \
     view/GraphItemFactory.cpp \
     view/DiGraphItemFactory.cpp \
     view/FlowGraphItemFactory.cpp \

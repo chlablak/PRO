@@ -8,9 +8,7 @@
 
 #include <QPainter>
 #include <QtMath>
-#include <QDebug>
 
-#include "../../graph/graphs/IEdge.h"
 #include "../../graph/graphs/FlowEdge.h"
 
 #include "FlowEdgeItem.h"

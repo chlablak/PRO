@@ -24,6 +24,11 @@ public:
      */
     virtual EdgeItem *createEdge(const IEdge *edge,
                                  VertexItem *source, VertexItem *dest);
+
+    /*!
+     * \brief Destructor
+     */
+    virtual ~DiGraphItemFactory();
 };
 
 #endif // VISUALIZATION_DIGRAPHITEMFACTORY_H

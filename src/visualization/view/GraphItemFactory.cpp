@@ -16,3 +16,6 @@ EdgeItem *GraphItemFactory::createEdge(const IEdge *edge,
 {
     return new EdgeItem(edge, source, dest);
 }
+
+GraphItemFactory::~GraphItemFactory()
+{}

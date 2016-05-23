@@ -7,7 +7,6 @@
  */
 
 #include <QPen>
-#include <QDebug>
 #include <QBrush>
 #include <QtMath>
 
