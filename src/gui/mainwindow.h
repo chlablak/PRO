@@ -25,6 +25,7 @@ public slots:
     void saveTab();
     void loadTab();
     void closeTab(int index);
+    void changeTab(int direction);
     void closeCurrent();
     void consoleHasChanged();
     void saveConsole();
@@ -33,6 +34,8 @@ public slots:
 private:
     Ui::MainWindow *ui;
     HelpWindow *helpWindow;
+
+    const QString graphDelimiter = "§§§§°°";
 
 //protected:
     //void keyPressEvent(QKeyEvent *e);

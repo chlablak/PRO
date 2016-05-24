@@ -94,11 +94,13 @@ public:
 
     virtual void printAdjList() const override {
         for (Vertex *v : _vertices) {
-            cout << "|" << v->label() << "(" << v->id() << ") | --- ";
-            for(IEdge *ie : _adjacentList.at(v->id())) {
-                cout << ie->label() << "(" << ie->id() << ") --- ";
+            if (v != nullptr) {
+                cout << "|" << v->label() << "(" << v->id() << ") | --- ";
+                for (IEdge *ie : _adjacentList.at(v->id())) {
+                    cout << ie->label() << "(" << ie->id() << ") --- ";
+                }
+                cout << "/" << endl;
             }
-            cout << "/" << endl;
         }
     }
 

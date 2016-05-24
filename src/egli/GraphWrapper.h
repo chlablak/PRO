@@ -40,6 +40,8 @@ public:
     /*! \brief Constructor
      *
      * \param g - An allocated graph
+     *
+     * \note if g == nullptr, a empty Graph is allocated
      */
     GraphWrapper(igraph_ptr_t g = nullptr);
 
