@@ -7,6 +7,7 @@
 
 #include <cassert>
 #include "../includes.h"
+#include "../algorithms/DetectedCycle.h"
 
 class TestGraph
 {
@@ -21,23 +22,38 @@ public:
         Vertex *v4 = new Vertex("v4");
 
         // Associate Edges to vertices
-        IEdge *e1 = new Edge(v1, v4, "e1", 3);
+        IEdge *e1 = new Edge(v1, v2, "e1", 3);
         IEdge *e2 = new Edge(v1, v3, "e2", 2);
         IEdge *e3 = new Edge(v2, v3, "e3", 1);
         IEdge *e4 = new Edge(v3, v4, "e4", 4);
-        IEdge *e5 = new Edge(v1, v2, "e5", 3);
-        IEdge *e6 = new Edge(v2, v4, "e6", 2);
+        IEdge *e5 = new Edge(v2, v4, "e5", 3);
+        /*IEdge *e6 = new Edge(v2, v3, "e6", 2);
+        IEdge *e7 = new Edge(v3, v1, "e5", 3);
+        IEdge *e8 = new Edge(v3, v2, "e6", 2);
+        IEdge *e9 = new Edge(v3, v3, "e6", 2);*/
 
         vector<Vertex*> vertices = {v1, v2, v3, v4};
-        vector<IEdge*> edges = {e1, e2, e3, e4, e5, e6};
+        vector<IEdge*> edges = {e1,e2, e3, e4, e5};
 
         // Create the graph structure with those vertices and edges
         _G = new Graph(vertices, edges);
+        Graph *g = new Graph(vertices, edges);
 
-        assert(_G->isSimple() == 0);
+        assert(_G->isSimple() == 1);
         assert(_G->isNegativeWeighted() == 0);
-        assert(_G->isPlanar() == 0);
+        assert(_G->isPlanar() == 1);
         assert(_G->V() == 4);
+
+        DetectedCycle detectedCycle;
+        detectedCycle.visit(g, g->vertexList().front());
+        if(detectedCycle.hasCycle()) {
+            cout << "Graph possedant de cycle" << endl;
+            cout << *g << endl;
+
+            cout << "Test de detectedCycle pour les Graph" << endl;
+            IGraph *cycle = detectedCycle.G();
+            cout << *cycle << endl;
+        }
 
         cout << "Avant ponderation :" << endl;
         cout << *_G << endl;
@@ -45,7 +61,7 @@ public:
         cout << "Apres ponderation : " << endl;
         cout << *_G << endl;
 
-        assert(_G->E() == 6);
+        assert(_G->E() == 5);
         assert(_G->isNegativeWeighted() == 0);
 
         // Test createEdge

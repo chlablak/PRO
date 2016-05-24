@@ -23,34 +23,45 @@ public:
         Vertex *v3 = new Vertex("v3");
         Vertex *v4 = new Vertex("v4");
         Vertex *v5 = new Vertex("v5");
-        Vertex *v6 = new Vertex("v6");
-        Vertex *v7 = new Vertex("v7");
+       /* Vertex *v6 = new Vertex("v6");
+        Vertex *v7 = new Vertex("v7");*/
 
         // Associate Edges to vertices
         IEdge *e1 = new FlowEdge(v1, v2, "e1", 3.);
-        IEdge *e2 = new FlowEdge(v1, v4, "e2", 2.);
-        IEdge *e3 = new FlowEdge(v1, v6, "e3", 1.);
-        IEdge *e4 = new FlowEdge(v2, v1, "e4", 4.);
-        IEdge *e5 = new FlowEdge(v2, v5, "e5", 3.);
-        IEdge *e6 = new FlowEdge(v3, v2, "e6", 2.);
-        IEdge *e7 = new FlowEdge(v3, v5, "e7", 1.);
+        IEdge *e5 = new FlowEdge(v1, v4, "e5", 2.);
+        IEdge *e2 = new FlowEdge(v2, v3, "e2", 4.);
+        IEdge *e3 = new FlowEdge(v3, v1, "e3", 3.);
+        IEdge *e4 = new FlowEdge(v5, v2, "e4", 2.);
+       /* IEdge *e7 = new FlowEdge(v3, v5, "e7", 1.);
         IEdge *e8 = new FlowEdge(v4, v5, "e8", 3.);
         IEdge *e9 = new FlowEdge(v5, v4, "e9", 2.);
         IEdge *e10 = new FlowEdge(v6, v4, "e10", 6.);
         IEdge *e11 = new FlowEdge(v6, v7, "e11", 5.);
-        IEdge *e12 = new FlowEdge(v7, v1, "e12", 4.);
+        IEdge *e12 = new FlowEdge(v7, v1, "e12", 4.);*/
 
-        vector<Vertex*> vertices = {v1, v2, v3, v4, v5, v6, v7};
-        vector<IEdge*> edges = {e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12};
+        vector<Vertex*> vertices = {v1, v2, v3, v4, v5};
+        vector<IEdge*> edges = {e1, e2, e3, e4, e5};
 
         // Create the graph structure with those vertices and edges
         _G = new FlowGraph(vertices, edges);
+            FlowGraph *g = new FlowGraph(vertices, edges);
 
         assert(_G->isSimple() == 0);
         assert(_G->isNegativeWeighted() == 0);
         assert(_G->isPlanar() == 0);
-        assert(_G->V() == 7);
-        assert(_G->E() == 12);
+        assert(_G->V() == 5);
+        assert(_G->E() == 5);
+        DetectedCycle detectedCycle;
+        detectedCycle.visit(g, g->vertexList().front());
+
+        if(detectedCycle.hasCycle()) {
+            cout << "FlowGraph possedant de cycle" << endl;
+            cout << *g << endl;
+            cout << "Test de detectedCycle pour les FlowGraph" << endl;
+            IGraph *cycle = detectedCycle.G();
+            cout << *cycle << endl;
+        }
+
 
         cout << "Avant ponderation :" << endl;
         cout << *_G << endl;

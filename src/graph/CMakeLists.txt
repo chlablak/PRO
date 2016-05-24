@@ -20,5 +20,7 @@ set(SOURCE_FILES main.cpp graphs/GraphCommon.h graphs/Vertex.cpp graphs/Vertex.h
         algorithms/CopyToDiGraph.cpp algorithms/CopyToDiGraph.h
         algorithms/CopyToFlowGraph.cpp algorithms/CopyToFlowGraph.h
         graphs/DiEdgeCommon.h graphs/DiEdgeCommon.cpp graphs/DiGraphCommon.h
+        algorithms/TopologicalSort.h algorithms/TopologicalSort.cpp
+        algorithms/DetectedCycle.h algorithms/DetectedCycle.cpp
         graphs/DiGraphCommon.hpp graphs/EdgeCommon.cpp graphs/EdgeCommon.h tests/TestGraph.h tests/TestDiGraph.h tests/TestFlowGraph.h algorithms/SCCTarjan.cpp algorithms/SCCTarjan.h algorithms/BellmanFordSP.cpp algorithms/BellmanFordSP.h)
 add_executable(graph ${SOURCE_FILES})
