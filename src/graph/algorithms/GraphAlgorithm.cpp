@@ -49,7 +49,7 @@ IGraph *GraphAlgorithm::kruskal(IGraph *g) {
     return v->G();
 }
 
-IGraph *GraphAlgorithm::prim(IGraph *g, Vertex *from = nullptr) {
+IGraph *GraphAlgorithm::prim(IGraph *g, Vertex *from) {
     Visitor *v = new Prim;
 
     if (from == nullptr) {

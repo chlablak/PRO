@@ -356,7 +356,7 @@ egli::detail::RealType<egli::Type::Graph>::type
         g.insert(RealType<Type::Vertex>::type(i));
     for (size_t v = 0; v < V; ++v) {
         for (size_t w = 0; w < V; ++w) {
-            if (utility::uniform01() < p)
+            if (utility::uniform01() <= p)
                 g.insert(RealType<Type::Edge>::type(v, w));
         }
     }
