@@ -3,6 +3,7 @@
 #include "ui_mainwindow.h"
 #include <iostream>
 #include <QTextEdit>
+#include <QBuffer>
 
 #include <QFileDialog>
 
@@ -50,8 +51,10 @@ void MainWindow::newGraph()
 void MainWindow::newTab(const QString& name)
 {
     QString graphName = name;
-    ui->tabWidget->addTab(new Console("", this), graphName);
+    int newIndex = ui->tabWidget->addTab(new Console("", this), graphName);
+    ui->tabWidget->setCurrentIndex(newIndex);
     ui->tabWidget->setTabToolTip(ui->tabWidget->count()-1,name);
+    ((Console*)ui->tabWidget->currentWidget())->setFocus();
 }
 
 void MainWindow::saveSession() {
@@ -71,6 +74,7 @@ void MainWindow::saveSession() {
 
     for(int i = 0; i < nbrOfWidget; i++) {
         qba.append(((Console*)ui->tabWidget->widget(i))->prepareDataForSave());
+        qba.append(graphDelimiter+"\n");
     }
 
     file.write(qba);
@@ -84,17 +88,43 @@ void MainWindow::loadSession() {
         return;
     }
 
+    int nbrOfTab = ui->tabWidget->count();
+
+    for(int i = 0; i < nbrOfTab; i++) {
+        ui->tabWidget->removeTab(0);
+    }
+
     QFile file(fname);
     file.open(QIODevice::ReadOnly);
 
     QByteArray qba = file.readAll();
-
     //qba = QByteArray::fromHex(qba);
 
+    QBuffer dataBuffer(&qba);
+    dataBuffer.open(QIODevice::ReadOnly);
+    QByteArray graphByteArray("");
 
+    char charArray[1024];
 
+    int size = dataBuffer.readLine(charArray, 1023);
+    charArray[size-1] = '\0';
+    int nbrOfGraph = atoi(charArray);
 
+    QString line;
 
+    for(int i = 0; i < nbrOfGraph; i++) {
+        do {
+            dataBuffer.readLine(charArray, 1023);
+            line = QString(charArray);
+
+            graphByteArray.append(line);
+        }while(line != (graphDelimiter+"\n"));
+
+        ui->tabWidget->addTab(new Console(), "");
+        ((Console*)ui->tabWidget->widget(ui->tabWidget->currentIndex()))->loadDataToConsole(graphByteArray, false);
+    }
+
+    dataBuffer.close();
     file.close();
 }
 
@@ -112,14 +142,12 @@ void MainWindow::saveTab()
 {
     if(ui->tabWidget->count() > 0) {
         ((Console*)ui->tabWidget->currentWidget())->save();
-        //temp->saveChanges();
     }
 }
 
 void MainWindow::loadTab()
 {
-    if(ui->tabWidget->count() > 0)
-    {
+    if(ui->tabWidget->count() > 0) {
         ((Console*)ui->tabWidget->currentWidget())->load();
     }
 }
@@ -127,6 +155,13 @@ void MainWindow::loadTab()
 void MainWindow::closeTab(int index)
 {
     ui->tabWidget->removeTab(index);
+}
+
+void MainWindow::changeTab(int direction)
+{
+    if((direction >= 1 && ui->tabWidget->currentIndex() != ui->tabWidget->count())
+            ||(direction <= -1 && ui->tabWidget->currentIndex() != 0))
+        ui->tabWidget->setCurrentIndex(ui->tabWidget->currentIndex()+direction);
 }
 
 void MainWindow::closeCurrent()
