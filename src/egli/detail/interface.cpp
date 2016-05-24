@@ -29,6 +29,8 @@ void egli::detail::interfaceBasics(FunctionTable &table)
 
 void egli::detail::interfaceBuiltins(FunctionTable &table)
 {
+    table.interface("save", builtins::save);
+    table.interface("load", builtins::load);
     table.interface("toString", builtins::toString_a);
     table.interface("toString", builtins::toString_b);
     table.interface("toString", builtins::toString_e);
@@ -42,5 +44,9 @@ void egli::detail::interfaceBuiltins(FunctionTable &table)
 
 void egli::detail::interfaceAlgorithms(FunctionTable &table)
 {
-
+    table.interface("bfs", algorithms::bfs);
+    table.interface("dfs", algorithms::dfs);
+    table.interface("cc", algorithms::cc);
+    table.interface("scc", algorithms::scc);
+    table.interface("kruskal", algorithms::kruskal);
 }

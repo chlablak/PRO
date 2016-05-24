@@ -13,7 +13,7 @@
 class Kruskal : public Visitor
 {
 private:
-    typedef priority_queue<IEdge*, vector<IEdge*>, greater<IEdge*>> MinPQ;
+    typedef priority_queue<IEdge*, vector<IEdge*>, std::greater<IEdge*>> MinPQ;
 
     IGraph *_G;
 public:

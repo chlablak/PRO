@@ -1,6 +1,6 @@
 /*! \brief Edge structure
  *
- * \file Edge.h
+ * \file TEdge.h (T for Type)
  * \author Patrick Champion
  * \date 26.04.2016
  */

@@ -19,7 +19,7 @@ public:
     DiEdgeCommon(Vertex *from, Vertex *to, const string &label)
             : EdgeCommon(from, to, label) { }
     DiEdgeCommon(Vertex *from, Vertex *to, const double weight)
-            : EdgeCommon(from, to,  weight) {}
+            : EdgeCommon(from, to,  weight) { }
     DiEdgeCommon(Vertex *from, Vertex *to, const string label, const double weight)
             : EdgeCommon(from, to, label, weight){}
 

@@ -2,10 +2,22 @@
 // Created by sebri on 16.05.2016.
 //
 
+#include <stdexcept>
 #include "Kruskal.h"
 #include "UnionFind.h"
 #include "../graphs/Graph.h"
 
+namespace std
+{
+    template <>
+    struct greater<IEdge*>
+    {
+        bool operator()(const IEdge *a, const IEdge *b) const
+        {
+            return a->weight() > b->weight();
+        }
+    };
+}
 
 void Kruskal::visit(Graph *g, Vertex *from) {
     UNUSED(from);
@@ -17,14 +29,15 @@ void Kruskal::visit(Graph *g, Vertex *from) {
         throw std::runtime_error("Error in Kruskal algorithm. The graph must be weighted.");
     }
 
-    _G = g->emptyClone();
+    Graph *gClone = g->clone();
+    _G = gClone->emptyClone();
     MinPQ pq;
     UnionFind uf(g->V());
-    g->forEachEdge([&](IEdge *e) {
+    gClone->forEachEdge([&](IEdge *e) {
         pq.push((Edge*)e);
     });
 
-    while ( !pq.empty() && _G->E() < g->V()-1 ) {
+    while ( !pq.empty() && _G->E() < gClone->V()-1 ) {
         IEdge *ie = pq.top(); pq.pop();
         Edge *e = (Edge*)ie;
 
@@ -43,11 +56,17 @@ void Kruskal::visit(Graph *g, Vertex *from) {
 void Kruskal::visit(DiGraph *g, Vertex *from) {
     UNUSED(g);
     UNUSED(from);
+
+    throw std::runtime_error("Error. A directed graph can't be applied"
+                                     "to 'Kruskal algorithm'");
 }
 
 void Kruskal::visit(FlowGraph *g, Vertex *from) {
     UNUSED(g);
     UNUSED(from);
+
+    throw std::runtime_error("Error. A flo graph can't be applied"
+                                     "to 'Kruskal' algorithm.");
 }
 
 IGraph *Kruskal::G() const {

@@ -71,6 +71,14 @@ IGraph *clone(const IGraph *g) {
     return g->clone();
 }
 
+vector<int> test(const vector<int> &v) {
+    cout << "v (size=" << v.size() << ") -> ";
+    for(int i : v)
+        cout << i << ' ';
+    cout << endl;
+    return v;
+}
+
 /*! \brief main
  *
  * \return 0
@@ -88,6 +96,7 @@ int main()
     egli::detail::interfaceAlgorithms(func);
 
     func.interface("clone", clone);
+    func.interface("test", test);
 
     while (getline(cin, in)) {
         try {
@@ -101,7 +110,7 @@ int main()
                 cout << "TABLE:\n" << var;
             }
             cout << endl;
-        } catch (const egli::Exception &e) {
+        } catch (const runtime_error &e) {
             cout << e.what() << endl;
         }
         cout << endl;

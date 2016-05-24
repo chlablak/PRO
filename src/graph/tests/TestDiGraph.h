@@ -121,6 +121,18 @@ public:
         gDFS->print();
 
         // Test Composantes fortement Connexes
+//        Vertex *vv0 = new Vertex("v0");
+//        Vertex *vv1 = new Vertex("v1");
+//        Vertex *vv2 = new Vertex("v2");
+//        Vertex *vv3 = new Vertex("v3");
+//        IEdge *ee0 = new DiEdge(vv0, vv1);
+//        IEdge *ee1 = new DiEdge(vv1, vv2);
+//        IEdge *ee2 = new DiEdge(vv2, vv1);
+//        IEdge *ee3 = new DiEdge(vv3, vv2);
+//        vector<Vertex*> vertices2 = {vv0, vv1, vv2, vv3};
+//        vector<IEdge*> edges2 = {ee0, ee1, ee2, ee3};
+//        IGraph *gg = new DiGraph(vertices2, edges2);
+
         cout << "Test Composantes fortement connexes" << endl;
         vector<int> scc = GraphAlgorithm::stronglyConnectedComponent(_G);
         for (int i : scc)

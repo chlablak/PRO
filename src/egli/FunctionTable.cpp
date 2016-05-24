@@ -36,7 +36,6 @@ std::list<egli::Type> egli::FunctionTable::returnType(name_t name) const
 bool egli::FunctionTable::match(
     name_t name, const std::vector<Type> &paramsType) const
 {
-    #warning not tested yet
     auto range = functions.equal_range(name);
     for (auto it = range.first; it != range.second; ++it) {
         if (it->second->arity() != paramsType.size())
@@ -74,7 +73,6 @@ void egli::FunctionTable::execute(
 
 std::list<std::string> egli::FunctionTable::find(name_t prefix) const
 {
-    #warning replace with TstMap when available
     std::list<std::string> list;
     for (const auto &it : functions) {
         if (it.first.substr(0, prefix.size()) == prefix)

@@ -19,18 +19,23 @@
 
 class KeywordSearcher
 {
+public:
+    /*!
+     * \brief constructor
+     * \param indexFile
+     * \note must have the keyword index file, or throws an exception
+     */
+    KeywordSearcher(QString indexFile);
+
+    /*!
+     * \brief Returns all the pages with a certain word
+     * \param keyword: search word
+     * \return
+     */
+    QVector<HelpPage*> getPages(QString keyword);
+
 private:
     QVector<HelpPage*> pages;
-	
-public:
-	/*! \brief constructor
-	 * \note must have the keyword index file, or throws an exception
-	 */
-    KeywordSearcher(QString indexFile);
-	
-	/*! \brief returns all the pages with a certain word
-	 */
-    QVector<HelpPage*> getPages(QString keyword);
 };
 
 #endif // KEYWORDSEARCHER_H

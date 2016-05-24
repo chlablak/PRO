@@ -31,6 +31,13 @@ public:
      */
     Array(const Array &a);
 
+    /*! \brief Constructor
+     *
+     * \param v - A vector to copy
+     */
+    template<typename T>
+    Array(const std::vector<T> &v);
+
     /*! \brief Destructor
      */
     ~Array();
@@ -74,6 +81,15 @@ public:
     template<typename T>
     const T &get(size_t i) const;
 
+    /*! \brief Get a std::vector from the Array
+     *
+     * \return The resulting vector
+     *
+     * \throw Exception if the cast is not possible
+     */
+    template<typename T>
+    std::vector<T> toVector() const;
+
 private:
 
     // Associate a void* with a Type
@@ -87,6 +103,14 @@ private:
     std::vector<Element> elements;
 };
 } // namespace egli
+
+template<typename T>
+egli::Array::Array(const std::vector<T> &v) :
+    elements()
+{
+    for (const T &val : v)
+        add(val);
+}
 
 template<typename T>
 void egli::Array::add(const T &value)
@@ -103,6 +127,18 @@ const T &egli::Array::get(size_t i) const
         throw Exception("bad type cast", "egli::Array::get<T>");
 
     return *static_cast<T*>(elements[i].ptr);
+}
+
+template<typename T>
+std::vector<T> egli::Array::toVector() const
+{
+    std::vector<T> r;
+    for (const Element &e : elements) {
+        if (e.type != detail::EnumValue<T>::value)
+            throw Exception("bad type cast", "egli::Array::toVector<T>");
+        r.push_back(*static_cast<T*>(e.ptr));
+    }
+    return r;
 }
 
 #endif // EGLI_ARRAY_H_INCLUDED

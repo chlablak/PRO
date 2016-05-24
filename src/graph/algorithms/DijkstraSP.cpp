@@ -3,6 +3,7 @@
 //
 
 #include <set>
+#include <stdexcept>
 #include "DijkstraSP.h"
 #include "../graphs/DiGraph.h"
 #include "../graphs/FlowGraph.h"

@@ -28,6 +28,15 @@ public:
     using iedge_ptr_t = ::IEdge*;
     using vertex_t = ::Vertex;
 
+    /*! \brief Type of possible Graph
+     */
+    enum class GraphType
+    {
+        Graph,
+        DiGraph,
+        FlowGraph
+    };
+
     /*! \brief Constructor
      *
      * \param g - An allocated graph
@@ -76,36 +85,78 @@ public:
      */
     const igraph_ptr_t graph() const;
 
-    #warning TODO doc
+    /*! \brief Insert Vertex/Edge into the Graph
+     *
+     * \param infos - A Array of Edge and Vertex
+     *
+     * \throw Exception if an error occurs
+     */
     void insert(detail::RealType<Type::Array>::cref infos);
 
+    /*! \brief Insert Vertex into the Graph
+     *
+     * \param vertex - A Vertex
+     *
+     * \throw Exception if an error occurs
+     */
     void insert(detail::RealType<Type::Vertex>::cref vertex);
 
+    /*! \brief Insert Edge into the Graph
+     *
+     * \param edge - A Edge
+     *
+     * \throw Exception if an error occurs
+     */
     void insert(detail::RealType<Type::Edge>::cref edge);
 
+    /*! \brief Erase Vertex/Edge into the Graph
+     *
+     * \param infos - A Array of Edge and Vertex
+     *
+     * \throw Exception if an error occurs
+     */
     void erase(detail::RealType<Type::Array>::cref infos);
 
+    /*! \brief Erase Vertex into the Graph
+     *
+     * \param vertex - A Vertex
+     *
+     * \throw Exception if an error occurs
+     */
     void erase(detail::RealType<Type::Vertex>::cref vertex);
 
+    /*! \brief Erase Edge into the Graph
+     *
+     * \param edge - A Edge
+     *
+     * \throw Exception if an error occurs
+     */
     void erase(detail::RealType<Type::Edge>::cref edge);
 
-    enum class GraphType
-    {
-        Graph,
-        DiGraph,
-        FlowGraph
-    };
-
+    /*! \brief Get the GraphType of the underlying Graph
+     *
+     * \return The GraphType
+     */
     GraphType graphType() const;
+
+    /*! \brief Get a Vertex* by its ID
+     *
+     * \param id - The vertex ID
+     * \return A pointer to the Vertex
+     *
+     * \throw Exception if id >= graph()->V()
+     */
+    vertex_t *getVertexById(size_t id) const;
 
 private:
 
+    // Create a Graph if there is none
     void createIfNull();
 
+    // Check if the Array is composed of Vertex and Edge only
     static void checkInfos(detail::RealType<Type::Array>::cref infos);
 
-    vertex_t *getVertexById(size_t id);
-
+    // Transform the underlying Graph to type
     void transformTo(GraphType type);
 
     // data member

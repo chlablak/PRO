@@ -8,8 +8,8 @@ using namespace std;
 
 int main() {
 
-    //TestGraph testGraph;
-    TestDiGraph testDiGraph;
+    TestGraph testGraph;
+    //TestDiGraph testDiGraph;
     //TestFlowGraph testFlowGraph;
 
     return 0;
