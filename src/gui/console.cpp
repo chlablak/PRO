@@ -481,7 +481,7 @@ void Console::keyPressEvent(QKeyEvent *e)
     QString completionPrefix = textUnderCursor();
 
     if (!isShortcut && (hasModifier || e->text().isEmpty()||
-                        completionPrefix.length() < 3 ||
+                        completionPrefix.length() == 0 ||
                         eow.contains(e->text().right(1)))) {
         completer->popup()->hide();
         return;
