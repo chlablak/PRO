@@ -17,3 +17,6 @@ EdgeItem *DiGraphItemFactory::createEdge(const IEdge *edge,
 {
     return new DiEdgeItem(edge, source, dest);
 }
+
+DiGraphItemFactory::~DiGraphItemFactory()
+{}

@@ -24,6 +24,11 @@ public:
      */
     virtual EdgeItem *createEdge(const IEdge *edge,
                                  VertexItem *source, VertexItem *dest);
+
+    /*!
+     * \brief Destructor
+     */
+    virtual ~GraphItemFactory();
 };
 
 #endif // VISUALIZATION_GRAPHITEMFACTORY_H
