@@ -28,7 +28,7 @@ public:
     /*!
      * \brief Constructor
      *
-     * \param edge - The represented IEdge
+     * \param edge - The represented edge
      * \param source - The source vertex graphics item
      * \param dest - The destination vertex graphics item
      */

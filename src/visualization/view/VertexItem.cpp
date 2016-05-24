@@ -19,7 +19,7 @@
 VertexItem::VertexItem(const Vertex *vertex)
     : _vertex(vertex)
 {
-    // Accepte drag and drop
+    // Accept drag & drop
     setFlag(QGraphicsItem::ItemIsMovable);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges);
 

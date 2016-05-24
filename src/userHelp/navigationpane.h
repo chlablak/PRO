@@ -16,24 +16,38 @@
 
 class NavigationPane : public QVBoxLayout
 {
+public:
+    /*!
+     * \brief Returns an instance of NavPane (singleton)
+     * \param parent: parent widget
+     * \param baseUrl: base url for html help
+     * \return current instance of the NavPane
+     */
+    static NavigationPane *getInstance(QWidget *parent, QString *baseUrl);
+	
+    /*!
+     * \brief ButtonPane accessor
+     * \return ButtonPane*
+     */
+    ButtonPane *getButtonPane();
+
+    /*!
+     * \brief NavigationMenu accessor
+     * \return NavigationMenu*
+     */
+    NavigationMenu *getNavMenu();
+
 private:
     NavigationPane(QWidget *parent);
-	
+
     static NavigationPane *instance;
     static QString *_baseUrl;
 
     QWidget *parent;
-	
+
     ButtonPane *buttons;
     NavigationMenu *navMenu;
 
-public:
-	/*! \brief Returns an instance of NavPane (singleton)
-	 */
-    static NavigationPane *getInstance(QWidget *parent, QString *baseUrl);
-	
-    ButtonPane *getButtonPane();
-    NavigationMenu *getNavMenu();
 };
 
 #endif // LEFTPANE_H

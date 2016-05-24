@@ -16,8 +16,25 @@ namespace detail
 {
 namespace builtins
 {
-//load
-//save
+/*! \brief Save the Graph to a file
+ *
+ * \param g - The Graph to save
+ * \param file - The file name
+ * \return true on success
+ *
+ * \throw Exception if there is a error
+ */
+RealType<Type::Boolean>::type
+    save(RealType<Type::Graph>::cref g, RealType<Type::String>::cref file);
+
+/*! \brief Load a Graph from a file
+ *
+ * \param file - The file name
+ * \return The loaded Graph
+ *
+ * \throw Exception if there is a error
+ */
+RealType<Type::Graph>::type load(RealType<Type::String>::cref file);
 
 /*! \brief Get the String representation of a variable
  *
@@ -35,6 +52,36 @@ RealType<Type::String>::type toString_i(RealType<Type::Integer>::cref var);
 RealType<Type::String>::type toString_n(RealType<Type::Number>::cref var);
 RealType<Type::String>::type toString_s(RealType<Type::String>::cref var);
 RealType<Type::String>::type toString_v(RealType<Type::Vertex>::cref var);
+
+/*! \brief Get the String representation of a variable type
+ *
+ * \param var
+ * \return The String representation of var's type
+ *
+ * \note Declined in multiple version, one for each Type
+ */
+RealType<Type::String>::type typeOf_a(RealType<Type::Array>::cref var);
+RealType<Type::String>::type typeOf_b(RealType<Type::Boolean>::cref var);
+RealType<Type::String>::type typeOf_e(RealType<Type::Edge>::cref var);
+RealType<Type::String>::type typeOf_f(RealType<Type::Float>::cref var);
+RealType<Type::String>::type typeOf_g(RealType<Type::Graph>::cref var);
+RealType<Type::String>::type typeOf_i(RealType<Type::Integer>::cref var);
+RealType<Type::String>::type typeOf_n(RealType<Type::Number>::cref var);
+RealType<Type::String>::type typeOf_s(RealType<Type::String>::cref var);
+RealType<Type::String>::type typeOf_v(RealType<Type::Vertex>::cref var);
+
+/*! \brief Generate a random Erdos-Renyi Graph
+ *
+ * \param V - number of vertices
+ * \param p - inclusion probability
+ * \return A Erdos-Renyi Graph
+ *
+ * \throw Exception if V < 0 or if !(0 <= p <= 1)
+ * \note See http://icdt.tu-dortmund.de/proceedings/edbticdt2011proc/WebProceedings/papers/edbt/a30-nobari.pdf
+ *       (algorithm 1)
+ */
+RealType<Type::Graph>::type originalErdosRenyi(RealType<Type::Integer>::cref V,
+                                               RealType<Type::Float>::cref p);
 } // namespace builtins
 } // namespace detail
 } // namespace egli

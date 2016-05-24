@@ -74,7 +74,6 @@ void egli::VariableTable::enter()
 
 void egli::VariableTable::leave()
 {
-    #warning besoin du TST + modif. erase()
     for (const std::string &it : find(temporaryName.prefix()))
         erase(it);
     temporaryName.leave();
@@ -95,7 +94,6 @@ void egli::VariableTable::move(name_t dst, name_t src)
 {
     copy(dst, src);
     erase(src);
-    #warning rename instead of copy ?
 }
 
 void egli::VariableTable::copy(name_t dst, name_t src)

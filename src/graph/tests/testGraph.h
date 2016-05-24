@@ -20,6 +20,9 @@ public:
         Vertex *v2 = new Vertex("v2");
         Vertex *v3 = new Vertex("v3");
         Vertex *v4 = new Vertex("v4");
+        Vertex *v5 = new Vertex("v5");
+        Vertex *v6 = new Vertex("v6");
+        Vertex *v7 = new Vertex("v7");
 
         // Associate Edges to vertices
         IEdge *e1 = new Edge(v1, v2, "e1", 3);
@@ -44,6 +47,7 @@ public:
         assert(_G->isPlanar() == 1);
         assert(_G->V() == 4);
 
+
         DetectedCycle detectedCycle;
         detectedCycle.visit(g, g->vertexList().front());
         if(detectedCycle.hasCycle()) {
@@ -62,12 +66,12 @@ public:
         cout << *_G << endl;
 
         assert(_G->E() == 5);
+
         assert(_G->isNegativeWeighted() == 0);
 
         // Test createEdge
         IEdge *gg = _G->createEdge(new Vertex, new Vertex);
         cout << *gg << endl;
-
 
         // Test clone()
         cout << "Test clone de g1" << endl;
@@ -83,7 +87,7 @@ public:
         g1Clone->print();
 
         // Test CopyToGraph
-        cout << "Test CopyToGraph(&diGraph) and ponderate it" << endl;
+        cout << "Test CopyToGraph and ponderate it" << endl;
         IGraph *gCpyToGraph = GraphAlgorithm::copyToGraph(_G);
         gCpyToGraph->ponderateVertices(6.7);
         gCpyToGraph->print();
@@ -102,12 +106,13 @@ public:
 
         // Ré-afficher g1
         cout << "_G" << endl;
-        cout << _G << endl;
+        cout << *_G << endl;
 
         // Test BFS
         cout << "Test BFS" << endl;
         vector<int> distances;
         IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
+        gBFS->ponderateEdges(50);
         gBFS->print();
 
         // Test DFS
@@ -130,7 +135,7 @@ public:
 
         // Test Prim
         cout << "Prim" << endl;
-        IGraph *gPrim = GraphAlgorithm::kruskal(_G);
+        IGraph *gPrim = GraphAlgorithm::prim(_G, v1);
         gPrim->print();
     }
 

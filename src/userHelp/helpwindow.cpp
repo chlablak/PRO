@@ -5,6 +5,7 @@ QString *HelpWindow::_baseUrl = nullptr;
 
 HelpWindow::HelpWindow(QWidget *parent) : parent(parent)
 {
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     setMinimumSize(800,600);
     setStyleSheet("background-color:white");
     setWindowTitle("User Guide");

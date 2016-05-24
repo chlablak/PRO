@@ -13,39 +13,21 @@
 #include "../graph/graphs/IGraph.h"
 
 #include "GraphExporter.h"
+#include "view/GraphSceneManager.h"
 
-GraphExporter::GraphExporter(const IGraph* graph, QObject *parent)
-    : QObject(parent),
-      scene(new GraphScene(graph))
-{}
-
-GraphExporter::~GraphExporter()
-{
-    delete scene;
-}
-
-void GraphExporter::exportSVG()
-{
-    exportSVG(scene);
-}
-
-void GraphExporter::exportSVG(const QString &fileName)
-{
-    exportSVG(scene, fileName);
-}
-
-void GraphExporter::exportSVG(GraphScene *scene)
+void GraphExporter::SVG(const IGraph *graph)
 {
     QString fileName = QFileDialog::getSaveFileName();
-    exportSVG(scene, fileName);
+    SVG(graph, fileName);
 }
 
-void GraphExporter::exportSVG(GraphScene *scene, const QString &fileName)
+void GraphExporter::SVG(const IGraph *graph, const QString &fileName)
 {
+    GraphScene *scene = GraphSceneManager::getInstance()->scene(graph);
+
     QSvgGenerator generator;
     generator.setFileName(fileName);
-    generator.setSize(QSize(200, 200));
-    generator.setViewBox(QRect(0, 0, 200, 200));
+    generator.setSize(scene->sceneRect().size().toSize());
 
     QPainter painter;
     painter.begin(&generator);

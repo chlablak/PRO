@@ -10,8 +10,10 @@ SCCTarjan::~SCCTarjan() { }
 void SCCTarjan::visit(Graph *g, Vertex *from) {
     UNUSED(g);
     UNUSED(from);
-    throw std::runtime_error("The algorithm of strongly connected component"
-                                     "can't be applied to a non-directed graph");
+    throw std::runtime_error("Error. The algorithm of 'Strongly Connected Component'"
+                                     "can't be applied to a non-directed graph."
+                                     "Use the 'Connected Component' algorithm"
+                                     "instead.");
 }
 
 void SCCTarjan::visit(DiGraph *g, Vertex *from) {

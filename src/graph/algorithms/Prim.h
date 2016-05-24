@@ -6,11 +6,15 @@
 #define GRAPH_PRIM_H
 
 
+#include <queue>
 #include "Visitor.h"
+#include "../graphs/IEdge.h"
 
 class Prim : public Visitor
 {
 private:
+    typedef priority_queue<IEdge*, vector<IEdge*>, std::greater<IEdge*>> MinPQ;
+
     IGraph *_G;
 public:
     Prim() : _G(nullptr) { }

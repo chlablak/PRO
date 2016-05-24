@@ -19,18 +19,44 @@
 class GraphSceneManager
 {
 private:
+
+    /*!
+     * \brief Only instance of GraphSceneManager
+     */
     static GraphSceneManager *instance;
 
+    /*!
+     * \brief All instancied scnes
+     */
     std::unordered_map<const IGraph *, GraphScene *> scenes;
 
+    /*!
+     * \brief Private constructor
+     */
     GraphSceneManager();
 
 public:
+
+    /*!
+     * \brief Deleted copy constructor
+     */
     GraphSceneManager(const GraphSceneManager &) = delete;
+
+    /*!
+     * \brief Delete assignation operator
+     */
     void operator=(const GraphSceneManager &) = delete;
 
+    /*!
+     * \brief Get the instance of the GraphSceneManager
+     *
+     * \return the only instance
+     */
     static GraphSceneManager *getInstance();
 
+    /*!
+     * \brief Private constructor
+     */
     GraphScene *scene(const IGraph *graph);
 };
 

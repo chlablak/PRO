@@ -82,8 +82,7 @@ int main(int argc, char *argv[])
 
     // EXPORT SVG
 
-    //GraphExporter exporter(graph3);
-    //exporter.exportSVG();
+    GraphExporter::SVG(graph3);
 
     window.setLayout(layout);
     window.show();

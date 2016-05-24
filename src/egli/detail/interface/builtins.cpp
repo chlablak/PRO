@@ -7,13 +7,44 @@
 
 #include <sstream>
 #include <string>
+#include <fstream>
 
 #include "builtins.h"
 #include "../../Array.h"
-#include "../../Edge.h"
+#include "../../TEdge.h"
 #include "../../Number.h"
-#include "../../Vertex.h"
+#include "../../TVertex.h"
 #include "../../GraphWrapper.h"
+#include "../../Exception.h"
+#include "../../Data.h"
+#include "../../Interpreter.h"
+#include "../../Statement.h"
+#include "../../toString.h"
+#include "../../../utility/uniform01.h"
+
+egli::detail::RealType<egli::Type::Boolean>::type
+    egli::detail::builtins::save(RealType<Type::Graph>::cref g,
+                                 RealType<Type::String>::cref file)
+{
+    std::ofstream ofs(file.c_str(), std::ios::out | std::ios::trunc);
+    if (!ofs)
+        throw Exception("can't open file", "egli::builtins::save", file);
+    ofs << toString_g(g);
+    return true;
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::builtins::load(RealType<Type::String>::cref file)
+{
+    std::ifstream ifs(file.c_str(), std::ios::in);
+    if (!ifs)
+        throw Exception("can't open file", "egli::builtins::load", file);
+    Data data;
+    Interpreter interpreter(&data);
+    interpreter.writer() << "g=" << ifs.rdbuf() << ';';
+    Statement statement = interpreter.next();
+    return data.variables().get<RealType<Type::Graph>::type>(statement.value);
+}
 
 egli::detail::RealType<egli::Type::String>::type
     egli::detail::builtins::toString_a(RealType<Type::Array>::cref var)
@@ -123,7 +154,7 @@ egli::detail::RealType<egli::Type::String>::type
             oss << ',';
         oss << it->id();
         size_t countEmpty = 0;
-        if (!it->label().empty())
+        if (!it->label().empty() && it->label() != toString_i(it->id()))
             oss << ':' << '"' << it->label() << '"';
         else
             ++countEmpty;
@@ -151,13 +182,14 @@ egli::detail::RealType<egli::Type::String>::type
         }
     }
     GraphWrapper::GraphType type = var.graphType();
+    bool showWeight = var.graph()->isWeighted();
     for (const auto *it : var.graph()->edgeList()) {
         oss << ',';
         oss << it->from()->id();
         oss << (type == GraphWrapper::GraphType::Graph ? "--" : "->");
         oss << it->to()->id();
         size_t countEmpty = 0;
-        if (it->weight() < std::numeric_limits<double>::max())
+        if (showWeight)
             oss << ':' << it->weight();
         else
             ++countEmpty;
@@ -245,4 +277,88 @@ egli::detail::RealType<egli::Type::String>::type
     }
     oss << ')';
     return oss.str();
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_a(RealType<Type::Array>::cref)
+{
+    return "Array";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_b(RealType<Type::Boolean>::cref)
+{
+    return "Boolean";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_e(RealType<Type::Edge>::cref)
+{
+    return "Edge";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_f(RealType<Type::Float>::cref)
+{
+    return "Float";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_g(RealType<Type::Graph>::cref var)
+{
+    switch (var.graphType()) {
+        case GraphWrapper::GraphType::Graph: return "Graph";
+        case GraphWrapper::GraphType::DiGraph: return "DiGraph";
+        case GraphWrapper::GraphType::FlowGraph: return "FlowGraph";
+    }
+    return ""; // impossible case
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_i(RealType<Type::Integer>::cref)
+{
+    return "Integer";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_n(RealType<Type::Number>::cref)
+{
+    return "Number";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_s(RealType<Type::String>::cref)
+{
+    return "String";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_v(RealType<Type::Vertex>::cref)
+{
+    return "Vertex";
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::builtins::originalErdosRenyi(RealType<Type::Integer>::cref V,
+                                               RealType<Type::Float>::cref p)
+{
+    if (V < 0)
+        throw Exception("number of vertices must be null or positive",
+                        "egli::builtins::originalErdosRenyi",
+                        toString(V));
+    if (p < 0 || p > 1)
+        throw Exception("inclusive probability must be in [0;1]",
+                        "egli::builtins::originalErdosRenyi",
+                        toString(p));
+
+    RealType<Type::Graph>::type g;
+    for (size_t i = 0; i < V; ++i)
+        g.insert(RealType<Type::Vertex>::type(i));
+    for (size_t v = 0; v < V; ++v) {
+        for (size_t w = 0; w < V; ++w) {
+            if (utility::uniform01() <= p)
+                g.insert(RealType<Type::Edge>::type(v, w));
+        }
+    }
+    return g;
 }

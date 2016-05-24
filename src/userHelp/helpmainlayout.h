@@ -17,6 +17,15 @@
 
 class HelpMainLayout : public QHBoxLayout
 {
+public:
+    /*!
+     * \brief Returns an instance of HelpWindow (singleton)
+     * \param parent: parent widget
+     * \param baseUrl: base url for html files
+     * \return
+     */
+    static HelpMainLayout *getInstance(QWidget *parent, QString *baseUrl);
+
 private:
     HelpMainLayout(QWidget *parent);
 	
@@ -27,12 +36,6 @@ private:
 	
     NavigationPane *leftPane;
     BrowserPane *rightPane;
-
-public:
-	/*! \brief Returns an instance of HelpWindow (singleton)
-	 */
-    static HelpMainLayout *getInstance(QWidget *parent, QString *baseUrl);
-
 };
 
 #endif // HELPMAINLAYOUT_H

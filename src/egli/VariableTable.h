@@ -12,13 +12,11 @@
 #include <list>
 #include <string>
 
-#warning replace std::map with utility::TstMap
-
 #include "Exception.h"
 #include "Array.h"
-#include "Edge.h"
+#include "TEdge.h"
 #include "Number.h"
-#include "Vertex.h"
+#include "TVertex.h"
 #include "GraphWrapper.h"
 #include "Type.h"
 #include "detail/EnumValue.h"
