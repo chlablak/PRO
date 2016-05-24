@@ -30,6 +30,7 @@ SOURCES += main.cpp\
     ../userHelp/helpmainlayout.cpp \
     ../userHelp/helpwindow.cpp \
     ../visualization/view/items/ArrowItem.cpp \
+    ../visualization/view/AbstractGraphItemFactory.cpp \
     ../visualization/view/GraphView.cpp \
     ../visualization/view/GraphScene.cpp \
     ../visualization/view/VertexItem.cpp \
