@@ -19,11 +19,11 @@ protected:
 
 public:
     EdgeCommon(Vertex *from, Vertex *to)
-        : _id(-1), _a(from), _b(to), _label(""), _weight(numeric_limits<double>::max()) {}
+        : _id(-1), _a(from), _b(to), _label(""), _weight(1) {}
     EdgeCommon(Vertex *from, Vertex *to, const double weight)
         : _id(-1), _a(from), _b(to), _label(""), _weight(weight) {}
     EdgeCommon(Vertex *from, Vertex *to, const string& label)
-        : _id(-1), _a(from), _b(to), _label(label), _weight(numeric_limits<double>::max()) {}
+        : _id(-1), _a(from), _b(to), _label(label), _weight(1) {}
     EdgeCommon(Vertex *from, Vertex *to, const string& label, const double weight)
         : _id(-1), _a(from), _b(to), _label(label), _weight(weight) {}
 

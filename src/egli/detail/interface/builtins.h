@@ -52,6 +52,23 @@ RealType<Type::String>::type toString_i(RealType<Type::Integer>::cref var);
 RealType<Type::String>::type toString_n(RealType<Type::Number>::cref var);
 RealType<Type::String>::type toString_s(RealType<Type::String>::cref var);
 RealType<Type::String>::type toString_v(RealType<Type::Vertex>::cref var);
+
+/*! \brief Get the String representation of a variable type
+ *
+ * \param var
+ * \return The String representation of var's type
+ *
+ * \note Declined in multiple version, one for each Type
+ */
+RealType<Type::String>::type typeOf_a(RealType<Type::Array>::cref var);
+RealType<Type::String>::type typeOf_b(RealType<Type::Boolean>::cref var);
+RealType<Type::String>::type typeOf_e(RealType<Type::Edge>::cref var);
+RealType<Type::String>::type typeOf_f(RealType<Type::Float>::cref var);
+RealType<Type::String>::type typeOf_g(RealType<Type::Graph>::cref var);
+RealType<Type::String>::type typeOf_i(RealType<Type::Integer>::cref var);
+RealType<Type::String>::type typeOf_n(RealType<Type::Number>::cref var);
+RealType<Type::String>::type typeOf_s(RealType<Type::String>::cref var);
+RealType<Type::String>::type typeOf_v(RealType<Type::Vertex>::cref var);
 } // namespace builtins
 } // namespace detail
 } // namespace egli

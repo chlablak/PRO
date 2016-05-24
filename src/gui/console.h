@@ -28,10 +28,10 @@ public:
     void loadDataToConsole(QByteArray& data, bool ignoreFilename = true);
 
     /*!
-     * \brief completer word list mutator
+     * \brief updates the list of words for auto completion
      * \param l: list of words
      */
-    void setCompleterList(QStringList l);
+    void updateCompleterList();
 
     /*!
      * \brief returns if s1 < s2 (case insensitive

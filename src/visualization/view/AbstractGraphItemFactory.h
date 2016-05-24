@@ -28,6 +28,11 @@ public:
      */
     virtual EdgeItem *createEdge(const IEdge *edge,
                                  VertexItem *source, VertexItem *dest) = 0;
+
+    /*!
+     * \brief Destructor
+     */
+    virtual ~AbstractGraphItemFactory();
 };
 
 #endif // VISUALIZATION_ABSTRACTGRAPHITEMFACTORY_H

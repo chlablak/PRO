@@ -180,13 +180,14 @@ egli::detail::RealType<egli::Type::String>::type
         }
     }
     GraphWrapper::GraphType type = var.graphType();
+    bool showWeight = var.graph()->isWeighted();
     for (const auto *it : var.graph()->edgeList()) {
         oss << ',';
         oss << it->from()->id();
         oss << (type == GraphWrapper::GraphType::Graph ? "--" : "->");
         oss << it->to()->id();
         size_t countEmpty = 0;
-        if (it->weight() < std::numeric_limits<double>::max())
+        if (showWeight)
             oss << ':' << it->weight();
         else
             ++countEmpty;
@@ -274,4 +275,63 @@ egli::detail::RealType<egli::Type::String>::type
     }
     oss << ')';
     return oss.str();
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_a(RealType<Type::Array>::cref)
+{
+    return "Array";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_b(RealType<Type::Boolean>::cref)
+{
+    return "Boolean";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_e(RealType<Type::Edge>::cref)
+{
+    return "Edge";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_f(RealType<Type::Float>::cref)
+{
+    return "Float";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_g(RealType<Type::Graph>::cref var)
+{
+    switch (var.graphType()) {
+        case GraphWrapper::GraphType::Graph: return "Graph";
+        case GraphWrapper::GraphType::DiGraph: return "DiGraph";
+        case GraphWrapper::GraphType::FlowGraph: return "FlowGraph";
+    }
+    return ""; // impossible case
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_i(RealType<Type::Integer>::cref)
+{
+    return "Integer";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_n(RealType<Type::Number>::cref)
+{
+    return "Number";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_s(RealType<Type::String>::cref)
+{
+    return "String";
+}
+
+egli::detail::RealType<egli::Type::String>::type
+    egli::detail::builtins::typeOf_v(RealType<Type::Vertex>::cref)
+{
+    return "Vertex";
 }

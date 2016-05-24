@@ -20,7 +20,7 @@ namespace algorithms
 /*! \brief Apply the BFS visitor
  *
  * \param g - The Graph
- * \param from - The origin Vertex
+ * \param from - The origin Vertex ID
  * \return [0] => The resulting Graph
  *         [1] => Distances Array
  *
@@ -32,7 +32,7 @@ RealType<Type::Array>::type
 /*! \brief Apply the DFS visitor
  *
  * \param g - The Graph
- * \param from - The origin Vertex
+ * \param from - The origin Vertex ID
  * \return [0] => The resulting Graph
  *         [1] => Input dates Array
  *
@@ -58,6 +58,15 @@ RealType<Type::Array>::type cc(RealType<Type::Graph>::cref g);
  * \throw Exception if an error occurs
  */
 RealType<Type::Array>::type scc(RealType<Type::Graph>::cref g);
+
+/*! \brief Apply the Kruskal visitor
+ *
+ * \param g - The Graph
+ * \return The resulting Graph
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Graph>::type kruskal(RealType<Type::Graph>::cref g);
 } // namespace algorithms
 } // namespace detail
 } // namespace egli

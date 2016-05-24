@@ -17,3 +17,6 @@ EdgeItem *FlowGraphItemFactory::createEdge(const IEdge *edge,
 {
     return new FlowEdgeItem(edge, source, dest);
 }
+
+FlowGraphItemFactory::~FlowGraphItemFactory()
+{}

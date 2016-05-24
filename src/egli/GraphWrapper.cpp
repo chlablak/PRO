@@ -17,10 +17,12 @@
 
 egli::GraphWrapper::GraphWrapper(igraph_ptr_t g) :
     m_graph(g)
-{}
+{
+    createIfNull();
+}
 
 egli::GraphWrapper::GraphWrapper(const GraphWrapper &o) :
-    m_graph(o.graph() ? o.graph()->clone() : nullptr)
+    m_graph(o.graph()->clone())
 {}
 
 egli::GraphWrapper::~GraphWrapper()
@@ -65,8 +67,6 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Array>::cref infos)
 
 void egli::GraphWrapper::insert(detail::RealType<Type::Vertex>::cref vertex)
 {
-    createIfNull();
-
     // Vertex ID must increase by 1
     if (graph()->V() < vertex.id)
         throw Exception("vertex id must increase by 1",
@@ -98,8 +98,6 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Vertex>::cref vertex)
 
 void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
 {
-    createIfNull();
-
     // Check Vertices existance
     if (edge.v >= graph()->V() || edge.w >= graph()->V())
         throw Exception("edge's defining vertices do not exist",
@@ -170,8 +168,6 @@ void egli::GraphWrapper::erase(detail::RealType<Type::Array>::cref infos)
 
 void egli::GraphWrapper::erase(detail::RealType<Type::Vertex>::cref vertex)
 {
-    createIfNull();
-
     // Check if the Vertex is in the Graph
     if (graph()->V() > vertex.id) {
 
@@ -183,8 +179,6 @@ void egli::GraphWrapper::erase(detail::RealType<Type::Vertex>::cref vertex)
 
 void egli::GraphWrapper::erase(detail::RealType<Type::Edge>::cref edge)
 {
-    createIfNull();
-
     // Check if the vertices are in the Graph
     if (edge.v < graph()->V() && edge.w < graph()->V()) {
 
