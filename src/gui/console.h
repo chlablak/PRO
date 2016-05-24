@@ -97,6 +97,7 @@ signals:
     void signalSave();
     void askTabName(QString&);
     void requestTabNameChanges(const QString&);
+    void requestTabChange(int shift);
 
 public slots:
     void copySelectedText();
