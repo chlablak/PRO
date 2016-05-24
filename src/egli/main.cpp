@@ -99,19 +99,19 @@ int main()
     func.interface("test", test);
 
     while (getline(cin, in)) {
-        try {
-            pp.stream() << in;
-            while (pp.available()) {
+        pp.stream() << in;
+        while (pp.available()) {
+            try {
                 s = p.parse(pp.next());
                 cout << "PARSED:\n" << s;
                 egli::ProcessingUnit::check(s, func, var);
                 egli::ProcessingUnit::process(s, func, var);
                 cout << "PROCESSED:\n" << s;
                 cout << "TABLE:\n" << var;
+                cout << endl;
+            } catch (const runtime_error &e) {
+                cout << e.what() << endl;
             }
-            cout << endl;
-        } catch (const runtime_error &e) {
-            cout << e.what() << endl;
         }
         cout << endl;
     }
