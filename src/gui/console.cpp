@@ -13,7 +13,6 @@
 #include "console.h"
 #include "../visualization/GraphWidget.h"
 #include "../visualization/GraphExporter.h"
-
 #include "../graph/Includes.h"
 
 /*
@@ -43,7 +42,7 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s),
         QObject::connect(this, SIGNAL(signalSave()), parent, SLOT(saveConsole()));
         QObject::connect(this, SIGNAL(askTabName(QString&)), parent, SLOT(getTabName(QString&)));
         QObject::connect(this, SIGNAL(requestTabNameChanges(const QString&)), parent, SLOT(setTabName(const QString&)));
-        //QObject::connect(this, SIGNAL(requestChanges(int) parent, SLOT(changeTab(int)));
+        QObject::connect(this, SIGNAL(requestTabChange(int)), parent, SLOT(changeTab(int)));
     }
 
     if (!interfaced) {
@@ -159,6 +158,12 @@ void Console::processKeyboardInput(QKeyEvent *event)
             buffer = "";
             consoleHasChanged();
             ensureCursorVisible();
+        }
+        else if( event->key() == Qt::Key_Tab && event->modifiers() & Qt::ControlModifier) {
+            emit requestTabChange(1);
+        }
+        else if( event->key() == Qt::Key_Backtab && event->modifiers() & Qt::ControlModifier) {
+            emit requestTabChange(-1);
         }
         else if( event->key() == Qt::Key_S && event->modifiers() & Qt::ControlModifier)
         {
@@ -286,10 +291,6 @@ QByteArray Console::prepareDataForSave() {
 }
 
 void Console::load() {
-    commandHistory.clear();
-    selectAll();
-    clear();
-
     QString fname = QFileDialog::getOpenFileName(this, QString("Load graph"), QString(), QString("Graph (*.gph)"));
     if(fname.isEmpty()) {
         return;
@@ -355,6 +356,7 @@ void Console::loadDataToConsole(QByteArray& data, bool ignoreFilename)
     cursorPosition = buffer.size();
     cursor.movePosition(QTextCursor::End);
     setTextCursor(cursor);
+    insertPlainText(prompt+" > ");
 
     dataBuffer.close();
 }
