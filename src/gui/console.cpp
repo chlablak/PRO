@@ -13,7 +13,6 @@
 #include "console.h"
 #include "../visualization/GraphWidget.h"
 #include "../visualization/GraphExporter.h"
-
 #include "../graph/Includes.h"
 
 /*
@@ -43,13 +42,15 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s),
         QObject::connect(this, SIGNAL(signalSave()), parent, SLOT(saveConsole()));
         QObject::connect(this, SIGNAL(askTabName(QString&)), parent, SLOT(getTabName(QString&)));
         QObject::connect(this, SIGNAL(requestTabNameChanges(const QString&)), parent, SLOT(setTabName(const QString&)));
-        //QObject::connect(this, SIGNAL(requestChanges(int) parent, SLOT(changeTab(int)));
+        QObject::connect(this, SIGNAL(requestTabChange(int)), parent, SLOT(changeTab(int)));
     }
 
     if (!interfaced) {
         interpreter.functions().interface("draw", drawGraph);
         interfaced = true;
     }
+
+    updateCompleterList();
 }
 
 void Console::processKeyboardInput(QKeyEvent *event)
@@ -158,6 +159,12 @@ void Console::processKeyboardInput(QKeyEvent *event)
             consoleHasChanged();
             ensureCursorVisible();
         }
+        else if( event->key() == Qt::Key_Tab && event->modifiers() & Qt::ControlModifier) {
+            emit requestTabChange(1);
+        }
+        else if( event->key() == Qt::Key_Backtab && event->modifiers() & Qt::ControlModifier) {
+            emit requestTabChange(-1);
+        }
         else if( event->key() == Qt::Key_S && event->modifiers() & Qt::ControlModifier)
         {
             if(hasChanged)
@@ -197,6 +204,7 @@ void Console::execute(const QString &buffer)
         }
         ensureCursorVisible();
     }
+    updateCompleterList();
 }
 
 void Console::clearDisplay()
@@ -283,10 +291,6 @@ QByteArray Console::prepareDataForSave() {
 }
 
 void Console::load() {
-    commandHistory.clear();
-    selectAll();
-    clear();
-
     QString fname = QFileDialog::getOpenFileName(this, QString("Load graph"), QString(), QString("Graph (*.gph)"));
     if(fname.isEmpty()) {
         return;
@@ -352,6 +356,7 @@ void Console::loadDataToConsole(QByteArray& data, bool ignoreFilename)
     cursorPosition = buffer.size();
     cursor.movePosition(QTextCursor::End);
     setTextCursor(cursor);
+    insertPlainText(prompt+" > ");
 
     dataBuffer.close();
 }
@@ -368,12 +373,20 @@ void Console::insertCompletion(const QString &completion)
     if (completer == nullptr) {
         return;
     }
-    QTextCursor tc = textCursor();
+
     int extra = completion.length() - completer->completionPrefix().length();
-    tc.movePosition(QTextCursor::Left);
-    tc.movePosition(QTextCursor::EndOfWord);
-    tc.insertText(completion.right(extra));
-    setTextCursor(tc);
+    cursor.movePosition(QTextCursor::EndOfWord);
+    cursor.insertText(completion.right(extra));
+    buffer.insert(cursorPosition, completion.right(extra));
+
+    cursorPosition += extra;
+
+    if (completion.endsWith("()")) {
+       cursor.movePosition(QTextCursor::Left);
+       cursorPosition--;
+    }
+
+    setTextCursor(cursor);
 }
 
 QString Console::textUnderCursor() const
@@ -395,11 +408,34 @@ bool Console::caseInsensitiveLessThan(const QString &s1, const QString &s2)
     return s1.toLower() < s2.toLower();
 }
 
-void Console::setCompleterList(QStringList l)
+void Console::updateCompleterList()
 {
-    qSort(l.begin(), l.end(), Console::caseInsensitiveLessThan);
+    QStringList varList;
 
-    completerWordList = new QStringList(l);
+    for (std::string s : dataState.variables().find("")) {
+        QString tmp(s.c_str());
+        if(!varList.contains(tmp)) {
+            varList << tmp;
+        }
+    }
+
+    qSort(varList.begin(), varList.end(),
+          Console::caseInsensitiveLessThan);
+
+    QStringList functionList;
+    for (std::string s : interpreter.functions().find("")) {
+        QString tmp(s.c_str());
+        tmp.append("()");
+        if (!tmp.startsWith("__") && !functionList.contains(tmp)) {
+            functionList << tmp;
+        }
+    }
+
+    qSort(functionList.begin(), functionList.end(),
+          Console::caseInsensitiveLessThan);
+
+
+    completerWordList = new QStringList(varList + functionList);
 
     if (completer)
         QObject::disconnect(completer, 0, this, 0);
@@ -447,7 +483,7 @@ void Console::keyPressEvent(QKeyEvent *e)
     QString completionPrefix = textUnderCursor();
 
     if (!isShortcut && (hasModifier || e->text().isEmpty()||
-                        completionPrefix.length() < 3 ||
+                        completionPrefix.length() == 0 ||
                         eow.contains(e->text().right(1)))) {
         completer->popup()->hide();
         return;

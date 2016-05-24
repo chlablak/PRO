@@ -31,15 +31,24 @@ void egli::detail::interfaceBuiltins(FunctionTable &table)
 {
     table.interface("save", builtins::save);
     table.interface("load", builtins::load);
-    table.interface("toString", builtins::toString_a);
-    table.interface("toString", builtins::toString_b);
-    table.interface("toString", builtins::toString_e);
-    table.interface("toString", builtins::toString_f);
-    table.interface("toString", builtins::toString_g);
-    table.interface("toString", builtins::toString_i);
-    table.interface("toString", builtins::toString_n);
-    table.interface("toString", builtins::toString_s);
-    table.interface("toString", builtins::toString_v);
+    table.interface("string", builtins::toString_a);
+    table.interface("string", builtins::toString_b);
+    table.interface("string", builtins::toString_e);
+    table.interface("string", builtins::toString_f);
+    table.interface("string", builtins::toString_g);
+    table.interface("string", builtins::toString_i);
+    table.interface("string", builtins::toString_n);
+    table.interface("string", builtins::toString_s);
+    table.interface("string", builtins::toString_v);
+    table.interface("type", builtins::typeOf_a);
+    table.interface("type", builtins::typeOf_b);
+    table.interface("type", builtins::typeOf_e);
+    table.interface("type", builtins::typeOf_f);
+    table.interface("type", builtins::typeOf_g);
+    table.interface("type", builtins::typeOf_i);
+    table.interface("type", builtins::typeOf_n);
+    table.interface("type", builtins::typeOf_s);
+    table.interface("type", builtins::typeOf_v);
 }
 
 void egli::detail::interfaceAlgorithms(FunctionTable &table)
@@ -48,4 +57,5 @@ void egli::detail::interfaceAlgorithms(FunctionTable &table)
     table.interface("dfs", algorithms::dfs);
     table.interface("cc", algorithms::cc);
     table.interface("scc", algorithms::scc);
+    table.interface("kruskal", algorithms::kruskal);
 }
