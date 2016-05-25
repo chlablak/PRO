@@ -42,6 +42,11 @@ public:
 
         // Create the graph structure with those vertices and edges
         _G = new Graph(vertices, edges);
+
+        for (IEdge *ie : _G->edgeList()) {
+            cout << *ie << endl;
+        }
+
         assert(_G->isSimple() == 1);
         assert(_G->isNegativeWeighted() == 0);
         assert(_G->isPlanar() == 1);
