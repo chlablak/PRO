@@ -139,3 +139,15 @@ egli::detail::RealType<egli::Type::Graph>::type
 {
     return RealType<Type::Graph>::type(GraphAlgorithm::detectCycle(g.graph()));
 }
+
+egli::detail::RealType<egli::Type::Array>::type
+    egli::detail::algorithms::dijkstra(RealType<Type::Graph>::cref g,
+                                       RealType<Type::Integer>::cref from)
+{
+    std::vector<double> d;
+    ::Vertex *f = g.getVertexById(from);
+    RealType<Type::Array>::type result;
+    result.add(GraphAlgorithm::dijkstra(g.graph(), f, d));
+    result.add(RealType<Type::Array>::type(d));
+    return result;
+}

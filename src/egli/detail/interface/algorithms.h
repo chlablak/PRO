@@ -117,6 +117,18 @@ RealType<Type::Array>::type bellmanFord(RealType<Type::Graph>::cref g,
  * \throw Exception if an error occurs
  */
 RealType<Type::Graph>::type detectCycle(RealType<Type::Graph>::cref g);
+
+/*! \brief Apply the Dijkstra visitor
+ *
+ * \param g - The Graph
+ * \param from - The origin Vertex ID
+ * \return [0] => The resulting Graph
+ *         [1] => Distances Array
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Array>::type dijkstra(RealType<Type::Graph>::cref g,
+                                     RealType<Type::Integer>::cref from);
 } // namespace algorithms
 } // namespace detail
 } // namespace egli

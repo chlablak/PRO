@@ -72,4 +72,5 @@ void egli::detail::interfaceAlgorithms(FunctionTable &table)
     table.interface("isWeighted", algorithms::isWeighted);
     table.interface("bellmanFord", algorithms::bellmanFord);
     table.interface("detectCycle", algorithms::detectCycle);
+    table.interface("dijkstra", algorithms::dijkstra);
 }
