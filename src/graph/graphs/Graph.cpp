@@ -34,29 +34,16 @@ Graph::~Graph() {
  * A graph is simple if it doesn't have multiple edges, or edge loop
  */
 bool Graph::isSimple() const {
-    if(isNull())
-        return false;
-    list<IEdge*> edges = edgeList();
-    bool first;
-    for(list<IEdge*>::const_iterator edgeIt = edges.begin(); edgeIt != edges.end(); ++edgeIt){
-        // check if the graph doesn't content a cycle
-        Edge *e = (Edge*)*edgeIt;
-        if( e->either()->operator==(e->other(e->either())))
-            return false;
-        first = true;
-        for(list<IEdge*>::const_iterator edgeIt2 = edgeIt; edgeIt2 != edges.end(); ++edgeIt2){
+    if(this->isNull() || this->isEmpty()) {
+        return true;
+    }
 
-            if(first){
-                first = false;
-                continue;
-            }
-            Edge *e2 = (Edge*)*edgeIt2;
-            // check that the graph doesn't content a parallel edge or cycle
-            if((((e->either()->operator==(e2->either()))) &&
-                (e->other(e->either())->operator==(e2->other(e2->either())))) ||
-                 ((e->either()->operator==(e2->other(e2->either()))) &&
-                         (e->other(e->either())->operator==(e2->either()))) )
+    IGraph::Vertices vertexList = this->vertexList();
+    for (IGraph::Vertices::iterator it = vertexList.begin(); it != vertexList.end(); ++it) {
+        for (IGraph::Vertices::iterator it2 = it; it2 != vertexList.end(); ++it2) {
+            if (this->getEdges(*it, *it2).size() > 1) {
                 return false;
+            }
         }
     }
     return true;
