@@ -19,12 +19,12 @@ HelpMainLayout::HelpMainLayout(QWidget *parent) : parent(parent)
     addLayout(rightPane);
 
     QObject::connect(leftPane->getButtonPane()->getLeft(),
-                     SIGNAL(clicked(bool)),
+                     SIGNAL(mousePressed()),
                      rightPane->getMainBrowser(),
                      SLOT(backward()));
 
     QObject::connect(leftPane->getButtonPane()->getRight(),
-                     SIGNAL(clicked(bool)),
+                     SIGNAL(mousePressed()),
                      rightPane->getMainBrowser(),
                      SLOT(forward()));
 
@@ -36,7 +36,7 @@ HelpMainLayout::HelpMainLayout(QWidget *parent) : parent(parent)
     QObject::connect(rightPane,
                      SIGNAL(searchResultsRequested(QString)),
                      rightPane->getMainBrowser(),
-                     SLOT(searchAsked(QString)));
+                     SLOT(displaySearch(QString)));
 
     QObject::connect(leftPane->getNavMenu(),
                      SIGNAL(anchorClicked(QUrl)),

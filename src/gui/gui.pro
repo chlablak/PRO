@@ -26,6 +26,7 @@ SOURCES += main.cpp\
     ../userHelp/mainbrowser.cpp \
     ../userHelp/navigationmenu.cpp \
     ../userHelp/navigationpane.cpp \
+    ../userHelp/navigationbutton.cpp \
     ../userHelp/searchbar.cpp \
     ../userHelp/helpmainlayout.cpp \
     ../userHelp/helpwindow.cpp \
@@ -104,6 +105,7 @@ HEADERS  += mainwindow.h \
     ../userHelp/searchbar.h \
     ../userHelp/helpmainlayout.h \
     ../userHelp/helpwindow.h \
+    ../userHelp/navigationbutton.h \
     ui_dialogstring.h \
     ui_graphwindow.h \
     ui_mainwindow.h \

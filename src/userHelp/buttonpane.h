@@ -9,7 +9,8 @@
 #define BUTTONPANE_H
 
 #include <QHBoxLayout>
-#include <QPushButton>
+
+#include "navigationbutton.h"
 
 class ButtonPane : public QHBoxLayout
 {
@@ -23,15 +24,15 @@ public:
 
     /*!
      * \brief left (backwards) button accessor
-     * \return QPushButton*
+     * \return NavigationButton*
      */
-    QPushButton *getLeft();
+    NavigationButton *getLeft();
 
     /*!
      * \brief right (forwards) button accessor
-     * \return QPushButton*
+     * \return NavigationButton*
      */
-    QPushButton *getRight();
+    NavigationButton *getRight();
 
 private:
     ButtonPane(QWidget *parent);
@@ -40,8 +41,8 @@ private:
 	
     QWidget *parent;
 	
-    QPushButton *left;
-    QPushButton *right;
+    NavigationButton *left;
+    NavigationButton *right;
 };
 
 #endif // BUTTONPANE_H

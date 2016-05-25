@@ -49,13 +49,15 @@ public slots:
      * \brief Displays the result HTML page
      * \param search: search word
      */
-    void searchAsked(QString search);
+    void displaySearch(const QString &resultHtml);
 
     /*!
      * \brief Loads specified html page
      * \param name: url of page
      */
-    void setSource(const QUrl &name);
+    void setSource(const QUrl &name) Q_DECL_OVERRIDE;
+
+    void forward() Q_DECL_OVERRIDE;
 };
 
 #endif // MAINBROWSER_H

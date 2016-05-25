@@ -42,35 +42,33 @@ SearchBar *BrowserPane::getSearchBar()
 
 void BrowserPane::searchAsked(){
     QString searchWord = searchBar->text();
-    QString resultPage = "<!DOCTYPE html><html><body><h1>Search results: \"";
-    resultPage += searchWord + "\"</h1>";
+    QString searchHtml = "<h2>Search term: " + searchWord + "</h2>";
     try {
         KeywordSearcher kws(keywordFile);
-        resultPage += "<br/>";
         QVector<HelpPage*> fileList = kws.getPages(searchWord);
         int length = fileList.length();
 
         if (length == 0) {
-            resultPage += "No results<hr/>";
+            searchHtml += "No results";
         } else {
             if(length == 1) {
-                resultPage += "1 result";
+                searchHtml += "1 result";
             } else {
-                resultPage += QString::number(length) + " results";
+                searchHtml += QString::number(length) + " results";
             }
-            resultPage += "<hr/><ul>";
+            searchHtml += "<ul>";
             for (HelpPage *hp : fileList) {
-                resultPage += "<li><a href=\"" + hp->getPage() + "\">" +
+                searchHtml += "<li><a href=\"" + hp->getPage() + "\">" +
                               hp->getName() + "</a></li>";
             }
-            resultPage += "</ul>";
+            searchHtml += "</ul>";
         }
 
     } catch(QString e) {
-        resultPage += "<hr/>Cannot find keyword file<hr/>";
+        searchHtml += "Cannot find keyword file";
     }
 
-    resultPage += "</body></html>";
+    searchHtml += "</body></html>";
 
-    emit searchResultsRequested(resultPage);
+    emit searchResultsRequested(searchHtml);
 }
