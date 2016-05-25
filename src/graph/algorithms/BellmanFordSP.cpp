@@ -6,6 +6,7 @@
 #include <vector>
 #include <limits>
 #include "BellmanFordSP.h"
+#include "../graphs/Graph.h"
 #include "../graphs/DiGraph.h"
 #include "../graphs/FlowGraph.h"
 
@@ -31,10 +32,34 @@ void BellmanFordSP::relax(IEdge *ie) {
 }
 
 void BellmanFordSP::visit(Graph *g, Vertex *from) {
-    UNUSED(g);
-    UNUSED(from);
-    throw std::runtime_error("The 'Bellman-Ford' algorithm can't be applied"
-                                     "to a non directed graph.");
+    if (!g->isWeighted()) {
+        throw std::runtime_error("Error in Bellman-Ford algorithm."
+                                         "The directed graph must be weighted.");
+    }
+
+    Graph *gClone = g->clone();
+    _G = gClone->emptyClone();
+
+    size_t nVertex = gClone->V();
+    _edgeTo.resize(nVertex);
+    _distanceTo.assign(nVertex,std::numeric_limits<double>::max());
+
+    // Search from vertex
+    Vertex *fromCpy;
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            fromCpy = v;
+        }
+    }
+
+    _edgeTo[fromCpy->id()] = new Edge(fromCpy, fromCpy, 0.);
+    _distanceTo[fromCpy->id()] = 0.;
+
+    for(size_t i = 0; i < nVertex; ++i) {
+        gClone->forEachEdge([this](IEdge *ie) {
+            relax(ie);
+        });
+    }
 }
 
 void BellmanFordSP::visit(DiGraph *g, Vertex *from) {
