@@ -144,7 +144,6 @@ void DetectedCycle::hasCycle(Vertex *v, int fromId, IGraph *g) {
         _stacked.at(v->id()) = false;
         _cycle.pop_back();
     }
-
 }
 
 void DetectedCycle::commonFlowDiGraph(IGraph *g) {
