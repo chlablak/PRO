@@ -49,6 +49,7 @@ void egli::detail::interfaceBuiltins(FunctionTable &table)
     table.interface("type", builtins::typeOf_n);
     table.interface("type", builtins::typeOf_s);
     table.interface("type", builtins::typeOf_v);
+    table.interface("er", builtins::originalErdosRenyi);
 }
 
 void egli::detail::interfaceAlgorithms(FunctionTable &table)
@@ -58,4 +59,15 @@ void egli::detail::interfaceAlgorithms(FunctionTable &table)
     table.interface("cc", algorithms::cc);
     table.interface("scc", algorithms::scc);
     table.interface("kruskal", algorithms::kruskal);
+    table.interface("prim", algorithms::prim_1);
+    table.interface("prim", algorithms::prim_2);
+    table.interface("isConnected", algorithms::isConnected);
+    table.interface("isDirected", algorithms::isDirected);
+    table.interface("isEmpty", algorithms::isEmpty);
+    table.interface("isNegativeWeighted", algorithms::isNegativeWeighted);
+    table.interface("isNull", algorithms::isNull);
+    table.interface("isPlanar", algorithms::isPlanar);
+    table.interface("isSimple", algorithms::isSimple);
+    table.interface("isStronglyConnected", algorithms::isStronglyConnected);
+    table.interface("isWeighted", algorithms::isWeighted);
 }

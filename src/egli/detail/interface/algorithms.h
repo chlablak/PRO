@@ -67,6 +67,35 @@ RealType<Type::Array>::type scc(RealType<Type::Graph>::cref g);
  * \throw Exception if an error occurs
  */
 RealType<Type::Graph>::type kruskal(RealType<Type::Graph>::cref g);
+
+/*! \brief Apply the Prim visitor
+ *
+ * \param g - The Graph
+ * \param from - The origin vertex ID (optional)
+ * \return The resulting Graph
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Graph>::type prim_1(RealType<Type::Graph>::cref g);
+RealType<Type::Graph>::type prim_2(RealType<Type::Graph>::cref g,
+                                   RealType<Type::Integer>::cref from);
+
+/*! \brief Check if a Graph is ...
+ *
+ * \param g - The Graph
+ * \return true if g matches the criteria
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Boolean>::type isConnected(RealType<Type::Graph>::cref g);
+RealType<Type::Boolean>::type isDirected(RealType<Type::Graph>::cref g);
+RealType<Type::Boolean>::type isEmpty(RealType<Type::Graph>::cref g);
+RealType<Type::Boolean>::type isNegativeWeighted(RealType<Type::Graph>::cref g);
+RealType<Type::Boolean>::type isNull(RealType<Type::Graph>::cref g);
+RealType<Type::Boolean>::type isPlanar(RealType<Type::Graph>::cref g);
+RealType<Type::Boolean>::type isSimple(RealType<Type::Graph>::cref g);
+RealType<Type::Boolean>::type isStronglyConnected(RealType<Type::Graph>::cref g);
+RealType<Type::Boolean>::type isWeighted(RealType<Type::Graph>::cref g);
 } // namespace algorithms
 } // namespace detail
 } // namespace egli

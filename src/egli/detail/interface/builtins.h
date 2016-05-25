@@ -69,6 +69,19 @@ RealType<Type::String>::type typeOf_i(RealType<Type::Integer>::cref var);
 RealType<Type::String>::type typeOf_n(RealType<Type::Number>::cref var);
 RealType<Type::String>::type typeOf_s(RealType<Type::String>::cref var);
 RealType<Type::String>::type typeOf_v(RealType<Type::Vertex>::cref var);
+
+/*! \brief Generate a random Erdos-Renyi Graph
+ *
+ * \param V - number of vertices
+ * \param p - inclusion probability
+ * \return A Erdos-Renyi Graph
+ *
+ * \throw Exception if V < 0 or if !(0 <= p <= 1)
+ * \note See http://icdt.tu-dortmund.de/proceedings/edbticdt2011proc/WebProceedings/papers/edbt/a30-nobari.pdf
+ *       (algorithm 1)
+ */
+RealType<Type::Graph>::type originalErdosRenyi(RealType<Type::Integer>::cref V,
+                                               RealType<Type::Float>::cref p);
 } // namespace builtins
 } // namespace detail
 } // namespace egli

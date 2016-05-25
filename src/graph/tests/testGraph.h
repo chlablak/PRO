@@ -7,6 +7,7 @@
 
 #include <cassert>
 #include "../includes.h"
+#include "../algorithms/DetectedCycle.h"
 
 class TestGraph
 {
@@ -25,28 +26,38 @@ public:
 
         // Associate Edges to vertices
         IEdge *e1 = new Edge(v1, v2, "e1", 3);
-        IEdge *e2 = new Edge(v1, v4, "e2", 2);
-        IEdge *e3 = new Edge(v1, v6, "e3", 1);
-        //IEdge *e4 = new Edge(v2, v1, "e4", 4);
-        IEdge *e5 = new Edge(v2, v5, "e5", 3);
-        IEdge *e6 = new Edge(v3, v2, "e6", 2);
-        IEdge *e7 = new Edge(v3, v5, "e7", 1);
-        IEdge *e8 = new Edge(v4, v5, "e8", 3);
-        //IEdge *e9 = new Edge(v5, v4, "e9", 2);
-        IEdge *e10 = new Edge(v6, v4, "e10", 6);
-        IEdge *e11 = new Edge(v6, v7, "e11", 5);
-        IEdge *e12 = new Edge(v7, v1, "e12", 4);
+        IEdge *e2 = new Edge(v1, v3, "e2", 2);
+        IEdge *e3 = new Edge(v2, v3, "e3", 1);
+        IEdge *e4 = new Edge(v3, v4, "e4", 4);
+        IEdge *e5 = new Edge(v2, v4, "e5", 3);
+        /*IEdge *e6 = new Edge(v2, v3, "e6", 2);
+        IEdge *e7 = new Edge(v3, v1, "e5", 3);
+        IEdge *e8 = new Edge(v3, v2, "e6", 2);
+        IEdge *e9 = new Edge(v3, v3, "e6", 2);*/
 
-        vector<Vertex*> vertices = {v1, v2, v3, v4, v5, v6, v7};
-        vector<IEdge*> edges = {e1, e2, e3, e5, e6, e7, e8, e10, e11, e12};
+        vector<Vertex*> vertices = {v1, v2, v3, v4};
+        vector<IEdge*> edges = {e1,e2, e3, e4, e5};
 
         // Create the graph structure with those vertices and edges
         _G = new Graph(vertices, edges);
+        Graph *g = new Graph(vertices, edges);
 
         assert(_G->isSimple() == 1);
         assert(_G->isNegativeWeighted() == 0);
         assert(_G->isPlanar() == 1);
-        assert(_G->V() == 7);
+        assert(_G->V() == 4);
+
+
+        DetectedCycle detectedCycle;
+        detectedCycle.visit(g, g->vertexList().front());
+        if(detectedCycle.hasCycle()) {
+            cout << "Graph possedant de cycle" << endl;
+            cout << *g << endl;
+
+            cout << "Test de detectedCycle pour les Graph" << endl;
+            IGraph *cycle = detectedCycle.G();
+            cout << *cycle << endl;
+        }
 
         cout << "Avant ponderation :" << endl;
         cout << *_G << endl;
@@ -54,7 +65,8 @@ public:
         cout << "Apres ponderation : " << endl;
         cout << *_G << endl;
 
-        assert(_G->E() == 10);
+        assert(_G->E() == 5);
+
         assert(_G->isNegativeWeighted() == 0);
 
         // Test createEdge

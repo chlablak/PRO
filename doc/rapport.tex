@@ -1747,6 +1747,151 @@
 			\subsubsection{Conception générale}
 			Les fichiers d'aide utilisateur ont été écrit au format HTML, afin qu'ils soient rapidement écrits et que l'utilisateur puisse naviguer d'une page à l'autre.
 	
+	\section{Représentation graphique des graphes}
+		\subsection{Widget de visualisation}
+			\subsubsection{Fonctionnement de QT}
+				QT possède un système de dessin complexe, le \textit{Graphics View Framework}. Cet outil est basé sur le principe suivante : trois types d'éléments se partagent différentes responsabilités. \\
+				
+				\noindent \textbf{La scène (classe QGraphicsScene)} :
+				\begin{itemize}
+					\item Fournit une interface afin de gérer les éléments graphiques.
+					\item Gère les états des éléments graphiques.
+					\item Propage les événements aux éléments graphiques.
+				\end{itemize}
+				
+				La scène est donc un conteneur pour tout ce qui sera visible par l'utilisateur. Qt fournit des méthodes pour ajouter, supprimer des éléments, mais aussi pour trouver un élément à une certaine coordonnée. Lors de la sélection d'un élément, c'est également la scène qui s'occupe de l'informer d'une action. \\
+				
+				\noindent \textbf{La vue (classe QGraphicsView)} : \\
+				La vue se charge d'afficher le contenu d'une scène (plusieurs vues peuvent très bien afficher la même scène). Ici, la scène peut être perçue comme un modèle du design MVC. \\
+				Elle s'occupe d'afficher tout ou une partie de la scène, c'est à dire que si cette dernière est grande, trop grande pour la fenêtre ou pour la zone à disposition, la vue s'occuper d'ajouter des barres de défilement. Ceci engendre que les coordonnées peuvent différer entre une vue et sa scène. La vue recevant en premier les actions de l'utilisateur, va les transmettre à la scène en prenant soin d'adapter les coordonnées si besoin. Par exemple, un clic en haut à gauche de la fenêtre sera en coordonnées (0,0) pour la vue, mais si l'utilisateur a auparavant scrollé horizontalement et/ou verticalement, la coordonnées réelle du clic sur la scène pourrait être (0,100), (130, 10), etc. Cette adaptation est donc extrêmement importante. Des méthodes peuvent sont également mises à disposition par QT afin de manuellement demander la correspondance d'une coordonnée vue -> scène ou scène -> vue. \\
+				
+				\noindent \textbf{Les éléments graphiques (classe QGraphicsItem et sous-classes)} : \\
+				Ces classes représentes des éléments graphiques de base, une ellipse (QGaphicsEllipseItem), une rectangle (QGraphicsRectItem), un texte (QGraphicsTextItem), etc. Il est possible de les paramétrer en leur fournissant un objet QPen personnalisé (pour le contour) et/ou un objet QBrush (pour le fond) et en utilisant leur interface publique respective. Il est également possible de spécialiser une classe de QT afin de créer ses propres éléments.
+				Ces objets possèdent une fois de plus leur propre système de coordonnées. La position qu'il leur est attribuée par la scène devient leur point d'origine et là aussi des méthodes permettent des conversions.
+				
+				\pagebreak
+				
+			\subsubsection{Diagramme de classe}
+				\begin{figure}[H]
+					\centering
+					\includegraphics[width=0.9\textheight,angle=90]{Conception/visualization/visualization.png}
+					\caption{Diagramme de classes de la représentation des graphes}
+				\end{figure}
+				
+				\pagebreak
+				
+				Afin de respecter la philosophie de QT, j'ai créé des classes spécialisées pour chaque partie. La classe \textbf{GraphView} n'a pas forcément d'utilité pour l'instant, mais pour l'éventuel avenir du projet, celle-ci permettra de gérer des événements plus précis (actuellement nous n'avons implémenté que le drag and drop des sommets et ceci est automatiquement géré par QT). \\
+				La classe \textbf{GraphScene} prend en paramètre un pointeur de IGraph. C'est cette objet qui va s'occuper des créer tous les éléments graphiques nécessaires à sa représentation. \\
+				Puis les éléments graphiques \textbf{VertexItem} et \textbf{EdgeItem} (ainsi que ses sous-classes \textbf{DiEdgeItem} et \textbf{FlowEdgeItem}) permettent respectivement de dessiner les sommets et les arcs/arêtes. Ces classes ne sont pas directement de type QGraphcsItem, mais de QGraphicsItemGroup qui est en faite un conteneur de plusieurs QGraphcsItem. En effet, une sommet est composé d'un cercle (réellement d'une ellipse) d'un texte pour l'identifiant affiché et d'un autre texte pour son label. Les arêtes (EdgeItem) qui sont des simple lignes avec un label, les arcs (DiEdge) qui ajoutent une flèche pour la direction et les flux (FlowEdge) qui ajout également une flèche, mais aussi les capacité. Chacun des éléments graphiques ajoutent et gèrent tous les autres éléments graphiques dont il a besoin. \\
+				
+				Finalement, la scène se charge de donner une position aux sommets. Pour ce projet, le but était de placer les éléments simplement sur une grille et de laisser la possibilité aux utilisateurs de modifier cette disposition. La scène calcule donc une coordonnées basé sur une grille de quatre pour chaque sommet. Les arcs/arêtes eux, se placent automatiquement en fonction des sommets qu'ils relient. \\
+				La classe Graphe mets à disposition des identifiants uniques croissants. Ceci m'a permis de pouvoir faire le lien entre un sommet et un sommet graphique afin de savoir, d'après un IEdge, quels sommets graphiques relier.
+		
+			\subsubsection{Drag \& drop des sommets}
+				La classe \textbf{VertexItem} représentant un sommet, utilise une fonctionnalité de QT qui permet d'automatiquement implémenter le drag \& drop, au travers de méthodes appelées dans le constructeur de la classe. Tout est donc automatique. \\
+				J'ai néanmoins dû faire en sorte que si un sommet est déplacé, les arcs/arêtes liées s'adaptent. Qt met à disposition une méthode \textbf{itemChange()} sur les éléments graphiques afin d'être averti lors d'événements. Surcharger cette méthode a permis d'effectuer une action si le type d'événement est un drag \& drop, à savoir ajuster tous les arcs/arêtes liés.
+				
+			\subsubsection{Ajustement des arcs/arêtes}
+				Les objets de type \textbf{EdgeItem} possèdent une méthode \textbf{adjust()} lui permettant de s'ajuster aux sommets source et de destination. Cette méthode est donc appelée à la construction de l'élément et lorsque qu'un sommet lié a été déplacé (comme expliqué précédemment). Les lignes ne reliant pas le centre des cercles représentants les sommets, mais s'arrêtant à l'extérieur de ces derniers, il a fallu effectuer quelques calculs à l'aide du théorème de Thalès afin de déplacer les points dans le plan.
+				
+			\subsubsection{Notion de "Bounding rect"}
+				La notion de \textbf{Bounding rect} est importante lors du dessin des différents éléments. Il s'agit d'une zone indiquant à la vue qu'est-ce qui doit être dessiné et effacé. Elle doit être la plus précise possible afin de ne pas demander au programme de redessiner quelque chose qui n'a pas changé (un arrière-plan par exemple), mais elle doit également englober totalement l'élément. C'est par exemple important pour lors du déplacement d'un élément graphique. La vue va redessiner ce qui se trouvait dans la zone précédente et dans la nouvelle zone, afin de faire disparaitre l'élément de son ancien emplacement et de le dessiner dans son nouvel emplacement. Si la zone ne couvre pas tout l'élément, des parties de celui-ci pourrait ne pas être mises à jour et laisser des résidus visuels.
+			
+		\subsection{Fabriques des éléments graphique}
+			Revenons sur la classe \textbf{GraphScene}. Celle-ci peut recevoir en paramètres tous types de graphes (normaux, dirigés et de flot). Elle doit être capable de créer les bons éléments graphiques. Pour ce faire, elle essaie de caster dynamiquement le IGraph en Graph, DiGraph et FlowGraph ce qui permet d'en connaître le type réel. \\
+			
+			La scène parcours ensuite chaque sommet, puis chaque noeud. Les sommets ne changent pas en fonction du type de graphe, en revanche les noeuds nécessites de créer les bons types d'éléments graphiques. J'ai donc décidé d'appliquer le design pattern \textbf{Abstract Factory} qui permet de créer une factory d'un certain type, puis d'appeler des méthodes de création qui vont se charger d'instancier directement les bonnes classes.
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.6\textwidth]{Conception/visualization/graphitemsfactories.png}
+				\caption{Diagramme de classes de la fabrication des éléments graphiques}
+			\end{figure}
+			
+			Les factories sont donc toutes du même type de base, une classe abstraite qui définit les méthodes de création. Il y a ensuite une classe spécialisée par type de graphe, par famille (normal, dirigé et de flot). Ces sous-classes ont ensuite simplement à retourner une instance de l'éléments graphique correspondant à ce type. \\
+			
+			Voici un exemple d'utilisation :
+		
+			\begin{lstlisting}
+						// Surchage d'une methode de creation
+						// pour retourner une instance de la famille
+						EdgeItem *DiGraphItemFactory::createEdge(const IEdge *edge, VertexItem *source,
+																 VertexItem *dest)
+						{
+						  return new DiEdgeItem(edge, source, dest);
+						}
+			\end{lstlisting}
+			
+			\begin{lstlisting}
+						// Creation de la factory correspondance a la bonne famille
+						AbstractGraphItemFactory *factory;
+						if (dynamic_cast<const FlowGraph *>(graph)) {
+						  factory = new FlowGraphItemFactory();
+						}
+						else if (dynamic_cast<const DiGraph *>(graph)) {
+						  factory = new DiGraphItemFactory();
+						}
+						...
+						
+						// Creation d'un objet EdgeItem sans ce soucier de son reel type
+						EdgeItem *edgeItem = factory->createEdge(
+						  pointeurDeEdge,
+						  sommetSource,
+						  sommetDestination
+						);
+
+			\end{lstlisting}
+		
+		\pagebreak
+		
+		\subsection{Widget}
+			Afin de simplifier l'affichage d'un graphe depuis la partie GUI, j'ai fait en sorte qu'un nouvel objet s'occupe d'instancier les objets nécessaires (vue et scène) et de configurer ces derniers. Il s'agit de la classe \textbf{GraphWidget} qui prend en paramètre un pointeur de IGraph à traiter. Ce widget peut ensuite être incorporé dans n'importe quelle layout, avec n'importe quelle dimension, sans se soucier du fonctionnement interne.
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.6\textwidth]{Conception/visualization/graphwidget.png}
+				\caption{Diagramme de la classe GraphWidget}
+			\end{figure}
+			
+			Cette classe hérite de \textbf{QWidget}, une classe de QT permettant jsutement d'être ajoutée et affichée dans un layout. Le widget possède également un layout, nécessaire pour y ajouter et afficher la vue du graphe.
+		
+		\subsection{Exportation}
+			L'exportation des graphes (uniquement au format SVG pour ce projet) s'effectue à l'aide de la classe \textbf{GraphExporter}. Cette classe met à disposition des méthodes statiques permettant d'exporter au format SVG. \\
+			Ces méthodes prennent un pointeur de IGraph en paramètre, elles génèrent ensuite la scène correspondante au graphe, puis l'enregistre dans un fichier.
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.4\textwidth]{Conception/visualization/graphexporter.png}
+				\caption{Diagramme de la classe GraphExporter}
+			\end{figure}
+			
+			Pour l'exportation SVG, il y a deux méthodes. Une avec un chemin de fichier en paramètre, l'autre sans. La méthode sans chemin va automatiquement ouvrir une fenêtre invitant l'utilisateur à choisir l'emplacement et le nom du fichier à enregistrer (à l'aide de la classe \textbf{QFileDialog} de QT). Celle-ci va ensuite appeler la deuxième méthode avec le nom du fichier spécifié. \\
+			Pour l'exportation, la scène est simplement rendue dans un objet spécifique à la place de celui gérant l'affichage. Il s'agit d'un objet \textbf{QSvgGenerator}. Ce dernier prend en paramètre le chemin du fichier et la taille du dessin SVG à créer. \\
+			
+			Le générateur s'utilise ensuite simplement en appelant l'une de ses méthodes statiques.
+		
+			\begin{lstlisting}
+						GraphExporter::SVG(myGraph);
+						// ou
+						GraphExporter::SVG(myGraph, "/path/to/svg/file.svg");
+			\end{lstlisting}
+		
+		\subsection{Réutilisation}
+			Un problème se posait quant à la génération des graphes. Si un utilisateur affichait un graphe, déplaçait les sommets pour obtenir un affichage plus lisible et qu'il souhaitait ensuite l'exporter, le fichier contiendrait l'affichage par défaut (en grille actuellement) et pas ces modifications. Ceci représente également une perte de temps de régénérer l'affichage entier, alors que celui-ci a déjà été fait. \\
+			Nous avons donc décidé d'implémenter une manageur de scènes (GraphScene) qui se charge de créer une nouvelle scène à partir d'un IGraph seulement si nécessaire. Ce manageur devait donc avoir connaissance des changements survenus sur les graphes. En clair, un graphe qui n'a pas changé (sommets, arêtes, etc.) doit utiliser la même scène d'un affichage à l'autre. \\
+			
+			Il n'était pas facile de mémoriser l'état de graphe. Nous avons donc créé une méthode de hashage d'un IGraph, prenant en compte tous les attributs des graphes. Le hash obtenu permet de distinguer un graphe avant et après une modification. Les scènes sont donc stockées par le manageur et liées à un hash. Lors de la demande de création d'une scène, les hashs sont comparés et s'il y a une concordance, la scène existante et retournée à la place qu'une nouvelle soit créée.
+			
+			\begin{figure}[H]
+				\centering
+				\includegraphics[width=0.8\textwidth]{Conception/visualization/graphscenemanager.png}
+				\caption{Diagramme de la classe GraphSceneManager}
+			\end{figure}
+			
+			Cela permet donc d'économiser du temps et permet aux utilisateurs de garder en mémoire les modifications qu'ils apportent visuellement aux graphes. \\
+			
+			Les objets désirant une instance de la classe GraphScene doivent donc maintenant toujours passer par le manageur.
+	
 	\section{Annexes}
 	
 		\subsection{Fonctions incluses}
