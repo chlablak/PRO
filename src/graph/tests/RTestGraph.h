@@ -2,18 +2,18 @@
 // Created by sebri on 20.05.2016.
 //
 
-#ifndef GRAPH_TESTGRAPH_H
-#define GRAPH_TESTGRAPH_H
+#ifndef GRAPH_RTESTGRAPH_H
+#define GRAPH_RTESTGRAPH_H
 
 #include <cassert>
 #include "../includes.h"
 
-class TestGraph
+class RTestGraph
 {
 private:
     IGraph *_G;
 public:
-    TestGraph() : _G(nullptr) {
+    RTestGraph() : _G(nullptr) {
         // Create vertices
         Vertex *v1 = new Vertex("v1");
         Vertex *v2 = new Vertex("v2");
@@ -43,6 +43,10 @@ public:
         // Create the graph structure with those vertices and edges
         _G = new Graph(vertices, edges);
 
+        for (IEdge *ie : _G->edgeList()) {
+            cout << *ie << endl;
+        }
+
         assert(_G->isSimple() == 1);
         assert(_G->isNegativeWeighted() == 0);
         assert(_G->isPlanar() == 1);
@@ -53,9 +57,6 @@ public:
         _G->ponderateVertices(3.24);
         cout << "Apres ponderation : " << endl;
         cout << *_G << endl;
-
-        assert(_G->E() == 10);
-        assert(_G->isNegativeWeighted() == 0);
 
         // Test createEdge
         IEdge *gg = _G->createEdge(new Vertex, new Vertex);
@@ -125,9 +126,18 @@ public:
         cout << "Prim" << endl;
         IGraph *gPrim = GraphAlgorithm::prim(_G, v1);
         gPrim->print();
+
+        // Test detectCycle
+        cout << "Detect cycle" << endl;
+        IGraph *gDetectCycle = GraphAlgorithm::detectCycle(_G);
+        if (gDetectCycle == nullptr) {
+            cout << "gDetectCycle has no cycle" << endl;
+        } else {
+            cout << "gDetectCycle has cycle" << endl;
+        }
     }
 
-    ~TestGraph() { delete _G; }
+    ~RTestGraph() { delete _G; }
 };
 
-#endif //GRAPH_TESTGRAPH_H
+#endif //GRAPH_RTESTGRAPH_H

@@ -1,16 +1,26 @@
 #include <iostream>
 
-#include "tests/TestGraph.h"
-#include "tests/TestDiGraph.h"
-#include "tests/TestFlowGraph.h"
+//#include "tests/DTestGraph.h"
+//#include "tests/DTestDiGraph.h"
+//#include "tests/DTestFlowGraph.h"
+
+#include "tests/RTestGraph.h"
+#include "tests/RTestDiGraph.h"
+#include "tests/RTestFlowGraph.h"
 
 using namespace std;
 
 int main() {
 
-    TestGraph testGraph;
-    //TestDiGraph testDiGraph;
-    //TestFlowGraph testFlowGraph;
+//    // Tests Djomo
+//    DTestGraph testGraph;
+//    DTestDiGraph testDiGraph;
+//    DTestFlowGraph testFlowGraph;
+
+    // Tests Richoz
+    RTestGraph testGraph;
+//    RTestDiGraph testDiGraph;
+//    RTestFlowGraph testFlowGraph;
 
     return 0;
 }

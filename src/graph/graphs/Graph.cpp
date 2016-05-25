@@ -3,6 +3,7 @@
 //
 
 #include <algorithm>
+#include <unordered_set>
 #include "Graph.h"
 #include "../algorithms/ConnectedComponent.h"
 #include "../algorithms/CopyToDiGraph.h"
@@ -34,29 +35,16 @@ Graph::~Graph() {
  * A graph is simple if it doesn't have multiple edges, or edge loop
  */
 bool Graph::isSimple() const {
-    if(isNull())
-        return false;
-    list<IEdge*> edges = edgeList();
-    bool first;
-    for(list<IEdge*>::const_iterator edgeIt = edges.begin(); edgeIt != edges.end(); ++edgeIt){
-        // check if the graph doesn't content a cycle
-        Edge *e = (Edge*)*edgeIt;
-        if( e->either()->operator==(e->other(e->either())))
-            return false;
-        first = true;
-        for(list<IEdge*>::const_iterator edgeIt2 = edgeIt; edgeIt2 != edges.end(); ++edgeIt2){
+    if(this->isNull() || this->isEmpty()) {
+        return true;
+    }
 
-            if(first){
-                first = false;
-                continue;
-            }
-            Edge *e2 = (Edge*)*edgeIt2;
-            // check that the graph doesn't content a parallel edge or cycle
-            if((((e->either()->operator==(e2->either()))) &&
-                (e->other(e->either())->operator==(e2->other(e2->either())))) ||
-                 ((e->either()->operator==(e2->other(e2->either()))) &&
-                         (e->other(e->either())->operator==(e2->either()))) )
+    IGraph::Vertices vertexList = this->vertexList();
+    for (IGraph::Vertices::iterator it = vertexList.begin(); it != vertexList.end(); ++it) {
+        for (IGraph::Vertices::iterator it2 = it; it2 != vertexList.end(); ++it2) {
+            if (this->getEdges(*it, *it2).size() > 1) {
                 return false;
+            }
         }
     }
     return true;
@@ -151,23 +139,39 @@ size_t Graph::E() const {
 }
 
 GraphCommon<Edge>::Edges Graph::edgeList() const {
-    Edges list;
-    bool alreadyInside;
-    for(size_t i = 0; i<_adjacentList.size(); ++i){
-        for(IEdge* e1 : _adjacentList.at(i)){
-            alreadyInside = false;
-            for(IEdge* e2 : list){
-                if(e1 == e2) {
-                    alreadyInside = true;
-                    break;
-                }
-            }
-            if(!alreadyInside) {
-                list.push_back(e1);
-            }
+    std::unordered_set<IEdge*> s;
+
+    size_t adjListSize = _adjacentList.size();
+    for (size_t i = 0; i < adjListSize; ++i) {
+        for (IEdge *ie : _adjacentList.at(i)) {
+            s.insert(ie);
         }
     }
-    return list;
+
+    IGraph::Edges l;
+    for (IEdge *ie : s) {
+        l.push_back(ie);
+    }
+
+    return l;
+
+//    Edges list;
+//    bool alreadyInside;
+//    for(size_t i = 0; i<_adjacentList.size(); ++i){
+//        for(IEdge* e1 : _adjacentList.at(i)){
+//            alreadyInside = false;
+//            for(IEdge* e2 : list){
+//                if(e1 == e2) {
+//                    alreadyInside = true;
+//                    break;
+//                }
+//            }
+//            if(!alreadyInside) {
+//                list.push_back(e1);
+//            }
+//        }
+//    }
+//    return list;
 }
 
 list<IEdge*> Graph::getEdges(Vertex *either, Vertex *other) const {

@@ -27,8 +27,7 @@ void GraphExporter::SVG(const IGraph *graph, const QString &fileName)
 
     QSvgGenerator generator;
     generator.setFileName(fileName);
-    generator.setSize(QSize(200, 200));
-    generator.setViewBox(QRect(0, 0, 200, 200));
+    generator.setSize(scene->sceneRect().size().toSize());
 
     QPainter painter;
     painter.begin(&generator);

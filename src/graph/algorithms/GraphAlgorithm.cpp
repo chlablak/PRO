@@ -16,6 +16,7 @@
 #include "SCCTarjan.h"
 #include "BellmanFordSP.h"
 #include "DijkstraSP.h"
+#include "DetectedCycle.h"
 
 IGraph *GraphAlgorithm::bfs(IGraph *g, Vertex *from, vector<int>& distances) {
     Visitor *v = new BFS;
@@ -49,7 +50,7 @@ IGraph *GraphAlgorithm::kruskal(IGraph *g) {
     return v->G();
 }
 
-IGraph *GraphAlgorithm::prim(IGraph *g, Vertex *from = nullptr) {
+IGraph *GraphAlgorithm::prim(IGraph *g, Vertex *from) {
     Visitor *v = new Prim;
 
     if (from == nullptr) {
@@ -89,6 +90,14 @@ IGraph *GraphAlgorithm::dijkstra(IGraph *g, Vertex *from) {
     g->accept(v, from);
     return v->G();
 }
+
+IGraph *GraphAlgorithm::detectCycle(IGraph *g) {
+    Visitor *v = new DetectedCycle;
+    g->accept(v, g->vertexList().front());
+    return v->G();
+}
+
+
 
 
 
