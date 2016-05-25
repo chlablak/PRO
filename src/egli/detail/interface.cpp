@@ -70,4 +70,5 @@ void egli::detail::interfaceAlgorithms(FunctionTable &table)
     table.interface("isSimple", algorithms::isSimple);
     table.interface("isStronglyConnected", algorithms::isStronglyConnected);
     table.interface("isWeighted", algorithms::isWeighted);
+    table.interface("bellmanford", algorithms::bellmanford);
 }

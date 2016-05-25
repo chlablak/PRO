@@ -14,7 +14,7 @@ egli::detail::RealType<egli::Type::Array>::type
     egli::detail::algorithms::bfs(RealType<Type::Graph>::cref g,
                                   RealType<Type::Integer>::cref from)
 {
-    std::vector<int> d;
+    std::vector<double> d;
     ::Vertex *f = g.getVertexById(from);
     RealType<Type::Array>::type result;
     result.add(GraphAlgorithm::bfs(g.graph(), f, d));
@@ -26,7 +26,7 @@ egli::detail::RealType<egli::Type::Array>::type
     egli::detail::algorithms::dfs(RealType<Type::Graph>::cref g,
                                   RealType<Type::Integer>::cref from)
 {
-    std::vector<int> d;
+    std::vector<double> d;
     ::Vertex *f = g.getVertexById(from);
     RealType<Type::Array>::type result;
     result.add(GraphAlgorithm::dfs(g.graph(), f, d));
@@ -120,4 +120,16 @@ egli::detail::RealType<egli::Type::Boolean>::type
     egli::detail::algorithms::isWeighted(RealType<Type::Graph>::cref g)
 {
     return g.graph()->isWeighted();
+}
+
+egli::detail::RealType<egli::Type::Array>::type
+    egli::detail::algorithms::bellmanford(RealType<Type::Graph>::cref g,
+                                          RealType<Type::Integer>::cref from)
+{
+    std::vector<double> d;
+    ::Vertex *f = g.getVertexById(from);
+    RealType<Type::Array>::type result;
+    result.add(GraphAlgorithm::bellmanFord(g.graph(), f, d));
+    result.add(RealType<Type::Array>::type(d));
+    return result;
 }
