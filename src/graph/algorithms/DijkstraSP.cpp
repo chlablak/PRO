@@ -47,18 +47,27 @@ void DijkstraSP::visit(DiGraph *g, Vertex *from) {
                                          "be positively weighted");
     }
 
-    _G = g->emptyClone();
+    DiGraph *gClone = g->clone();
+    _G = gClone->emptyClone();
 
     // Init _distances and _edges
     _distanceTo.assign(g->V(),std::numeric_limits<double>::max());
     _edgeTo.resize(g->V());
     _marques.assign(g->V(), false);
 
-    _distanceTo[from->id()] = 0;
-    _edgeTo[from->id()] = new DiEdge(from, from, 0);
+    // Search from vertex
+    Vertex *fromCpy;
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            fromCpy = v;
+        }
+    }
+
+    _distanceTo[fromCpy->id()] = 0;
+    _edgeTo[fromCpy->id()] = new DiEdge(fromCpy, fromCpy, 0);
 
     // Initialization. Insert all vertices of the graph in the priority queue
-    g->forEachVertex([this](Vertex *v){
+    gClone->forEachVertex([this](Vertex *v){
         _pq.insert( std::make_pair(_distanceTo[v->id()], v) );
     });
 
@@ -69,7 +78,7 @@ void DijkstraSP::visit(DiGraph *g, Vertex *from) {
         _pq.erase(_pq.begin());
         _marques[u->id()] = true;
 
-        g->forEachAdjacentEdge(u, [this](IEdge *ie){
+        gClone->forEachAdjacentEdge(u, [this](IEdge *ie){
             relax(ie);
         });
     }
@@ -81,18 +90,27 @@ void DijkstraSP::visit(FlowGraph *g, Vertex *from) {
                                          "be positively weighted");
     }
 
-    _G = g->emptyClone();
+    FlowGraph *gClone = g->clone();
+    _G = gClone->emptyClone();
 
     // Init _distances and _edges
     _distanceTo.assign(g->V(),std::numeric_limits<double>::max());
     _edgeTo.resize(g->V());
     _marques.assign(g->V(), false);
 
-    _distanceTo[from->id()] = 0;
-    _edgeTo[from->id()] = new FlowEdge(from, from, 0);
+    // Search from vertex
+    Vertex *fromCpy;
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            fromCpy = v;
+        }
+    }
+
+    _distanceTo[fromCpy->id()] = 0;
+    _edgeTo[fromCpy->id()] = new FlowEdge(fromCpy, fromCpy, 0);
 
     // Initialization. Insert all vertices of the graph in the priority queue
-    g->forEachVertex([this](Vertex *v){
+    gClone->forEachVertex([this](Vertex *v){
         _pq.insert( std::make_pair(_distanceTo[v->id()], v) );
     });
 
@@ -103,7 +121,7 @@ void DijkstraSP::visit(FlowGraph *g, Vertex *from) {
         _pq.erase(_pq.begin());
         _marques[u->id()] = true;
 
-        g->forEachAdjacentEdge(u, [this](IEdge *ie){
+        gClone->forEachAdjacentEdge(u, [this](IEdge *ie){
             relax(ie);
         });
     }

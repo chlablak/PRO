@@ -37,6 +37,29 @@ public:
         IEdge *e11 = new DiEdge(v6, v7, "e11", 5);
         IEdge *e12 = new DiEdge(v7, v1, "e12", 4);
 
+//        // Create vertices
+//        Vertex *v1 = new Vertex("v1");
+//        Vertex *v2 = new Vertex("v2");
+//        Vertex *v3 = new Vertex("v3");
+//        Vertex *v4 = new Vertex("v4");
+//        Vertex *v5 = new Vertex("v5");
+//        Vertex *v6 = new Vertex("v6");
+//        Vertex *v7 = new Vertex("v7");
+//
+//        // Associate Edges to vertices
+//        IEdge *e1 = new DiEdge(v1, v2, "e1", 1);
+//        IEdge *e2 = new DiEdge(v1, v4, "e2", 1);
+//        IEdge *e3 = new DiEdge(v1, v6, "e3", 1);
+//        //IEdge *e4 = new DiEdge(v2, v1, "e4", 4);
+//        IEdge *e5 = new DiEdge(v2, v5, "e5", 1);
+//        IEdge *e6 = new DiEdge(v3, v2, "e6", 1);
+//        IEdge *e7 = new DiEdge(v3, v5, "e7", 1);
+//        IEdge *e8 = new DiEdge(v4, v5, "e8", 1);
+//        //IEdge *e9 = new DiEdge(v5, v4, "e9", 2);
+//        IEdge *e10 = new DiEdge(v6, v4, "e10", 1);
+//        IEdge *e11 = new DiEdge(v6, v7, "e11", 1);
+//        IEdge *e12 = new DiEdge(v7, v1, "e12", 1);
+
         vector<Vertex*> vertices = {v1, v2, v3, v4, v5, v6, v7};
         vector<IEdge*> edges = {e1, e2, e3, e5, e6, e7, e8, e10, e11, e12};
 
@@ -117,6 +140,13 @@ public:
         vector<double> dfsnum;
         IGraph *gDFS = GraphAlgorithm::dfs(_G, v3, dfsnum);
         gDFS->print();
+
+        // Test Composantes Connexes
+        cout << "Test Composante connexe" << endl;
+        vector<double> cc = GraphAlgorithm::connectedComponent(_G);
+        for (double d : cc)
+            cout << d << " ";
+        cout << endl << endl;
 
         // Test Composantes fortement Connexes
 //        Vertex *vv0 = new Vertex("v0");
