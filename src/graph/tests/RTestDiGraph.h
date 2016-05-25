@@ -2,57 +2,52 @@
 // Created by sebri on 21.05.2016.
 //
 
-#ifndef GRAPH_TESTDIGRAPH_H
-#define GRAPH_TESTDIGRAPH_H
+#ifndef GRAPH_RTESTDIGRAPH_H
+#define GRAPH_RTESTDIGRAPH_H
 
 #include <cassert>
-#include "../graphs/IGraph.h"
-#include "../graphs/DiEdge.h"
-#include "../algorithms/GraphAlgorithm.h"
+#include "../Includes.h"
 
-class TestDiGraph
+class RTestDiGraph
 {
 private:
     IGraph *_G;
 public:
-    TestDiGraph() : _G(nullptr) {
+    RTestDiGraph() : _G(nullptr) {
         // Create vertices
         Vertex *v1 = new Vertex("v1");
         Vertex *v2 = new Vertex("v2");
         Vertex *v3 = new Vertex("v3");
         Vertex *v4 = new Vertex("v4");
         Vertex *v5 = new Vertex("v5");
-
+        Vertex *v6 = new Vertex("v6");
+        Vertex *v7 = new Vertex("v7");
 
         // Associate Edges to vertices
-            IEdge *e1 = new DiEdge(v1, v2, "e1", 3.);
-            IEdge *e5 = new DiEdge(v1, v4, "e5", 2.);
-            IEdge *e2 = new DiEdge(v2, v3, "e2", 4.);
-            //IEdge *e3 = new DiEdge(v3, v1, "e3", 3.);
-            IEdge *e4 = new DiEdge(v5, v2, "e4", 2.);
+        IEdge *e1 = new DiEdge(v1, v2, "e1", 3);
+        IEdge *e2 = new DiEdge(v1, v4, "e2", 2);
+        IEdge *e3 = new DiEdge(v1, v6, "e3", 1);
+        //IEdge *e4 = new DiEdge(v2, v1, "e4", 4);
+        IEdge *e5 = new DiEdge(v2, v5, "e5", 3);
+        IEdge *e6 = new DiEdge(v3, v2, "e6", 2);
+        IEdge *e7 = new DiEdge(v3, v5, "e7", 1);
+        IEdge *e8 = new DiEdge(v4, v5, "e8", 3);
+        //IEdge *e9 = new DiEdge(v5, v4, "e9", 2);
+        IEdge *e10 = new DiEdge(v6, v4, "e10", 6);
+        IEdge *e11 = new DiEdge(v6, v7, "e11", 5);
+        IEdge *e12 = new DiEdge(v7, v1, "e12", 4);
 
-        vector<Vertex*> vertices = {v1, v2, v3, v4, v5};
-        vector<IEdge*> edges = {e1, e2, e4, e5};
+        vector<Vertex*> vertices = {v1, v2, v3, v4, v5, v6, v7};
+        vector<IEdge*> edges = {e1, e2, e3, e5, e6, e7, e8, e10, e11, e12};
 
         // Create the graph structure with those vertices and edges
         _G = new DiGraph(vertices, edges);
-        DiGraph *g = new DiGraph(vertices, edges);
-        DetectedCycle detectedCycle;
-        detectedCycle.visit(g, g->vertexList().front());
 
-        if(detectedCycle.hasCycle()) {
-            cout << "DiGraph possedant de cycle" << endl;
-            cout << *g << endl;
-            cout << "Test de detectedCycle pour les DiGraph" << endl;
-            IGraph *cycle = detectedCycle.G();
-            cout << *cycle << endl;
-        }
-
-        assert(_G->isSimple() == 0);
+        assert(_G->isSimple() == 1);
         assert(_G->isNegativeWeighted() == 0);
         assert(_G->isPlanar() == 0);
-        assert(_G->V() == 5);
-        assert(_G->E() == 4);
+        assert(_G->V() == 7);
+        assert(_G->E() == 10);
 
         cout << "Avant ponderation :" << endl;
         cout << *_G << endl;
@@ -164,7 +159,7 @@ public:
 
     }
 
-    ~TestDiGraph() { delete _G; }
+    ~RTestDiGraph() { delete _G; }
 };
 
-#endif //GRAPH_TESTDIGRAPH_H
+#endif //GRAPH_RTESTDIGRAPH_H
