@@ -57,7 +57,7 @@ void egli::detail::interfaceAlgorithms(FunctionTable &table)
     table.interface("bfs", algorithms::bfs);
     table.interface("dfs", algorithms::dfs);
     table.interface("cc", algorithms::cc);
-    table.interface("scc", algorithms::scc);
+    table.interface("tarjan", algorithms::tarjan);
     table.interface("kruskal", algorithms::kruskal);
     table.interface("prim", algorithms::prim_1);
     table.interface("prim", algorithms::prim_2);

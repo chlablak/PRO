@@ -109,8 +109,10 @@ int main()
             try {
                 s = p.parse(pp.next());
                 cout << "PARSED(in " << timer.elapsed() << "s):\n" << s;
+                timer.reset();
                 egli::ProcessingUnit::check(s, func, var);
                 cout << "CHECKED(in " << timer.elapsed() << "s)\n";
+                timer.reset();
                 egli::ProcessingUnit::process(s, func, var);
                 cout << "PROCESSED(in " << timer.elapsed() << "s):\n" << s;
                 cout << "TABLE:\n" << var;
