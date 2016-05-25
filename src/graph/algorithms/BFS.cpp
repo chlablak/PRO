@@ -139,6 +139,6 @@ IGraph* BFS::G() const {
     return _G;
 }
 
-std::vector<int> BFS::table() {
+std::vector<double> BFS::table() {
     return _distances;
 }

@@ -69,18 +69,6 @@ ostream &operator<<(ostream &os, egli::VariableTable const &v)
     return os;
 }
 
-IGraph *clone(const IGraph *g) {
-    return g->clone();
-}
-
-vector<int> test(const vector<int> &v) {
-    cout << "v (size=" << v.size() << ") -> ";
-    for(int i : v)
-        cout << i << ' ';
-    cout << endl;
-    return v;
-}
-
 /*! \brief main
  *
  * \return 0
@@ -96,9 +84,6 @@ int main()
     egli::detail::interfaceBasics(func);
     egli::detail::interfaceBuiltins(func);
     egli::detail::interfaceAlgorithms(func);
-
-    func.interface("clone", clone);
-    func.interface("test", test);
 
     while (getline(cin, in)) {
         if (in == "q")

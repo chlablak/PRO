@@ -50,7 +50,7 @@ IGraph *CopyToGraph::G() const {
     return _G;
 }
 
-std::vector<int> CopyToGraph::table() {
-    throw std::runtime_error("No table for <CopyToGraph>");
+std::vector<double> CopyToGraph::table() {
+    throw std::runtime_error("Error. No table for 'CopyToGraph' algorithm.");
 }
 

@@ -54,7 +54,7 @@ IGraph *ConnectedComponent::G() const {
     return nullptr;
 }
 
-std::vector<int> ConnectedComponent::table() {
+std::vector<double > ConnectedComponent::table() {
     return _cc;
 }
 

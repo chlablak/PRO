@@ -85,7 +85,7 @@ bool Graph::isConnected() const {
     Visitor *v = new ConnectedComponent;
     v->visit((Graph*)this, nullptr);
 
-    vector<int> cc = v->table();
+    vector<double> cc = v->table();
     size_t ccSize = cc.size();
     if (ccSize > 1) {
         for (size_t i = 1; i < ccSize; ++i) {

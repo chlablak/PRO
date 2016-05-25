@@ -14,6 +14,7 @@
 #include "../visualization/GraphWidget.h"
 #include "../visualization/GraphExporter.h"
 #include "../graph/Includes.h"
+#include "../utility/Timer.h"
 
 /*
  *
@@ -47,6 +48,8 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s),
 
     if (!interfaced) {
         interpreter.functions().interface("draw", drawGraph);
+        interpreter.functions().interface("exportAsSvg", exportSvg_1);
+        interpreter.functions().interface("exportAsSvg", exportSvg_2);
         interfaced = true;
     }
 
@@ -175,9 +178,12 @@ void Console::execute(const QString &buffer)
     interpreter.writer() << buffer.toStdString();
     while(interpreter.available()) {
         try {
+            utility::Timer timer;
             egli::Statement statement = interpreter.next();
+            double time = timer.elapsed();
+            insertPlainText("\n Elapsed time : " + QString::number(time) + "s");
             if(dataState.variables().exists(statement.value))
-                insertPlainText("\n => "+QString::fromStdString(statement.value+" = "+dataState.variables().toString(statement.value)));
+                insertPlainText(" -> " +QString::fromStdString(statement.value+" = "+dataState.variables().toString(statement.value)));
 
         } catch(const std::runtime_error& e) {
             insertPlainText("\n => "+QString(e.what()));
@@ -347,6 +353,18 @@ bool Console::drawGraph(const IGraph* graph)
 {
     GraphWindow *g = new GraphWindow(currentConsole, graph, QString());
     g->show();
+    return true;
+}
+
+bool Console::exportSvg_1(const IGraph* graph)
+{
+    GraphExporter::SVG(graph);
+    return true;
+}
+
+bool Console::exportSvg_2(const IGraph* graph, const string& filename)
+{
+    GraphExporter::SVG(graph, QString::fromStdString(filename));
     return true;
 }
 

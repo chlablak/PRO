@@ -43,16 +43,26 @@ void BellmanFordSP::visit(DiGraph *g, Vertex *from) {
                                          "The directed graph must be weighted.");
     }
 
-    _G = g->emptyClone();
+    DiGraph *gClone = g->clone();
+    _G = gClone->emptyClone();
 
-    _edgeTo.resize(g->V());
-    _distanceTo.assign(g->V(),std::numeric_limits<double>::max());
+    size_t nVertex = gClone->V();
+    _edgeTo.resize(nVertex);
+    _distanceTo.assign(nVertex,std::numeric_limits<double>::max());
 
-    _edgeTo[from->id()] = new DiEdge(from, from, 0.);
-    _distanceTo[from->id()] = 0.;
+    // Search from vertex
+    Vertex *fromCpy;
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            fromCpy = v;
+        }
+    }
 
-    for(size_t i = 0; i < g->V(); ++i) {
-        g->forEachEdge([this](IEdge *ie) {
+    _edgeTo[fromCpy->id()] = new DiEdge(fromCpy, fromCpy, 0.);
+    _distanceTo[fromCpy->id()] = 0.;
+
+    for(size_t i = 0; i < nVertex; ++i) {
+        gClone->forEachEdge([this](IEdge *ie) {
             relax(ie);
         });
     }
@@ -64,16 +74,26 @@ void BellmanFordSP::visit(FlowGraph *g, Vertex *from) {
                                          "The flow graph must be weighted.");
     }
 
-    _G = g->emptyClone();
+    FlowGraph *gClone = g->clone();
+    _G = gClone->emptyClone();
 
-    _edgeTo.resize(g->V());
-    _distanceTo.assign(g->V(),std::numeric_limits<double>::max());
+    size_t nVertex = gClone->V();
+    _edgeTo.resize(nVertex);
+    _distanceTo.assign(nVertex,std::numeric_limits<double>::max());
 
-    _edgeTo[from->id()] = new FlowEdge(from, from, 0.);
-    _distanceTo[from->id()] = 0.;
+    // Search from vertex
+    Vertex *fromCpy;
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            fromCpy = v;
+        }
+    }
 
-    for(size_t i = 0; i < g->V(); ++i) {
-        g->forEachEdge([this](IEdge *ie) {
+    _edgeTo[fromCpy->id()] = new FlowEdge(fromCpy, fromCpy, 0.);
+    _distanceTo[fromCpy->id()] = 0.;
+
+    for(size_t i = 0; i < nVertex; ++i) {
+        gClone->forEachEdge([this](IEdge *ie) {
             relax(ie);
         });
     }
@@ -83,6 +103,6 @@ IGraph *BellmanFordSP::G() const {
     return _G;
 }
 
-std::vector<int> BellmanFordSP::table() {
-    throw std::runtime_error("caca"); // TODO
+std::vector<double> BellmanFordSP::table() {
+    return _distanceTo;
 }

@@ -32,7 +32,7 @@ protected:
 public:
     GraphCommon() : _adjacentList(0), _edgeId(0), _vertices(0) { }
     GraphCommon(vector<Vertex*> &vertices);
-    GraphCommon(const GraphCommon &g) : _adjacentList(g.V()), _edgeId(g.E()), _vertices(g.V()) { }
+    GraphCommon(const GraphCommon &g) : _adjacentList(g.V()), _edgeId(g.E()), _vertices(g.V(), nullptr) { }
     virtual ~GraphCommon();
 
     bool isNull() const;

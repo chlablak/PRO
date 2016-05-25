@@ -17,7 +17,7 @@ GraphWidget::GraphWidget(const IGraph *graph, QWidget *parent)
     : QWidget(parent)
 {
     view = new GraphView();
-    scene = GraphSceneManager::getInstance()->scene(graph);
+    scene = GraphSceneManager::getInstance()->scene(graph->clone());
     view->setScene(scene);
     view->setRenderHints(QPainter::Antialiasing);
     layout = new QVBoxLayout();

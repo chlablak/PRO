@@ -18,27 +18,27 @@
 #include "DijkstraSP.h"
 #include "DetectedCycle.h"
 
-IGraph *GraphAlgorithm::bfs(IGraph *g, Vertex *from, vector<int>& distances) {
+IGraph *GraphAlgorithm::bfs(IGraph *g, Vertex *from, vector<double>& distances) {
     Visitor *v = new BFS;
     g->accept(v, from);
     distances = v->table();
     return v->G();
 }
 
-IGraph *GraphAlgorithm::dfs(IGraph *g, Vertex *from, vector<int> &dfsnum) {
+IGraph *GraphAlgorithm::dfs(IGraph *g, Vertex *from, vector<double> &dfsnum) {
     Visitor *v = new DFS;
     g->accept(v, from);
     dfsnum = v->table();
     return v->G();
 }
 
-vector<int> GraphAlgorithm::connectedComponent(IGraph *g) {
+vector<double> GraphAlgorithm::connectedComponent(IGraph *g) {
     Visitor *v = new ConnectedComponent;
     g->accept(v, nullptr);
     return v->table();
 }
 
-vector<int> GraphAlgorithm::stronglyConnectedComponent(IGraph *g) {
+vector<double> GraphAlgorithm::stronglyConnectedComponent(IGraph *g) {
     Visitor *v = new SCCTarjan;
     g->accept(v, nullptr);
     return v->table();
@@ -79,13 +79,14 @@ IGraph *GraphAlgorithm::copyToFlowGraph(IGraph *g) {
     return v->G();
 }
 
-IGraph *GraphAlgorithm::bellmanFord(IGraph *g, Vertex *from) {
+IGraph *GraphAlgorithm::bellmanFord(IGraph *g, Vertex *from, vector<double>& distances) {
     Visitor *v = new BellmanFordSP;
     g->accept(v, from);
+    distances = v->table();
     return v->G();
 }
 
-IGraph *GraphAlgorithm::dijkstra(IGraph *g, Vertex *from) {
+IGraph *GraphAlgorithm::dijkstra(IGraph *g, Vertex *from, vector<double>& distances) {
     Visitor *v = new DijkstraSP;
     g->accept(v, from);
     return v->G();

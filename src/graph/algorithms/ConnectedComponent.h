@@ -12,7 +12,7 @@ class ConnectedComponent : public Visitor {
 private:
     // Table containing the number of the connected component associated
     // for each vertex of the graph
-    std::vector<int> _cc;
+    std::vector<double> _cc;
 public:
     ConnectedComponent() : _cc(0) {}
     ~ConnectedComponent();
@@ -21,7 +21,7 @@ public:
     virtual void visit(DiGraph *g, Vertex *from);
     virtual void visit(FlowGraph *g, Vertex *from);
     virtual IGraph *G() const override;
-    virtual std::vector<int> table() override;
+    virtual std::vector<double> table() override;
 };
 
 
