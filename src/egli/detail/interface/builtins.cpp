@@ -19,6 +19,8 @@
 #include "../../Data.h"
 #include "../../Interpreter.h"
 #include "../../Statement.h"
+#include "../../toString.h"
+#include "../../../utility/uniform01.h"
 
 egli::detail::RealType<egli::Type::Boolean>::type
     egli::detail::builtins::save(RealType<Type::Graph>::cref g,
@@ -334,4 +336,29 @@ egli::detail::RealType<egli::Type::String>::type
     egli::detail::builtins::typeOf_v(RealType<Type::Vertex>::cref)
 {
     return "Vertex";
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::builtins::originalErdosRenyi(RealType<Type::Integer>::cref V,
+                                               RealType<Type::Float>::cref p)
+{
+    if (V < 0)
+        throw Exception("number of vertices must be null or positive",
+                        "egli::builtins::originalErdosRenyi",
+                        toString(V));
+    if (p < 0 || p > 1)
+        throw Exception("inclusive probability must be in [0;1]",
+                        "egli::builtins::originalErdosRenyi",
+                        toString(p));
+
+    RealType<Type::Graph>::type g;
+    for (size_t i = 0; i < V; ++i)
+        g.insert(RealType<Type::Vertex>::type(i));
+    for (size_t v = 0; v < V; ++v) {
+        for (size_t w = 0; w < V; ++w) {
+            if (utility::uniform01() <= p)
+                g.insert(RealType<Type::Edge>::type(v, w));
+        }
+    }
+    return g;
 }

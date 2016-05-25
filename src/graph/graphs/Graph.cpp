@@ -3,6 +3,7 @@
 //
 
 #include <algorithm>
+#include <unordered_set>
 #include "Graph.h"
 #include "../algorithms/ConnectedComponent.h"
 #include "../algorithms/CopyToDiGraph.h"
@@ -138,23 +139,39 @@ size_t Graph::E() const {
 }
 
 GraphCommon<Edge>::Edges Graph::edgeList() const {
-    Edges list;
-    bool alreadyInside;
-    for(size_t i = 0; i<_adjacentList.size(); ++i){
-        for(IEdge* e1 : _adjacentList.at(i)){
-            alreadyInside = false;
-            for(IEdge* e2 : list){
-                if(e1 == e2) {
-                    alreadyInside = true;
-                    break;
-                }
-            }
-            if(!alreadyInside) {
-                list.push_back(e1);
-            }
+    std::unordered_set<IEdge*> s;
+
+    size_t adjListSize = _adjacentList.size();
+    for (size_t i = 0; i < adjListSize; ++i) {
+        for (IEdge *ie : _adjacentList.at(i)) {
+            s.insert(ie);
         }
     }
-    return list;
+
+    IGraph::Edges l;
+    for (IEdge *ie : s) {
+        l.push_back(ie);
+    }
+
+    return l;
+
+//    Edges list;
+//    bool alreadyInside;
+//    for(size_t i = 0; i<_adjacentList.size(); ++i){
+//        for(IEdge* e1 : _adjacentList.at(i)){
+//            alreadyInside = false;
+//            for(IEdge* e2 : list){
+//                if(e1 == e2) {
+//                    alreadyInside = true;
+//                    break;
+//                }
+//            }
+//            if(!alreadyInside) {
+//                list.push_back(e1);
+//            }
+//        }
+//    }
+//    return list;
 }
 
 list<IEdge*> Graph::getEdges(Vertex *either, Vertex *other) const {

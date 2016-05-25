@@ -51,6 +51,73 @@ egli::detail::RealType<egli::Type::Array>::type
 egli::detail::RealType<egli::Type::Graph>::type
     egli::detail::algorithms::kruskal(RealType<Type::Graph>::cref g)
 {
-    return RealType<egli::Type::Graph>::type(
-        GraphAlgorithm::kruskal(g.graph()));
+    return RealType<Type::Graph>::type(GraphAlgorithm::kruskal(g.graph()));
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::algorithms::prim_1(RealType<Type::Graph>::cref g)
+{
+    return RealType<Type::Graph>::type(GraphAlgorithm::prim(g.graph()));
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::algorithms::prim_2(RealType<Type::Graph>::cref g,
+                                     RealType<Type::Integer>::cref from)
+{
+    ::Vertex *f = g.getVertexById(from);
+    return RealType<Type::Graph>::type(GraphAlgorithm::prim(g.graph(), f));
+}
+
+egli::detail::RealType<egli::Type::Boolean>::type
+    egli::detail::algorithms::isConnected(RealType<Type::Graph>::cref g)
+{
+    return g.graph()->isConnected();
+}
+
+egli::detail::RealType<egli::Type::Boolean>::type
+    egli::detail::algorithms::isDirected(RealType<Type::Graph>::cref g)
+{
+    return g.graph()->isDirected();
+}
+
+egli::detail::RealType<egli::Type::Boolean>::type
+    egli::detail::algorithms::isEmpty(RealType<Type::Graph>::cref g)
+{
+    return g.graph()->isEmpty();
+}
+
+egli::detail::RealType<egli::Type::Boolean>::type
+    egli::detail::algorithms::isNegativeWeighted(RealType<Type::Graph>::cref g)
+{
+    return g.graph()->isNegativeWeighted();
+}
+
+egli::detail::RealType<egli::Type::Boolean>::type
+    egli::detail::algorithms::isNull(RealType<Type::Graph>::cref g)
+{
+    return g.graph()->isNull();
+}
+
+egli::detail::RealType<egli::Type::Boolean>::type
+    egli::detail::algorithms::isPlanar(RealType<Type::Graph>::cref g)
+{
+    return g.graph()->isPlanar();
+}
+
+egli::detail::RealType<egli::Type::Boolean>::type
+    egli::detail::algorithms::isSimple(RealType<Type::Graph>::cref g)
+{
+    return g.graph()->isSimple();
+}
+
+egli::detail::RealType<egli::Type::Boolean>::type
+    egli::detail::algorithms::isStronglyConnected(RealType<Type::Graph>::cref g)
+{
+    return g.graph()->isStronglyConnected();
+}
+
+egli::detail::RealType<egli::Type::Boolean>::type
+    egli::detail::algorithms::isWeighted(RealType<Type::Graph>::cref g)
+{
+    return g.graph()->isWeighted();
 }

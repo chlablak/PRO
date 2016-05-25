@@ -2,18 +2,18 @@
 // Created by sebri on 20.05.2016.
 //
 
-#ifndef GRAPH_TESTGRAPH_H
-#define GRAPH_TESTGRAPH_H
+#ifndef GRAPH_RTESTGRAPH_H
+#define GRAPH_RTESTGRAPH_H
 
 #include <cassert>
 #include "../includes.h"
 
-class TestGraph
+class RTestGraph
 {
 private:
     IGraph *_G;
 public:
-    TestGraph() : _G(nullptr) {
+    RTestGraph() : _G(nullptr) {
         // Create vertices
         Vertex *v1 = new Vertex("v1");
         Vertex *v2 = new Vertex("v2");
@@ -27,7 +27,7 @@ public:
         IEdge *e1 = new Edge(v1, v2, "e1", 3);
         IEdge *e2 = new Edge(v1, v4, "e2", 2);
         IEdge *e3 = new Edge(v1, v6, "e3", 1);
-        IEdge *e4 = new Edge(v2, v1, "e4", 4);
+        //IEdge *e4 = new Edge(v2, v1, "e4", 4);
         IEdge *e5 = new Edge(v2, v5, "e5", 3);
         IEdge *e6 = new Edge(v3, v2, "e6", 2);
         IEdge *e7 = new Edge(v3, v5, "e7", 1);
@@ -52,9 +52,6 @@ public:
         _G->ponderateVertices(3.24);
         cout << "Apres ponderation : " << endl;
         cout << *_G << endl;
-
-        assert(_G->E() == 10);
-        assert(_G->isNegativeWeighted() == 0);
 
         // Test createEdge
         IEdge *gg = _G->createEdge(new Vertex, new Vertex);
@@ -126,7 +123,7 @@ public:
         gPrim->print();
     }
 
-    ~TestGraph() { delete _G; }
+    ~RTestGraph() { delete _G; }
 };
 
-#endif //GRAPH_TESTGRAPH_H
+#endif //GRAPH_RTESTGRAPH_H
