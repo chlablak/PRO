@@ -99,22 +99,22 @@ public:
 
         // Test BFS
         cout << "Test BFS" << endl;
-        vector<int> distances;
+        vector<double> distances;
         IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
         gBFS->ponderateEdges(50);
         gBFS->print();
 
         // Test DFS
         cout << "Test DFS" << endl;
-        vector<int> dfsnum;
+        vector<double> dfsnum;
         IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
         gDFS->print();
 
         // Test Composantes Connexes
         cout << "Test Composante connexe" << endl;
-        vector<int> cc = GraphAlgorithm::connectedComponent(_G);
-        for (int i : cc)
-            cout << i << " ";
+        vector<double> cc = GraphAlgorithm::connectedComponent(_G);
+        for (double d : cc)
+            cout << d << " ";
         cout << endl << endl;
 
         // Test Kruskal
@@ -127,14 +127,14 @@ public:
         IGraph *gPrim = GraphAlgorithm::prim(_G, v1);
         gPrim->print();
 
-        // Test detectCycle
-        cout << "Detect cycle" << endl;
-        IGraph *gDetectCycle = GraphAlgorithm::detectCycle(_G);
-        if (gDetectCycle == nullptr) {
-            cout << "gDetectCycle has no cycle" << endl;
-        } else {
-            cout << "gDetectCycle has cycle" << endl;
-        }
+//        // Test detectCycle
+//        cout << "Detect cycle" << endl;
+//        IGraph *gDetectCycle = GraphAlgorithm::detectCycle(_G);
+//        if (gDetectCycle == nullptr) {
+//            cout << "gDetectCycle has no cycle" << endl;
+//        } else {
+//            cout << "gDetectCycle has cycle" << endl;
+//        }
     }
 
     ~RTestGraph() { delete _G; }

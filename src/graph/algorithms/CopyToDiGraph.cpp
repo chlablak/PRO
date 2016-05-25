@@ -55,7 +55,7 @@ IGraph *CopyToDiGraph::G() const {
     return _G;
 }
 
-std::vector<int> CopyToDiGraph::table() {
-    throw std::runtime_error("No table for <CopyToDiGraph>");
+std::vector<double> CopyToDiGraph::table() {
+    throw std::runtime_error("Error. No table for 'CopyToDiGraph' algorithm");
 }
 

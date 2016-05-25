@@ -14,7 +14,7 @@
 class SCCTarjan : public Visitor
 {
 private:
-    std::vector<int> _scc;
+    std::vector<double> _scc;
     std::vector<int> _dfsnum;
     std::vector<int> _low;
     int _N; // counter for dfsnum numerotation
@@ -30,7 +30,7 @@ public:
     virtual void visit(DiGraph *g, Vertex *from) override;
     virtual void visit(FlowGraph *g, Vertex *from) override;
     virtual IGraph *G() const override;
-    virtual std::vector<int> table() override;
+    virtual std::vector<double> table() override;
 
 };
 

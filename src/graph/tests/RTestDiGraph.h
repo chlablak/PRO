@@ -28,7 +28,7 @@ public:
         IEdge *e2 = new DiEdge(v1, v4, "e2", 2);
         IEdge *e3 = new DiEdge(v1, v6, "e3", 1);
         //IEdge *e4 = new DiEdge(v2, v1, "e4", 4);
-        IEdge *e5 = new DiEdge(v2, v5, "e5", 3);
+        IEdge *e5 = new DiEdge(v2, v5, "e5", 2);
         IEdge *e6 = new DiEdge(v3, v2, "e6", 2);
         IEdge *e7 = new DiEdge(v3, v5, "e7", 1);
         IEdge *e8 = new DiEdge(v4, v5, "e8", 3);
@@ -44,7 +44,7 @@ public:
         _G = new DiGraph(vertices, edges);
 
         assert(_G->isSimple() == 1);
-        assert(_G->isNegativeWeighted() == 0);
+//        assert(_G->isNegativeWeighted() == 0);
         assert(_G->isPlanar() == 0);
         assert(_G->V() == 7);
         assert(_G->E() == 10);
@@ -108,13 +108,13 @@ public:
         // ALGOS NOT WORKING YET WITH DIGRAPH
         // Test BFS
         cout << "Test BFS" << endl;
-        vector<int> distances;
+        vector<double> distances;
         IGraph *gBFS = GraphAlgorithm::bfs(_G, v2, distances);
         gBFS->print();
 
         // Test DFS
         cout << "Test DFS" << endl;
-        vector<int> dfsnum;
+        vector<double> dfsnum;
         IGraph *gDFS = GraphAlgorithm::dfs(_G, v3, dfsnum);
         gDFS->print();
 
@@ -132,7 +132,7 @@ public:
 //        IGraph *gg = new DiGraph(vertices2, edges2);
 
         cout << "Test Composantes fortement connexes" << endl;
-        vector<int> scc = GraphAlgorithm::stronglyConnectedComponent(_G);
+        vector<double> scc = GraphAlgorithm::stronglyConnectedComponent(_G);
         for (int i : scc)
             cout << i << " ";
         cout << endl << endl;
@@ -149,13 +149,18 @@ public:
 
         // Test Bellman-Ford
         cout << "Bellman-Ford" << endl;
-        IGraph *gBellmanFord = GraphAlgorithm::bellmanFord(_G, v3);
+        vector<double> distancesBF;
+        IGraph *gBellmanFord = GraphAlgorithm::bellmanFord(_G, v1, distancesBF);
         cout << *gBellmanFord << endl;
+        for (double d : distancesBF) {
+            cout << d << " ";
+        }
+        cout << endl;
 
-        // Test Dijkstra
-        cout << "Dijkstra" << endl;
-        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v3);
-        cout << *gDijkstra << endl;
+//        // Test Dijkstra
+//        cout << "Dijkstra" << endl;
+//        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v3);
+//        cout << *gDijkstra << endl;
 
     }
 

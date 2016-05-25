@@ -56,11 +56,6 @@ void Prim::visit(Graph *g, Vertex *from) {
         pq.insert(std::make_pair(e,w));
     });
 
-//    while (!pq.empty()) {
-//        cout << *pq.begin()->first << "  " << *pq.begin()->second << endl;
-//        pq.erase(pq.begin());
-//    }
-
     while ( !pq.empty() && _G->E() < gClone->V()-1 ) {
         Edge *e = pq.begin()->first;
         Vertex *v = pq.begin()->second;
@@ -108,7 +103,7 @@ IGraph *Prim::G() const {
     return _G;
 }
 
-std::vector<int> Prim::table() {
-    throw std::runtime_error("No table for Prim algorithm");
+std::vector<double> Prim::table() {
+    throw std::runtime_error("Error. No table for 'Prim' algorithm");
 }
 
