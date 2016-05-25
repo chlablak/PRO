@@ -7,7 +7,7 @@
 
 
 #include "Visitor.h"
-#include "../graphs/IGraph.h"
+#include "../graphs/Graph.h"
 #include "../graphs/DiGraph.h"
 #include "../graphs/FlowGraph.h"
 

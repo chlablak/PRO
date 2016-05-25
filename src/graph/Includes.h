@@ -7,19 +7,19 @@
 
 #include <typeinfo>
 
-#include "graphs/Vertex.h"
+//#include "graphs/Vertex.h"
 
-#include "graphs/IEdge.h"
-#include "graphs/IGraph.h"
+//#include "graphs/IEdge.h"
+//#include "graphs/IGraph.h"
 
-#include "graphs/Edge.h"
-#include "graphs/Graph.h"
+//#include "graphs/Edge.h"
+//#include "graphs/Graph.h"
 
-#include "graphs/DiEdge.h"
-#include "graphs/DiGraph.h"
+//#include "graphs/DiEdge.h"
+//#include "graphs/DiGraph.h"
 
-#include "graphs/FlowEdge.h"
-#include "graphs/FlowGraph.h"
+//#include "graphs/FlowEdge.h"
+//#include "graphs/FlowGraph.h"
 
 #include "algorithms/GraphAlgorithm.h"
 
