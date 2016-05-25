@@ -126,6 +126,15 @@ public:
         cout << "Prim" << endl;
         IGraph *gPrim = GraphAlgorithm::prim(_G, v1);
         gPrim->print();
+
+        // Test detectCycle
+        cout << "Detect cycle" << endl;
+        IGraph *gDetectCycle = GraphAlgorithm::detectCycle(_G);
+        if (gDetectCycle == nullptr) {
+            cout << "gDetectCycle has no cycle" << endl;
+        } else {
+            cout << "gDetectCycle has cycle" << endl;
+        }
     }
 
     ~RTestGraph() { delete _G; }
