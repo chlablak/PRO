@@ -42,7 +42,7 @@ egli::detail::RealType<egli::Type::Array>::type
 }
 
 egli::detail::RealType<egli::Type::Array>::type
-    egli::detail::algorithms::scc(RealType<Type::Graph>::cref g)
+    egli::detail::algorithms::tarjan(RealType<Type::Graph>::cref g)
 {
     return RealType<Type::Array>::type(
         GraphAlgorithm::stronglyConnectedComponent(g.graph()));
