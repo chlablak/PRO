@@ -63,7 +63,6 @@ struct EnumValue<utility::Optional<T>> :
 
 // Specialize RealType and EnumValue
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Array, Array)
-EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Array, std::vector<int>) // workaround
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Boolean, bool)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Edge, Edge)
 EGLI_DETAIL_TYPES_DEF_ENUMVALUE(Float, float)

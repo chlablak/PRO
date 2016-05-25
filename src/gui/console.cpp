@@ -14,6 +14,7 @@
 #include "../visualization/GraphWidget.h"
 #include "../visualization/GraphExporter.h"
 #include "../graph/Includes.h"
+#include "../utility/Timer.h"
 
 /*
  *
@@ -47,6 +48,8 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s),
 
     if (!interfaced) {
         interpreter.functions().interface("draw", drawGraph);
+        interpreter.functions().interface("exportAsSvg", exportSvg_1);
+        interpreter.functions().interface("exportAsSvg", exportSvg_2);
         interfaced = true;
     }
 
@@ -55,30 +58,24 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s),
 
 void Console::processKeyboardInput(QKeyEvent *event)
 {
-    if(!isReadOnly())
-    {
+    if(!isReadOnly()) {
 
         if(event->matches(QKeySequence::Cut))
             event->ignore();
 
-        if( event->key() == Qt::Key_Escape)
-        {
+        if( event->key() == Qt::Key_Escape) {
             clearDisplay();
             currentCommand = commandHistory.end();
         }
-        else if( event->key() == Qt::Key_Up)
-        {
-            if(commandHistory.size() > 0 && currentCommand != --(commandHistory.end()))
-            {
+        else if( event->key() == Qt::Key_Up) {
+            if(commandHistory.size() > 0 && currentCommand != --(commandHistory.end())) {
                 clearDisplay();
 
-                if(currentCommand == commandHistory.end())
-                {
+                if(currentCommand == commandHistory.end()) {
                     currentCommand = commandHistory.begin();
                     buffer = *currentCommand;
                 }
-                else
-                {
+                else {
                     buffer = *(++currentCommand);
                 }
 
@@ -88,10 +85,8 @@ void Console::processKeyboardInput(QKeyEvent *event)
                 cursorPosition = buffer.size();
             }
         }
-        else if( event->key() == Qt::Key_Down)
-        {
-            if(commandHistory.size() > 0 && currentCommand != commandHistory.begin() && currentCommand != commandHistory.end())
-            {
+        else if( event->key() == Qt::Key_Down) {
+            if(commandHistory.size() > 0 && currentCommand != commandHistory.begin() && currentCommand != commandHistory.end()) {
                 clearDisplay();
 
                 setTextCursor(cursor);
@@ -101,28 +96,22 @@ void Console::processKeyboardInput(QKeyEvent *event)
                 cursorPosition = buffer.size();
             }
         }
-        else if( event->key() == Qt::Key_Left)
-        {
-            if ( cursorPosition > 0)
-            {
+        else if( event->key() == Qt::Key_Left) {
+            if ( cursorPosition > 0) {
                 cursor.movePosition(QTextCursor::Left);
                 setTextCursor(cursor);
                 --cursorPosition;
             }
         }
-        else if( event->key() == Qt::Key_Right)
-        {
-            if ( cursorPosition < buffer.size())
-            {
+        else if( event->key() == Qt::Key_Right) {
+            if ( cursorPosition < buffer.size()) {
                 cursor.movePosition(QTextCursor::Right);
                 setTextCursor(cursor);
                 ++cursorPosition;
             }
         }
-        else if( event->key() == Qt::Key_Backspace)
-        {
-            if ( cursorPosition > 0)
-            {
+        else if( event->key() == Qt::Key_Backspace) {
+            if ( cursorPosition > 0) {
                 setTextCursor(cursor);
                 buffer.remove(cursorPosition-1, 1);
                 cursorPosition--;
@@ -130,18 +119,15 @@ void Console::processKeyboardInput(QKeyEvent *event)
                 consoleHasChanged();
             }
         }
-        else if( event->key() == Qt::Key_Delete)
-        {
-            if( cursorPosition < buffer.size())
-            {
+        else if( event->key() == Qt::Key_Delete) {
+            if( cursorPosition < buffer.size()) {
                 setTextCursor(cursor);
                 buffer.remove(cursorPosition, 1);
                 cursor.deleteChar();
                 consoleHasChanged();
             }
         }
-        else if( event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return)
-        {
+        else if( event->key() == Qt::Key_Enter || event->key() == Qt::Key_Return) {
             moveCursor(QTextCursor::End);
 
             commandHistory.push_front(buffer);
@@ -165,17 +151,13 @@ void Console::processKeyboardInput(QKeyEvent *event)
         else if( event->key() == Qt::Key_Backtab && event->modifiers() & Qt::ControlModifier) {
             emit requestTabChange(-1);
         }
-        else if( event->key() == Qt::Key_S && event->modifiers() & Qt::ControlModifier)
-        {
-            if(hasChanged)
-            {
+        else if( event->key() == Qt::Key_S && event->modifiers() & Qt::ControlModifier) {
+            if(hasChanged) {
                 save();
             }
         }
-        else
-        {
-            if(event->text() != "")
-            {
+        else {
+            if(event->text() != "") {
                 if(currentCommand != commandHistory.end())
                     currentCommand = commandHistory.end();
                 setTextCursor(cursor);
@@ -196,8 +178,12 @@ void Console::execute(const QString &buffer)
     interpreter.writer() << buffer.toStdString();
     while(interpreter.available()) {
         try {
+            utility::Timer timer;
             egli::Statement statement = interpreter.next();
-            insertPlainText("\n => "+QString::fromStdString(statement.value+" = "+dataState.variables().toString(statement.value)));
+            double time = timer.elapsed();
+            insertPlainText("\n Elapsed time : " + QString::number(time) + "s");
+            if(dataState.variables().exists(statement.value))
+                insertPlainText(" -> " +QString::fromStdString(statement.value+" = "+dataState.variables().toString(statement.value)));
 
         } catch(const std::runtime_error& e) {
             insertPlainText("\n => "+QString(e.what()));
@@ -229,9 +215,9 @@ void Console::copySelectedText() {
     copy();
 }
 
-void Console::pasteText() {
-    if(!QApplication::clipboard()->text().contains("§") && !QApplication::clipboard()->text().contains("°"))
-    {
+void Console::pasteText()
+{
+    if(!QApplication::clipboard()->text().contains("§") && !QApplication::clipboard()->text().contains("°")) {
         setTextCursor(cursor);
         buffer.insert(cursorPosition, QApplication::clipboard()->text());
         paste();
@@ -272,7 +258,8 @@ void Console::save() {
     hasChanged = false;
 }
 
-QByteArray Console::prepareDataForSave() {
+QByteArray Console::prepareDataForSave()
+{
     QByteArray qba("");
 
     QString tabName = "";
@@ -290,7 +277,8 @@ QByteArray Console::prepareDataForSave() {
     return qba;
 }
 
-void Console::load() {
+void Console::load()
+{
     QString fname = QFileDialog::getOpenFileName(this, QString("Load graph"), QString(), QString("Graph (*.gph)"));
     if(fname.isEmpty()) {
         return;
@@ -365,6 +353,18 @@ bool Console::drawGraph(const IGraph* graph)
 {
     GraphWindow *g = new GraphWindow(currentConsole, graph, QString());
     g->show();
+    return true;
+}
+
+bool Console::exportSvg_1(const IGraph* graph)
+{
+    GraphExporter::SVG(graph);
+    return true;
+}
+
+bool Console::exportSvg_2(const IGraph* graph, const string& filename)
+{
+    GraphExporter::SVG(graph, QString::fromStdString(filename));
     return true;
 }
 

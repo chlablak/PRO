@@ -15,7 +15,7 @@ class DFS : public Visitor {
 private:
     // Vector of distances. The value is the number of Edges from the source
     // vertex. Where the value is 0 means that it's the source vertex.
-    vector<int> _dfsnum;
+    vector<double> _dfsnum;
     int N;
     IGraph *_G;
     void DFSprocedure(Graph *g, Vertex *u);
@@ -29,7 +29,7 @@ public:
     virtual void visit(DiGraph *g, Vertex *from) override;
     virtual void visit(FlowGraph *g, Vertex *from) override;
     virtual IGraph *G() const override;
-    virtual std::vector<int> table() override;
+    virtual std::vector<double> table() override;
 };
 
 

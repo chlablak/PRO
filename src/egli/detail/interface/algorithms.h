@@ -50,14 +50,14 @@ RealType<Type::Array>::type
  */
 RealType<Type::Array>::type cc(RealType<Type::Graph>::cref g);
 
-/*! \brief Apply the SCC (strongly connected component) visitor
+/*! \brief Apply the SCC Tarjan (strongly connected component) visitor
  *
  * \param g - The Graph
  * \return An Array that associate the Vertex ID with its SCC
  *
  * \throw Exception if an error occurs
  */
-RealType<Type::Array>::type scc(RealType<Type::Graph>::cref g);
+RealType<Type::Array>::type tarjan(RealType<Type::Graph>::cref g);
 
 /*! \brief Apply the Kruskal visitor
  *
@@ -96,6 +96,39 @@ RealType<Type::Boolean>::type isPlanar(RealType<Type::Graph>::cref g);
 RealType<Type::Boolean>::type isSimple(RealType<Type::Graph>::cref g);
 RealType<Type::Boolean>::type isStronglyConnected(RealType<Type::Graph>::cref g);
 RealType<Type::Boolean>::type isWeighted(RealType<Type::Graph>::cref g);
+
+/*! \brief Apply the Bellman-Ford visitor
+ *
+ * \param g - The Graph
+ * \param from - The origin Vertex ID
+ * \return [0] => The resulting Graph
+ *         [1] => Distances Array
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Array>::type bellmanFord(RealType<Type::Graph>::cref g,
+                                        RealType<Type::Integer>::cref from);
+
+/*! \brief Apply the DetectedCycle visitor
+ *
+ * \param g - The Graph
+ * \return The cycle if there is one, otherwise a empty Graph
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Graph>::type detectCycle(RealType<Type::Graph>::cref g);
+
+/*! \brief Apply the Dijkstra visitor
+ *
+ * \param g - The Graph
+ * \param from - The origin Vertex ID
+ * \return [0] => The resulting Graph
+ *         [1] => Distances Array
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Array>::type dijkstra(RealType<Type::Graph>::cref g,
+                                     RealType<Type::Integer>::cref from);
 } // namespace algorithms
 } // namespace detail
 } // namespace egli

@@ -9,6 +9,8 @@
 #include "Visitor.h"
 #include "../graphs/IGraph.h"
 #include <vector>
+#include <stdexcept>
+
 
 using namespace std;
 class DetectedCycle : public Visitor{
@@ -46,7 +48,7 @@ public:
 
     virtual IGraph *G() const override ;
 
-    virtual std::vector<int> table() override ;
+    virtual std::vector<double> table() override ;
 
 };
 

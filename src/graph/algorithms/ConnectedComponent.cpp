@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include "ConnectedComponent.h"
 #include "../graphs/Graph.h"
+#include "GraphAlgorithm.h"
 
 ConnectedComponent::~ConnectedComponent() { }
 
@@ -35,26 +36,31 @@ void ConnectedComponent::visit(Graph *g, Vertex *from) {
 }
 
 void ConnectedComponent::visit(DiGraph *g, Vertex *from) {
-    UNUSED(g);
-    UNUSED(from);
-    throw std::runtime_error("The 'Connected Component' algorithm doesn't apply for"
-                                "directed graphs. Use the 'Strongly Connected"
-                                "Component' algorithm instead");
+    IGraph *graph = GraphAlgorithm::copyToGraph(g);
+    visit((Graph*)graph, from);
+//
+//    UNUSED(g);
+//    UNUSED(from);
+//    throw std::runtime_error("The 'Connected Component' algorithm doesn't apply for"
+//                                "directed graphs. Use the 'Strongly Connected"
+//                                "Component' algorithm instead");
 }
 
 void ConnectedComponent::visit(FlowGraph *g, Vertex *from) {
-    UNUSED(g);
-    UNUSED(from);
-    throw std::runtime_error("The 'Connected Component' algorithm doesn't apply for"
-                                "directed graphs. Use the 'Strongly Connected"
-                                "Component' algorithm instead");
+    IGraph *graph = GraphAlgorithm::copyToGraph(g);
+    visit((Graph*)graph, from);
+//    UNUSED(g);
+//    UNUSED(from);
+//    throw std::runtime_error("The 'Connected Component' algorithm doesn't apply for"
+//                                "directed graphs. Use the 'Strongly Connected"
+//                                "Component' algorithm instead");
 }
 
 IGraph *ConnectedComponent::G() const {
     return nullptr;
 }
 
-std::vector<int> ConnectedComponent::table() {
+std::vector<double > ConnectedComponent::table() {
     return _cc;
 }
 

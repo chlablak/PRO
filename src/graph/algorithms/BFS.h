@@ -13,7 +13,7 @@ class BFS : public Visitor {
 private:
     // Vector of distances. The value is the number of Edges from the source
     // vertex. Where the value is 0 means that it's the source vertex.
-    vector<int> _distances;
+    vector<double> _distances;
     IGraph *_G;
 public:
     BFS() : _distances(0), _G(nullptr) {}
@@ -24,7 +24,7 @@ public:
     virtual void visit(FlowGraph *g, Vertex *from) override;
 
     virtual IGraph* G() const override ;
-    virtual std::vector<int> table() override;
+    virtual std::vector<double> table() override;
 };
 
 

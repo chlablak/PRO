@@ -12,6 +12,7 @@
 
 #include "Exception.h"
 #include "detail/EnumValue.h"
+#include "detail/RealType.h"
 
 namespace egli
 {
@@ -115,9 +116,10 @@ egli::Array::Array(const std::vector<T> &v) :
 template<typename T>
 void egli::Array::add(const T &value)
 {
+    using FT = typename detail::RealType<detail::EnumValue<T>::value>::type;
     elements.push_back({
         detail::EnumValue<T>::value,
-        static_cast<void*>(new T(value))});
+        static_cast<void*>(new FT(value))});
 }
 
 template<typename T>

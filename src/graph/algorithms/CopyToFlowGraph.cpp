@@ -56,8 +56,8 @@ IGraph *CopyToFlowGraph::G() const {
     return _G;
 }
 
-std::vector<int> CopyToFlowGraph::table() {
-    throw std::runtime_error("No table for <CopyToFlowGraph>");
+std::vector<double> CopyToFlowGraph::table() {
+    throw std::runtime_error("Error. No table for 'CopyToFlowGraph' algorithm.");
 }
 
 

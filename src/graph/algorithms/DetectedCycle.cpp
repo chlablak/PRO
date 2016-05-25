@@ -85,7 +85,7 @@ IGraph *DetectedCycle::G() const {
     return _G;
 }
 
-std::vector<int> DetectedCycle::table() {
+std::vector<double> DetectedCycle::table() {
     throw std::runtime_error("no table in Detected Cycle");
 }
 

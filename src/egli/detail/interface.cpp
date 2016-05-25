@@ -31,15 +31,15 @@ void egli::detail::interfaceBuiltins(FunctionTable &table)
 {
     table.interface("save", builtins::save);
     table.interface("load", builtins::load);
-    table.interface("string", builtins::toString_a);
-    table.interface("string", builtins::toString_b);
-    table.interface("string", builtins::toString_e);
-    table.interface("string", builtins::toString_f);
-    table.interface("string", builtins::toString_g);
-    table.interface("string", builtins::toString_i);
-    table.interface("string", builtins::toString_n);
-    table.interface("string", builtins::toString_s);
-    table.interface("string", builtins::toString_v);
+    table.interface("toString", builtins::toString_a);
+    table.interface("toString", builtins::toString_b);
+    table.interface("toString", builtins::toString_e);
+    table.interface("toString", builtins::toString_f);
+    table.interface("toString", builtins::toString_g);
+    table.interface("toString", builtins::toString_i);
+    table.interface("toString", builtins::toString_n);
+    table.interface("toString", builtins::toString_s);
+    table.interface("toString", builtins::toString_v);
     table.interface("type", builtins::typeOf_a);
     table.interface("type", builtins::typeOf_b);
     table.interface("type", builtins::typeOf_e);
@@ -57,7 +57,7 @@ void egli::detail::interfaceAlgorithms(FunctionTable &table)
     table.interface("bfs", algorithms::bfs);
     table.interface("dfs", algorithms::dfs);
     table.interface("cc", algorithms::cc);
-    table.interface("scc", algorithms::scc);
+    table.interface("tarjan", algorithms::tarjan);
     table.interface("kruskal", algorithms::kruskal);
     table.interface("prim", algorithms::prim_1);
     table.interface("prim", algorithms::prim_2);
@@ -70,4 +70,7 @@ void egli::detail::interfaceAlgorithms(FunctionTable &table)
     table.interface("isSimple", algorithms::isSimple);
     table.interface("isStronglyConnected", algorithms::isStronglyConnected);
     table.interface("isWeighted", algorithms::isWeighted);
+    table.interface("bellmanFord", algorithms::bellmanFord);
+    table.interface("detectCycle", algorithms::detectCycle);
+    table.interface("dijkstra", algorithms::dijkstra);
 }
