@@ -375,7 +375,6 @@ void Console::insertCompletion(const QString &completion)
     }
 
     int extra = completion.length() - completer->completionPrefix().length();
-    cursor.movePosition(QTextCursor::EndOfWord);
     cursor.insertText(completion.right(extra));
     buffer.insert(cursorPosition, completion.right(extra));
 
@@ -392,7 +391,13 @@ void Console::insertCompletion(const QString &completion)
 QString Console::textUnderCursor() const
 {
     QTextCursor tc = textCursor();
+    tc.movePosition(QTextCursor::Left);
     tc.select(QTextCursor::WordUnderCursor);
+
+    //control characters
+    if (tc.selectedText() == QString(">") || tc.selectedText().startsWith("()"))
+        return QString("");
+
     return tc.selectedText();
 }
 

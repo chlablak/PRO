@@ -30,6 +30,7 @@ SOURCES += main.cpp\
     ../userHelp/helpmainlayout.cpp \
     ../userHelp/helpwindow.cpp \
     ../visualization/view/items/ArrowItem.cpp \
+    ../visualization/view/AbstractGraphItemFactory.cpp \
     ../visualization/view/GraphView.cpp \
     ../visualization/view/GraphScene.cpp \
     ../visualization/view/VertexItem.cpp \
@@ -84,7 +85,8 @@ SOURCES += main.cpp\
     ../egli/TEdge.cpp \
     ../egli/toString.cpp \
     ../egli/TVertex.cpp \
-    ../egli/VariableTable.cpp
+    ../egli/VariableTable.cpp \
+    ../utility/uniform01.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
@@ -180,7 +182,8 @@ HEADERS  += mainwindow.h \
     ../egli/toString.h \
     ../egli/TVertex.h \
     ../egli/Type.h \
-    ../egli/VariableTable.h
+    ../egli/VariableTable.h \
+    ../utility/uniform01.h
 	
 FORMS    += mainwindow.ui \
     dialogstring.ui \

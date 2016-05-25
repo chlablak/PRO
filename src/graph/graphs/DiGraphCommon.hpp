@@ -27,30 +27,36 @@ DiGraphCommon<T>::~DiGraphCommon() {
 
 template<typename T>
 bool DiGraphCommon<T>::isSimple() const {
-    if(this->isNull())
-        return false;
-    list<IEdge*> edges = edgeList();
-    bool first;
-    for(list<IEdge*>::const_iterator edgeIt = edgeList().begin(); edgeIt != edgeList().end(); ++edgeIt){
-        // check if the graph doesn't content a cycle
-        DiEdgeCommon *de = (DiEdgeCommon*)*edgeIt;
-        if( de->from()->operator==(de->to()))
-            return false;
-        first = true;
-        for(list<IEdge*>::const_iterator edgeIt2 = edgeIt; edgeIt2 != edgeList().end(); ++edgeIt2){
+    if(this->isNull() || this->isEmpty()) {
+        return true;
+    }
 
-            if(first){
+    list<IEdge*> edgeList = this->edgeList();
+    bool first = false;
+
+    // Let's search for multiple directed edges and loops through the edge list
+    IGraph::Edges::iterator it = edgeList.begin();
+    while (it != edgeList.end()) {
+
+        // Search for edgeloop
+        if (*(*it)->from() == *(*it)->to()) {
+            return false;
+        }
+
+        // Search for multiple directed edges
+        first = true;
+        for (IGraph::Edges::const_iterator it2 = it; it2 != edgeList.end(); ++it2) {
+            if (first) {
                 first = false;
                 continue;
             }
-
-            DiEdgeCommon *de2 = (DiEdgeCommon*)*edgeIt2;
-            // check that the graph doesn't content a parallel edge or cycle
-            if(((de2->from()->operator==(de2->from()))) &&
-               ((de2->to()->operator==(de2->to()))))
+            if (*(*it)->from() == *(*it2)->from() && *(*it)->to() == *(*it2)->to()) {
                 return false;
+            }
         }
+        it++;
     }
+
     return true;
 }
 
@@ -74,9 +80,10 @@ bool DiGraphCommon<T>::isDirected() const {
 template<typename T>
 typename IGraph::Edges DiGraphCommon<T>::edgeList() const {
     IGraph::Edges list;
-    for(size_t i = 0; i<this->_adjacentList.size(); ++i){
-        for(IEdge* e1 : this->_adjacentList.at(i)){
-            list.push_back(e1);
+    size_t size = this->_adjacentList.size();
+    for(size_t i = 0; i < size; ++i){
+        for(IEdge* ie : this->_adjacentList.at(i)){
+            list.push_back(ie);
         }
     }
     return list;

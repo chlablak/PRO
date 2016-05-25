@@ -11,12 +11,12 @@
 #include "../graphs/FlowGraph.h"
 #include "../algorithms/GraphAlgorithm.h"
 
-class TestFlowGraph
+class DTestFlowGraph
 {
 private:
     IGraph *_G;
 public:
-    TestFlowGraph() : _G(nullptr) {
+    DTestFlowGraph() : _G(nullptr) {
         // Create vertices
         Vertex *v1 = new Vertex("v1");
         Vertex *v2 = new Vertex("v2");
@@ -145,7 +145,7 @@ public:
         cout << *gBellmanFord << endl;
     }
 
-    ~TestFlowGraph() { delete _G; }
+    ~DTestFlowGraph() { delete _G; }
 };
 
 #endif //GRAPH_TESTFLOWGRAPH_H

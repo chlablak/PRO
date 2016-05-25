@@ -25,6 +25,7 @@ public:
     static IGraph* copyToFlowGraph(IGraph *g);
     static IGraph* bellmanFord(IGraph *g, Vertex *from);
     static IGraph* dijkstra(IGraph *g, Vertex *from);
+    static IGraph* detectCycle(IGraph *g);
 };
 
 
