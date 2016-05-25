@@ -96,6 +96,27 @@ RealType<Type::Boolean>::type isPlanar(RealType<Type::Graph>::cref g);
 RealType<Type::Boolean>::type isSimple(RealType<Type::Graph>::cref g);
 RealType<Type::Boolean>::type isStronglyConnected(RealType<Type::Graph>::cref g);
 RealType<Type::Boolean>::type isWeighted(RealType<Type::Graph>::cref g);
+
+/*! \brief Apply the Bellman-Ford visitor
+ *
+ * \param g - The Graph
+ * \param from - The origin Vertex ID
+ * \return [0] => The resulting Graph
+ *         [1] => Distances Array
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Array>::type bellmanFord(RealType<Type::Graph>::cref g,
+                                        RealType<Type::Integer>::cref from);
+
+/*! \brief Apply the DetectedCycle visitor
+ *
+ * \param g - The Graph
+ * \return The cycle if there is one, otherwise a empty Graph
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Graph>::type detectCycle(RealType<Type::Graph>::cref g);
 } // namespace algorithms
 } // namespace detail
 } // namespace egli

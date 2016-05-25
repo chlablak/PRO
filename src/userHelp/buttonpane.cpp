@@ -11,8 +11,8 @@ ButtonPane *ButtonPane::instance = nullptr;
 
 ButtonPane::ButtonPane(QWidget *parent) : parent(parent)
 {
-    left = new QPushButton();
-    right = new QPushButton();
+    left = new NavigationButton();
+    right = new NavigationButton();
 
     left->setText("←");
     right->setText("→");
@@ -29,12 +29,12 @@ ButtonPane *ButtonPane::getInstance(QWidget *parent)
     return instance;
 }
 
-QPushButton *ButtonPane::getLeft()
+NavigationButton *ButtonPane::getLeft()
 {
     return left;
 }
 
-QPushButton *ButtonPane::getRight()
+NavigationButton *ButtonPane::getRight()
 {
     return right;
 }
