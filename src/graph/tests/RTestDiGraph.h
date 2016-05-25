@@ -155,12 +155,17 @@ public:
         for (double d : distancesBF) {
             cout << d << " ";
         }
-        cout << endl;
+        cout << endl << endl;
 
-//        // Test Dijkstra
-//        cout << "Dijkstra" << endl;
-//        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v3);
-//        cout << *gDijkstra << endl;
+        // Test Dijkstra
+        cout << "Dijkstra" << endl;
+        vector<double> distancesDijkstra;
+        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v1, distancesDijkstra);
+        cout << *gDijkstra << endl;
+        for (double d : distancesDijkstra) {
+            cout << d << " ";
+        }
+        cout << endl << endl;
 
     }
 

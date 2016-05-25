@@ -86,7 +86,7 @@ IGraph *GraphAlgorithm::bellmanFord(IGraph *g, Vertex *from, vector<double>& dis
     return v->G();
 }
 
-IGraph *GraphAlgorithm::dijkstra(IGraph *g, Vertex *from) {
+IGraph *GraphAlgorithm::dijkstra(IGraph *g, Vertex *from, vector<double>& distances) {
     Visitor *v = new DijkstraSP;
     g->accept(v, from);
     return v->G();

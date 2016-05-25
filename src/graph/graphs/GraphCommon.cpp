@@ -94,8 +94,11 @@ bool GraphCommon<T>::isPlanar() const {
 template <typename T>
 typename GraphCommon<T>::Vertices GraphCommon<T>::vertexList() const {
     Vertices list;
-    for(Vertex* vertex : _vertices)
-        list.push_back(vertex);
+    for(Vertex* vertex : _vertices) {
+        if (vertex) {
+            list.push_back(vertex);
+        }
+    }
     return list;
 }
 
