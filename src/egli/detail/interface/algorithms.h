@@ -106,8 +106,17 @@ RealType<Type::Boolean>::type isWeighted(RealType<Type::Graph>::cref g);
  *
  * \throw Exception if an error occurs
  */
-RealType<Type::Array>::type bellmanford(RealType<Type::Graph>::cref g,
+RealType<Type::Array>::type bellmanFord(RealType<Type::Graph>::cref g,
                                         RealType<Type::Integer>::cref from);
+
+/*! \brief Apply the DetectedCycle visitor
+ *
+ * \param g - The Graph
+ * \return The cycle if there is one, otherwise a empty Graph
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Graph>::type detectCycle(RealType<Type::Graph>::cref g);
 } // namespace algorithms
 } // namespace detail
 } // namespace egli
