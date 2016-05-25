@@ -27,7 +27,7 @@ public:
         IEdge *e1 = new Edge(v1, v2, "e1", 3);
         IEdge *e2 = new Edge(v1, v4, "e2", 2);
         IEdge *e3 = new Edge(v1, v6, "e3", 1);
-        //IEdge *e4 = new Edge(v2, v1, "e4", 4);
+        IEdge *e4 = new Edge(v2, v1, "e4", 4);
         IEdge *e5 = new Edge(v2, v5, "e5", 3);
         IEdge *e6 = new Edge(v3, v2, "e6", 2);
         IEdge *e7 = new Edge(v3, v5, "e7", 1);
@@ -42,7 +42,6 @@ public:
 
         // Create the graph structure with those vertices and edges
         _G = new Graph(vertices, edges);
-
         assert(_G->isSimple() == 1);
         assert(_G->isNegativeWeighted() == 0);
         assert(_G->isPlanar() == 1);
