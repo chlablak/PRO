@@ -123,7 +123,7 @@ egli::detail::RealType<egli::Type::Boolean>::type
 }
 
 egli::detail::RealType<egli::Type::Array>::type
-    egli::detail::algorithms::bellmanford(RealType<Type::Graph>::cref g,
+    egli::detail::algorithms::bellmanFord(RealType<Type::Graph>::cref g,
                                           RealType<Type::Integer>::cref from)
 {
     std::vector<double> d;
@@ -132,4 +132,10 @@ egli::detail::RealType<egli::Type::Array>::type
     result.add(GraphAlgorithm::bellmanFord(g.graph(), f, d));
     result.add(RealType<Type::Array>::type(d));
     return result;
+}
+
+egli::detail::RealType<egli::Type::Graph>::type
+    egli::detail::algorithms::detectCycle(RealType<Type::Graph>::cref g)
+{
+    return RealType<Type::Graph>::type(GraphAlgorithm::detectCycle(g.graph()));
 }
