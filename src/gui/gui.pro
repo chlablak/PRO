@@ -56,6 +56,7 @@ SOURCES += main.cpp\
     ../graph/algorithms/Prim.cpp \
     ../graph/algorithms/SCCTarjan.cpp \
     ../graph/algorithms/UnionFind.cpp \
+    ../graph/algorithms/DetectedCycle.cpp \
     ../graph/graphs/DiEdge.cpp \
     ../graph/graphs/DiEdgeCommon.cpp \
     ../graph/graphs/DiGraph.cpp \
@@ -135,6 +136,7 @@ HEADERS  += mainwindow.h \
     ../graph/algorithms/SCCTarjan.h \
     ../graph/algorithms/UnionFind.h \
     ../graph/algorithms/Visitor.h \
+    ../graph/algorithms/DetectedCycle.h \
     ../graph/graphs/DiEdge.h \
     ../graph/graphs/DiEdgeCommon.h \
     ../graph/graphs/DiGraph.h \

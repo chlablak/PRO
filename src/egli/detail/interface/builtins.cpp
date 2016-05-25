@@ -351,14 +351,32 @@ egli::detail::RealType<egli::Type::Graph>::type
                         "egli::builtins::originalErdosRenyi",
                         toString(p));
 
-    RealType<Type::Graph>::type g;
-    for (size_t i = 0; i < V; ++i)
-        g.insert(RealType<Type::Vertex>::type(i));
-    for (size_t v = 0; v < V; ++v) {
-        for (size_t w = 0; w < V; ++w) {
+    // New, faster version
+    std::vector<::Vertex*> vertices;
+    vertices.reserve(V);
+    for (size_t i = 0; i < V; ++i) {
+        vertices.push_back(new ::Vertex);
+        //vertices.back()->setId(i);
+    }
+    std::vector<::IEdge*> edges;
+    for (::Vertex *v : vertices) {
+        for (::Vertex *w : vertices) {
             if (utility::uniform01() <= p)
-                g.insert(RealType<Type::Edge>::type(v, w));
+                edges.push_back(new ::Edge(v, w));
         }
     }
-    return g;
+    ::IGraph *g = new ::Graph(vertices, edges);
+    return RealType<Type::Graph>::type(g);
+
+    // Old version
+//    RealType<Type::Graph>::type g;
+//    for (size_t i = 0; i < V; ++i)
+//        g.insert(RealType<Type::Vertex>::type(i));
+//    for (size_t v = 0; v < V; ++v) {
+//        for (size_t w = 0; w < V; ++w) {
+//            if (utility::uniform01() <= p)
+//                g.insert(RealType<Type::Edge>::type(v, w));
+//        }
+//    }
+//    return g;
 }

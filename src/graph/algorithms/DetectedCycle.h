@@ -9,6 +9,8 @@
 #include "Visitor.h"
 #include "../graphs/IGraph.h"
 #include <vector>
+#include <stdexcept>
+
 
 using namespace std;
 class DetectedCycle : public Visitor{
