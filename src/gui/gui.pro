@@ -14,34 +14,30 @@ TARGET = gui
 TEMPLATE = app
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
+    mainwindow.cpp \
     console.cpp \
     dialogstring.cpp \
     graphwindow.cpp \
-    ../userHelp/browserpane.cpp \
-    ../userHelp/buttonpane.cpp \
-    ../userHelp/filereader.cpp \
-    ../userHelp/helppage.cpp \
-    ../userHelp/keywordsearcher.cpp \
-    ../userHelp/mainbrowser.cpp \
-    ../userHelp/navigationmenu.cpp \
-    ../userHelp/navigationpane.cpp \
-    ../userHelp/searchbar.cpp \
-    ../userHelp/helpmainlayout.cpp \
-    ../userHelp/helpwindow.cpp \
-    ../visualization/view/items/ArrowItem.cpp \
-    ../visualization/view/GraphView.cpp \
-    ../visualization/view/GraphScene.cpp \
-    ../visualization/view/VertexItem.cpp \
-    ../visualization/view/EdgeItem.cpp \
-    ../visualization/view/DiEdgeItem.cpp \
-    ../visualization/view/DiGraphItemFactory.cpp \
-    ../visualization/view/FlowEdgeItem.cpp \
-    ../visualization/view/FlowGraphItemFactory.cpp \
-    ../visualization/view/GraphItemFactory.cpp \
-    ../visualization/view/GraphSceneManager.cpp \
-    ../visualization/GraphExporter.cpp \
-    ../visualization/GraphWidget.cpp \
+    ../egli/detail/interface/algorithms.cpp \
+    ../egli/detail/interface/basics.cpp \
+    ../egli/detail/interface/builtins.cpp \
+    ../egli/detail/interface.cpp \
+    ../egli/detail/Preprocessor.cpp \
+    ../egli/detail/TemporaryName.cpp \
+    ../egli/Array.cpp \
+    ../egli/Data.cpp \
+    ../egli/Exception.cpp \
+    ../egli/FunctionTable.cpp \
+    ../egli/GraphWrapper.cpp \
+    ../egli/Interpreter.cpp \
+    ../egli/Number.cpp \
+    ../egli/Parser.cpp \
+    ../egli/ProcessingUnit.cpp \
+    ../egli/Statement.cpp \
+    ../egli/TEdge.cpp \
+    ../egli/toString.cpp \
+    ../egli/TVertex.cpp \
+    ../egli/VariableTable.cpp \
     ../graph/algorithms/BellmanFordSP.cpp \
     ../graph/algorithms/BFS.cpp \
     ../graph/algorithms/ConnectedComponent.cpp \
@@ -65,60 +61,66 @@ SOURCES += main.cpp\
     ../graph/graphs/Graph.cpp \
     ../graph/graphs/GraphCommon.cpp \
     ../graph/graphs/Vertex.cpp \
-    ../egli/detail/interface/algorithms.cpp \
-    ../egli/detail/interface/basics.cpp \
-    ../egli/detail/interface/builtins.cpp \
-    ../egli/detail/interface.cpp \
-    ../egli/detail/Preprocessor.cpp \
-    ../egli/detail/TemporaryName.cpp \
-    ../egli/Array.cpp \
-    ../egli/Data.cpp \
-    ../egli/Exception.cpp \
-    ../egli/FunctionTable.cpp \
-    ../egli/GraphWrapper.cpp \
-    ../egli/Interpreter.cpp \
-    ../egli/Number.cpp \
-    ../egli/Parser.cpp \
-    ../egli/ProcessingUnit.cpp \
-    ../egli/Statement.cpp \
-    ../egli/TEdge.cpp \
-    ../egli/toString.cpp \
-    ../egli/TVertex.cpp \
-    ../egli/VariableTable.cpp
+    ../userHelp/browserpane.cpp \
+    ../userHelp/buttonpane.cpp \
+    ../userHelp/filereader.cpp \
+    ../userHelp/helpmainlayout.cpp \
+    ../userHelp/helppage.cpp \
+    ../userHelp/helpwindow.cpp \
+    ../userHelp/keywordsearcher.cpp \
+    ../userHelp/mainbrowser.cpp \
+    ../userHelp/navigationmenu.cpp \
+    ../userHelp/navigationpane.cpp \
+    ../userHelp/searchbar.cpp \
+    ../visualization/view/items/ArrowItem.cpp \
+    ../visualization/view/AbstractGraphItemFactory.cpp \
+    ../visualization/view/DiEdgeItem.cpp \
+    ../visualization/view/DiGraphItemFactory.cpp \
+    ../visualization/view/EdgeItem.cpp \
+    ../visualization/view/FlowEdgeItem.cpp \
+    ../visualization/view/FlowGraphItemFactory.cpp \
+    ../visualization/view/GraphItemFactory.cpp \
+    ../visualization/view/GraphScene.cpp \
+    ../visualization/view/GraphSceneManager.cpp \
+    ../visualization/view/GraphView.cpp \
+    ../visualization/view/VertexItem.cpp \
+    ../visualization/GraphExporter.cpp \
+    ../visualization/GraphWidget.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
     dialogstring.h \
     graphwindow.h \
-    ../userHelp/browserpane.h \
-    ../userHelp/buttonpane.h \
-    ../userHelp/filereader.h \
-    ../userHelp/helppage.h \
-    ../userHelp/keywordsearcher.h \
-    ../userHelp/mainbrowser.h \
-    ../userHelp/navigationmenu.h \
-    ../userHelp/navigationpane.h \
-    ../userHelp/searchbar.h \
-    ../userHelp/helpmainlayout.h \
-    ../userHelp/helpwindow.h \
     ui_dialogstring.h \
     ui_graphwindow.h \
     ui_mainwindow.h \
-    ../visualization/view/items/ArrowItem.h \
-    ../visualization/view/AbstractGraphItemFactory.h \
-    ../visualization/view/DiEdgeItem.h \
-    ../visualization/view/DiGraphItemFactory.h \
-    ../visualization/view/EdgeItem.h \
-    ../visualization/view/FlowEdgeItem.h \
-    ../visualization/view/FlowGraphItemFactory.h \
-    ../visualization/view/GraphItemFactory.h \
-    ../visualization/view/GraphScene.h \
-    ../visualization/view/GraphSceneManager.h \
-    ../visualization/view/GraphView.h \
-    ../visualization/view/VertexItem.h \
-    ../visualization/Constants.h \
-    ../visualization/GraphExporter.h \
-    ../visualization/GraphWidget.h \
+    ../egli/detail/interface/algorithms.h \
+    ../egli/detail/interface/basics.h \
+    ../egli/detail/interface/builtins.h \
+    ../egli/detail/EnumValue.h \
+    ../egli/detail/FunctionImpl.h \
+    ../egli/detail/Grammar.h \
+    ../egli/detail/interface.h \
+    ../egli/detail/Preprocessor.h \
+    ../egli/detail/RealType.h \
+    ../egli/detail/TemporaryName.h \
+    ../egli/Array.h \
+    ../egli/Data.h \
+    ../egli/egli.h \
+    ../egli/Exception.h \
+    ../egli/Function.h \
+    ../egli/FunctionTable.h \
+    ../egli/GraphWrapper.h \
+    ../egli/Interpreter.h \
+    ../egli/Number.h \
+    ../egli/Parser.h \
+    ../egli/ProcessingUnit.h \
+    ../egli/Statement.h \
+    ../egli/TEdge.h \
+    ../egli/toString.h \
+    ../egli/TVertex.h \
+    ../egli/Type.h \
+    ../egli/VariableTable.h \
     ../graph/algorithms/BellmanFordSP.h \
     ../graph/algorithms/BFS.h \
     ../graph/algorithms/ConnectedComponent.h \
@@ -148,40 +150,39 @@ HEADERS  += mainwindow.h \
     ../graph/graphs/IGraph.h \
     ../graph/graphs/Vertex.h \
     ../graph/Includes.h \
+    ../userHelp/browserpane.h \
+    ../userHelp/buttonpane.h \
+    ../userHelp/filereader.h \
+    ../userHelp/helpmainlayout.h \
+    ../userHelp/helppage.h \
+    ../userHelp/helpwindow.h \
+    ../userHelp/keywordsearcher.h \
+    ../userHelp/mainbrowser.h \
+    ../userHelp/navigationmenu.h \
+    ../userHelp/navigationpane.h \
+    ../userHelp/searchbar.h \
     ../utility/dictionary/Node.h \
     ../utility/dictionary/TST.h \
     ../utility/dictionary/TST_implem.h \
     ../utility/Global.h \
     ../utility/Hash.h \
     ../utility/Optional.h \
-    ../egli/detail/interface/algorithms.h \
-    ../egli/detail/interface/basics.h \
-    ../egli/detail/interface/builtins.h \
-    ../egli/detail/EnumValue.h \
-    ../egli/detail/FunctionImpl.h \
-    ../egli/detail/Grammar.h \
-    ../egli/detail/interface.h \
-    ../egli/detail/Preprocessor.h \
-    ../egli/detail/RealType.h \
-    ../egli/detail/TemporaryName.h \
-    ../egli/Array.h \
-    ../egli/Data.h \
-    ../egli/egli.h \
-    ../egli/Exception.h \
-    ../egli/Function.h \
-    ../egli/FunctionTable.h \
-    ../egli/GraphWrapper.h \
-    ../egli/Interpreter.h \
-    ../egli/Number.h \
-    ../egli/Parser.h \
-    ../egli/ProcessingUnit.h \
-    ../egli/Statement.h \
-    ../egli/TEdge.h \
-    ../egli/toString.h \
-    ../egli/TVertex.h \
-    ../egli/Type.h \
-    ../egli/VariableTable.h
-	
+    ../visualization/view/items/ArrowItem.h \
+    ../visualization/view/AbstractGraphItemFactory.h \
+    ../visualization/view/DiEdgeItem.h \
+    ../visualization/view/DiGraphItemFactory.h \
+    ../visualization/view/EdgeItem.h \
+    ../visualization/view/FlowEdgeItem.h \
+    ../visualization/view/FlowGraphItemFactory.h \
+    ../visualization/view/GraphItemFactory.h \
+    ../visualization/view/GraphScene.h \
+    ../visualization/view/GraphSceneManager.h \
+    ../visualization/view/GraphView.h \
+    ../visualization/view/VertexItem.h \
+    ../visualization/Constants.h \
+    ../visualization/GraphExporter.h \
+    ../visualization/GraphWidget.h
+
 FORMS    += mainwindow.ui \
     dialogstring.ui \
     graphwindow.ui
