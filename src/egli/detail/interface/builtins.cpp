@@ -22,6 +22,10 @@
 #include "../../toString.h"
 #include "../../../utility/uniform01.h"
 
+#warning D
+#include <iostream>
+#include "../../../utility/Timer.h"
+
 egli::detail::RealType<egli::Type::Boolean>::type
     egli::detail::builtins::save(RealType<Type::Graph>::cref g,
                                  RealType<Type::String>::cref file)
@@ -350,15 +354,18 @@ egli::detail::RealType<egli::Type::Graph>::type
         throw Exception("inclusive probability must be in [0;1]",
                         "egli::builtins::originalErdosRenyi",
                         toString(p));
-
+    utility::Timer timer;
     RealType<Type::Graph>::type g;
+    std::cout << "GRAPH CREATION:" << timer.elapsed() << std::endl;
     for (size_t i = 0; i < V; ++i)
         g.insert(RealType<Type::Vertex>::type(i));
+    std::cout << "VERTICES INSERTION:" << timer.elapsed() << std::endl;
     for (size_t v = 0; v < V; ++v) {
         for (size_t w = 0; w < V; ++w) {
             if (utility::uniform01() <= p)
                 g.insert(RealType<Type::Edge>::type(v, w));
         }
     }
+    std::cout << "EDGES INSERTION:" << timer.elapsed() << std::endl;
     return g;
 }

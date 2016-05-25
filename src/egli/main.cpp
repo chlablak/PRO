@@ -15,6 +15,8 @@
 #include "detail/interface.h"
 #include "detail/interface/builtins.h"
 
+#include "../utility/Timer.h"
+
 using namespace std;
 
 void print(ostream &os, egli::Statement const &s, size_t tab = 0)
@@ -99,14 +101,18 @@ int main()
     func.interface("test", test);
 
     while (getline(cin, in)) {
+        if (in == "q")
+            break;
         pp.stream() << in;
         while (pp.available()) {
+            utility::Timer timer;
             try {
                 s = p.parse(pp.next());
-                cout << "PARSED:\n" << s;
+                cout << "PARSED(in " << timer.elapsed() << "s):\n" << s;
                 egli::ProcessingUnit::check(s, func, var);
+                cout << "CHECKED(in " << timer.elapsed() << "s)\n";
                 egli::ProcessingUnit::process(s, func, var);
-                cout << "PROCESSED:\n" << s;
+                cout << "PROCESSED(in " << timer.elapsed() << "s):\n" << s;
                 cout << "TABLE:\n" << var;
                 cout << endl;
             } catch (const runtime_error &e) {
