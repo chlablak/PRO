@@ -146,9 +146,6 @@ void GraphCommon<T>::addVertex(Vertex *v) {
     _adjacentList.resize(_vertices.size());
 }
 
-/**
- *
- */
 template <typename T>
 size_t GraphCommon<T>::V() const {
     return _vertices.size();
@@ -182,7 +179,7 @@ bool GraphCommon<T>::isWeighted() const {
 
 template <typename T>
 void GraphCommon<T>::print() const {
-    cout << *this << endl;
+    cout << *this;
 }
 
 template <typename T>

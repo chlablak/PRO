@@ -33,7 +33,7 @@ private:
 public:
 
 
-    DetectedCycle() : _distances(0), _marked(0), _stacked(0), _cycle(0), cycleFounded(false), _G(nullptr){}
+    DetectedCycle() : _marked(0), _stacked(0), _cycle(0), cycleFounded(false), _G(nullptr), _distances(0) {}
 
 
     virtual ~DetectedCycle()override {}

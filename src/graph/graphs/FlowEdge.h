@@ -13,6 +13,7 @@ private :
     int _minCapacity;
     int _maxCapacity;
 
+    void checkCapacity(const int minCapacity, const int maxCapacity);
 public:
     // Constructors
     FlowEdge(Vertex *from, Vertex *to)
@@ -39,17 +40,13 @@ public:
     FlowEdge(Vertex *from, Vertex *to, const string &label, const double weight, const int &maxCapacity)
             : DiEdgeCommon(from, to, label, weight), _minCapacity(0), _maxCapacity(maxCapacity) { }
 
-    FlowEdge(Vertex *from, Vertex *to, const int &minCapacity, const int &maxCapacity)
-            : DiEdgeCommon(from, to), _minCapacity(minCapacity), _maxCapacity(maxCapacity) { }
+    FlowEdge(Vertex *from, Vertex *to, const int &minCapacity, const int &maxCapacity);
 
-    FlowEdge(Vertex *from, Vertex *to, const string &label, const int &minCapacity, const int &maxCapacity)
-            : DiEdgeCommon(from, to, label), _minCapacity(minCapacity), _maxCapacity(maxCapacity) { }
+    FlowEdge(Vertex *from, Vertex *to, const string &label, const int &minCapacity, const int &maxCapacity);
 
-    FlowEdge(Vertex *from, Vertex *to, const double weight, const int &minCapacity, const int &maxCapacity)
-            : DiEdgeCommon(from, to, weight), _minCapacity(minCapacity), _maxCapacity(maxCapacity) { }
+    FlowEdge(Vertex *from, Vertex *to, const double weight, const int &minCapacity, const int &maxCapacity);
 
-    FlowEdge(Vertex *from, Vertex *to, const string &label, const double weight, const int &minCapacity, const int &maxCapacity)
-            : DiEdgeCommon(from, to, label, weight), _minCapacity(minCapacity), _maxCapacity(maxCapacity) { }
+    FlowEdge(Vertex *from, Vertex *to, const string &label, const double weight, const int &minCapacity, const int &maxCapacity);
 
     FlowEdge(const FlowEdge &e)
             : DiEdgeCommon(e), _minCapacity(e._minCapacity), _maxCapacity(e._maxCapacity) { }

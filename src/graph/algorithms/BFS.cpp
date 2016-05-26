@@ -20,7 +20,7 @@ void BFS::visit(Graph *g, Vertex *from) {
     _G = gClone->emptyClone();
 
     // Table of distances
-    _distances.assign(gClone->V(), numeric_limits<int>::max());
+    _distances.assign(gClone->V(), -1);
     _distances.at(from->id()) = 0;
 
     // Initialize list with from
@@ -39,7 +39,7 @@ void BFS::visit(Graph *g, Vertex *from) {
         gClone->forEachAdjacentEdge(u, [this, &u, &Q](IEdge *ie){
             Vertex *v = ie->other(u);
 
-            if (_distances.at(v->id()) == numeric_limits<int>::max()) {
+            if (_distances.at(v->id()) == -1) {
                 _distances.at(v->id()) = _distances.at(u->id()) + 1;
                 Q.push_back(v);
                 _G->assignVertex(v);
