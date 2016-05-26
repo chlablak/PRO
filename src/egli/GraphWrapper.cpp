@@ -96,9 +96,9 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Vertex>::cref vertex)
 
     // Create or reach the Vertex to insert/modify
     vertex_t *v = nullptr;
-    if (graph()->V() > vertex.id)   // update
+    if (graph()->V() > vertex.id)       // update
         v = getVertexById(vertex.id);
-    else {                          // new
+    if (v == nullptr) {                 // new
         v = graph()->createVertex();
         graph()->addVertex(v);
     }

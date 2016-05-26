@@ -351,13 +351,10 @@ egli::detail::RealType<egli::Type::Graph>::type
                         "egli::builtins::originalErdosRenyi",
                         toString(p));
 
-    // New, faster version
     std::vector<::Vertex*> vertices;
     vertices.reserve(V);
-    for (size_t i = 0; i < V; ++i) {
+    for (size_t i = 0; i < V; ++i)
         vertices.push_back(new ::Vertex);
-        //vertices.back()->setId(i);
-    }
     std::vector<::IEdge*> edges;
     for (size_t i = 0; i < V; ++i) {
         for (size_t j = i + 1; j < V; ++j) {
@@ -367,16 +364,19 @@ egli::detail::RealType<egli::Type::Graph>::type
     }
     ::IGraph *g = new ::Graph(vertices, edges);
     return RealType<Type::Graph>::type(g);
+}
 
-    // Old version
-//    RealType<Type::Graph>::type g;
-//    for (size_t i = 0; i < V; ++i)
-//        g.insert(RealType<Type::Vertex>::type(i));
-//    for (size_t v = 0; v < V; ++v) {
-//        for (size_t w = 0; w < V; ++w) {
-//            if (utility::uniform01() <= p)
-//                g.insert(RealType<Type::Edge>::type(v, w));
-//        }
-//    }
-//    return g;
+egli::detail::RealType<egli::Type::Integer>::type
+    egli::detail::builtins::size_a(RealType<Type::Array>::cref var)
+{
+    return var.size();
+}
+
+egli::detail::RealType<egli::Type::Array>::type
+    egli::detail::builtins::size_g(RealType<Type::Graph>::cref var)
+{
+    RealType<Type::Array>::type r;
+    r.add(var.graph()->V());
+    r.add(var.graph()->E());
+    return r;
 }

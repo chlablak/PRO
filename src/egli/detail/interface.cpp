@@ -50,6 +50,8 @@ void egli::detail::interfaceBuiltins(FunctionTable &table)
     table.interface("typeOf", builtins::typeOf_s);
     table.interface("typeOf", builtins::typeOf_v);
     table.interface("er", builtins::originalErdosRenyi);
+    table.interface("size", builtins::size_a);
+    table.interface("size", builtins::size_g);
 }
 
 void egli::detail::interfaceAlgorithms(FunctionTable &table)
