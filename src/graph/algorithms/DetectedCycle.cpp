@@ -2,11 +2,11 @@
 // Created by PatrickDesle on 23.05.2016.
 //
 
+#include <stack>
+#include "DetectedCycle.h"
 #include "../graphs/Graph.h"
 #include "../graphs/DiGraph.h"
 #include "../graphs/FlowGraph.h"
-#include <stack>
-#include "DetectedCycle.h"
 
 
 void DetectedCycle::visit(Graph *g, Vertex *from) {
@@ -16,12 +16,11 @@ void DetectedCycle::visit(Graph *g, Vertex *from) {
         return;
     }
     UNUSED(from);
-    // Initialize _G with an empty graph
-    _G = new Graph;
-    IGraph *gClone = g->clone();
 
-    _marked.resize(gClone->V(), false);
-    _stacked.resize(gClone->V(), false);
+    _marked.resize(g->V(), false);
+    _stacked.resize(g->V(), false);
+
+    Graph *gClone = g->clone();
 
     for(Vertex* u : gClone->vertexList()){
         hasCycle(u, u->id(), gClone);
@@ -31,14 +30,27 @@ void DetectedCycle::visit(Graph *g, Vertex *from) {
     }
 
     if(cycleFounded) {
+
+        _G = g->emptyClone();
+        bool begin = false; // this variable will enable us to know where the cycle starts in the vector _cycle
+        unsigned int positionBegin = 0;
         // we add the vertex of the cycle to _G
         for (unsigned int i = 0; i < _cycle.size() - 1; ++i) {
-            _G->addVertex(_cycle.at(i));
-        }
+            if (begin) {
+                _G->assignVertex(_cycle.at(i));
+                continue;
+            }
+            if (_cycle.at(i) == _cycle.at(_cycle.size() - 1)) {
+                _G->assignVertex(_cycle.at(i));
+                positionBegin = i;
+                begin = true; // we have find the beginning of the cycle in the vertor _cycle
+            }
 
-        // we add the edge to _G
-        for (unsigned int i = 0; i < _cycle.size() - 1; ++i) {
-            _G->addEdge(gClone->getEdges(_cycle.at(i), _cycle.at(i + 1)).front());
+
+            // we add the edge to _G
+            for (unsigned int i= positionBegin; i < (_cycle.size() - 1); ++i) {
+                _G->assignEdge(gClone->getEdges(_cycle.at(i), _cycle.at(i + 1)).front());
+            }
         }
     }
 
@@ -54,11 +66,10 @@ void DetectedCycle::visit(DiGraph *g, Vertex *from) {
     UNUSED(from);
 
     // Initialize _G with the an empty DiGraph
-    _G = new DiGraph;
     DiGraph *gClone = g->clone();
 
-    _marked.resize(gClone->V(), false);
-    _stacked.resize(gClone->V(), false);
+    _marked.resize(g->V(), false);
+    _stacked.resize(g->V(), false);
 
     commonFlowDiGraph(gClone);
 }
@@ -71,7 +82,6 @@ void DetectedCycle::visit(FlowGraph *g, Vertex *from) {
     UNUSED(from);
 
     // Initialize _G with an empty FlowGraph
-    _G = new FlowGraph;
     IGraph *gClone = g->clone();
 
     _marked.resize(gClone->V(), false);
@@ -98,7 +108,6 @@ void DetectedCycle::hasCycleDirected(Vertex *v, IGraph* g) {
 
     for(IEdge *edge : g->adjacentEdges(v)){
 
-        cout << *edge << endl;
         if(cycleFounded){
             return;
         }
@@ -156,21 +165,31 @@ void DetectedCycle::commonFlowDiGraph(IGraph *g) {
     }
 
     if(cycleFounded) {
+        // Initialize _G with an empty graph
+        _G = g->emptyClone();
+        bool begin = false; // this variable will enable us to know where the cycle starts in the vector _cycle
+        unsigned int positionBegin = 0;
         // we add the vertex of the cycle to _G
         for (unsigned int i = 0; i < _cycle.size() - 1; ++i) {
-            _G->addVertex(_cycle.at(i));
-        }
+            if(begin){
+                _G->assignVertex(_cycle.at(i));
+                continue;
+            }
+            if(_cycle.at(i) == _cycle.at(_cycle.size()-1)){
+                _G->assignVertex(_cycle.at(i));
+                positionBegin = i;
+                begin = true; // we have find the beginning of the cycle in the vertor _cycle
+            }
 
-        // we add the DiEdge/FlowEdge to _G
-        for (unsigned int i = 0; i < _cycle.size() - 1; ++i) {
-            _G->addEdge(g->getEdges(_cycle.at(i), _cycle.at(i + 1)).front());
+        }
+        // we add the edge to _G
+        begin = false;
+        for (unsigned int i = positionBegin; i < (_cycle.size() - 1); ++i) {
+            _G->assignEdge(g->getEdges(_cycle.at(i), _cycle.at(i + 1)).front());
         }
     }
 }
 
-bool DetectedCycle::hasCycle() const {
-    return cycleFounded;
-}
 
 
 

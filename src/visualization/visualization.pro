@@ -40,7 +40,21 @@ SOURCES += main.cpp \
     ../graph/graphs/Graph.cpp \
     ../graph/graphs/GraphCommon.cpp \
     ../graph/graphs/Vertex.cpp \
-    ../graph/algorithms/ConnectedComponent.cpp
+    ../graph/algorithms/BellmanFordSP.cpp \
+    ../graph/algorithms/BFS.cpp \
+    ../graph/algorithms/ConnectedComponent.cpp \
+    ../graph/algorithms/CopyToDiGraph.cpp \
+    ../graph/algorithms/CopyToFlowGraph.cpp \
+    ../graph/algorithms/CopyToGraph.cpp \
+    ../graph/algorithms/DetectedCycle.cpp \
+    ../graph/algorithms/DFS.cpp \
+    ../graph/algorithms/DijkstraSP.cpp \
+    ../graph/algorithms/GraphAlgorithm.cpp \
+    ../graph/algorithms/Kruskal.cpp \
+    ../graph/algorithms/Prim.cpp \
+    ../graph/algorithms/SCCTarjan.cpp \
+    ../graph/algorithms/TopologicalSort.cpp \
+    ../graph/algorithms/UnionFind.cpp
 
 HEADERS  += \
     Constants.h \
@@ -58,7 +72,6 @@ HEADERS  += \
     view/GraphSceneManager.h \
     GraphWidget.h \
     GraphExporter.h \
-    ../utility/Hash.h \
     ../graph/Includes.h \
     ../graph/graphs/DiEdge.h \
     ../graph/graphs/DiEdgeCommon.h \
@@ -74,4 +87,19 @@ HEADERS  += \
     ../graph/graphs/IEdge.h \
     ../graph/graphs/IGraph.h \
     ../graph/graphs/Vertex.h \
-    ../graph/algorithms/ConnectedComponent.h
+    ../graph/algorithms/BellmanFordSP.h \
+    ../graph/algorithms/BFS.h \
+    ../graph/algorithms/ConnectedComponent.h \
+    ../graph/algorithms/CopyToDiGraph.h \
+    ../graph/algorithms/CopyToFlowGraph.h \
+    ../graph/algorithms/CopyToGraph.h \
+    ../graph/algorithms/DetectedCycle.h \
+    ../graph/algorithms/DFS.h \
+    ../graph/algorithms/DijkstraSP.h \
+    ../graph/algorithms/GraphAlgorithm.h \
+    ../graph/algorithms/Kruskal.h \
+    ../graph/algorithms/Prim.h \
+    ../graph/algorithms/SCCTarjan.h \
+    ../graph/algorithms/TopologicalSort.h \
+    ../graph/algorithms/UnionFind.h \
+    ../graph/algorithms/Visitor.h

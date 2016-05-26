@@ -26,6 +26,7 @@ public:
     static IGraph* bellmanFord(IGraph *g, Vertex *from, vector<double>& distances);
     static IGraph* dijkstra(IGraph *g, Vertex *from, vector<double>& distances);
     static IGraph* detectCycle(IGraph *g);
+    static vector<double> topoloqicalSort(IGraph* g);
 };
 
 
