@@ -2,7 +2,6 @@
 // Created by sebri on 08.05.2016.
 //
 
-#include <stdexcept>
 #include "ConnectedComponent.h"
 #include "../graphs/Graph.h"
 #include "GraphAlgorithm.h"
@@ -38,22 +37,11 @@ void ConnectedComponent::visit(Graph *g, Vertex *from) {
 void ConnectedComponent::visit(DiGraph *g, Vertex *from) {
     IGraph *graph = GraphAlgorithm::copyToGraph(g);
     visit((Graph*)graph, from);
-//
-//    UNUSED(g);
-//    UNUSED(from);
-//    throw std::runtime_error("The 'Connected Component' algorithm doesn't apply for"
-//                                "directed graphs. Use the 'Strongly Connected"
-//                                "Component' algorithm instead");
 }
 
 void ConnectedComponent::visit(FlowGraph *g, Vertex *from) {
     IGraph *graph = GraphAlgorithm::copyToGraph(g);
     visit((Graph*)graph, from);
-//    UNUSED(g);
-//    UNUSED(from);
-//    throw std::runtime_error("The 'Connected Component' algorithm doesn't apply for"
-//                                "directed graphs. Use the 'Strongly Connected"
-//                                "Component' algorithm instead");
 }
 
 IGraph *ConnectedComponent::G() const {

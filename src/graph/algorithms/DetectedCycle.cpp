@@ -3,6 +3,7 @@
 //
 
 #include <stack>
+#include <stdexcept>
 #include "DetectedCycle.h"
 #include "../graphs/Graph.h"
 #include "../graphs/DiGraph.h"
