@@ -52,16 +52,18 @@ void EdgeItem::adjust()
 
     // Adjust line extremities to leave a blank space between extremities
     // and vertex graphics items (use Thalès)
-    qreal diff = (VERTEX_RADIUS +
-                  VERTEX_BORDER_WIDTH / 2 +
-                  EDGE_VERTEX_MARGIN) / line.length();
-    qreal dx = line.dx() * diff;
-    qreal dy = line.dy() * diff;
-    _sourcePoint.setX(_sourceItem->getCenter().x() + dx);
-    _sourcePoint.setY(_sourceItem->getCenter().y() + dy);
-    _destPoint.setX(_destItem->getCenter().x() - dx);
-    _destPoint.setY(_destItem->getCenter().y() - dy);
-    _line->setLine(QLineF(_sourcePoint, _destPoint));
+    if (line.length() > 0) {
+        qreal diff = (VERTEX_RADIUS +
+                      VERTEX_BORDER_WIDTH / 2 +
+                      EDGE_VERTEX_MARGIN) / line.length();
+        qreal dx = line.dx() * diff;
+        qreal dy = line.dy() * diff;
+        _sourcePoint.setX(_sourceItem->getCenter().x() + dx);
+        _sourcePoint.setY(_sourceItem->getCenter().y() + dy);
+        _destPoint.setX(_destItem->getCenter().x() - dx);
+        _destPoint.setY(_destItem->getCenter().y() - dy);
+        _line->setLine(QLineF(_sourcePoint, _destPoint));
+    }
 
     // Adjust the label position (over the circle)
     _label->setPlainText(label());
