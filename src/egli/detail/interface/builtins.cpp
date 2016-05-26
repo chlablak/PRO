@@ -359,10 +359,10 @@ egli::detail::RealType<egli::Type::Graph>::type
         //vertices.back()->setId(i);
     }
     std::vector<::IEdge*> edges;
-    for (::Vertex *v : vertices) {
-        for (::Vertex *w : vertices) {
+    for (size_t i = 0; i < V; ++i) {
+        for (size_t j = i + 1; j < V; ++j) {
             if (utility::uniform01() <= p)
-                edges.push_back(new ::Edge(v, w));
+                edges.push_back(new ::Edge(vertices[i], vertices[j]));
         }
     }
     ::IGraph *g = new ::Graph(vertices, edges);
