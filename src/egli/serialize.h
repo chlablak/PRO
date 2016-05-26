@@ -11,6 +11,7 @@
 #include <string>
 
 #include "Data.h"
+#include "Interpreter.h"
 
 namespace egli
 {
@@ -30,6 +31,17 @@ std::string serialize(const Data &data);
  * \throw Exception if an error occurs
  */
 void deserialize(Data &data, const std::string &input);
+
+/*! \brief Deserialize an input to a Data structure
+ *
+ * \param interpreter - The interpreter to use
+ * \param data - The destination data structure
+ * \param input - The serialized input
+ *
+ * \pre Call data.clear()
+ * \throw Exception if an error occurs
+ */
+void deserialize(Interpreter &interpreter, Data &data, const std::string &input);
 }
 
 #endif // EGLI_SERIALIZE_H_INCLUDED

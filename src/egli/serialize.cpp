@@ -20,9 +20,24 @@ std::string egli::serialize(const Data &data)
 
 void egli::deserialize(Data &data, const std::string &input)
 {
+    Interpreter interpreter;
+    deserialize(interpreter, data, input);
+}
+
+void egli::deserialize(Interpreter &interpreter,
+                       Data &data,
+                       const std::string &input)
+{
     data.clear();
-    Interpreter interpreter(&data);
+    Data *oldData = interpreter.data();
+    interpreter.setData(&data);
     interpreter.writer() << input;
-    while (interpreter.available())
-        interpreter.next();
+    try {
+        while (interpreter.available())
+            interpreter.next();
+    } catch(...) {
+        interpreter.setData(oldData);
+        throw;
+    }
+    interpreter.setData(oldData);
 }
