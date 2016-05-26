@@ -94,6 +94,8 @@ private:
     QCompleter *completer;
     QStringList *completerWordList;
 
+    void save();
+
 signals:
     void signalChanges();
     void signalSave();
@@ -104,8 +106,8 @@ signals:
 public slots:
     void copySelectedText();
     void pasteText();
-    void save();
-    void load();
+    void saveConsole();
+    void loadConsole();
 
 private slots:
     /*! \brief Inserts the end of selected word to cursor position
