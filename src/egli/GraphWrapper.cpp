@@ -25,6 +25,12 @@ egli::GraphWrapper::GraphWrapper(const GraphWrapper &o) :
     m_graph(o.graph()->clone())
 {}
 
+egli::GraphWrapper::GraphWrapper(GraphWrapper &&o) :
+    m_graph(std::move(o.m_graph))
+{
+    o.m_graph = nullptr;
+}
+
 egli::GraphWrapper::~GraphWrapper()
 {
     delete m_graph;
@@ -40,6 +46,13 @@ egli::GraphWrapper &egli::GraphWrapper::operator=(igraph_ptr_t g)
 egli::GraphWrapper &egli::GraphWrapper::operator=(const GraphWrapper &o)
 {
     GraphWrapper tmp(o);
+    std::swap(m_graph, tmp.m_graph);
+    return *this;
+}
+
+egli::GraphWrapper &egli::GraphWrapper::operator=(GraphWrapper &&o)
+{
+    GraphWrapper tmp(std::move(o));
     std::swap(m_graph, tmp.m_graph);
     return *this;
 }

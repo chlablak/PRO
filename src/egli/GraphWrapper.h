@@ -53,6 +53,12 @@ public:
      */
     GraphWrapper(const GraphWrapper &o);
 
+    /*! \brief Move constructor
+     *
+     * \param o - The GraphWrapper to move
+     */
+    GraphWrapper(GraphWrapper &&o);
+
     /*! \brief Destructor
      *
      * \note delete the underlying wrapped graph pointer
@@ -74,6 +80,13 @@ public:
      * \note The underlying wrapped graph pointer is cloned
      */
     GraphWrapper &operator=(const GraphWrapper &o);
+
+    /*! \brief Move assignment
+     *
+     * \param o - The GraphWrapper to move
+     * \return *this
+     */
+    GraphWrapper &operator=(GraphWrapper &&o);
 
     /*! \brief Get the underlying wrapped graph pointer
      *

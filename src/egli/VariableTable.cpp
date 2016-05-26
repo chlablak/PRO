@@ -92,7 +92,46 @@ std::list<std::string>
 
 void egli::VariableTable::move(name_t dst, name_t src)
 {
-    copy(dst, src);
+    if (!exists(src))
+        throw Exception("source unavailable", "egli::VariableTable::move", src);
+    switch(typeOf(src)) {
+        case Type::Array:
+            set(dst, std::move(TableHelper<detail::RealType<Type::Array>::type>
+                ::getMove(*this, src)));
+            break;
+        case Type::Boolean:
+            set(dst, std::move(TableHelper<detail::RealType<Type::Boolean>::type>
+                ::getMove(*this, src)));
+            break;
+        case Type::Edge:
+            set(dst, std::move(TableHelper<detail::RealType<Type::Edge>::type>
+                ::getMove(*this, src)));
+            break;
+        case Type::Float:
+            set(dst, std::move(TableHelper<detail::RealType<Type::Float>::type>
+                ::getMove(*this, src)));
+            break;
+        case Type::Graph:
+            set(dst, std::move(TableHelper<detail::RealType<Type::Graph>::type>
+                ::getMove(*this, src)));
+            break;
+        case Type::Integer:
+            set(dst, std::move(TableHelper<detail::RealType<Type::Integer>::type>
+                ::getMove(*this, src)));
+            break;
+        case Type::Number:
+            set(dst, std::move(TableHelper<detail::RealType<Type::Number>::type>
+                ::getMove(*this, src)));
+            break;
+        case Type::String:
+            set(dst, std::move(TableHelper<detail::RealType<Type::String>::type>
+                ::getMove(*this, src)));
+            break;
+        case Type::Vertex:
+            set(dst, std::move(TableHelper<detail::RealType<Type::Vertex>::type>
+                ::getMove(*this, src)));
+            break;
+    }
     erase(src);
 }
 
@@ -100,8 +139,6 @@ void egli::VariableTable::copy(name_t dst, name_t src)
 {
     if (!exists(src))
         throw Exception("source unavailable", "egli::VariableTable::copy", src);
-    if (exists(dst))
-        erase(dst);
     switch(typeOf(src)) {
         case Type::Array:
             set(dst, get<detail::RealType<Type::Array>::type>(src));
