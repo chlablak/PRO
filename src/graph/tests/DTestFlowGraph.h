@@ -41,7 +41,7 @@ public:
 
         // Create the graph structure with those vertices and edges
         _G = new FlowGraph(vertices, edges);
-            FlowGraph *g = new FlowGraph(vertices, edges);
+//        FlowGraph *g = new FlowGraph(vertices, edges);
 
         assert(_G->isSimple() == 0);
         assert(_G->isNegativeWeighted() == 0);
