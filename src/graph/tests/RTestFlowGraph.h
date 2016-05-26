@@ -95,18 +95,25 @@ public:
         cout << "_G" << endl;
         cout << *_G << endl;
 
-        // ALGOS NOT WORKING YET WITH FLOWGRAPH
         // Test BFS
         cout << "Test BFS" << endl;
         vector<double> distances;
         IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
         gBFS->print();
+        for (double d : distances) {
+            cout << d << " ";
+        }
+        cout << endl;
 
         // Test DFS
         cout << "Test DFS" << endl;
         vector<double> dfsnum;
-        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
+        IGraph *gDFS = GraphAlgorithm::dfs(_G, v3, dfsnum);
         gDFS->print();
+        for (double d : dfsnum) {
+            cout << d << " ";
+        }
+        cout << endl;
 
         // Test Composantes fortement Connexes
         cout << "Test Composantes fortement connexes" << endl;
