@@ -132,13 +132,13 @@ public:
         // Test BFS
         cout << "Test BFS" << endl;
         vector<double> distances;
-        IGraph *gBFS = GraphAlgorithm::bfs(_G, v2, distances);
+        IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
         gBFS->print();
 
         // Test DFS
         cout << "Test DFS" << endl;
         vector<double> dfsnum;
-        IGraph *gDFS = GraphAlgorithm::dfs(_G, v3, dfsnum);
+        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
         gDFS->print();
 
         // Test Composantes Connexes

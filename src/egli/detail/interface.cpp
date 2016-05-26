@@ -40,15 +40,15 @@ void egli::detail::interfaceBuiltins(FunctionTable &table)
     table.interface("toString", builtins::toString_n);
     table.interface("toString", builtins::toString_s);
     table.interface("toString", builtins::toString_v);
-    table.interface("type", builtins::typeOf_a);
-    table.interface("type", builtins::typeOf_b);
-    table.interface("type", builtins::typeOf_e);
-    table.interface("type", builtins::typeOf_i); // i before f
-    table.interface("type", builtins::typeOf_f);
-    table.interface("type", builtins::typeOf_g);
-    table.interface("type", builtins::typeOf_n);
-    table.interface("type", builtins::typeOf_s);
-    table.interface("type", builtins::typeOf_v);
+    table.interface("typeOf", builtins::typeOf_a);
+    table.interface("typeOf", builtins::typeOf_b);
+    table.interface("typeOf", builtins::typeOf_e);
+    table.interface("typeOf", builtins::typeOf_i); // i before f
+    table.interface("typeOf", builtins::typeOf_f);
+    table.interface("typeOf", builtins::typeOf_g);
+    table.interface("typeOf", builtins::typeOf_n);
+    table.interface("typeOf", builtins::typeOf_s);
+    table.interface("typeOf", builtins::typeOf_v);
     table.interface("er", builtins::originalErdosRenyi);
 }
 

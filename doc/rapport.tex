@@ -1146,14 +1146,19 @@
 			\subsubsection{Fonctions internes}
 				La transformation nécessite plusieurs fonctions pour que la suite puisse correctement fonctionner. Nous allons lister ici toutes ces fonctions qui seront par la suite interfacées dans la table des fonctions.\\
 				
-				Note: les paramètres de type \texttt{T} indiquent qu'il existe une surcharge de la fonction pour chacun des types disponible dans le langage.
+				Note: les types de retour ainsi que les paramètres sont définis par l'implémentation.
 				
 				\begin{figure}[H]
 					\centering
 					\begin{tabular}{lll}
 						Prototype & Description\\
 						\hline
-						\texttt{} & \\
+						\texttt{\_\_edge\_create} & Création d'un Edge, ex: \texttt{e = (0->1:3::5);}\\
+						\texttt{\_\_graph\_add} & Ajout/Modif. sur un Graph, ex: \texttt{g += [v5, e45];}\\
+						\texttt{\_\_graph\_create} & Création d'un Graph, ex: \texttt{g = \{\#2, 0--1\};}\\
+						\texttt{\_\_graph\_sub} & Suppression dans un Graph, ex: \texttt{g -= [v0, v1];}\\
+						\texttt{\_\_negate} & Négation d'un Number, ex: \texttt{n = -n;}\\
+						\texttt{\_\_vertex\_create} & Création d'un Vertex, ex: \texttt{v = (0:"Yverdon");}\\
 					\end{tabular}
 				\end{figure}
 			
@@ -1902,14 +1907,40 @@
 			
 			\begin{figure}[H]
 				\centering
-				\begin{tabular}{lll}
+				\begin{longtable}{p{0.45\textwidth}p{0.45\textwidth}p{0.1\textwidth}}
 					Prototype & Description & Origine\\
 					\hline
 					\texttt{String toString(T a)} & Retourne la représentation de \texttt{a} sous forme de chaîne & \textit{built-in}\\
 					\texttt{Boolean save(Graph g, String file)} & Sauvegarde le graphe \texttt{g} dans le fichier \texttt{file} & \textit{built-in}\\
-					\texttt{Graph load(String file)} & Charge le graphe contenu dans le fichier \texttt{file} & \texttt{built-in}\\
-					\texttt{Boolean draw(Graph g)} & Dessine le graphe \texttt{g} & \texttt{GUI}\\
-				\end{tabular}
+					\texttt{Graph load(String file)} & Charge le graphe contenu dans le fichier \texttt{file} & \textit{built-in}\\
+					\texttt{String type(T a)} & Retourne le type de \texttt{a} sous forme de chaîne & \textit{built-in}\\
+					\texttt{Graph er(Integer V, Float p)} & Génère un graphe aléatoire à \texttt{V} sommets et une probabilité d'inclusion des arêtes de \texttt{p} & \textit{built-in} \\
+					
+					\texttt{Boolean draw(Graph g)} & Dessine le graphe \texttt{g} & \textit{GUI}\\
+					\texttt{Boolean exportAsSvg(Graph g)} & Exporte le graphe \texttt{g} en SVG & \textit{GUI}\\
+					\texttt{Boolean exportAsSvg(Graph g, String file)} & Exporte le graphe \texttt{g} en SVG dans le fichier \texttt{file} & \textit{GUI}\\
+					
+					\texttt{Array bellmanFord(Graph g, Integer from)} & Applique un Bellman-Ford au graphe \texttt{g} depuis le sommet \texttt{from} & \textit{algo}\\
+					\texttt{Array bfs(Graph g, Integer from)} & Applique un BFS sur le graphe \texttt{g} depuis le sommet \texttt{from} & \textit{algo}\\
+					\texttt{Array cc(Graph g)} & Cherche les composantes connexes du graphe \texttt{g} & \textit{algo}\\
+					\texttt{Graph detectCycle(Graph g)} & Retourne un cycle du graphe \texttt{g}, si il y en a un & \textit{algo}\\
+					\texttt{Array dfs(Graph g, Integer from)} & Applique un DFS sur le graphe \texttt{g} depuis le sommet \texttt{from} & \textit{algo}\\
+					\texttt{Array dijkstra(Graph g, Integer from)} & Applique un Dijkstra au graphe \texttt{g} depuis le sommet \texttt{from} & \textit{algo}\\
+					\texttt{Boolean isConnected(Graph g)} & Vérifie si le graphe \texttt{g} est connexe & \textit{algo}\\
+					\texttt{Boolean isDirected(Graph g)} & Vérifie si le graphe \texttt{g} est orienté & \textit{algo}\\
+					\texttt{Boolean isEmpty(Graph g)} & Vérifie si le graphe \texttt{g} est vide & \textit{algo}\\
+					\texttt{Boolean isNegativeWeighted(Graph g)} & Vérifie si le graphe \texttt{g} possède des poids négatifs & \textit{algo}\\
+					\texttt{Boolean isNull(Graph g)} & Vérifie si le graphe \texttt{g} est nul & \textit{algo}\\
+					\texttt{Boolean isPlanar(Graph g)} & Vérifie si le graphe \texttt{g} est planaire & \textit{algo}\\
+					\texttt{Boolean isSimple(Graph g)} & Vérifie si le graphe \texttt{g} est simple & \textit{algo}\\
+					\texttt{Boolean isStronglyConnected(Graph g)} & Vérifie si le graphe \texttt{g} est fortement connexe & \textit{algo}\\
+					\texttt{Boolean isWeighted(Graph g)} & Vérifie si le graphe \texttt{g} est pondéré & \textit{algo}\\
+					\texttt{Graph kruskal(Graph g)} & Applique un Kruskal au graphe \texttt{g} & \textit{algo}\\
+					\texttt{Graph prim(Graph g)} & Applique un Prim au graphe \texttt{g} & \textit{algo}\\
+					\texttt{Graph prim(Graph g, Integer from)} & Applique un Prim au graphe \texttt{g} depuis le sommet \texttt{from} & \textit{algo}\\
+					\texttt{Array tarjan(Graph g)} & Applique un Tarjan au graphe \texttt{g} & \textit{algo}\\
+					\texttt{Array topologicalSort(Graph g)} & Applique un tri topologique au graphe \texttt{g} & \textit{algo}\\
+				\end{longtable}
 			\end{figure}
 	
 	\begin{thebibliography}{9}

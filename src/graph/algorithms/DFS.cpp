@@ -9,7 +9,7 @@
 void DFS::DFSprocedure(Graph *g, Vertex *u) {
     g->forEachAdjacentEdge(u, [&g, &u, this](IEdge *ie){
         Vertex *v = ie->other(u);
-        if (_dfsnum[v->id()] == 0) {
+        if (_dfsnum[v->id()] == -1) {
             _dfsnum[v->id()] = ++N;
             _G->assignVertex(v);
             _G->assignEdge(ie);
@@ -33,8 +33,8 @@ void DFS::visit(Graph *g, Vertex *from) {
     _G = gClone->emptyClone();
 
     // Table of vertex discovery order
-    _dfsnum.assign(g->V(), 0);
-    N = 1;
+    _dfsnum.assign(g->V(), -1);
+    N = 0;
     _dfsnum.at(from->id()) = N;
 
     Vertex *fromCpy;
@@ -61,8 +61,8 @@ void DFS::visit(DiGraph *g, Vertex *from) {
     _G = gClone->emptyClone();
 
     // Table of vertex discovery order
-    _dfsnum.assign(g->V(), 0);
-    N = 1;
+    _dfsnum.assign(g->V(), -1);
+    N = 0;
     _dfsnum.at(from->id()) = N;
 
     vector<int> debut, fin;
@@ -100,8 +100,8 @@ void DFS::visit(FlowGraph *g, Vertex *from) {
     _G = gClone->emptyClone();
 
     // Table of vertex discovery order
-    _dfsnum.assign(g->V(), 0);
-    N = 1;
+    _dfsnum.assign(g->V(), -1);
+    N = 0;
     _dfsnum.at(from->id()) = N;
 
     vector<int> debut, fin;
