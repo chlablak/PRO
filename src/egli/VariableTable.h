@@ -23,10 +23,6 @@
 #include "detail/RealType.h"
 #include "detail/TemporaryName.h"
 
-#warning D
-#include <iostream>
-#include "toString.h"
-
 // Quick writing
 #define EGLI_VARIABLETABLE_DEF_TABLEHELPER(T, V) \
     template<typename Dummy> \
@@ -35,16 +31,12 @@
         static void \
             set(VariableTable &table, name_t name, const T &value) \
         { \
-            std::cout << #V" SET " << name << " = COPY(..."; \
             table.V[name] = value; \
-            std::cout << ")" << std::endl; \
         } \
         static void \
             set(VariableTable &table, name_t name, T&& value) \
         { \
-            std::cout << #V" SET " << name << " = MOVE(..."; \
-            table.V.emplace(name, std::move(value)); \
-            std::cout << ")" << std::endl; \
+            table.V[name] = std::move(value); \
         } \
         static const T & \
             get(const VariableTable &table, name_t name) \

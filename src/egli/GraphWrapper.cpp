@@ -6,6 +6,7 @@
  */
 
 #include <typeinfo>
+#include <algorithm>
 
 #include "GraphWrapper.h"
 #include "Array.h"
@@ -26,7 +27,7 @@ egli::GraphWrapper::GraphWrapper(const GraphWrapper &o) :
 {}
 
 egli::GraphWrapper::GraphWrapper(GraphWrapper &&o) :
-    m_graph(std::move(o.m_graph))
+    m_graph(o.m_graph)
 {
     o.m_graph = nullptr;
 }
@@ -81,10 +82,17 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Array>::cref infos)
 void egli::GraphWrapper::insert(detail::RealType<Type::Vertex>::cref vertex)
 {
     // Vertex ID must increase by 1
-    if (graph()->V() < vertex.id)
-        throw Exception("vertex id must increase by 1",
-                        "egli::GraphWrapper::insert",
-                        detail::builtins::toString_v(vertex));
+    if (graph()->V() < vertex.id) {
+//        int m = graph()->V();
+//        for (vertex_t *v : graph()->vertexList()) {
+//            if (v->id() > m)
+//                m = v->id();
+//        }
+//        if (m < vertex.id)
+            throw Exception("vertex id must increase by 1",
+                            "egli::GraphWrapper::insert",
+                            detail::builtins::toString_v(vertex));
+    }
 
     // Create or reach the Vertex to insert/modify
     vertex_t *v = nullptr;

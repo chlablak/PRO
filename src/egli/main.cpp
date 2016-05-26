@@ -99,7 +99,7 @@ int main()
                 timer.reset();
                 egli::ProcessingUnit::process(s, func, data.variables());
                 cout << "PROCESSED(in " << timer.elapsed() << "s):\n" << s;
-//                cout << "TABLE:\n" << data.variables();
+                cout << "TABLE:\n" << data.variables();
 //                cout << "SERIALIZED:\n" << egli::serialize(data) << endl;
 //                egli::Data tmp;
 //                egli::deserialize(tmp, egli::serialize(data));
