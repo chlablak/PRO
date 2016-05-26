@@ -4,11 +4,9 @@
 #include <iostream>
 #include <QTextEdit>
 #include <QBuffer>
-
 #include <QFileDialog>
-
-
 #include <QApplication>
+#include <QMessageBox>
 
 #include "console.h"
 
@@ -73,11 +71,13 @@ void MainWindow::saveSession() {
     qba.append(QString::number(nbrOfWidget)+"\n");
 
     for(int i = 0; i < nbrOfWidget; i++) {
+        ui->tabWidget->setCurrentIndex(i);
         qba.append(((Console*)ui->tabWidget->widget(i))->prepareDataForSave());
         qba.append(graphDelimiter+"\n");
     }
 
-    file.write(qba);
+    qba.prepend("SESSION\n");
+    file.write(qba.toHex());
 
     file.close();
 }
@@ -88,31 +88,43 @@ void MainWindow::loadSession() {
         return;
     }
 
+    QFile file(fname);
+    file.open(QIODevice::ReadOnly);
+
+
+    QByteArray qba = file.readAll();
+    qba = QByteArray::fromHex(qba);
+
+    QBuffer dataBuffer(&qba);
+    dataBuffer.open(QIODevice::ReadOnly);
+    QByteArray graphByteArray("");
+
+    char typeOfFile[10];
+    int size = dataBuffer.readLine(typeOfFile, 9);
+    typeOfFile[size-1] = '\0';
+    if(!(strcmp(typeOfFile, "SESSION") == 0)) {
+        QMessageBox::warning(this, "Error loading file", "The format of the file is not correct");
+        file.close();
+        return;
+    }
+
     int nbrOfTab = ui->tabWidget->count();
 
     for(int i = 0; i < nbrOfTab; i++) {
         ui->tabWidget->removeTab(0);
     }
 
-    QFile file(fname);
-    file.open(QIODevice::ReadOnly);
-
-    QByteArray qba = file.readAll();
-    //qba = QByteArray::fromHex(qba);
-
-    QBuffer dataBuffer(&qba);
-    dataBuffer.open(QIODevice::ReadOnly);
-    QByteArray graphByteArray("");
-
     char charArray[1024];
 
-    int size = dataBuffer.readLine(charArray, 1023);
+    size = dataBuffer.readLine(charArray, 1023);
     charArray[size-1] = '\0';
     int nbrOfGraph = atoi(charArray);
 
     QString line;
 
     for(int i = 0; i < nbrOfGraph; i++) {
+        line="";
+        graphByteArray.clear();
         do {
             dataBuffer.readLine(charArray, 1023);
             line = QString(charArray);
@@ -120,8 +132,9 @@ void MainWindow::loadSession() {
             graphByteArray.append(line);
         }while(line != (graphDelimiter+"\n"));
 
-        ui->tabWidget->addTab(new Console(), "");
-        ((Console*)ui->tabWidget->widget(ui->tabWidget->currentIndex()))->loadDataToConsole(graphByteArray, false);
+        int index = ui->tabWidget->addTab(new Console("", this), "");
+        ui->tabWidget->setCurrentIndex(index);
+        ((Console*)ui->tabWidget->widget(index))->loadDataToConsole(graphByteArray, false);
     }
 
     dataBuffer.close();
@@ -141,14 +154,14 @@ void MainWindow::saveConsole()
 void MainWindow::saveTab()
 {
     if(ui->tabWidget->count() > 0) {
-        ((Console*)ui->tabWidget->currentWidget())->save();
+        ((Console*)ui->tabWidget->currentWidget())->saveConsole();
     }
 }
 
 void MainWindow::loadTab()
 {
     if(ui->tabWidget->count() > 0) {
-        ((Console*)ui->tabWidget->currentWidget())->load();
+        ((Console*)ui->tabWidget->currentWidget())->loadConsole();
     }
 }
 
@@ -177,9 +190,10 @@ void MainWindow::showHelp() {
 }
 
 void MainWindow::getTabName(QString& name) {
-    name = ui->tabWidget->tabToolTip(ui->tabWidget->currentIndex());
+    name = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
 }
 
 void MainWindow::setTabName(const QString& name) {
     ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), name);
+    ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), name);
 }

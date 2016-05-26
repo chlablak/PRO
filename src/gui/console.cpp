@@ -7,6 +7,7 @@
 #include <QCompleter>
 #include <QAbstractItemView>
 #include <QScrollBar>
+#include <QMessageBox>
 
 
 #include "graphwindow.h"
@@ -133,9 +134,6 @@ void Console::processKeyboardInput(QKeyEvent *event)
             commandHistory.push_front(buffer);
             currentCommand = commandHistory.end();
 
-            std::cout << buffer.toStdString() << std::endl;
-
-
             execute(buffer);
 
             insertPlainText("\n" + prompt + " > ");
@@ -150,12 +148,10 @@ void Console::processKeyboardInput(QKeyEvent *event)
         }
         else if( event->key() == Qt::Key_Backtab && event->modifiers() & Qt::ControlModifier) {
             emit requestTabChange(-1);
-        }
+        }/*
         else if( event->key() == Qt::Key_S && event->modifiers() & Qt::ControlModifier) {
-            if(hasChanged) {
-                save();
-            }
-        }
+            save();
+        }*/
         else {
             if(event->text() != "") {
                 if(currentCommand != commandHistory.end())
@@ -182,8 +178,14 @@ void Console::execute(const QString &buffer)
             egli::Statement statement = interpreter.next();
             double time = timer.elapsed();
             insertPlainText("\n Elapsed time : " + QString::number(time) + "s");
-            if(dataState.variables().exists(statement.value))
-                insertPlainText(" -> " +QString::fromStdString(statement.value+" = "+dataState.variables().toString(statement.value)));
+            if(dataState.variables().exists(statement.value)) {
+                int nbrOfCharToDisplay = 100;
+                QString resToDisplay = QString::fromStdString(statement.value+" = "+dataState.variables().toString(statement.value));
+                insertPlainText(" -> " +resToDisplay.left(nbrOfCharToDisplay));
+                if(resToDisplay.size() > nbrOfCharToDisplay)
+                    insertPlainText(" ...");
+
+            }
 
         } catch(const std::runtime_error& e) {
             insertPlainText("\n => "+QString(e.what()));
@@ -191,6 +193,13 @@ void Console::execute(const QString &buffer)
         ensureCursorVisible();
     }
     updateCompleterList();
+}
+
+void Console::save()
+{
+    if(hasChanged) {
+        saveConsole();
+    }
 }
 
 void Console::clearDisplay()
@@ -234,28 +243,32 @@ void QTextEdit::contextMenuEvent(QContextMenuEvent *event)
     delete menu;
 }
 
-void Console::save() {
+void Console::saveConsole() {
+    if(!hasChanged)
+        return;
+    QString fname = filename;
     if(filename == "")
     {
         QFileDialog dialog;
-        QString fname = QFileDialog::getSaveFileName(this, QString("Save graph"), QString(), QString("Graph (*.gph)"));
+        fname = QFileDialog::getSaveFileName(this, QString("Save graph"), QString(), QString("Graph (*.gph)"));
         if(fname.isEmpty()) {
             return;
         }
         filename = fname;
     }
 
-    QFile file(filename);
+    QFile file(fname);
     file.open(QIODevice::WriteOnly);
+
+    hasChanged = false;
+    emit signalSave();
 
     QByteArray qba = prepareDataForSave();
 
+    qba.prepend("GRAPH\n");
     file.write(qba.toHex());
 
     file.close();
-
-    emit signalSave();
-    hasChanged = false;
 }
 
 QByteArray Console::prepareDataForSave()
@@ -266,31 +279,54 @@ QByteArray Console::prepareDataForSave()
 
     emit askTabName(tabName);
 
+    if(tabName.endsWith("*") && hasChanged) {
+        tabName = tabName.left(tabName.size()-1);
+    }
+
     qba.append(tabName+"\n");
     qba.append(filename+"\n");
     qba.append(prompt+"\n");
+    qba.append(buffer+"\n");
     qba.append(QString::number(commandHistory.size())+"\n");
     for(auto c: commandHistory) {
         qba.append(c+fileDelimiter+"\n");
     }
 
+    qba.append(QString(QString::number(toPlainText().count("\n")+1)+"\n"));
+
+    qba.append(toPlainText()+"\n");
+    qba.append(QString::fromStdString(egli::serialize(dataState)+"\n"));
+
     return qba;
 }
 
-void Console::load()
+void Console::loadConsole()
 {
     QString fname = QFileDialog::getOpenFileName(this, QString("Load graph"), QString(), QString("Graph (*.gph)"));
     if(fname.isEmpty()) {
         return;
     }
-    filename = fname;
 
-    QFile file(filename);
+    QFile file(fname);
     file.open(QIODevice::ReadOnly);
 
     QByteArray qba = file.readAll();
-
     qba = QByteArray::fromHex(qba);
+    QBuffer dataBuffer(&qba);
+    dataBuffer.open(QIODevice::ReadOnly);
+
+    char charArray[10];
+    int size = dataBuffer.readLine(charArray, 9);
+    charArray[size-1] = '\0';
+    if(!(strcmp(charArray, "GRAPH") == 0)) {
+        QMessageBox::warning(this, "Error loading file", "The format of the file is not correct");
+        file.close();
+        return;
+    }
+
+    filename = fname;
+
+    qba = dataBuffer.readAll();
 
     loadDataToConsole(qba, true);
 
@@ -326,6 +362,10 @@ void Console::loadDataToConsole(QByteArray& data, bool ignoreFilename)
 
     size = dataBuffer.readLine(charArray, 1023);
     charArray[size-1] = '\0';
+    buffer = QString(charArray);
+
+    size = dataBuffer.readLine(charArray, 1023);
+    charArray[size-1] = '\0';
     int nbrOfCommand = atoi(charArray);
 
     for(int i = 0; i < nbrOfCommand;) {
@@ -341,10 +381,36 @@ void Console::loadDataToConsole(QByteArray& data, bool ignoreFilename)
     }
     currentCommand = commandHistory.end();
 
+    size = dataBuffer.readLine(charArray, 1023);
+    charArray[size-1] = '\0';
+    int nbrLine = atoi(charArray);
+
+    for(int i = 0; i < nbrLine; i++) {
+        size = dataBuffer.readLine(charArray, 1023);
+        charArray[size-1] = '\0';
+        append(QString(charArray));
+    }
+
+    QString temp = "";
+    bool continuteToLoop = false;
+
+    do {
+        size = dataBuffer.readLine(charArray, 1023);
+        char charNewLine[] = "\n";
+        continuteToLoop = (strpbrk(charArray, charNewLine) == 0);
+        if(!continuteToLoop)
+            charArray[size-1] = '\0';
+        temp.append(charArray);
+    }while(continuteToLoop);
+
+
+    egli::deserialize(interpreter, dataState, temp.toStdString());
+
+
     cursorPosition = buffer.size();
     cursor.movePosition(QTextCursor::End);
     setTextCursor(cursor);
-    insertPlainText(prompt+" > ");
+    hasChanged = false;
 
     dataBuffer.close();
 }
