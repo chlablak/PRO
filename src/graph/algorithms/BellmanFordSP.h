@@ -8,7 +8,6 @@
 #include "Visitor.h"
 #include "../graphs/IEdge.h"
 
-// TODO : si le temps le permet, implémenté avec une queue pour gagner en complexité moyenne (mais ne change rien dans le pire des cas)
 class BellmanFordSP : public Visitor
 {
 private:

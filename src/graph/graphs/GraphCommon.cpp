@@ -95,7 +95,9 @@ template <typename T>
 typename GraphCommon<T>::Vertices GraphCommon<T>::vertexList() const {
     Vertices list;
     for(Vertex* vertex : _vertices) {
-        list.push_back(vertex);
+        if (vertex) {
+            list.push_back(vertex);
+        }
     }
     return list;
 }
