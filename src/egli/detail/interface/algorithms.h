@@ -129,6 +129,15 @@ RealType<Type::Graph>::type detectCycle(RealType<Type::Graph>::cref g);
  */
 RealType<Type::Array>::type dijkstra(RealType<Type::Graph>::cref g,
                                      RealType<Type::Integer>::cref from);
+
+/*! \brief Apply the Topological sort visitor
+ *
+ * \param g - The Graph
+ * \return An Array with the Vertex position in the topological sort
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Array>::type topologicalSort(RealType<Type::Graph>::cref g);
 } // namespace algorithms
 } // namespace detail
 } // namespace egli

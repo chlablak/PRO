@@ -109,7 +109,7 @@ private:
 
     // data members
     mutable PreprocessorBuffer m_buffer; // mutable for raw() method
-    mutable std::ostream m_stream;
+    mutable std::ostream m_stream;       // mutable for raw() method
     std::list<std::string> m_queue;
     char m_delimiter;
 };
