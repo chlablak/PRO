@@ -6,10 +6,7 @@
 #define GRAPH_TESTDIGRAPH_H
 
 #include <cassert>
-#include "../graphs/IGraph.h"
-#include "../graphs/DiEdge.h"
-#include "../algorithms/GraphAlgorithm.h"
-#include "../algorithms/DetectedCycle.h"
+#include "../includes.h"
 
 class DTestDiGraph
 {
