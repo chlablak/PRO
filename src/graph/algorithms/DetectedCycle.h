@@ -44,8 +44,6 @@ public:
 
     virtual void visit(FlowGraph *g, Vertex *from) override;
 
-    bool hasCycle() const;
-
     virtual IGraph *G() const override ;
 
     virtual std::vector<double> table() override ;

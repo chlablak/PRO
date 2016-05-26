@@ -26,14 +26,15 @@ public:
 
 
         // Associate Edges to vertices
-            IEdge *e1 = new DiEdge(v1, v2, "e1", 3.);
-            IEdge *e5 = new DiEdge(v1, v4, "e5", 2.);
-            IEdge *e2 = new DiEdge(v2, v3, "e2", 4.);
-           // IEdge *e3 = new DiEdge(v3, v1, "e3", 3.);
-            IEdge *e4 = new DiEdge(v5, v2, "e4", 2.);
+        IEdge *e1 = new DiEdge(v1, v2, "e1", 3.);
+        IEdge *e2 = new DiEdge(v3, v2, "e2", 4.);
+        IEdge *e3 = new DiEdge(v2, v4, "e3", 3.);
+        IEdge *e4 = new DiEdge(v3, v4, "e4", 2.);
+        IEdge *e5 = new DiEdge(v3, v5, "e5", 2.);
+        IEdge *e6 = new DiEdge(v4, v5, "e6", 2.);
 
         vector<Vertex*> vertices = {v1, v2, v3, v4, v5};
-        vector<IEdge*> edges = {e1, e2, e4, e5};
+        vector<IEdge*> edges = {e1, e2, e3, e4, e5, e6};
 
         // Create the graph structure with those vertices and edges
         _G = new DiGraph(vertices, edges);
@@ -45,11 +46,26 @@ public:
             cout << *gDetectCycle << endl;
         }
 
+        _G = new DiGraph(vertices, edges);
+
+        cout << "Test du tri topoloque" << endl;
+        vector<double> orderSort = GraphAlgorithm::topoloqicalSort(_G);
+        cout << "ordre des sommet " << endl;
+        for(auto i : GraphAlgorithm::topoloqicalSort(_G))
+        {
+            cout << i << " " ;
+        }
+        cout << endl;
+
+
+
+
+
         assert(_G->isSimple() == 1);
         assert(_G->isNegativeWeighted() == 0);
         assert(_G->isPlanar() == 0);
         assert(_G->V() == 5);
-        assert(_G->E() == 4);
+        assert(_G->E() == 6);
 
 //        cout << "Avant ponderation :" << endl;
 //        cout << *_G << endl;

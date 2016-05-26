@@ -25,9 +25,9 @@ public:
         //Vertex *v7 = new Vertex("v7");
 
         // Associate Edges to vertices
-       // IEdge *e1 = new Edge(v1, v2, "e1", 3);
+        IEdge *e1 = new Edge(v2, v4, "e1", 3);
         IEdge *e2 = new Edge(v1, v3, "e2", 2);
-        IEdge *e3 = new Edge(v2, v3, "e3", 1);
+        IEdge *e3 = new Edge(v2, v1, "e3", 1);
         IEdge *e4 = new Edge(v4, v5, "e4", 4);
         IEdge *e5 = new Edge(v3, v4, "e5", 3);
         //IEdge *e6 = new Edge(v3, v2, "e6", 2);
@@ -39,7 +39,7 @@ public:
         //IEdge *e12 = new Edge(v7, v1, "e12", 4);
 
         vector<Vertex*> vertices = {v1, v2, v3, v4, v5};
-        vector<IEdge*> edges = {e2, e3, e4, e5};
+        vector<IEdge*> edges = {e1, e2, e3, e4, e5};
 
         // Create the graph structure with those vertices and edges
         _G = new Graph(vertices, edges);
