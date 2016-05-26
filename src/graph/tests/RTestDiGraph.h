@@ -6,7 +6,7 @@
 #define GRAPH_RTESTDIGRAPH_H
 
 #include <cassert>
-#include "../Includes.h"
+#include "../includes.h"
 
 class RTestDiGraph
 {
