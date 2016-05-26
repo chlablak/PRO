@@ -14,7 +14,7 @@ using namespace std;
 int main() {
 
 //    // Tests Djomo
-//    DTestGraph testGraph;
+      DTestGraph testGraph;
       DTestDiGraph testDiGraph;
 //    DTestFlowGraph testFlowGraph;
 

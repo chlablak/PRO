@@ -17,6 +17,7 @@
 #include "BellmanFordSP.h"
 #include "DijkstraSP.h"
 #include "DetectedCycle.h"
+#include "TopologicalSort.h"
 
 IGraph *GraphAlgorithm::bfs(IGraph *g, Vertex *from, vector<double>& distances) {
     Visitor *v = new BFS;
@@ -98,6 +99,14 @@ IGraph *GraphAlgorithm::detectCycle(IGraph *g) {
     g->accept(v, g->vertexList().front());
     return v->G();
 }
+
+vector<double> GraphAlgorithm::topoloqicalSort(IGraph *g) {
+    Visitor *v = new TopologicalSort;
+    g->accept(v, g->vertexList().front());
+    return v->table();
+}
+
+
 
 
 
