@@ -90,7 +90,10 @@ SOURCES += main.cpp\
     ../graph/graphs/FlowGraph.cpp \
     ../graph/graphs/Graph.cpp \
     ../graph/graphs/GraphCommon.cpp \
-    ../graph/graphs/Vertex.cpp
+    ../graph/graphs/Vertex.cpp \
+    ../graph/algorithms/FFEK.cpp \
+    ../graph/algorithms/PushRelabel.cpp \
+    ../egli/serialize.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
@@ -191,7 +194,16 @@ HEADERS  += mainwindow.h \
     ../graph/graphs/IEdge.h \
     ../graph/graphs/IGraph.h \
     ../graph/graphs/Vertex.h \
-    ../graph/Includes.h
+    ../graph/Includes.h \
+    ../graph/algorithms/FFEK.h \
+    ../graph/algorithms/PushRelabel.h \
+    ../graph/tests/DTestDiGraph.h \
+    ../graph/tests/DTestFlowGraph.h \
+    ../graph/tests/DTestGraph.h \
+    ../graph/tests/RTestDiGraph.h \
+    ../graph/tests/RTestFlowGraph.h \
+    ../graph/tests/RTestGraph.h \
+    ../egli/serialize.h
 	
 FORMS    += mainwindow.ui \
     dialogstring.ui \
