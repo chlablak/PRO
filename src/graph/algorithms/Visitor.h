@@ -6,6 +6,7 @@
 #define GRAPH_VISITOR_H
 
 #include <vector>
+#include "../graphs/Vertex.h"
 
 class IGraph;
 class Vertex;
@@ -17,9 +18,9 @@ class Visitor {
 public:
     Visitor() {}
     virtual ~Visitor() {}
-    virtual void visit(Graph *g, Vertex *from) = 0;
-    virtual void visit(DiGraph *g, Vertex *from) = 0;
-    virtual void visit(FlowGraph *g, Vertex *from) = 0;
+    virtual void visit(Graph *g, Vertex *from, Vertex *to) = 0;
+    virtual void visit(DiGraph *g, Vertex *from, Vertex *to) = 0;
+    virtual void visit(FlowGraph *g, Vertex *from, Vertex *to) = 0;
 
     virtual IGraph* G() const = 0;
 

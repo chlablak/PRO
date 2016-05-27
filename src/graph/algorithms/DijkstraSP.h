@@ -26,9 +26,9 @@ public:
     DijkstraSP() : _G(nullptr), _edgeTo(0), _distanceTo(0), _marques(0), _pq() { }
     virtual ~DijkstraSP() { }
 
-    virtual void visit(Graph *g, Vertex *from) override;
-    virtual void visit(DiGraph *g, Vertex *from) override;
-    virtual void visit(FlowGraph *g, Vertex *from) override;
+    virtual void visit(Graph *g, Vertex *from, Vertex *to) override;
+    virtual void visit(DiGraph *g, Vertex *from, Vertex *to) override;
+    virtual void visit(FlowGraph *g, Vertex *from, Vertex *to) override;
     virtual IGraph *G() const override;
     virtual std::vector<double> table() override;
 };

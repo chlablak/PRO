@@ -16,9 +16,9 @@ public:
     CopyToDiGraph() : _G(nullptr) {}
     ~CopyToDiGraph() {}
 
-    virtual void visit(Graph *g, Vertex *from) override;
-    virtual void visit(DiGraph *g, Vertex *from) override;
-    virtual void visit(FlowGraph *g, Vertex *from) override;
+    virtual void visit(Graph *g, Vertex *from, Vertex *to) override;
+    virtual void visit(DiGraph *g, Vertex *from, Vertex *to) override;
+    virtual void visit(FlowGraph *g, Vertex *from, Vertex *to) override;
     virtual IGraph *G() const override;
     virtual std::vector<double> table() override;
 };

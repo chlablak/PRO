@@ -18,8 +18,19 @@ FlowGraph *FlowGraph::clone() const {
     return new FlowGraph(*this);
 }
 
-void FlowGraph::accept(Visitor *v, Vertex *from) {
-    v->visit(this, from);
+bool FlowGraph::hasPositiveCapacity() const {
+    for (IEdge *ie : edgeList()) {
+        FlowEdge *fe = (FlowEdge*)ie;
+        if (fe->maxCapacity() < 0) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void FlowGraph::accept(Visitor *v, Vertex *from, Vertex *to) {
+    v->visit(this, from, to);
 }
 
 IEdge *FlowGraph::createEdge(Vertex *v, Vertex *w) const {

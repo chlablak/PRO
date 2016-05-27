@@ -34,7 +34,7 @@ void DijkstraSP::relax(IEdge *ie) {
     }
 }
 
-void DijkstraSP::visit(Graph *g, Vertex *from) {
+void DijkstraSP::visit(Graph *g, Vertex *from, Vertex *) {
     if (!g->isWeighted() || g->isNegativeWeighted()) {
         throw std::runtime_error("Error in Dijkstra algorithm. The graph must"
                                          " be positively weighted");
@@ -77,7 +77,7 @@ void DijkstraSP::visit(Graph *g, Vertex *from) {
     }
 }
 
-void DijkstraSP::visit(DiGraph *g, Vertex *from) {
+void DijkstraSP::visit(DiGraph *g, Vertex *from, Vertex *) {
     if (!g->isWeighted() || g->isNegativeWeighted()) {
         throw std::runtime_error("Error in Dijkstra algorithm. The graph must"
                                          " be positively weighted");
@@ -120,7 +120,7 @@ void DijkstraSP::visit(DiGraph *g, Vertex *from) {
     }
 }
 
-void DijkstraSP::visit(FlowGraph *g, Vertex *from) {
+void DijkstraSP::visit(FlowGraph *g, Vertex *from, Vertex *) {
     if (!g->isWeighted() || g->isNegativeWeighted()) {
         throw std::runtime_error("Error in Dijkstra algorithm. The graph must"
                                          "be positively weighted");

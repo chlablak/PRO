@@ -19,7 +19,7 @@ namespace std
     };
 }
 
-void Prim::visit(Graph *g, Vertex *from) {
+void Prim::visit(Graph *g, Vertex *from, Vertex *) {
     if (!g->isSimple()) {
         throw std::runtime_error("Error in 'Prim' algorithm. The graph must be simple.");
     }
@@ -89,14 +89,10 @@ void Prim::visit(Graph *g, Vertex *from) {
     }
 }
 
-void Prim::visit(DiGraph *g, Vertex *from) {
-    UNUSED(g);
-    UNUSED(from);
+void Prim::visit(DiGraph *, Vertex *, Vertex *) {
 }
 
-void Prim::visit(FlowGraph *g, Vertex *from) {
-    UNUSED(g);
-    UNUSED(from);
+void Prim::visit(FlowGraph *, Vertex *, Vertex *) {
 }
 
 IGraph *Prim::G() const {

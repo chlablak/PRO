@@ -83,7 +83,7 @@ bool Graph::isDirected() const {
 
 bool Graph::isConnected() const {
     Visitor *v = new ConnectedComponent;
-    v->visit((Graph*)this, nullptr);
+    v->visit((Graph*)this, nullptr, nullptr);
 
     vector<double> cc = v->table();
     size_t ccSize = cc.size();
@@ -197,8 +197,8 @@ void Graph::assignEdge(IEdge *ie) {
     }
 }
 
-void Graph::accept(Visitor *v, Vertex *from) {
-    v->visit(this, from);
+void Graph::accept(Visitor *v, Vertex *from, Vertex *to) {
+    v->visit(this, from, to);
 }
 
 Graph *Graph::emptyClone() const {

@@ -140,7 +140,30 @@ public:
         for (double d : distancesBF) {
             cout << d << " ";
         }
-        cout << endl;
+        cout << endl << endl;
+
+        // Test Flow max
+        Vertex *vv1 = new Vertex("v1");
+        Vertex *vv2 = new Vertex("v2");
+        Vertex *vv3 = new Vertex("v3");
+        Vertex *vv4 = new Vertex("v4");
+        Vertex *vv5 = new Vertex("v5");
+        Vertex *vv6 = new Vertex("v6");
+        IEdge *ee1 = new FlowEdge(vv1, vv2, 4);
+        IEdge *ee2 = new FlowEdge(vv1, vv3, 4);
+        IEdge *ee3 = new FlowEdge(vv2, vv3, 2);
+        IEdge *ee4 = new FlowEdge(vv2, vv4, 2);
+        IEdge *ee5 = new FlowEdge(vv3, vv5, 6);
+        IEdge *ee6 = new FlowEdge(vv4, vv5, 2);
+        IEdge *ee7 = new FlowEdge(vv4, vv6, 5);
+        IEdge *ee8 = new FlowEdge(vv5, vv4, 2);
+        IEdge *ee9 = new FlowEdge(vv5, vv6, 3);
+        vector<Vertex*> vvs = {vv1, vv2, vv3, vv4, vv5, vv6};
+        vector<IEdge*> vve = {ee1, ee2, ee3, ee4, ee5, ee6, ee7, ee8, ee9};
+        IGraph *fg = new FlowGraph(vvs, vve);
+        cout << *fg << endl;
+        cout << "Max flow" << endl;
+        int maxFlow = GraphAlgorithm::maxFlow(fg, v1, v6);
     }
 
     ~RTestFlowGraph() { delete _G; }

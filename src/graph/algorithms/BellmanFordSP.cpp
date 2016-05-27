@@ -31,7 +31,7 @@ void BellmanFordSP::relax(IEdge *ie) {
     }
 }
 
-void BellmanFordSP::visit(Graph *g, Vertex *from) {
+void BellmanFordSP::visit(Graph *g, Vertex *from, Vertex *) {
     if (!g->isWeighted()) {
         throw std::runtime_error("Error in Bellman-Ford algorithm."
                                          "The directed graph must be weighted.");
@@ -62,7 +62,7 @@ void BellmanFordSP::visit(Graph *g, Vertex *from) {
     }
 }
 
-void BellmanFordSP::visit(DiGraph *g, Vertex *from) {
+void BellmanFordSP::visit(DiGraph *g, Vertex *from, Vertex *) {
     if (!g->isWeighted()) {
         throw std::runtime_error("Error in Bellman-Ford algorithm."
                                          "The directed graph must be weighted.");
@@ -93,7 +93,7 @@ void BellmanFordSP::visit(DiGraph *g, Vertex *from) {
     }
 }
 
-void BellmanFordSP::visit(FlowGraph *g, Vertex *from) {
+void BellmanFordSP::visit(FlowGraph *g, Vertex *from, Vertex *) {
     if (!g->isWeighted()) {
         throw std::runtime_error("Error in Bellman-Ford algorithm."
                                          "The flow graph must be weighted.");

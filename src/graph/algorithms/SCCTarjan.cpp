@@ -7,17 +7,14 @@
 
 SCCTarjan::~SCCTarjan() { }
 
-void SCCTarjan::visit(Graph *g, Vertex *from) {
-    UNUSED(g);
-    UNUSED(from);
+void SCCTarjan::visit(Graph *, Vertex *, Vertex *) {
     throw std::runtime_error("Error. The algorithm of 'Strongly Connected Component'"
                                      "can't be applied to a non-directed graph."
                                      "Use the 'Connected Component' algorithm"
                                      "instead.");
 }
 
-void SCCTarjan::visit(DiGraph *g, Vertex *from) {
-    UNUSED(from);
+void SCCTarjan::visit(DiGraph *g, Vertex *, Vertex *) {
     _scc.assign(g->V(), 0);
     _dfsnum.assign(g->V(), 0);
     _low.assign(g->V(), 0);
@@ -29,8 +26,8 @@ void SCCTarjan::visit(DiGraph *g, Vertex *from) {
     });
 }
 
-void SCCTarjan::visit(FlowGraph *g, Vertex *from) {
-    visit((DiGraph*)g, from);
+void SCCTarjan::visit(FlowGraph *g, Vertex *from, Vertex *) {
+    visit((DiGraph*)g, from, nullptr);
 }
 
 IGraph *SCCTarjan::G() const {

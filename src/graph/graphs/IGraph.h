@@ -214,7 +214,7 @@ public:
      *  \param v - The visitor who want to visit the graph
      *  \param from - The source vertex from where the visitor will visit the graph
      */
-    virtual void accept(Visitor *v, Vertex *from) = 0;
+    virtual void accept(Visitor *v, Vertex *from, Vertex *to) = 0;
 
     /*! brief Overload of ostream operator to display a graph in the console
      */

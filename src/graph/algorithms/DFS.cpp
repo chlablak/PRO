@@ -23,7 +23,7 @@ DFS::~DFS() {
 }
 
 
-void DFS::visit(Graph *g, Vertex *from) {
+void DFS::visit(Graph *g, Vertex *from, Vertex *) {
     if (g->isNull()) {
         _G = new Graph;
         return;
@@ -51,7 +51,7 @@ void DFS::visit(Graph *g, Vertex *from) {
     DFSprocedure(gClone, fromCpy);
 }
 
-void DFS::visit(DiGraph *g, Vertex *from) {
+void DFS::visit(DiGraph *g, Vertex *from, Vertex *) {
     if (g->isNull()) {
         _G = new DiGraph;
         return;
@@ -90,7 +90,7 @@ void DFS::visit(DiGraph *g, Vertex *from) {
     });
 }
 
-void DFS::visit(FlowGraph *g, Vertex *from) {
+void DFS::visit(FlowGraph *g, Vertex *from, Vertex *) {
     if (g->isNull()) {
         _G = new DiGraph;
         return;

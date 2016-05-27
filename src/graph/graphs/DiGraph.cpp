@@ -14,8 +14,8 @@ IGraph *DiGraph::emptyClone() const {
     return g;
 }
 
-void DiGraph::accept(Visitor *v, Vertex *from) {
-    v->visit(this, from);
+void DiGraph::accept(Visitor *v, Vertex *from, Vertex *to) {
+    v->visit(this, from, to);
 }
 
 IEdge *DiGraph::createEdge(Vertex *v, Vertex *w) const {

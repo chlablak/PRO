@@ -19,9 +19,9 @@ private:
 public:
     Kruskal() : _G(nullptr) {}
     ~Kruskal() {}
-    virtual void visit(Graph *g, Vertex *from);
-    virtual void visit(DiGraph *g, Vertex *from);
-    virtual void visit(FlowGraph *g, Vertex *from);
+    virtual void visit(Graph *g, Vertex *from, Vertex *to) override;
+    virtual void visit(DiGraph *g, Vertex *from, Vertex *to) override;
+    virtual void visit(FlowGraph *g, Vertex *from, Vertex *to) override;
     virtual IGraph *G() const override;
     virtual std::vector<double> table() override;
 };

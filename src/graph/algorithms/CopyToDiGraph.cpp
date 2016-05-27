@@ -8,8 +8,7 @@
 #include "../graphs/FlowGraph.h"
 
 
-void CopyToDiGraph::visit(Graph *g, Vertex *from) {
-    UNUSED(from);
+void CopyToDiGraph::visit(Graph *g, Vertex *, Vertex *) {
 
     _G = new DiGraph;
 
@@ -29,12 +28,11 @@ void CopyToDiGraph::visit(Graph *g, Vertex *from) {
     }
 }
 
-void CopyToDiGraph::visit(DiGraph *g, Vertex *from) {
-    UNUSED(from);
+void CopyToDiGraph::visit(DiGraph *g, Vertex *, Vertex *) {
     _G = g->clone();
 }
 
-void CopyToDiGraph::visit(FlowGraph *g, Vertex *from) {
+void CopyToDiGraph::visit(FlowGraph *g, Vertex *from, Vertex *) {
     UNUSED(from);
 
     _G = new DiGraph;

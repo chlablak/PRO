@@ -10,7 +10,7 @@
 
 using namespace std;
 
-void BFS::visit(Graph *g, Vertex *from) {
+void BFS::visit(Graph *g, Vertex *from, Vertex *) {
     if (g->isNull()) {
         _G = new Graph;
         return;
@@ -49,7 +49,7 @@ void BFS::visit(Graph *g, Vertex *from) {
     }
 }
 
-void BFS::visit(DiGraph *g, Vertex *from) {
+void BFS::visit(DiGraph *g, Vertex *from, Vertex *) {
     if (g->isNull()) {
         _G = new DiGraph;
         return;
@@ -90,7 +90,7 @@ void BFS::visit(DiGraph *g, Vertex *from) {
     }
 }
 
-void BFS::visit(FlowGraph *g, Vertex *from) {
+void BFS::visit(FlowGraph *g, Vertex *from, Vertex *) {
     if (g->isNull()) {
         _G = new FlowGraph;
         return;

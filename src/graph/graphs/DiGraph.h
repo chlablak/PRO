@@ -30,7 +30,7 @@ public:
     virtual IGraph *emptyClone() const override;
 
     // Visitor
-    virtual void accept(Visitor *v, Vertex *from) override;
+    virtual void accept(Visitor *v, Vertex *from, Vertex *to) override;
 
     // Factory method
     virtual IEdge *createEdge(Vertex *v, Vertex *w) const override;

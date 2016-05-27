@@ -48,7 +48,7 @@ public:
 
     virtual IEdge *createEdge(Vertex *v, Vertex *w) const override;
 
-    virtual void accept(Visitor *v, Vertex *from) override;
+    virtual void accept(Visitor *v, Vertex *from, Vertex *to) override;
 };
 
 

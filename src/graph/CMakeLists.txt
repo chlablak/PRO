@@ -67,5 +67,5 @@ set(SOURCE_FILES
         tests/DTestFlowGraph.h
         tests/RTestGraph.h
         tests/RTestDiGraph.h
-        tests/RTestFlowGraph.h)
+        tests/RTestFlowGraph.h algorithms/PushRelabel.cpp algorithms/PushRelabel.h algorithms/FFEK.cpp algorithms/FFEK.h)
 add_executable(graph ${SOURCE_FILES})

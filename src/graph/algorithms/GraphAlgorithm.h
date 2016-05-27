@@ -27,6 +27,7 @@ public:
     static IGraph* dijkstra(IGraph *g, Vertex *from, vector<double>& distances);
     static IGraph* detectCycle(IGraph *g);
     static vector<double> topoloqicalSort(IGraph* g);
+    static int maxFlow(IGraph *g, Vertex *from, Vertex *to);
 };
 
 

@@ -7,33 +7,36 @@
 
 FlowEdge::FlowEdge(Vertex *from, Vertex *to, const int &minCapacity,
                    const int &maxCapacity) : DiEdgeCommon(from, to) {
-    checkCapacity(minCapacity, maxCapacity);
+    setCapacity(minCapacity, maxCapacity);
 }
 
 FlowEdge::FlowEdge(Vertex *from, Vertex *to, const string &label,
                    const int &minCapacity, const int &maxCapacity) : DiEdgeCommon(from, to, label){
-    checkCapacity(minCapacity, maxCapacity);
+    setCapacity(minCapacity, maxCapacity);
 }
 
 FlowEdge::FlowEdge(Vertex *from, Vertex *to, const double weight,
                    const int &minCapacity, const int &maxCapacity) : DiEdgeCommon(from, to, weight){
-    checkCapacity(minCapacity, maxCapacity);
+    setCapacity(minCapacity, maxCapacity);
 }
 
 FlowEdge::FlowEdge(Vertex *from, Vertex *to, const string &label,
                    const double weight, const int &minCapacity,
                    const int &maxCapacity) : DiEdgeCommon(from, to, label, weight){
-    checkCapacity(minCapacity, maxCapacity);
+    setCapacity(minCapacity, maxCapacity);
 }
 
 
-void FlowEdge::checkCapacity(const int minCapacity, const int maxCapacity) {
-    if (minCapacity > maxCapacity) {
+void FlowEdge::setCapacity(const int minCapacity, const int maxCapacity) {
+    if (minCapacity > maxCapacity || minCapacity < 0 || maxCapacity < 0) {
         throw runtime_error("Error in FlowEdge initialization with constructor."
-                                    "'maxCapacity' can't be greater than 'minCapacity'");
+                                    "'maxCapacity' can't be greater than "
+                                    "'minCapacity' and both need positive or "
+                                    "null value");
     }
     _minCapacity = minCapacity;
     _maxCapacity = maxCapacity;
+    _flow = 0;
 }
 
 int FlowEdge::minCapacity() const {
@@ -61,3 +64,14 @@ string FlowEdge::toString() const {
     s.append(utility::toString(maxCapacity()));
     return s;
 }
+
+int FlowEdge::flow() const {
+    return _flow;
+}
+
+void FlowEdge::setFlow(const int f) {
+    _flow = f;
+}
+
+
+

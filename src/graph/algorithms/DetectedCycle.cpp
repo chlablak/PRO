@@ -10,13 +10,12 @@
 #include "../graphs/FlowGraph.h"
 
 
-void DetectedCycle::visit(Graph *g, Vertex *from) {
+void DetectedCycle::visit(Graph *g, Vertex *, Vertex *) {
 
     if (g->isNull()) {
         _G = new Graph;
         return;
     }
-    UNUSED(from);
 
     _marked.resize(g->V(), false);
     _stacked.resize(g->V(), false);
@@ -58,13 +57,12 @@ void DetectedCycle::visit(Graph *g, Vertex *from) {
 
 }
 
-void DetectedCycle::visit(DiGraph *g, Vertex *from) {
+void DetectedCycle::visit(DiGraph *g, Vertex *, Vertex *) {
 
     if (g->isNull()) {
         _G = new DiGraph;
         return;
     }
-    UNUSED(from);
 
     // Initialize _G with the an empty DiGraph
     DiGraph *gClone = g->clone();
@@ -75,7 +73,7 @@ void DetectedCycle::visit(DiGraph *g, Vertex *from) {
     commonFlowDiGraph(gClone);
 }
 
-void DetectedCycle::visit(FlowGraph *g, Vertex *from) {
+void DetectedCycle::visit(FlowGraph *g, Vertex *from, Vertex *) {
     if (g->isNull()) {
         _G = new FlowGraph;
         return;
