@@ -148,7 +148,7 @@ void GraphCommon<T>::addVertex(Vertex *v) {
 
 template <typename T>
 size_t GraphCommon<T>::V() const {
-    return vertexList().size();
+    return _vertices.size();
 }
 
 /**

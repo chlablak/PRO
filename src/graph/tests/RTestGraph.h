@@ -52,7 +52,7 @@ public:
         IEdge *e3 = new Edge(v1, v4, "e3", 1);
         IEdge *e4 = new Edge(v2, v3, "e7", 1);
         IEdge *e5 = new Edge(v2, v4, "e8", 3);
-        IEdge *e6 = new Edge(v3, v4);
+        IEdge *e6 = new Edge(v3, v4, "e9", 2);
 
         vector<Vertex*> vertices = {v1, v2, v3, v4};
         vector<IEdge*> edges = {e1, e2, e3, e4, e5, e6};
@@ -134,10 +134,10 @@ public:
 //            cout << d << " ";
 //        cout << endl << endl;
 //
-//        // Test Kruskal
-//        cout << "Kruskal" << endl;
-//        IGraph *gKruskal = GraphAlgorithm::kruskal(_G);
-//        gKruskal->print();
+        // Test Kruskal
+        cout << "Kruskal" << endl;
+        IGraph *gKruskal = GraphAlgorithm::kruskal(_G);
+        gKruskal->print();
 
         // Test Prim
         cout << "Prim" << endl;
