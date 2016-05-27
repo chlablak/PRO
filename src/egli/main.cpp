@@ -83,12 +83,11 @@ int main()
     egli::detail::interfaceBasics(func);
     egli::detail::interfaceBuiltins(func);
     egli::detail::interfaceAlgorithms(func);
-
     while (getline(cin, in)) {
         if (in == "q")
             break;
         data.preprocessor().stream() << in;
-        cout << "RAW:\n" << data.preprocessor().raw() << endl;
+//        cout << "RAW:\n" << data.preprocessor().raw() << endl;
         while (data.preprocessor().available()) {
             utility::Timer timer;
             try {
@@ -101,11 +100,11 @@ int main()
                 egli::ProcessingUnit::process(s, func, data.variables());
                 cout << "PROCESSED(in " << timer.elapsed() << "s):\n" << s;
                 cout << "TABLE:\n" << data.variables();
-                cout << "SERIALIZED:\n" << egli::serialize(data) << endl;
-                egli::Data tmp;
-                egli::deserialize(tmp, egli::serialize(data));
-                cout << "COPY-TABLE:\n" << tmp.variables();
-                cout << "COPY-SERIALIZE:\n" << egli::serialize(tmp) << endl;
+//                cout << "SERIALIZED:\n" << egli::serialize(data) << endl;
+//                egli::Data tmp;
+//                egli::deserialize(tmp, egli::serialize(data));
+//                cout << "COPY-TABLE:\n" << tmp.variables();
+//                cout << "COPY-SERIALIZE:\n" << egli::serialize(tmp) << endl;
                 cout << endl;
             } catch (const runtime_error &e) {
                 cout << e.what() << endl;

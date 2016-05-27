@@ -10,6 +10,7 @@
 \usepackage{ragged2e}
 \usepackage{enumitem}
 \usepackage[normalem]{ulem}
+\usepackage{longtable}
 
 \geometry{
 	a4paper,
@@ -90,7 +91,7 @@
 	\end{tabular}
 	
 	\section*{Patrick Champion}
-	\begin{tabular}{p{0.11\textwidth}|p{0.07\textwidth}|p{0.3\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.11\textwidth}|p{0.07\textwidth}|p{0.3\textwidth}|p{0.4\textwidth}}
 		Date & Heures & Tâche & Description\\ 
 		\hline \hline
 		18.03.2016 & 2.0 & Normalisation du langage & Début de l'analyse\\ 
@@ -136,8 +137,11 @@
 		19.05.2016 & 2.0 & Implémentation & IGraph* et Vertex insertion\\
 		20.05.2016 & 1.0 & Implémentation & toString générique\\
 		\hline
-		23.05.2016 & 5.0 & Implémentation & GraphWrapper ok, load/save, interfacage des algos, utilisation dans la GUI\\
-	\end{tabular}
+		23.05.2016 & 5.0 & Implémentation & GraphWrapper ok, load/save, interfaçage des algos, utilisation dans la GUI\\
+		24.05.2016 & 3.0 & Implémentation & Correction de bugs, ajout de la génération aléatoire de graphe, interfaçags\\
+		25.05.2016 & 5.0 & Implémentation & Création d'un timer (profiling), performances générales améliorées, interfaçags, ajout de l'export SVG dans la GUI, correction de bugs\\
+		26.05.2016 & 5.0 & Implémentation / Documentation & (Dé-)Sérialisation des données, interfaçage, mise à jour du rapport, performances améliorées (évite certaines copies inutiles), ajout d'un fonction size() pour les graphes et les arrays\\
+	\end{longtable}
 	
 	\section*{Patrick Djomo}
 	\begin{tabular}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}

@@ -6,6 +6,7 @@
  */
 
 #include <typeinfo>
+#include <algorithm>
 
 #include "GraphWrapper.h"
 #include "Array.h"
@@ -25,6 +26,12 @@ egli::GraphWrapper::GraphWrapper(const GraphWrapper &o) :
     m_graph(o.graph()->clone())
 {}
 
+egli::GraphWrapper::GraphWrapper(GraphWrapper &&o) :
+    m_graph(o.m_graph)
+{
+    o.m_graph = nullptr;
+}
+
 egli::GraphWrapper::~GraphWrapper()
 {
     delete m_graph;
@@ -40,6 +47,13 @@ egli::GraphWrapper &egli::GraphWrapper::operator=(igraph_ptr_t g)
 egli::GraphWrapper &egli::GraphWrapper::operator=(const GraphWrapper &o)
 {
     GraphWrapper tmp(o);
+    std::swap(m_graph, tmp.m_graph);
+    return *this;
+}
+
+egli::GraphWrapper &egli::GraphWrapper::operator=(GraphWrapper &&o)
+{
+    GraphWrapper tmp(std::move(o));
     std::swap(m_graph, tmp.m_graph);
     return *this;
 }
@@ -68,16 +82,23 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Array>::cref infos)
 void egli::GraphWrapper::insert(detail::RealType<Type::Vertex>::cref vertex)
 {
     // Vertex ID must increase by 1
-    if (graph()->V() < vertex.id)
-        throw Exception("vertex id must increase by 1",
-                        "egli::GraphWrapper::insert",
-                        detail::builtins::toString_v(vertex));
+    if (graph()->V() < vertex.id) {
+//        int m = graph()->V();
+//        for (vertex_t *v : graph()->vertexList()) {
+//            if (v->id() > m)
+//                m = v->id();
+//        }
+//        if (m < vertex.id)
+            throw Exception("vertex id must increase by 1",
+                            "egli::GraphWrapper::insert",
+                            detail::builtins::toString_v(vertex));
+    }
 
     // Create or reach the Vertex to insert/modify
     vertex_t *v = nullptr;
-    if (graph()->V() > vertex.id)   // update
+    if (graph()->V() > vertex.id)       // update
         v = getVertexById(vertex.id);
-    else {                          // new
+    if (v == nullptr) {                 // new
         v = graph()->createVertex();
         graph()->addVertex(v);
     }
