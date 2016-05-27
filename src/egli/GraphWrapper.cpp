@@ -82,23 +82,21 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Array>::cref infos)
 void egli::GraphWrapper::insert(detail::RealType<Type::Vertex>::cref vertex)
 {
     // Vertex ID must increase by 1
-    if (graph()->V() < vertex.id) {
-//        int m = graph()->V();
-//        for (vertex_t *v : graph()->vertexList()) {
-//            if (v->id() > m)
-//                m = v->id();
-//        }
-//        if (m < vertex.id)
+    if (V() < vertex.id) {
+        int m = V();
+        for (vertex_t *v : graph()->vertexList()) {
+            if (v->id() > m)
+                m = v->id();
+        }
+        if (m + 1 < vertex.id)
             throw Exception("vertex id must increase by 1",
                             "egli::GraphWrapper::insert",
                             detail::builtins::toString_v(vertex));
     }
 
     // Create or reach the Vertex to insert/modify
-    vertex_t *v = nullptr;
-    if (graph()->V() > vertex.id)       // update
-        v = getVertexById(vertex.id);
-    if (v == nullptr) {                 // new
+    vertex_t *v = getVertexById(vertex.id); // update
+    if (v == nullptr) {                     // new
         v = graph()->createVertex();
         graph()->addVertex(v);
     }
@@ -120,7 +118,9 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Vertex>::cref vertex)
 void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
 {
     // Check Vertices existance
-    if (edge.v >= graph()->V() || edge.w >= graph()->V())
+    vertex_t *v = getVertexById(edge.v);
+    vertex_t *w = getVertexById(edge.w);
+    if (!v || !w)
         throw Exception("edge's defining vertices do not exist",
                         "egli::GraphWrapper::insert",
                         detail::builtins::toString_e(edge));
@@ -149,8 +149,6 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
     }
 
     // Get the list of existing Edges
-    vertex_t *v = getVertexById(edge.v);
-    vertex_t *w = getVertexById(edge.w);
     std::list<iedge_ptr_t> edges = graph()->getEdges(v, w);
 
     // Create or reach the Edge to create/modify
@@ -190,10 +188,9 @@ void egli::GraphWrapper::erase(detail::RealType<Type::Array>::cref infos)
 void egli::GraphWrapper::erase(detail::RealType<Type::Vertex>::cref vertex)
 {
     // Check if the Vertex is in the Graph
-    if (graph()->V() > vertex.id) {
-
+    vertex_t *v = getVertexById(vertex.id);
+    if (v) {
         // Remove it
-        vertex_t *v = getVertexById(vertex.id);
         graph()->removeVertex(v);
     }
 }
@@ -201,7 +198,9 @@ void egli::GraphWrapper::erase(detail::RealType<Type::Vertex>::cref vertex)
 void egli::GraphWrapper::erase(detail::RealType<Type::Edge>::cref edge)
 {
     // Check if the vertices are in the Graph
-    if (edge.v < graph()->V() && edge.w < graph()->V()) {
+    vertex_t *v = getVertexById(edge.v);
+    vertex_t *w = getVertexById(edge.w);
+    if (v && w) {
 
         // Edge to 2 DiEdge case
         GraphType type = graphType();
@@ -222,8 +221,6 @@ void egli::GraphWrapper::erase(detail::RealType<Type::Edge>::cref edge)
         }
 
         // Get the edges
-        vertex_t *v = getVertexById(edge.v);
-        vertex_t *w = getVertexById(edge.w);
         std::list<iedge_ptr_t> edges = graph()->getEdges(v, w);
 
         // Remove all edges or just one ?
@@ -260,15 +257,21 @@ void egli::GraphWrapper::checkInfos(detail::RealType<Type::Array>::cref infos)
 
 egli::GraphWrapper::vertex_t *egli::GraphWrapper::getVertexById(size_t id) const
 {
-    if (id >= graph()->V())
-        throw Exception("vertex id does not exist",
-                        "egli::GraphWrapper::getVertexById",
-                        detail::builtins::toString_i(id));
     for(vertex_t *it : graph()->vertexList()) {
         if (it->id() == id)
             return it;
     }
     return nullptr;
+}
+
+size_t egli::GraphWrapper::V() const
+{
+    return graph()->vertexList().size(); // workaround
+}
+
+size_t egli::GraphWrapper::E() const
+{
+    return graph()->E();
 }
 
 egli::GraphWrapper::GraphType egli::GraphWrapper::graphType() const

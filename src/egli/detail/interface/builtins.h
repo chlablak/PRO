@@ -77,6 +77,7 @@ RealType<Type::String>::type typeOf_v(RealType<Type::Vertex>::cref var);
  * \return A Erdos-Renyi Graph
  *
  * \throw Exception if V < 0 or if !(0 <= p <= 1)
+ * \note If p == 1, return a complete graph (e.g. K10 if V == 10)
  * \note See http://icdt.tu-dortmund.de/proceedings/edbticdt2011proc/WebProceedings/papers/edbt/a30-nobari.pdf
  *       (algorithm 1)
  */

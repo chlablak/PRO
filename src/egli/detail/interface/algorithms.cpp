@@ -155,7 +155,7 @@ egli::detail::RealType<egli::Type::Array>::type
 egli::detail::RealType<egli::Type::Array>::type
     egli::detail::algorithms::topologicalSort(RealType<Type::Graph>::cref g)
 {
-    std::vector<double> sortedd = GraphAlgorithm::topoloqicalSort(g.graph());
+    std::vector<double> sortedd = GraphAlgorithm::topologicalSort(g.graph());
     std::vector<int> sortedi(sortedd.cbegin(), sortedd.cend());
     return RealType<Type::Array>::type(sortedi);
 }
