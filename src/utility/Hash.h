@@ -41,7 +41,9 @@ namespace std
             hash_combine<size_t>(hash, graph->V());
             hash_combine<size_t>(hash, graph->E());
 
-            for (Vertex *vertex : graph->vertexList()) {
+            list<Vertex*> vertices = graph->vertexList();
+            vertices.sort([] (Vertex *v, Vertex *w) { return v->id() < w->id(); });
+            for (Vertex *vertex : vertices) {
                 hash_combine<int>(hash, vertex->id());
                 hash_combine<string>(hash, vertex->label());
                 hash_combine<double>(hash, vertex->weight());
@@ -49,7 +51,9 @@ namespace std
                 hash_combine<int>(hash, vertex->maxCapacity());
             }
 
-            for (IEdge *edge : graph->edgeList()) {
+            list<IEdge*> edges = graph->edgeList();
+            edges.sort([] (IEdge *a, IEdge *b) { return a->id() < b->id(); });
+            for (IEdge *edge : edges) {
                 hash_combine<int>(hash, edge->id());
                 hash_combine<string>(hash, edge->label());
                 hash_combine<double>(hash, edge->weight());
