@@ -63,7 +63,12 @@ ostream &operator<<(ostream &os, egli::VariableTable const &v)
     for (auto it : v.find("")) {
         os << it << "(";
         os << egli::toString(v.typeOf(it));
-        os << ", value=" << v.toString(it);
+        string str = v.toString(it);
+        if (str.size() > 60) {
+            str.resize(60);
+            str.append("...");
+        }
+        os << ", value=" << str;
         os << ")" << endl;
     }
     return os;

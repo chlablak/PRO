@@ -61,8 +61,8 @@ void egli::detail::interfaceAlgorithms(FunctionTable &table)
     table.interface("cc", algorithms::cc);
     table.interface("tarjan", algorithms::tarjan);
     table.interface("kruskal", algorithms::kruskal);
-    table.interface("prim", algorithms::prim_1);
-    table.interface("prim", algorithms::prim_2);
+//    table.interface("prim", algorithms::prim_1);
+//    table.interface("prim", algorithms::prim_2);
     table.interface("isConnected", algorithms::isConnected);
     table.interface("isDirected", algorithms::isDirected);
     table.interface("isEmpty", algorithms::isEmpty);

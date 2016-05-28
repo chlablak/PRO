@@ -376,7 +376,7 @@ egli::detail::RealType<egli::Type::Array>::type
     egli::detail::builtins::size_g(RealType<Type::Graph>::cref var)
 {
     RealType<Type::Array>::type r;
-    r.add(var.graph()->V());
-    r.add(var.graph()->E());
+    r.add(var.V());
+    r.add(var.E());
     return r;
 }

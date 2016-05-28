@@ -25,7 +25,7 @@ GraphScene *GraphSceneManager::scene(const IGraph *graph)
     if (it != scenes.end()) {
         return (*it).second;
     }
-    GraphScene *scene = new GraphScene(graph);
+    GraphScene *scene = new GraphScene(graph->clone());
     scenes[graph] = scene;
     return scene;
 }
