@@ -1,6 +1,9 @@
-//
-// Created by PatrickDesle on 10.05.2016.
-//
+/*! \brief Interface for edges manipulation
+ *
+ * \file IEdge.h
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #ifndef GRAPH_COMMONEDGE_H
 #define GRAPH_COMMONEDGE_H
@@ -8,11 +11,20 @@
 #include <string>
 #include "Vertex.h"
 
+/*! \brief Global interface to manipulate all types of edges
+ */
 class IEdge
 {
 protected:
+    /*! \brief Defines de visual style of an edge
+     *
+     *  \return a string representation of an edge
+     */
     virtual string edgeStyle() const = 0;
 public:
+
+    /*! \brief Destructor
+     */
     virtual ~IEdge() {}
 
     /*!
@@ -57,11 +69,23 @@ public:
      */
     virtual double weight() const = 0;
 
-    // Setters
+    /*! \brief Set the id of the edge
+     *
+     * \param id - The id to give to the edge
+     */
 
-    // TODO : should be protected
-    virtual void setId(int _id) = 0;
+    virtual void setId(int id) = 0;
+    /*! \brief Set vertex a of the edge
+     *
+     * \param v - The vertex to give to the edge
+     */
+
     virtual void setA(Vertex *v) = 0;
+
+    /*! \brief Set vertex b of the edge
+     *
+     * \param v - The vertex to give to the edge
+     */
     virtual void setB(Vertex *v) = 0;
 
     /*! \brief Change the label of the edge
@@ -87,6 +111,8 @@ public:
     inline bool operator<=(const IEdge* e) const { return !(this > e); }
     inline bool operator>=(const IEdge* e) const { return !(this < e); }
 
+    /*! brief Overload of ostream operator to display an endge in the console
+     */
     friend ostream& operator<<(ostream& os, const IEdge& e) {
         return os << e.toString();
     }

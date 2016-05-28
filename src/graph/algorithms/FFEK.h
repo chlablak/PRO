@@ -12,14 +12,16 @@
 
 class FFEK : public Visitor {
 private:
-    vector<int> _x;
-    vector<int> _u;
-    vector<Vertex*> _p;
+    int _V;
+    int _E;
+    vector<vector<int>> _x;
+    vector<vector<int>> _u;
+    vector<pair<Vertex*, bool>> _p;
     vector<int> _cap;
     list<Vertex*> _L;
     bool _end;
 public:
-    FFEK(int V, int E) : _x(E), _u(E), _p(V, nullptr), _cap(V), _end(false) {}
+    FFEK(int V, int E) : _V(V), _E(E), _x(E), _u(E), _p(V), _cap(V), _end(false) {}
     virtual ~FFEK() {}
     virtual void visit(Graph *g, Vertex *from, Vertex *to) override;
     virtual void visit(DiGraph *g, Vertex *from, Vertex *to) override;

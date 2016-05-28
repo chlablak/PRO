@@ -18,9 +18,9 @@ class Visitor {
 public:
     Visitor() {}
     virtual ~Visitor() {}
-    virtual void visit(Graph *g, Vertex *from, Vertex *to) = 0;
-    virtual void visit(DiGraph *g, Vertex *from, Vertex *to) = 0;
-    virtual void visit(FlowGraph *g, Vertex *from, Vertex *to) = 0;
+    virtual void visit(Graph *g, Vertex *from = nullptr, Vertex *to = nullptr) = 0;
+    virtual void visit(DiGraph *g, Vertex *from = nullptr, Vertex *to = nullptr) = 0;
+    virtual void visit(FlowGraph *g, Vertex *from = nullptr, Vertex *to = nullptr) = 0;
 
     virtual IGraph* G() const = 0;
 

@@ -68,7 +68,7 @@ public:
 
         assert(_G->isSimple() == 1);
 //        assert(_G->isNegativeWeighted() == 0);
-        assert(_G->isPlanar() == 0);
+        assert(_G->isPlanar() == 1);
         assert(_G->V() == 7);
         assert(_G->E() == 10);
 

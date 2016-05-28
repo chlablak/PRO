@@ -60,110 +60,112 @@ public:
         // Create the graph structure with those vertices and edges
         _G = new Graph(vertices, edges);
 
-//        for (IEdge *ie : _G->edgeList()) {
-//            cout << *ie << endl;
-//        }
-//
+        for (IEdge *ie : _G->edgeList()) {
+            cout << *ie << endl;
+        }
+
 //        assert(_G->isSimple() == 1);
 //        assert(_G->isNegativeWeighted() == 0);
 //        assert(_G->isPlanar() == 1);
-//        assert(_G->V() == 7);
-//
-//        cout << "Avant ponderation :" << endl;
-//        cout << *_G << endl;
-//        _G->ponderateVertices(3.24);
-//        cout << "Apres ponderation : " << endl;
-//        cout << *_G << endl;
-//
-//        // Test createEdge
-//        IEdge *gg = _G->createEdge(new Vertex, new Vertex);
-//        cout << *gg << endl;
-//
-//        // Test clone()
-//        cout << "Test clone de g1" << endl;
-//        IGraph *g1Clone = _G->clone();
-//        g1Clone->ponderateVertices(42.36);
-//        g1Clone->ponderateEdges(-10);
-//        Vertex *va = new Vertex("va");
-//        Vertex *vb = new Vertex("vb");
-//        g1Clone->addVertex(va);
-//        g1Clone->addVertex(vb);
-//        g1Clone->addEdge(new Edge(va, vb));
-//        assert(_G->V() != g1Clone->V());
-//        g1Clone->print();
-//
-//        // Test CopyToGraph
-//        cout << "Test CopyToGraph and ponderate it" << endl;
-//        IGraph *gCpyToGraph = GraphAlgorithm::copyToGraph(_G);
-//        gCpyToGraph->ponderateVertices(6.7);
-//        gCpyToGraph->print();
-//
-//        // Test CopyToDiGraph
-//        cout << "Test CopyToDiGraph(_G) and ponderate vertex" << endl;
-//        IGraph *gCpyToDiGraph = GraphAlgorithm::copyToDiGraph(_G);
-//        gCpyToDiGraph->ponderateVertices(5.5);
-//        gCpyToDiGraph->print();
-//
-//        // Test CopyToFlowGraph
-//        cout << "Test CopyToFlowGraph(_G) and ponderate vertex" << endl;
-//        IGraph *gCpyToFlowGraph = GraphAlgorithm::copyToFlowGraph(_G);
-//        gCpyToFlowGraph->ponderateVertices(9.99);
-//        gCpyToFlowGraph->print();
-//
-//        // Ré-afficher g1
-//        cout << "_G" << endl;
-//        cout << *_G << endl;
-//
-//        // Test BFS
-//        cout << "Test BFS" << endl;
-//        vector<double> distances;
-//        IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
-//        gBFS->ponderateEdges(50);
-//        gBFS->print();
-//
-//        // Test DFS
-//        cout << "Test DFS" << endl;
-//        vector<double> dfsnum;
-//        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
-//        gDFS->print();
-//
-//        // Test Composantes Connexes
-//        cout << "Test Composante connexe" << endl;
-//        vector<double> cc = GraphAlgorithm::connectedComponent(_G);
-//        for (double d : cc)
-//            cout << d << " ";
-//        cout << endl << endl;
-//
+//        assert(_G->V() == 4);
+
+        cout << "Avant ponderation :" << endl;
+        cout << *_G << endl;
+        _G->ponderateVertices(3.24);
+        cout << "Apres ponderation : " << endl;
+        cout << *_G << endl;
+
+        // Test createEdge
+        IEdge *gg = _G->createEdge(new Vertex, new Vertex);
+        cout << *gg << endl;
+
+        // Test clone()
+        cout << "Test clone de g1" << endl;
+        IGraph *g1Clone = _G->clone();
+        g1Clone->ponderateVertices(42.36);
+        g1Clone->ponderateEdges(-10);
+        Vertex *va = new Vertex("va");
+        Vertex *vb = new Vertex("vb");
+        g1Clone->addVertex(va);
+        g1Clone->addVertex(vb);
+        g1Clone->addEdge(new Edge(va, vb));
+        assert(_G->V() != g1Clone->V());
+        g1Clone->print();
+
+        // Test CopyToGraph
+        cout << "Test CopyToGraph and ponderate it" << endl;
+        IGraph *gCpyToGraph = GraphAlgorithm::copyToGraph(_G);
+        gCpyToGraph->ponderateVertices(6.7);
+        gCpyToGraph->print();
+
+        // Test CopyToDiGraph
+        cout << "Test CopyToDiGraph(_G) and ponderate vertex" << endl;
+        IGraph *gCpyToDiGraph = GraphAlgorithm::copyToDiGraph(_G);
+        gCpyToDiGraph->ponderateVertices(5.5);
+        gCpyToDiGraph->print();
+
+        // Test CopyToFlowGraph
+        cout << "Test CopyToFlowGraph(_G) and ponderate vertex" << endl;
+        IGraph *gCpyToFlowGraph = GraphAlgorithm::copyToFlowGraph(_G);
+        gCpyToFlowGraph->ponderateVertices(9.99);
+        gCpyToFlowGraph->print();
+
+        // Ré-afficher g1
+        cout << "_G" << endl;
+        cout << *_G << endl;
+
+        // Test BFS
+        cout << "Test BFS" << endl;
+        vector<double> distances;
+        IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
+        gBFS->ponderateEdges(50);
+        gBFS->print();
+
+        // Test DFS
+        cout << "Test DFS" << endl;
+        vector<double> dfsnum;
+        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
+        gDFS->print();
+
+        // Test Composantes Connexes
+        cout << "Test Composante connexe" << endl;
+        vector<double> cc = GraphAlgorithm::connectedComponent(_G);
+        for (double d : cc)
+            cout << d << " ";
+        cout << endl << endl;
+
+
+        cout << *_G << endl;
         // Test Kruskal
         cout << "Kruskal" << endl;
         IGraph *gKruskal = GraphAlgorithm::kruskal(_G);
         gKruskal->print();
 
-        // Test Prim
-        cout << "Prim" << endl;
-        IGraph *gPrim = GraphAlgorithm::prim(_G, v1);
-        gPrim->print();
+//        // Test Prim
+//        cout << "Prim" << endl;
+//        IGraph *gPrim = GraphAlgorithm::prim(_G, v1);
+//        gPrim->print();
 
-//
-//        // Test Bellman-Ford
-//        cout << "Bellman-Ford" << endl;
-//        vector<double> distancesBF;
-//        IGraph *gBellmanFord = GraphAlgorithm::bellmanFord(_G, v1, distancesBF);
-//        cout << *gBellmanFord << endl;
-//        for (double d : distancesBF) {
-//            cout << d << " ";
-//        }
-//        cout << endl << endl;
-//
-//        // Test Dijkstra
-//        cout << "Dijkstra" << endl;
-//        vector<double> distancesDijkstra;
-//        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v1, distancesDijkstra);
-//        cout << *gDijkstra << endl;
-//        for (double d : distancesDijkstra) {
-//            cout << d << " ";
-//        }
-//        cout << endl << endl;
+
+        // Test Bellman-Ford
+        cout << "Bellman-Ford" << endl;
+        vector<double> distancesBF;
+        IGraph *gBellmanFord = GraphAlgorithm::bellmanFord(_G, v1, distancesBF);
+        cout << *gBellmanFord << endl;
+        for (double d : distancesBF) {
+            cout << d << " ";
+        }
+        cout << endl << endl;
+
+        // Test Dijkstra
+        cout << "Dijkstra" << endl;
+        vector<double> distancesDijkstra;
+        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v1, distancesDijkstra);
+        cout << *gDijkstra << endl;
+        for (double d : distancesDijkstra) {
+            cout << d << " ";
+        }
+        cout << endl << endl;
     }
 
     ~RTestGraph() { delete _G; }

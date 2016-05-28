@@ -1,31 +1,33 @@
-//
-// Created by PatrickDesle on 16.05.2016.
-//
+/*! \brief Common class for directed edges
+ *
+ * \file DiEdgeCommon.cpp
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #include "DiEdgeCommon.h"
 
-Vertex* DiEdgeCommon::from() const {
+Vertex* DiEdgeCommon::from() const
+{
     return _a;
 }
 
-Vertex* DiEdgeCommon::to() const {
+Vertex* DiEdgeCommon::to() const
+{
     return _b;
 }
 
-string DiEdgeCommon::edgeStyle() const {
+string DiEdgeCommon::edgeStyle() const
+{
     return "->";
 }
 
-Vertex *DiEdgeCommon::either() const {
+Vertex *DiEdgeCommon::either() const
+{
     return from();
 }
 
-Vertex *DiEdgeCommon::other(Vertex *v) const {
-    UNUSED(v);
+Vertex *DiEdgeCommon::other(Vertex *) const
+{
     return to();
 }
-
-
-
-
-
