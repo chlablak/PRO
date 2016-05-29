@@ -1,0 +1,179 @@
+\documentclass[french]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{babel}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage[normalem]{ulem}
+\usepackage{hyperref} % pour \url{URL}
+\usepackage{color} % pour \textcolor{color}{text}
+\usepackage{listings} % pour afficher du code
+\usepackage{longtable} % pour l'environnement longtable
+\usepackage{float} % pour des figures non flottantes
+\usepackage{amsmath}
+\usepackage{verbatim} % pour les graphes
+\usepackage{caption} % figure et subfigure pour mettre les images côtes à côtes
+\usepackage{subcaption}
+
+% Grammaire EBNF
+\usepackage{syntax}
+\setlength{\grammarparsep}{5pt plus 1pt minus 1pt}
+\setlength{\grammarindent}{11em}
+
+% Dessin avec tikz
+\usepackage{tikz}
+\usepackage{forest}
+\usetikzlibrary{shapes,arrows,positioning,shadows,matrix,automata}
+
+% Matrices
+\usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
+
+% Largeur de colonnes de tableau fixes
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% Style C++
+\lstset{
+	language=C++,
+	tabsize=2,
+	basicstyle=\small\ttfamily,
+	keywordstyle=\color{blue},
+	stringstyle=\color{red},
+	commentstyle=\color{black!40},
+	morecomment=[l][\color{black!50}]{\#},
+	gobble=10,
+	frame=single,
+	otherkeywords={constexpr,std,string,vector,map,pair,size\_t,function,remove\_const,remove\_reference}
+}
+
+\geometry{
+	a4paper,
+	total={210mm,297mm},
+	left=20mm,
+	right=20mm,
+	top=20mm,
+	bottom=20mm,
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlist[enumerate,1]{leftmargin=2cm}
+
+% Entêtes
+\lhead{Browne, Champion, Djomo,\\Hardy, Richoz, Rochat}
+\chead{}
+\rhead{PRO: Guide d'utilisation}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+	\centering
+	\huge
+	
+	Guide d'utilisation
+	
+	\justifying
+	\normalsize
+	
+	\section{Introduction}
+	Ce guide d'utilisation est destiné aux utilisateurs finaux de \textit{Graphy}. Il contient un guide de démarrage rapide qui explique comment déclarer un graphe, y ajouter des sommets et des arêtes/arcs et comment appliquer un algorithme dessus. Une fois que cela est fait, il est également possible de sauvegarder et charger le travail et l'exporter en format SVG. Ce document n'explique pas le détail des algorithmes, puisque ces informations sont facilement disponibles en ligne.
+	
+	\section{Démarrage rapide}
+	La première chose à faire après le lancement de l'application est la création d'un nouvel onglet pour travailler. Ceci peut se faire via le menu \texttt{Graph->new} ou directement avec le raccourci clavier \texttt{Ctrl + N}. Il est à présent possible de taper des commandes.
+	
+		\subsection{Déclaration d'un graph}
+		Un graph vide se déclare simplement avec \texttt{nomDeGraph = \{ \};}. Il est également possible de déclarer un graphe directement avec des sommets et des arêtes ainsi: \texttt{g = \{0,1,2,0--1,0--2\};}. Ici, les numéros \texttt{0}, \texttt{1} et \texttt{2} correspondent aux sommets, alors que les numéros liés par deux tirets (\texttt{0-{}-1} et \texttt{0-{}-2}) correspondent à des arêtes entre les sommets respectifs.
+		
+		\subsection{Application d'un algorithme}
+		Puisque les algorithmes renvoient un tableau ou un nouveau graph, il faut stocker ce résultat dans une variable avant de pouvoir l'afficher. Par exemple, \texttt{h = dijkstra(g, 1);} renvoie un tableau avec comme premier élément le graphe rendu par l'algorithme. Pour le dessiner ensuite, il faut assigner ce nouveau graphe à une nouvelle variable avec \texttt{l = h[0];}, puis le dessiner à l'aide de \texttt{draw(l);}. La liste des algorithmes disponibles et leur retour sont listés plus loin dans ce document.
+	
+	\section{Graphes}
+	Il existe plusieurs manières de déclarer un graphe, du simple graphe vide: \texttt{g = \{ \};}, à un graphe contenant plusieurs sommets: \texttt{g = \{\#3\}}, ou encore un graphe avec des sommets et des arêtes: \texttt{g = \{0,1,2,0-{}-1,0-{}-2\};}. Il est également possible d'ajouter un sommet ou une arête avec l'opérateur \texttt{+=}, par exemple: \texttt{g += (3);} ou \texttt{g += (1-{}-2);}.
+	
+		\subsection{Règles de déclaration et d'ajout}
+		Deux règles s'appliquent lors de la déclaration d'un graphe ou de l'ajout d'éléments. Premièrement, pour l'ajout de sommets, il est impératif que tous les ID plus petits que celui du sommet courant soient utilisés. Par exemple, si l'on souhaite ajouter le sommet \texttt{3}, il faut que les sommets \texttt{0}, \texttt{1} et \texttt{2} soient présent dans le graphe. Il n'est pas non plus possible de sauter des sommets, en ajoutant par exemple le sommet \texttt{7} à un graphe qui n'en contient que 3.
+		Deuxièmement, pour ajouter une arête à un graphe, il faut que les deux sommets des extrémités existent dans le graphe.
+		
+	\section{Sommets}
+		\subsection{Déclaration}
+		Un sommet peut être déclaré avec un simple ID, mais peut également l'être avec un label, un poids, une capacité maximale et une capacité minimale. Un sommet simple peut être déclaré avec \texttt{v = (1);}. Si on souhaite ajouter plus d'informations, cela est possible en séparant chaque propriété avec le \texttt{:} deux-points, selon la grammaire suivante: \texttt{nomDeVariable = (ID:"label":poids:capacitéMax:capacitéMin);}, par exemple: \texttt{v = (0:"monPremierSommet":3:5:2);}. Si on souhaite ajouter uniquement certaines propriétés, il est possible de les spécifier en plaçant le bon nombre de \texttt{:} deux-points avant, par exemple pour préciser uniquement la capacité maximale et minimale, il suffit de tapper: \texttt{v = (0:::5:2);}. Si, au contraire, on veut uniquement spécifier les première propriétés, il n'est pas nécessaire d'inclure les \texttt{:} deux-points après, exemple: \texttt{v = (0:"monPremierSommer");}. Si aucun label n'est spécifié, le numéro d'ID sera utilisé par défaut.
+		
+		\subsection{Ajout à un graphe}
+		Une fois qu'un graphe a été créé, il est possible de lui ajouter des sommets, avec l'opérateur \texttt{+=}, par exemple \texttt{g += v;}. Pour ajouter plusieurs sommets, il faut utiliser l'opérateur de tableaux \texttt{[]} crochets, par exemple \texttt{g += [v,w,x];}. Il est également possible d'ajouter des sommets temporaires avec l'opérateur \texttt{()} parenthèse: \texttt{g += (1);}. On peut en outre mélanger les notations dans au sein de l'opérateur \texttt{[]} crochets, par exemple \texttt{g += [(1), (2:"monSecondSommet"), w];}.
+		
+		\subsection{Modification d'un sommet dans un graphe}
+		Le propriétés d'un sommet peuvent être modifiées en utilisant l'opérateur d'ajout \texttt{+=}. Pour cela, il suffit de spécifier l'ID d'un sommet existant, puis ses propriétés. Par exemple, \texttt{g = \{ \};}, suivi de \texttt{g += [(0::5), (1::5)];} et enfin \texttt{g += (1::3);} aura pour effet de changer le poids du sommet avec l'ID \texttt{1} de \texttt{5} à \texttt{3}.
+		
+		\subsection{Supprimer un sommet d'un graphe}
+		La suppression des sommets est faite de la même manière que l'ajout, mais avec l'opérateur \texttt{-=}. Comme avec l'opérateur d'ajout, il est possible de supprimer un seul sommet ou d'en supprimer plusieurs avec la notation de tableaux \texttt{[ ]}. Les sommets doivent être identifiés par leur ID, par exemple: \texttt{g -= [(1), (2)];}. Une fois qu'un sommet est supprimé toutes les arêtes correspondantes seront également supprimées du graphe. Remarque: si on essaye de supprimer un sommet inexistant, rien ne se passe.
+		
+	\section{Arêtes}
+		\subsection{Déclaration}
+		Tout comme avec les sommets, une arête peut être déclarée comme une simple connexion entre deux sommets, par exemple: \texttt{e = (0--1);}. Il peut également inclure d'autres informations, comme le label, le poids, la capacité maximale et la capacité minimale selon la même grammaire que les sommets, à savoir: \texttt{nomDeVariable = (IDpremierSommet--IDsecondSommet:"label":poids:capacitéMaximale:capacitéMinimale);}.
+		
+		\subsection{ID de l'arête}
+		Chaque arête a un ID local a la connexion. Une connexion est une relation symbolique entre deux sommets, cela signifie qu'il peut y avoir plusieurs arêtes avec le même ID dans un graphe. Cet ID local est utilisé pour différentier les arêtes lors de la suppression dans une connexion contenant plusieurs arêtes.
+	
+		\subsection{Ajout à un graphe et modification}
+		L'ajout et la modification d'une arête dans un graphe se font de la même manière qu'avec les sommets.
+		
+		\subsection{Suppression d'une arête}
+		La suppression se fait avec l'opérateur \texttt{-=} comme avec les sommets. Une différence est qu'il peut exister plusieurs arête entre deux sommets. Ceux-ci peuvent donc être différentiés avec l'opérateur d'accès \texttt{[ ]}, par exemple: \texttt{g -= (0--1)[0];} supprime l'arête avec l'ID local \texttt{0}.
+		
+	\section{Arcs}
+	Il est également possible d'ajouter des arcs à un graphe. Ceux-ci sont représentés avec les symboles \texttt{->} et \texttt{<-}. Ajouter un arc à un graphe transforme tous les arcs présents en deux arcs de sens opposé. Exécuter \texttt{dg = \{\#3, 0-{}-1\};} et \texttt{dg += (1->2);} créera donc le même graphe que la commande \texttt{dg = \{\#3, 0->1, 1->0, 1->2\};}. Toutes les règles mentionnées pour les arêtes s'appliquent également pour les arcs.
+	
+	\section{Fonctions}
+		\subsection{Mode de passage des paramètres}
+		Tous les paramètres dans \textit{Graphy} sont passés par valeur. Cela veut dire que modifier un sommet après l'avoir ajouté à un graphe n'aura aucune influence sur ce dernier. Par exemple en tapant: \texttt{g = \{ \};}, puis \texttt{v = (0::5);}, ensuite \texttt{g += v;} et enfin \texttt{v = (0::3);}, le sommet avec l'ID \texttt{0} aura un poids de \texttt{5} et non pas de \texttt{3}.
+		
+		\subsection{Appel de fonctions}
+		Toutes les transformations sont faites en passant un graphe à une fonction. Dès qu'une fonction a été appelée, le résultat peut être assigné à un graphe existant, au même graphe, ou encore à un nouveau graphe. La notation est semblable à celle de beaucoup de langages de programmation: \texttt{resultat = dijkstra(g, 1);}. Remarque: plusieurs fonctions retournent un booléen pour savoir si l'opération a pu être effectuée ou pas.
+		
+		\subsection{Fonctions standards}
+		\begin{itemize}
+			\item \texttt{toString (a : T) : String} retourne un String décrivant a.
+			\item \texttt{save (g : Graph, file : String) : Boolean} sauvegarde le graphe en paramètre dans le répertoire courant.
+			\item \texttt{load (file : String) : Graph} charge un graphe spécifié du répertoire courant.
+			\item \texttt{type (a : T) : String} retourne le type de a.
+			\item \texttt{er (V : Integer, p : float) : Graph} génère un graphe aléatoire avec \texttt{T} sommets et une probabilité \texttt{p} d'avoir une arête, selon le modèle de Erdős–Rényi.
+		\end{itemize}
+		
+		\subsection{Fonctions de l'interface utilisateur}
+		\begin{itemize}
+			\item \texttt{draw (g : Graph) : Boolean} dessine \texttt{g} dans une nouvelle fenêtre.
+			\item \texttt{exportAsSvg (g : Graph) : Boolean} exporte le graphe en format SVG dans le répertoire courant.
+			\item \texttt{exportAsSvg (g : Graph) : Boolean} exporte le graphe en format SVG dans le répertoire courant avec le nom passé en paramètre.
+		\end{itemize}
+		
+		\subsection{Algorithmes}
+		\begin{itemize}
+			\item \texttt{bellmanFord (g : Graph, from : Integer) : Array} applique l'algorithme de Bellman-Ford au graphe \texttt{g} depuis le sommet \texttt{from}. Le tableau (\texttt{Array}) retourné contient le graphe résultant à l'index \texttt{0} et la matrice des distances à l'index \texttt{1}.
+			\item \texttt{bfs (g : Graph, from : Integer) : Array} applique l'algorithme de parcours en largeur depuis le sommet spécifié. Le tableau de retour contient le graphe résultant à l'index 0 et la matrice des distances à l'index 1.
+			\item \texttt{cc (g : Graph) : Array} applique l'algorithme des composantes connexes au graphe depuis le sommet spécifié et retourne un tableau associant chaque sommet avec une composante, par exemple: \texttt{[1,1,2,2,3]} indique que les sommets \texttt{0} et \texttt{1} sont dans la même composante, ainsi que les sommets \texttt{2} et \texttt{3}, alors que le sommet \texttt{4} est seul dans une composante.
+			\item \texttt{detectCycle (g : Graph) : Graph} retourne le cycle d'un graphe s'il y en a un.
+			\item \texttt{dfs (g : Graph, from : Integer) : Array} applique l'algorithme de parcours en profondeur et retourne un tableau avec le graphe résultant à l'index \texttt{0} et la matrice des distances à l'index \texttt{1}.
+			\item \texttt{dijkstra (g : Graph, from : Integer) : Array} applique l'algorithmes de Dijkstra et retourne un tableau contenant le graphe résultant à l'index \texttt{0} et la matrice des distances à l'index \texttt{1}.
+			\item \texttt{kruskal (g : Graph) : Graph} applique l'algorithme de Kruskal à \texttt{g} et retourne le graphe résultant.
+			\item \texttt{tarjan (g : Graph) : Array} applique l'algorithme de Tarjan au graphe \texttt{g} (qui doit être orienté) et retourne un tableau, contenant le graphe résultant à l'index \texttt{0} et un tableau contenant les composantes connexes à l'index \texttt{1} (voir \texttt{cc} pour un exemple).
+			\item \texttt{topologicalSort (g : Graph) : Array} applique l'algorithme de tri topologique au graphe \texttt{g} (qui doit être orienté et acyclique) et retourne un tableau contenant l'ordre de visite des sommets.
+			\item \texttt{isConnected (g : Graph) : Boolean} indique si le graphe est connexe.
+			\item \texttt{isDirected (g : Graph) : Boolean} indique si le graphe est orienté
+			\item \texttt{isEmpty (g : Graph) : Boolean} indique si le graphe est vide (sans arête ou arc).
+			\item \texttt{isNegativeWeighted (g : Graph) : Boolean} indique si le graphe contient des arêtes ou arcs avec une pondération négative.
+			\item \texttt{isNull (g : Graph) : Boolean} indique si le graphe est nul (sans sommets, ni arêtes).
+			\item \texttt{isPlanar (g : Graph) : Boolean} indique si le graphe est planaire.
+			\item \texttt{isSimple (g : Graph) : Boolean} indique si le graphe est simple (sans arête/arcs doublés).
+			\item \texttt{isStronglyConnected (g : Graph) : Boolean} indique si le graphe est fortement connexe (pour les graphes orientés uniquement).
+			\item \texttt{isWeighted (g : Graph) : Boolean} indique si le graphe contient des arêtes ou arcs pondérés.
+			
+		\end{itemize}
+		
+\end{document}

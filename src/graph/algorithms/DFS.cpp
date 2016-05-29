@@ -63,7 +63,7 @@ void DFS::common(T *g, Vertex *from)
     int date = 0;
     debut[from->id()] = ++date;
 
-    Vertex *fromCpy;
+    Vertex *fromCpy = nullptr;
     for (Vertex *v : gClone->vertexList()) {
         if (*v == *from) {
             fromCpy = v;
@@ -97,7 +97,7 @@ void DFS::visit(Graph *g, Vertex *from, Vertex *)
     N = 0;
     _dfsnum.at(from->id()) = N;
 
-    Vertex *fromCpy;
+    Vertex *fromCpy = nullptr;
 
     // Create a graph with only vertex 'from'
     for (Vertex *v : gClone->vertexList()) {

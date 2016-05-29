@@ -105,10 +105,21 @@ public:
      */
     static IGraph* dijkstra(IGraph *g, Vertex *from, vector<double>& distances);
 
-    // TODO Djomo
+    /*! \brief Determine weither a graph is acyclique an then return the cycle if the graph contains one or an empty graph
+    *
+    * \param g - The graph on which to search the cycle
+    * \return the cycle found in g or an empty graph
+    *
+    */
     static IGraph* detectCycle(IGraph *g);
 
-    // TODO Djomo
+    /*! \brief search the topologique order of an acyclique digraph or flowgraph by using topological sort algorithm
+    *
+    * \param g - The graph on which to search the sort
+    * \return a vector of the topoligical order of each vertex of the graph identify by their id
+    * \throw runtimer_error Exception if the graph is not a digraph or flow graph
+    *
+    */
     static vector<double> topologicalSort(IGraph* g);
 
     /*! \brief Search the maximum flow in a flow graph

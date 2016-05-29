@@ -48,7 +48,7 @@ public:
         cout << "Test du tri topoloque" << endl;
         vector<double> orderSort = GraphAlgorithm::topologicalSort(_G);
         cout << "ordre des sommet " << endl;
-        for(auto i : GraphAlgorithm::topologicalSort(_G))
+        for(auto i : orderSort)
         {
             cout << i << " " ;
         }

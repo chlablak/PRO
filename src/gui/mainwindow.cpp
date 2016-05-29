@@ -1,13 +1,18 @@
-#include "mainwindow.h"
-#include "dialogstring.h"
-#include "ui_mainwindow.h"
-#include <iostream>
+/*! \brief Main window of the application
+ *
+ * \file mainwindow.cpp
+ * \author Alain Hardy
+ * \date 19.05.2016
+ */
+
 #include <QTextEdit>
 #include <QBuffer>
 #include <QFileDialog>
 #include <QApplication>
 #include <QMessageBox>
-
+#include "mainwindow.h"
+#include "dialogstring.h"
+#include "ui_mainwindow.h"
 #include "console.h"
 
 using namespace std;
@@ -20,9 +25,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->tabWidget->setTabsClosable(true);
     ui->tabWidget->setMovable(true);
-    ui->tabWidget->setStyleSheet("QTabBar::tab{width:100px;}");
+    ui->tabWidget->setStyleSheet("QTabBar::tab{width:125px;text-align:left;}");
 
-    QObject::connect(ui->newGraph, SIGNAL(triggered(bool)), this, SLOT(newGraph()));
+    QObject::connect(ui->newGraph, SIGNAL(triggered(bool)), this, SLOT(newConsole()));
     QObject::connect(ui->saveSession, SIGNAL(triggered(bool)), this, SLOT(saveSession()));
     QObject::connect(ui->loadSession, SIGNAL(triggered(bool)), this, SLOT(loadSession()));
     QObject::connect(ui->showHelp, SIGNAL(triggered(bool)), this, SLOT(showHelp()));
@@ -30,6 +35,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(ui->saveGraph, SIGNAL(triggered(bool)), this, SLOT(saveTab()));
     QObject::connect(ui->loadGraph, SIGNAL(triggered(bool)), this, SLOT(loadTab()));
     QObject::connect(ui->closeGraph, SIGNAL(triggered(bool)), this, SLOT(closeCurrent()));
+    QObject::connect(ui->actionExit, SIGNAL(triggered(bool)), this, SLOT(closeWindow()));
 
 }
 
@@ -38,7 +44,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::newGraph()
+void MainWindow::newConsole()
 {
     dialogString* d = new dialogString(this, "Enter a name", "Validate");
     d->setModal(true);
@@ -48,14 +54,15 @@ void MainWindow::newGraph()
 
 void MainWindow::newTab(const QString& name)
 {
-    QString graphName = name;
-    int newIndex = ui->tabWidget->addTab(new Console("", this), graphName);
+    QString tabName = name;
+    int newIndex = ui->tabWidget->addTab(new Console("", this), tabName);
     ui->tabWidget->setCurrentIndex(newIndex);
     ui->tabWidget->setTabToolTip(ui->tabWidget->count()-1,name);
     ((Console*)ui->tabWidget->currentWidget())->setFocus();
 }
 
-void MainWindow::saveSession() {
+void MainWindow::saveSession()
+{
     QString fname = QFileDialog::getSaveFileName(this, QString("Save session"), QString(), QString("Graphy session (*.ghy))"));
     if(fname.isEmpty()) {
         return;
@@ -82,7 +89,8 @@ void MainWindow::saveSession() {
     file.close();
 }
 
-void MainWindow::loadSession() {
+void MainWindow::loadSession()
+{
     QString fname = QFileDialog::getOpenFileName(this, QString("Load session"), QString(), QString("Graphy session (*.ghy)"));
     if(fname.isEmpty()) {
         return;
@@ -172,6 +180,11 @@ void MainWindow::closeTab(int index)
 
 void MainWindow::changeTab(int direction)
 {
+    if(direction == 0)
+        return;
+
+    direction = direction >= 1 ? direction/direction : direction/direction *-1;
+
     if((direction >= 1 && ui->tabWidget->currentIndex() != ui->tabWidget->count())
             ||(direction <= -1 && ui->tabWidget->currentIndex() != 0))
         ui->tabWidget->setCurrentIndex(ui->tabWidget->currentIndex()+direction);
@@ -182,18 +195,26 @@ void MainWindow::closeCurrent()
     ui->tabWidget->removeTab(ui->tabWidget->currentIndex());
 }
 
-void MainWindow::showHelp() {
+void MainWindow::showHelp()
+{
     helpWindow = HelpWindow::getInstance(
                                 this,
                                 new QString("../userHelp/pages/"));
     helpWindow->show();
 }
 
-void MainWindow::getTabName(QString& name) {
+void MainWindow::getTabName(QString& name)
+{
     name = ui->tabWidget->tabText(ui->tabWidget->currentIndex());
 }
 
-void MainWindow::setTabName(const QString& name) {
+void MainWindow::setTabName(const QString& name)
+{
     ui->tabWidget->setTabText(ui->tabWidget->currentIndex(), name);
     ui->tabWidget->setTabToolTip(ui->tabWidget->currentIndex(), name);
+}
+
+void MainWindow::closeWindow()
+{
+    this->close();
 }
