@@ -142,6 +142,14 @@ void GraphCommon<T>::addVertex(Vertex *v)
 }
 
 template <typename T>
+Vertex *GraphCommon<T>::getVertex(int id) const {
+    if (id < 0 || id > _vertices.size())
+        throw runtime_error("Error when trying to get Vertex from its id. "
+                                    "The id specified is out of range");
+    return _vertices[id];
+}
+
+template <typename T>
 size_t GraphCommon<T>::V() const
 {
     return _vertices.size();
@@ -202,5 +210,6 @@ string GraphCommon<T>::toString() const
 
     return s;
 }
+
 
 #endif

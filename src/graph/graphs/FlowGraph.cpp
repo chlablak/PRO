@@ -16,7 +16,8 @@ IGraph *FlowGraph::emptyClone() const
     return g;
 }
 
-FlowGraph::FlowGraph(const FlowGraph &fg) : DiGraphCommon(fg) {}
+FlowGraph::FlowGraph(const FlowGraph &fg) : DiGraphCommon(fg)
+{}
 
 
 bool FlowGraph::isConnected() const
