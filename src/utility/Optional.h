@@ -168,8 +168,10 @@ utility::Optional<T>::Optional(const Optional &o) :
 
 template<typename T>
 utility::Optional<T>::Optional(Optional &&o) :
-    valuePtr(std::move(o.valuePtr))
-{}
+    valuePtr(o.valuePtr)
+{
+    o.valuePtr = nullptr;
+}
 
 template<typename T>
 utility::Optional<T>::Optional(const value_type &value) :
@@ -209,7 +211,8 @@ utility::Optional<T> &utility::Optional<T>::operator=(Optional &&o)
 {
     if (this != &o) {
         delete valuePtr;
-        valuePtr = std::move(o.valuePtr);
+        valuePtr = o.valuePtr;
+        o.valuePtr = nullptr;
     }
     return *this;
 }
