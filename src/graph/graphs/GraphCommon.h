@@ -84,6 +84,8 @@ public:
 
     virtual void addVertex(Vertex *vertex) override;
 
+    virtual Vertex *getVertex(int id) const override;
+
     virtual size_t V() const override;
 
     virtual size_t E() const override;

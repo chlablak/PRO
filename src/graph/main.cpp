@@ -23,14 +23,15 @@ int main()
 
      // Tests Djomo
      // DTestGraph testGraph;
-        DTestDiGraph testDiGraph;
-
-  //   DTestFlowGraph testFlowGraph;
+      DTestDiGraph testDiGraph;
+     // DTestFlowGraph testFlowGraph;
 
     // Tests Richoz
    // RTestGraph testGraph;
 //    RTestDiGraph testDiGraph;
 //    RTestFlowGraph testFlowGraph;
+
+
 
     return 0;
 }
