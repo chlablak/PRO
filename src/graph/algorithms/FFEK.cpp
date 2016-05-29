@@ -64,8 +64,8 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
         throw runtime_error("Error in 'FFEK' algorithm. The flow graph must "
                                     "have a positive capacity");
 
-    Vertex *fromCpy;
-    Vertex *toCpy;
+    Vertex *fromCpy = nullptr;
+    Vertex *toCpy = nullptr;
     FlowGraph *gClone = g->clone();
     for (Vertex *v : gClone->vertexList()) {
         if (*v == *from)

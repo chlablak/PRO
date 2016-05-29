@@ -58,7 +58,7 @@ void DijkstraSP::sp(T* g, U *, Vertex *from) {
     _marques.assign(g->V(), false);
 
     // Search from vertex
-    Vertex *fromCpy;
+    Vertex *fromCpy = nullptr;
     for (Vertex *v : gClone->vertexList()) {
         if (*v == *from) {
             fromCpy = v;
