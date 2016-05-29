@@ -19,6 +19,7 @@
 \usepackage{verbatim} % pour les graphes
 \usepackage{caption} % figure et subfigure pour mettre les images côtes à côtes
 \usepackage{subcaption}
+\usepackage{dirtree}
 
 % Grammaire EBNF
 \usepackage{syntax}
@@ -170,16 +171,17 @@
 					\\
 					\textbf{\texttt{Edge}}\\ \hline \hline
 					Domaine & \multicolumn{2}{l}{Arête/arc avec des informations supplémentaires facultatives}\\
-					Opérations & Déclaration & \texttt{Edge a = (1--2); Edge a2 = (2<-3:5);}\\
+					Opérations & Déclaration & \texttt{Edge a = (1\textendash-2); Edge a2 = (2<-3:5);}\\
 					& & \texttt{(connection[id]:weight:label:max\_capacity:min\_capacity)}\\
-					& & \texttt{(arête: -- (tiret double) arcs: ->, <-)}\\
+					& & \texttt{(arête: \textendash-, arcs: ->, <-)}\\
 					& Affectation & \texttt{a = (1->2::"A1"); a = f();}\\
 					& Lecture & \texttt{a; f(a); Vertex b = a;}\\ 
 					\\
 					\textbf{\texttt{Graph}}\\ \hline \hline
-					Domaine & \multicolumn{2}{l}{Ensemble de sommets et d'arêtes/arcs (les parenthèses ne sont plus obligatoires)}\\
+					Domaine & \multicolumn{2}{l}{Ensemble de sommets et d'arêtes/arcs}\\
 					Opérations & Déclaration & \texttt{Graph a = \{0, 1, 2:A, 1->2:3:::2]\};}\\
 					& & (si on ne veut pas écrire tous les sommets: \texttt{a = \{\#3, 0->1, 0->2\};})\\
+					& & (les parenthèses pour les \texttt{Vertex} et \texttt{Edge} ne sont plus nécessaires)\\
 					& Affectation & \texttt{a = \{0, 1, 0--1\}; a = f();}\\
 					& Lecture & \texttt{a; f(a); Graph b = a;}\\
 					& Ajout/modification & \texttt{a += (1<-2:4)};\\
@@ -196,7 +198,7 @@
 					\end{itemize}
 					\item \texttt{Vertex}:
 					\begin{itemize}
-						\item Seul le premier paramètre (\texttt{id[Integer]}) est obligatoire, et il ne doit pas être négatif
+						\item Seul le premier paramètre (\texttt{id[Integer]}) est obligatoire, et il ne doit pas être négatif (\texttt{id} est le nom, et entre \texttt{[]} c'est son type)
 						\item Les valeurs par défaut sont \texttt{label[String]="", weight[Number]=0, max\_capacity[Number]=min\_capacity, min\_capacity[Number]=0}
 					\end{itemize}
 					\item \texttt{Edge}: 
@@ -204,7 +206,7 @@
 						\item Seul le premier paramètre (\texttt{connection}) est obligatoire
 						\item Le paramètre \texttt{id[Integer]} doit être positif ou nul et sa valeur par défaut est 0
 						\item Les valeurs par défaut sont \texttt{weight[Number]=0, label[String]="", max\_capacity[Number]=min\_capacity, min\_capacity[Number]=0}
-						\item L'\texttt{id} est un identifiant "local" à la \texttt{connection}
+						\item L'\texttt{id} est un identifiant "local" à la \texttt{connection}, c'est-à-dire par exemple que \texttt{(0->1)} et \texttt{(1->0)} auront tout deux l'\texttt{id} à 0, et cela ne pose pas problème
 					\end{itemize}
 					\item \texttt{Graph}: 
 					\begin{itemize}
@@ -336,6 +338,7 @@
 				\end{grammar}
 				
 			\subsubsection{Modifications}
+				\textbf{24.04.2016}\\
 				Après réflexion, il est apparu que les opérations d'assignation et de déclaration de variables pouvaient être mises ensemble. Concrètement dans une déclaration il n'est pas nécessaire de définir le type de la variable car celui-ci peut être déduit de l'opérande de droite. Et comme les tableaux sont des collections hétérogènes, il semble évident que les variables doivent elles aussi être à typage dynamique. Par conséquent la grammaire est modifiée ainsi:
 				\begin{itemize}
 					\item Suppression des règles \textit{<declaration>}, \textit{<type>}, \textit{<simple-type>} et \textit{<complex-type>}
@@ -343,11 +346,15 @@
 					\item La règle \textit{<statement>} vaut désormais: \textit{( <function-call> | <assignation> ) ';'}
 				\end{itemize} 
 				
-				\textcolor{red}{AJOUTER DATE}\\
-				\textcolor{red}{nouvelles modifications depuis l'impl. du parseur}\\
-				\textcolor{red}{oublis des += et -= dans la grammaire}\\
-				\textcolor{red}{oubli de l'id dans connection}\\
-				\textcolor{red}{sign->negate() -> impossible d'ecrire v=(1::-2) (en l'état)}
+				\textbf{12.05.2016}\\
+				Pendant l'implémentation du parseur, des oublis dans la grammaire ont été constatés, voici les règles manquantes:
+				\begin{itemize}
+					\item Nouvelle règle: \textit{<graph-add> ::= <identifier> '+=' <parameter>}
+					\item Nouvelle règle: \textit{<graph-sub> ::= <identifier> '-=' <parameter>}
+					\item La règle \textit{<connection>} vaut désormais: \textit{<id> ( '\textendash-' | '->' | '<-' ) <id> [ '[' <digit-sequence> ']' ]}
+					\item La règle \textit{<statement>} vaut désormais: \textit{( <function-call> | <assignation> | <graph-add> | <graph-sub> ) ';'}
+				\end{itemize}
+				De plus, en l'état, l'implémentation ne permet pas d'écrire par exemple \texttt{v = (0:label);} ou \texttt{v = (0::-2);}, cela à cause des règles qui n'utilisent pas assez la règle \textit{<parameter>}. Cela peut être une amélioration future.
 				
 		\subsection{Flux des données}
 			\begin{figure}[H]
@@ -1141,7 +1148,22 @@
 			La création de cet arbre se fait grâce aux \textit{tokens} générés dans la partie \textit{Parser validation} (voir section~\ref{subsec:implementation-du-parseur}).
 			
 			\subsubsection{Modifications}
-				\textcolor{red}{nouveau type ARRAY, depuis l'impl. du parseur}
+				\textbf{24.04.2016}\\
+				Suite à l'implémentation du parseur, il est apparu qu'un nouveau type de \textit{Statement} était nécessaire afin de simplifier certains développement. Il s'agit du type Array, voici les types de traitements remagnés:
+				
+				\begin{figure}[H]
+					\centering
+					\begin{tabular}{cccc}
+						Type & Nom complet & Valeur & Nombre de paramètres\\
+						\hline
+						A & Assignation & Nom de la variable & 1\\
+						F & Fonction & Nom de la fonction & *\\
+						C & Constante & Valeur littérale & 0\\
+						V & Variable & Nom de la variable & 0\\
+						Ac & Création d'un tableau & <vide> & *\\
+						Ai & Accès indexé dans un tableau & Nom de la variable & 1\\
+					\end{tabular}
+				\end{figure}
 			
 			\subsubsection{Fonctions internes}
 				La transformation nécessite plusieurs fonctions pour que la suite puisse correctement fonctionner. Nous allons lister ici toutes ces fonctions qui seront par la suite interfacées dans la table des fonctions.\\
@@ -1374,22 +1396,50 @@
 			
 				\begin{figure}[H]
 					\centering
-					\includegraphics[width=0.9\textheight,angle=90]{Conception/UMLEGLI}
+					\includegraphics[width=\textwidth]{Conception/UMLEGLI}
 					\caption{Diagramme de classes de l'interpréteur  \cite{plantuml}}
 				\end{figure}
 				
-				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée comme on a pu le voir dans les sections précédentes. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur.
-				
-				\textcolor{red}{MODIFIER DIAGRAMME SELON CODE}
+				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur, ou que cela surchargerait trop le diagramme. Notons les classes surlignées en jaune pétant, il s'agit des classes principales pour l'utilisateur (voir section~\ref{subsec:egli-exemple}).  
 			
 			\subsubsection{Répertoires}
 				L'interpréteur étant une couche indépendante de l'application GUI, nous avons décidé de mettre tout ce qui le concerne dans un \texttt{namespace} du nom de \texttt{egli}, pour \textit{Embeeded GraphY Language Interpreter}.\\
 				
 				Voici à quoi ressemblera le répertoire de l'interpréteur:
 				
-				\textcolor{red}{bla bla todo ...}
+				\begin{figure}[H]
+					\centering
+					\dirtree{%
+						.1 egli/\DTcomment{répertoire de base de EGLI}.
+						.2 detail/\DTcomment{répertoire "privé", ne doit pas être utilisé par l'utilisateur}.
+						.3 interface/\DTcomment{répertoire pour les fonctions interfacées}.
+						.4 algorithms.h\DTcomment{les algorithmes venant de la couche \textit{graphes et algorithmes}}.
+						.4 basics.h\DTcomment{les fonctions nécessaires au fonctionnement interne}.
+						.4 builtins.h\DTcomment{les fonctions offertes de base dans l'interpréteur}.
+						.3 FunctionImpl.h\DTcomment{implémentation de \texttt{FunctionCaller}}.
+						.3 Grammar.h\DTcomment{grammaire utilisée par le parseur}.
+						.3 interface.h\DTcomment{interfaçage centralisé des fonctions}.
+						.3 <...>\DTcomment{autres fichiers d'implémentation}.
+						.2 Array.h\DTcomment{tableau dynamique hétérogène}.
+						.2 Data.h\DTcomment{données utilisée dans l'interpréteur}.
+						.2 egli.h\DTcomment{fichier d'inclusion générale}.
+						.2 Exception.h\DTcomment{exception spécifique à EGLI}.
+						.2 Function.h\DTcomment{déclaration de \texttt{FunctionCaller}}.
+						.2 FunctionTable.h\DTcomment{table des fonctions}.
+						.2 GraphWrapper.h\DTcomment{\textit{wrapper} de \texttt{IGraph} venant de la couche \textit{graphes et algorithmes}}.
+						.2 Interpreter.h\DTcomment{interpréteur de EGLI}.
+						.2 Parser.h\DTcomment{parseur utilisé par l'interpréteur}.
+						.2 ProcessingUnit.h\DTcomment{unité de vérification et de traitement}.
+						.2 serialize.h\DTcomment{(dé-)sérialisation de \texttt{Data}}.
+						.2 Statement.h\DTcomment{type de traitement possible}.
+						.2 toString.h\DTcomment{transforme une variable en \texttt{std::string}}.
+						.2 VariableTable.h\DTcomment{table des variables}.
+						.2 <...>\DTcomment{autres fichiers}.
+					}
+				\end{figure}
 			
 		\subsection{Exemples}
+		\label{subsec:egli-exemple}
 			\textcolor{red}{faire un exemple d'utilisation classique, et une section sur les tests}
 		
 	\section{Graphes}
