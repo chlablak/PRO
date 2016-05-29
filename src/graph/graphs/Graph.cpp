@@ -13,8 +13,9 @@
 
 Graph::Graph(const Graph &g) : GraphCommon(g)
 {
-    for (Vertex *v : g.vertexList())
+    for (Vertex *v : g.vertexList()){
         _vertices.at(v->id()) = new Vertex(*v);
+    }
 
     for (IEdge *ie : g.edgeList()) {
         Edge *e = (Edge*)ie;
