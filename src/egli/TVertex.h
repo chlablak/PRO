@@ -42,6 +42,10 @@ struct Vertex
         const utility::Optional<number_t> &weight = {},
         const utility::Optional<number_t> &maxCapacity = {},
         const utility::Optional<number_t> &minCapacity = {});
+
+    // Move is dangerous for this type
+    Vertex(const Vertex&) = default;
+    Vertex &operator=(const Vertex&) = default;
 };
 }
 

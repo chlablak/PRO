@@ -58,6 +58,10 @@ struct Edge
         const utility::Optional<string_t> &label = {},
         const utility::Optional<number_t> &maxCapacity = {},
         const utility::Optional<number_t> &minCapacity = {});
+
+    // Move is dangerous for this type
+    Edge(const Edge&) = default;
+    Edge &operator=(const Edge&) = default;
 };
 }
 

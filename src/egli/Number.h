@@ -29,6 +29,10 @@ public:
      */
     Number(float_t value = static_cast<float_t>(0));
 
+    // Move is dangerous for this type
+    Number(const Number&) = default;
+    Number &operator=(const Number&) = default;
+
     /*! \brief Return the value as a float
      *
      * \return The contained value

@@ -292,7 +292,7 @@ QByteArray Console::prepareDataForSave()
     qba.append(buffer+"\n");
     qba.append(QString::number(commandHistory.size())+"\n");
     for(auto c: commandHistory) {
-        qba.append(c+fileDelimiter+"\n");
+        qba.append(c+commandDelimiter+"\n");
     }
 
     qba.append(QString(QString::number(toPlainText().count("\n")+1)+"\n"));
@@ -377,10 +377,10 @@ void Console::loadDataToConsole(QByteArray& data, bool ignoreFilename)
         QString line = QString(charArray);
 
 
-        if(line.contains(QString(fileDelimiter+"\n")))
+        if(line.contains(QString(commandDelimiter+"\n")))
             i++;
 
-        commandHistory.push_back(line.replace(QString(fileDelimiter+"\n"), QString("\0")));
+        commandHistory.push_back(line.replace(QString(commandDelimiter+"\n"), QString("\0")));
     }
     currentCommand = commandHistory.end();
 
@@ -517,7 +517,7 @@ void Console::updateCompleterList()
     completer = new QCompleter(*completerWordList);
     completer->setWidget(this);
     completer->setCompletionMode(QCompleter::PopupCompletion);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setCaseSensitivity(Qt::CaseSensitive);
     QObject::connect(completer, SIGNAL(activated(QString)),
                      this, SLOT(insertCompletion(QString)));
 
