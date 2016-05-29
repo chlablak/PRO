@@ -25,7 +25,7 @@ void TopologicalSort::order(IGraph *g) {
 
     vector<size_t > inputDegree(g->V()); inputDegree.assign(g->V(), 0);
     list<Vertex *> L; // L will content the list of vertex without predessessor and that are not yet order
-    double rang = 1;
+    double rang = 0;
     size_t degree;
     Vertex * current;
 

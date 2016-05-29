@@ -183,7 +183,6 @@ void DetectedCycle::commonFlowDiGraph(IGraph *g) {
 
         }
         // we add the edge to _G
-        begin = false;
         for (unsigned int i = positionBegin; i < (_cycle.size() - 1); ++i) {
             _G->assignEdge(g->getEdges(_cycle.at(i), _cycle.at(i + 1)).front());
         }

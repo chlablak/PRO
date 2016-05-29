@@ -14,21 +14,44 @@
 
 
 using namespace std;
+
+/*! \brief Determine weither a graph is acyclique an then get the cycle if the graph
+ * contains one
+ */
 class DetectedCycle : public Visitor
 {
 
 private:
 
-    vector<bool> _marked;
-    vector<bool> _stacked;
-    vector<Vertex*> _cycle;
-    bool cycleFounded;
-    IGraph *_G;
-    vector<int> _distances;
+   vector<bool> _marked;
+   vector<bool> _stacked;
+   vector<Vertex*> _cycle;
+   bool cycleFounded;
+   IGraph *_G;
+   vector<int> _distances;
 
 private:
+
+    /*! \brief Determine weither a digraph or flowgraph is acyclique an then return and then get the cycle
+     *
+     * \param g - The CommonDigraph on which to search the cycle
+     * \param v - The source vertex from where to start the research the cycle
+     *
+     */
     void hasCycleDirected(Vertex *v, IGraph* g);
+
+    /*! \brief Determine weither a graph is acyclique an then return and then get the cycle
+     *
+     * \param g - The graph on which to search the cycle
+     * \param from - The source vertex from where to start the research the cycle
+     * \fromId id of v that will be use by its adjacents vertex to identify it
+     */
     void hasCycle(Vertex *v, int fromId, IGraph *g);
+
+    /*! \brief this is a precedure that is common to digraph and flowgraph
+     * it forms the graph that represents the cycle found by hasCycleDirected method
+     * \param g - The CommonDigraph on which to apply the precedure
+     */
     void commonFlowDiGraph (IGraph *g);
 
 

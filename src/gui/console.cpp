@@ -517,7 +517,7 @@ void Console::updateCompleterList()
     completer = new QCompleter(*completerWordList);
     completer->setWidget(this);
     completer->setCompletionMode(QCompleter::PopupCompletion);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    completer->setCaseSensitivity(Qt::CaseSensitive);
     QObject::connect(completer, SIGNAL(activated(QString)),
                      this, SLOT(insertCompletion(QString)));
 
