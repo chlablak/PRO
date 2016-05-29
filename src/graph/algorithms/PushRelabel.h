@@ -1,6 +1,9 @@
-//
-// Created by sebri on 26.05.2016.
-//
+/*! \brief Algorithm to find maximum flow in a flow graph
+ *
+ * \file PushRelabel.h
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #ifndef GRAPH_PUSHRELABEL_H
 #define GRAPH_PUSHRELABEL_H
@@ -13,7 +16,7 @@
 #include "../graphs/FlowGraph.h"
 
 typedef long long LL;
-
+// TODO
 struct AdapteeFlowEdge {
     int from, to, cap, flow, index;
     AdapteeFlowEdge(int from, int to, int cap, int flow, int index)
