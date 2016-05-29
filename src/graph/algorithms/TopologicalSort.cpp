@@ -32,11 +32,12 @@ void TopologicalSort::order(IGraph *g) {
     // we calculate the input degree of each vertex
     for(auto v : g->vertexList())
     {
-        degree = 0;
+        /*degree = 0;
         for(auto u : _predessessorsList.at(v->id()))
         {
             degree++;
-        }
+        }*/
+        degree = _predessessorsList.at(v->id()).size();
         inputDegree.at(v->id()) = degree;
         if(inputDegree.at(v->id()) == 0)
         {

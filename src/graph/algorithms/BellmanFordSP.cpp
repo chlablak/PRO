@@ -53,7 +53,7 @@ void BellmanFordSP::sp(T *g, U *, Vertex *from)
     _distanceTo.assign(nVertex,std::numeric_limits<double>::max());
 
     // Search from vertex
-    Vertex *fromCpy;
+    Vertex *fromCpy = nullptr;
     for (Vertex *v : gClone->vertexList()) {
         if (*v == *from) {
             fromCpy = v;
