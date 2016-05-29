@@ -148,7 +148,7 @@ public:
     /*! \brief Copy constructor
      */
     FlowEdge(const FlowEdge &e)
-            : DiEdgeCommon(e), _minCapacity(e._minCapacity), _maxCapacity(e._maxCapacity) {}
+            : DiEdgeCommon(e), _minCapacity(e.minCapacity()), _maxCapacity(e.maxCapacity()) {}
 
     string toString() const override;
 

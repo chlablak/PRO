@@ -115,6 +115,27 @@
 		\subsection{Conception générale}
 		La conception générale de l'application a été faite en couche pour deux raisons. Premièrement, cette décomposition permet de répartir le travail plus facilement et de manière plus efficace entre les personnes. En effet, cela réduit les dépendances au niveau du développement et donc le nombre de conflits sur le gestionnaire de versions. Deuxièmement, cette approche permet d'avoir des composants indépendants et donc réutilisables, puisque les couches inférieures n'ont pas connaissance des couches supérieures et proposent des interfaces facilement accessibles.\\
 		La première couche à mentionner et celle avec laquelle l'utilisateur interagit est l'interface graphique (GUI). Celle-ci propose une console pour saisir des commandes, ainsi que quelques menus. Elle est également liée à l'aide utilisateur, qui comporte une fenêtre de navigation HTML. La GUI est interfacée avec l'interpréteur qui vérifie la validité des commandes tapées et renvoie un message d'erreur en cas de mauvaise saisie. Si, au contraire, la commande est correcte l'interpréteur la transmet soit à la couche graphe, soit à la couche algorithme. En parallèle à cet interpréteur réside la couche de dessin, qui accède également à la couche graphe pour en dessiner une représentation.
+		
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+			\draw (0,0) rectangle (4,1) node[pos=.5] {Algorithms};
+			\draw (0,-2) rectangle (12,-1) node[pos=.5] {Graphs};
+			\draw (0,2) rectangle (7,3) node[pos=.5] {\textit{EGLI}};
+			\draw (0,4) rectangle (7,7) node[pos=.5] {\textit{GUI}};
+			\draw (8,4) rectangle (12,5) node[pos=.5] {Visualization};
+			\draw (8,6) rectangle (12,7) node[pos=.5] {User help};
+			
+			\draw[->] (3.5,4) -- (3.5,3);
+			\draw[->] (2,2) -- (2,1);
+			\draw[->] (2,0) -- (2,-1);
+			\draw[->] (5.5,2) -- (5.5,-1);
+			\draw[->] (10,4) -- (10,-1);
+			\draw[->] (7,4.5) -- (8,4.5);
+			\draw[->] (7,6.5) -- (8,6.5);
+			\end{tikzpicture}
+			\caption{Couches logicielles}
+		\end{figure}
 	
 	\section{Cadre de développement} 
 		L'application est développée à l'aide du langage C++ (standard C++11) et de la bibliothèque Qt (version 5.5.1). Elle est compilée avec MinGW 4.9.2 32 bits sur Windows. La version de la librairie Boost utilisée pour le parseur est la 1.60.0. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décidé d'utiliser le Coding Style de Qt \cite{qtStyle} qui correspond bien à nos besoins. Nous avons également utilisé GitHub pour gérer la mise en commun du code.
