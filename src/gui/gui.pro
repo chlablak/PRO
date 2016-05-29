@@ -90,7 +90,8 @@ SOURCES += main.cpp\
     ../graph/graphs/FlowGraph.cpp \
     ../graph/graphs/Graph.cpp \
     ../graph/graphs/GraphCommon.cpp \
-    ../graph/graphs/Vertex.cpp
+    ../graph/graphs/Vertex.cpp \
+    ../egli/serialize.cpp
 
 HEADERS  += mainwindow.h \
     console.h \
@@ -191,7 +192,8 @@ HEADERS  += mainwindow.h \
     ../graph/graphs/IEdge.h \
     ../graph/graphs/IGraph.h \
     ../graph/graphs/Vertex.h \
-    ../graph/Includes.h
+    ../graph/Includes.h \
+    ../egli/serialize.h
 	
 FORMS    += mainwindow.ui \
     dialogstring.ui \
