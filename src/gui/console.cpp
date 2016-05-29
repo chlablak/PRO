@@ -40,6 +40,7 @@ Console::Console(const QString& prompt, QWidget *parent) : prompt(prompt),
     cursorPosition = 0;
     insertPlainText(prompt + " > ");
     setAcceptDrops(false);
+    setFont(QFont("Courier New", 9));
 
     filename = "";
 

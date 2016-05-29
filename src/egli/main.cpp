@@ -63,7 +63,12 @@ ostream &operator<<(ostream &os, egli::VariableTable const &v)
     for (auto it : v.find("")) {
         os << it << "(";
         os << egli::toString(v.typeOf(it));
-        os << ", value=" << v.toString(it);
+        string str = v.toString(it);
+        if (str.size() > 60) {
+            str.resize(60);
+            str.append("...");
+        }
+        os << ", value=" << str;
         os << ")" << endl;
     }
     return os;
@@ -99,7 +104,7 @@ int main()
                 timer.reset();
                 egli::ProcessingUnit::process(s, func, data.variables());
                 cout << "PROCESSED(in " << timer.elapsed() << "s):\n" << s;
-//                cout << "TABLE:\n" << data.variables();
+                cout << "TABLE:\n" << data.variables();
 //                cout << "SERIALIZED:\n" << egli::serialize(data) << endl;
 //                egli::Data tmp;
 //                egli::deserialize(tmp, egli::serialize(data));

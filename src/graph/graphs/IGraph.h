@@ -1,6 +1,9 @@
-//
-// Created by sebri on 12.05.2016.
-//
+/*! \brief Interface for graphs manipulation
+ *
+ * \file IGraph.h
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #ifndef GRAPH_IGRAPH_H
 #define GRAPH_IGRAPH_H
@@ -10,12 +13,17 @@
 #include "IEdge.h"
 #include "../algorithms/Visitor.h"
 
-class IGraph {
+/*! \brief Global interface to manipulate all types of graphs
+ */
+class IGraph
+{
 public:
     typedef list<IEdge*> Edges;
     typedef list<Vertex*> Vertices;
 
-    virtual ~IGraph() { }
+    /*! \brief Destructor
+     */
+    virtual ~IGraph() {}
 
     /*! \brief A graph is null if there isn't any vertex
      *
@@ -172,11 +180,13 @@ public:
     /*! \brief Add the vertex to the graph at its id position
      *
      * \param v - The vertex to assign to the graph
-     * TODO : should pe protected
      */
     virtual void assignVertex(Vertex *v) = 0;
 
-    // TODO : should be protected
+    /*! \brief Add the edge to the graph at its id position
+     *
+     * \param ie - The edge to assign to the graph
+     */
     virtual void assignEdge(IEdge *ie) = 0;
 
     /*! \brief Display the graph
@@ -214,7 +224,7 @@ public:
      *  \param v - The visitor who want to visit the graph
      *  \param from - The source vertex from where the visitor will visit the graph
      */
-    virtual void accept(Visitor *v, Vertex *from) = 0;
+    virtual void accept(Visitor *v, Vertex *from = nullptr, Vertex *to = nullptr) = 0;
 
     /*! brief Overload of ostream operator to display a graph in the console
      */
@@ -222,8 +232,7 @@ public:
         return os << ig.toString();
     }
 
-
-
+    // TODO remove (used for test)
     virtual void printAdjList() const = 0;
 };
 

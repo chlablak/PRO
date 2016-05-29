@@ -158,10 +158,20 @@ public:
      *
      * \param id - The vertex ID
      * \return A pointer to the Vertex
-     *
-     * \throw Exception if id >= graph()->V()
      */
     vertex_t *getVertexById(size_t id) const;
+
+    /*! \brief Get the number of Vertex
+     *
+     * \return Number of vertices
+     */
+    size_t V() const;
+
+    /*! \brief Get the number of Edge
+     *
+     * \return Number of edges
+     */
+    size_t E() const;
 
 private:
 

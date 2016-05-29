@@ -1,12 +1,18 @@
-//
-// Created by sebri on 16.05.2016.
-//
+/*! \brief Algorithm to find minimum spanning tree
+ *
+ * \file Kruskal.cpp
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #include <stdexcept>
 #include "Kruskal.h"
 #include "UnionFind.h"
 #include "../graphs/Graph.h"
 
+/**
+ * Redefine greater operator fo IEdge for this algorithm
+ */
 namespace std
 {
     template <>
@@ -19,15 +25,15 @@ namespace std
     };
 }
 
-void Kruskal::visit(Graph *g, Vertex *from) {
-    UNUSED(from);
-
-    if (!g->isConnected()) {
-        throw std::runtime_error("Error in Kruskal algorithm. The graph must be connected.");
-    }
-    if (!g->isWeighted()) {
-        throw std::runtime_error("Error in Kruskal algorithm. The graph must be weighted.");
-    }
+void Kruskal::visit(Graph *g, Vertex *, Vertex *)
+{
+    // TODO vérifier si g doit être isSimple()
+    if (!g->isConnected())
+        throw std::runtime_error("Error in Kruskal algorithm. "
+                                         "The graph must be connected.");
+    if (!g->isWeighted())
+        throw std::runtime_error("Error in Kruskal algorithm. "
+                                         "The graph must be weighted.");
 
     Graph *gClone = g->clone();
     _G = gClone->emptyClone();
@@ -53,27 +59,24 @@ void Kruskal::visit(Graph *g, Vertex *from) {
     }
 }
 
-void Kruskal::visit(DiGraph *g, Vertex *from) {
-    UNUSED(g);
-    UNUSED(from);
-
+void Kruskal::visit(DiGraph *, Vertex *, Vertex *)
+{
     throw std::runtime_error("Error. A directed graph can't be applied "
                                      "to 'Kruskal algorithm'");
 }
 
-void Kruskal::visit(FlowGraph *g, Vertex *from) {
-    UNUSED(g);
-    UNUSED(from);
-
+void Kruskal::visit(FlowGraph *, Vertex *, Vertex *)
+{
     throw std::runtime_error("Error. A flow graph can't be applied "
                                      "to 'Kruskal' algorithm.");
 }
 
-IGraph *Kruskal::G() const {
+IGraph *Kruskal::G() const
+{
     return _G;
 }
 
-std::vector<double> Kruskal::table() {
+std::vector<double> Kruskal::table()
+{
     throw std::runtime_error("Error. No table for 'Kruskal' algorithm.");
 }
-

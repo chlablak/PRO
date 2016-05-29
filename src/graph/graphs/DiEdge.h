@@ -1,34 +1,65 @@
-//
-// Created by PatrickDesle on 26.04.2016.
-//
+/*! \brief Class DiEdge
+ *
+ * \file DiEdge.h
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #ifndef SRC_DiEdge_H
 #define SRC_DiEdge_H
 
 #include "DiEdgeCommon.h"
 
-class DiEdge : public DiEdgeCommon {
-
+/*! \brief Class manipulating directed edges
+ */
+class DiEdge : public DiEdgeCommon
+{
 public:
-    // Constructors
+    /*! \brief Constructor
+     *
+     * \param from - The source vertex
+     * \param to - The destination vertex
+     */
     DiEdge(Vertex *from, Vertex *to)
         : DiEdgeCommon(from, to) {}
 
-    DiEdge(Vertex *from, Vertex *to, const string &label)
-        : DiEdgeCommon(from, to, label) {}
-
+    /*! \brief Constructor
+     *
+     * \param from - The source vertex
+     * \param to - The destination vertex
+     * \param weight - The weight of the edge
+     */
     DiEdge(Vertex *from, Vertex *to, const double weight)
         : DiEdgeCommon(from, to,  weight) {}
 
+    /*! \brief Constructor
+     *
+     * \param from - The source vertex
+     * \param to - The destination vertex
+     * \param label - The name of the edge
+     */
+    DiEdge(Vertex *from, Vertex *to, const string &label)
+            : DiEdgeCommon(from, to, label) {}
+
+    /*! \brief Constructor
+     *
+     * \param from - The source vertex
+     * \param to - The destination vertex
+     * \param label - The name of the edge
+     * \param weight - The weight of the edge
+     */
     DiEdge(Vertex *from, Vertex *to, const string label, const double weight)
         : DiEdgeCommon(from, to, label, weight) {}
 
-    DiEdge(const DiEdge& e) : DiEdgeCommon(e) { }
+    /*! \brief Copy constructor
+     */
+    DiEdge(const DiEdge& e) : DiEdgeCommon(e) {}
+
+    /*! \brief Destructor
+     */
+    virtual ~DiEdge() {}
 
     string toString() const;
-
-    virtual ~DiEdge() {}
 };
-
 
 #endif //SRC_DiEdge_H

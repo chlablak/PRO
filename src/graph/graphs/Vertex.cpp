@@ -1,51 +1,65 @@
-//
-// Created by sebri on 24.04.2016.
-//
+/*! \brief Class Vertex representing vertices
+ *
+ * \file Vertex.cpp
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #include "Vertex.h"
 
 
-int Vertex::id() const {
+int Vertex::id() const
+{
     return _id;
 }
 
-string Vertex::label() const {
+string Vertex::label() const
+{
     return _label;
 }
 
-double Vertex::weight() const {
+double Vertex::weight() const
+{
     return _weight;
 }
 
-int Vertex::minCapacity() const {
+int Vertex::minCapacity() const
+{
     return _minCapacity;
 }
 
-int Vertex::maxCapacity() const {
+int Vertex::maxCapacity() const
+{
     return _maxCapacity;
 }
 
-void Vertex::setLabel(const string &s) {
+void Vertex::setLabel(const string &s)
+{
     _label = s;
 }
 
-void Vertex::setWeight(const double w) {
+void Vertex::setWeight(const double w)
+{
     _weight = w;
 }
 
-void Vertex::setMinCapacity(const int minCap) {
+void Vertex::setMinCapacity(const int minCap)
+{
     _minCapacity = minCap;
 }
 
-void Vertex::setMaxCapacity(const int maxCap) {
+void Vertex::setMaxCapacity(const int maxCap)
+{
     _maxCapacity = maxCap;
 }
 
-void Vertex::setId(const int i) {
+void Vertex::setId(const int i)
+{
     _id = i;
 }
 
-string Vertex::toString() const {
+string Vertex::toString() const
+{
     string s = "(VERTEX) id: ";
     s.append(utility::toString(id()));
     s.append(", \"");
@@ -59,7 +73,8 @@ string Vertex::toString() const {
     return s;
 }
 
-ostream &operator<<(ostream &os, const Vertex &v) {
+ostream &operator<<(ostream &os, const Vertex &v)
+{
     return os << v.toString();
 }
 

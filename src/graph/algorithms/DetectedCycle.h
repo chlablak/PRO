@@ -1,6 +1,7 @@
 //
 // Created by PatrickDesle on 23.05.2016.
 //
+// TODO Djomo commentaires + QT coding style
 
 #ifndef GRAPH_DETECTEDCYCLE_H
 #define GRAPH_DETECTEDCYCLE_H
@@ -13,7 +14,8 @@
 
 
 using namespace std;
-class DetectedCycle : public Visitor{
+class DetectedCycle : public Visitor
+{
 
 private:
 
@@ -38,11 +40,11 @@ public:
 
     virtual ~DetectedCycle()override {}
 
-    virtual void visit(Graph *g, Vertex *from) override ;
+    virtual void visit(Graph *g, Vertex *from, Vertex *to) override ;
 
-    virtual void visit(DiGraph *g, Vertex *from) override ;
+    virtual void visit(DiGraph *g, Vertex *from, Vertex *to) override ;
 
-    virtual void visit(FlowGraph *g, Vertex *from) override;
+    virtual void visit(FlowGraph *g, Vertex *from, Vertex *to) override;
 
     virtual IGraph *G() const override ;
 

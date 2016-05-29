@@ -77,7 +77,6 @@ SOURCES += main.cpp\
     ../graph/algorithms/DijkstraSP.cpp \
     ../graph/algorithms/GraphAlgorithm.cpp \
     ../graph/algorithms/Kruskal.cpp \
-    ../graph/algorithms/Prim.cpp \
     ../graph/algorithms/SCCTarjan.cpp \
     ../graph/algorithms/TopologicalSort.cpp \
     ../graph/algorithms/UnionFind.cpp \
@@ -91,6 +90,8 @@ SOURCES += main.cpp\
     ../graph/graphs/Graph.cpp \
     ../graph/graphs/GraphCommon.cpp \
     ../graph/graphs/Vertex.cpp \
+    ../graph/algorithms/FFEK.cpp \
+    ../graph/algorithms/PushRelabel.cpp \
     ../egli/serialize.cpp
 
 HEADERS  += mainwindow.h \
@@ -173,7 +174,6 @@ HEADERS  += mainwindow.h \
     ../graph/algorithms/DijkstraSP.h \
     ../graph/algorithms/GraphAlgorithm.h \
     ../graph/algorithms/Kruskal.h \
-    ../graph/algorithms/Prim.h \
     ../graph/algorithms/SCCTarjan.h \
     ../graph/algorithms/TopologicalSort.h \
     ../graph/algorithms/UnionFind.h \
@@ -193,6 +193,14 @@ HEADERS  += mainwindow.h \
     ../graph/graphs/IGraph.h \
     ../graph/graphs/Vertex.h \
     ../graph/Includes.h \
+    ../graph/algorithms/FFEK.h \
+    ../graph/algorithms/PushRelabel.h \
+    ../graph/tests/DTestDiGraph.h \
+    ../graph/tests/DTestFlowGraph.h \
+    ../graph/tests/DTestGraph.h \
+    ../graph/tests/RTestDiGraph.h \
+    ../graph/tests/RTestFlowGraph.h \
+    ../graph/tests/RTestGraph.h \
     ../egli/serialize.h
 	
 FORMS    += mainwindow.ui \

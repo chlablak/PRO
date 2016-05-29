@@ -76,9 +76,9 @@ RealType<Type::Graph>::type kruskal(RealType<Type::Graph>::cref g);
  *
  * \throw Exception if an error occurs
  */
-RealType<Type::Graph>::type prim_1(RealType<Type::Graph>::cref g);
+/*RealType<Type::Graph>::type prim_1(RealType<Type::Graph>::cref g);
 RealType<Type::Graph>::type prim_2(RealType<Type::Graph>::cref g,
-                                   RealType<Type::Integer>::cref from);
+                                   RealType<Type::Integer>::cref from);*/
 
 /*! \brief Check if a Graph is ...
  *
