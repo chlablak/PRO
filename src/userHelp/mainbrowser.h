@@ -18,6 +18,7 @@
 
 #include "filereader.h"
 #include "searchBar.h"
+#include "keywordsearcher.h"
 
 #ifndef MAINBROWSER_H
 #define MAINBROWSER_H
@@ -34,22 +35,29 @@ public:
      * \param baseUrl: base url for html files
      * \return MainBrowser*
      */
-    static MainBrowser* getInstance(QWidget *parent, QString *baseUrl);
+    static MainBrowser* getInstance(QWidget *parent,
+                                    QString *baseUrl,
+                                    SearchBar *searchBar);
 
 private:
-    MainBrowser(QWidget *parent);
+    MainBrowser(QWidget *parent, SearchBar *searchBar);
 
     static QString *_baseUrl;
     static MainBrowser *instance;
+    static QString keywordFile;
 	
 	QWidget *parent;
+
+    SearchBar *searchBar;
+
+    QString getSearchHTML(const QString& searchWord);
 
 public slots:
     /*!
      * \brief Displays the result HTML page
      * \param search: search word
      */
-    void displaySearch(const QString &resultHtml);
+    void displaySearch();
 
     /*!
      * \brief Loads specified html page
@@ -57,7 +65,17 @@ public slots:
      */
     void setSource(const QUrl &name) Q_DECL_OVERRIDE;
 
+    /*!
+     * \brief Loads next page if there is one. Overridden to enable
+     *  use of search queries
+     */
     void forward() Q_DECL_OVERRIDE;
+
+    /*!
+     * \brief Loads previous page if there is one. Overridden to enable
+     *  use of search queries
+     */
+    void backward() Q_DECL_OVERRIDE;
 };
 
 #endif // MAINBROWSER_H
