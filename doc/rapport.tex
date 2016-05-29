@@ -20,6 +20,7 @@
 \usepackage{caption} % figure et subfigure pour mettre les images côtes à côtes
 \usepackage{subcaption}
 \usepackage{dirtree}
+\usepackage{pdfpages}
 
 % Grammaire EBNF
 \usepackage{syntax}
@@ -100,6 +101,34 @@
 	
 	% Tables des figures
 	\listoffigures
+	
+	% References
+	\begin{thebibliography}{9}
+		\bibitem{qtStyle}
+		Qt wiki, Qt coding style,\\ \url{https://wiki.qt.io/Qt_Coding_Style}
+		
+		\bibitem{vutbr.cz} 
+		Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
+		
+		\bibitem{plantuml}
+		PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
+		
+		\bibitem{Graph data wikipedia.org}
+		Graphs data structures,\\ \url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
+		
+		\bibitem{boost.spirit}
+		Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
+		
+		\bibitem{tries}
+		Robert Sedgewick, Kevin Wayne.\\
+		\emph{Algorithms, fourth edition}\\
+		\url{http://algs4.cs.princeton.edu/lectures/52Tries.pdf}
+		
+		\bibitem{sedgewick}
+		Robert Sedgewick.\\
+		\emph{Course on ternary search tries}
+		\url{https://www.youtube.com/watch?v=CIGyewO7868}
+	\end{thebibliography}	
 	
 	% Pour tout le document
 	\justify
@@ -2243,32 +2272,10 @@
 		Cela est possible car les tables des variables et des fonctions nous permet d'obtenir des informations sur leurs contenus. L'algorithme consiste à nouveau en une simple récursion dans l'arbre, et à chaque noeud on vérifie les types.\\
 		
 		NB: cette vérification ne verra pas tous les problèmes de types, typiquement à cause des tableaux dynamiques hétérogènes.
-	
-	\begin{thebibliography}{9}
-		\bibitem{qtStyle}
-		Qt wiki, Qt coding style,\\ \url{https://wiki.qt.io/Qt_Coding_Style}
 		
-		\bibitem{vutbr.cz} 
-		Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
-		
-		\bibitem{plantuml}
-		PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
-
-		\bibitem{Graph data wikipedia.org}
-		Graphs data structures,\\ \url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
-		
-		\bibitem{boost.spirit}
-		Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
-		
-		\bibitem{tries}
-		Robert Sedgewick, Kevin Wayne.\\
-		\emph{Algorithms, fourth edition}\\
-		\url{http://algs4.cs.princeton.edu/lectures/52Tries.pdf}
-		
-		\bibitem{sedgewick}
-		Robert Sedgewick.\\
-		\emph{Course on ternary search tries}
-		\url{https://www.youtube.com/watch?v=CIGyewO7868}
-	\end{thebibliography}			
+	\section{Annexes projet}
+		\includepdf[pages=-]{cahierdescharges}
+		\includepdf[pages=-]{journaldetravail}
+		% TODO planification et evolution		
 
 \end{document}
