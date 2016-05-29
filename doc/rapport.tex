@@ -97,8 +97,12 @@
 	\justify
 	\normalsize
 	
+	\section{Introduction}
+		
+		\subsection{Conception générale}
+	
 	\section{Cadre de développement} 
-		L'application est développée à l'aide du langage C++ et de la bibliothèque Qt \textcolor{red}{(insérer les versions utilisées ainsi que les compilateurs ?)}. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décidé d'utiliser le Coding Style de Qt \cite{qtStyle} qui correspond bien à nos besoins.
+		L'application est développée à l'aide du langage C++ (standard 2011) et de la bibliothèque Qt (version 5.5.1). Elle est compilée avec MinGW 4.9.2 32 bits sur Windows. La version de la librairie Boost utilisée pour le parseur est la 1.60.0. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décidé d'utiliser le Coding Style de Qt \cite{qtStyle} qui correspond bien à nos besoins.
 			
 	\section{Interpréteur} % Champion
 		Dans le cadre de l'application, l'utilisateur est amené à entrer des commandes lui permettant de créer et de modifier des graphes, tout autant que d'appeler des fonctions effectuant différents traitements (algorithmes, lecture depuis un fichier, ...). 
@@ -1907,6 +1911,9 @@
 		\subsection{Auto complétion}
 			\subsubsection{Implémentation du dictionnaire}
 			La première étape pour permettre l'implémentation de l'auto complétion est le choix d'une structure de donnée adéquate. Après quelques recherches, le \textit{ternary search try} se montre le plus adéquat. En effet, sa mise en œuvre permet une recherche très rapide. Pour une recherche réussie (\textit{search hit}), sa complexité est de l'ordre de $O(L + ln(N))$ avec $L$ la longueur de la chaine recherchée et $N$ le nombre de mots dans le dictionnaire \cite{tries}. Une recherche ratée (\textit{search miss}) prend quant à elle $O(ln(N))$. Il est vrai qu'une hash map effectue toutes ses opérations en moyenne en $O(L)$, mais le temps de hachage et non-négligeable et la performance globale en temps et en espace mémoire est souvent moins bonne \cite{sedgewick}.
+			
+			\subsubsection{Auto-complétion dans la GUI}
+			Au final, l'auto-complétion proposée par Qt a pu être adaptée à l'utilisation dans la console principale, ce qui a rendu les efforts consacrés à l'implémentation d'un dictionnaire efficace inutiles. Le comportement de l'auto-complétion n'est pas exactement celle initialement prévue, mais son utilisation a permis un gain de temps global.
 			
 		\subsection{Aide utilisateur}
 			\subsubsection{Conception générale}
