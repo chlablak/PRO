@@ -1,6 +1,9 @@
-//
-// Created by sebri on 01.05.2016.
-//
+/*! \brief Breadth First Search's algorithm
+ *
+ * \file BFS.cpp
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #include <stack>
 #include "BFS.h"
@@ -10,7 +13,51 @@
 
 using namespace std;
 
-void BFS::visit(Graph *g, Vertex *from, Vertex *) {
+template <typename T>
+void BFS::common(T *g, Vertex *from)
+{
+    if (g->isNull()) {
+        _G = new T;
+        return;
+    }
+
+    T *gClone = g->clone();
+    _G = gClone->emptyClone();
+
+    _distances.assign(gClone->V(), -1);
+    vector<Vertex*> p;
+    p.assign(gClone->V(), nullptr);
+    _distances[from->id()] = 0;
+
+    stack<Vertex*> Q;
+    // Initialize stack with from
+    for (Vertex *v : gClone->vertexList()) {
+        if (*v == *from) {
+            Q.push(v);
+            break;
+        }
+    }
+
+    while (!Q.empty()) {
+        Vertex *u = Q.top(); Q.pop();
+        _G->assignVertex(u);
+
+        gClone->forEachAdjacentEdge(u, [&p, &Q, this, &u](IEdge *ie) {
+            Vertex *v = ie->to();
+            if (_distances[v->id()] == -1) {
+                _distances[v->id()] = _distances[u->id()] + 1;
+                p[v->id()] = u;
+                Q.push(v);
+
+                _G->assignVertex(v);
+                _G->assignEdge(ie);
+            }
+        });
+    }
+}
+
+void BFS::visit(Graph *g, Vertex *from, Vertex *)
+{
     if (g->isNull()) {
         _G = new Graph;
         return;
@@ -49,96 +96,22 @@ void BFS::visit(Graph *g, Vertex *from, Vertex *) {
     }
 }
 
-void BFS::visit(DiGraph *g, Vertex *from, Vertex *) {
-    if (g->isNull()) {
-        _G = new DiGraph;
-        return;
-    }
-
-    DiGraph *gClone = g->clone();
-    _G = gClone->emptyClone();
-
-    _distances.assign(gClone->V(), -1);
-    vector<Vertex*> p;
-    p.assign(gClone->V(), nullptr);
-    _distances[from->id()] = 0;
-
-    stack<Vertex*> Q;
-    // Initialize stack with from
-    for (Vertex *v : gClone->vertexList()) {
-        if (*v == *from) {
-            Q.push(v);
-            break;
-        }
-    }
-
-    while (!Q.empty()) {
-        Vertex *u = Q.top(); Q.pop();
-        _G->assignVertex(u);
-
-        gClone->forEachAdjacentEdge(u, [&p, &Q, this, &u](IEdge *ie) {
-            Vertex *v = ie->to();
-            if (_distances[v->id()] == -1) {
-                _distances[v->id()] = _distances[u->id()] + 1;
-                p[v->id()] = u;
-                Q.push(v);
-
-                _G->assignVertex(v);
-                _G->assignEdge(ie);
-            }
-        });
-    }
+void BFS::visit(DiGraph *g, Vertex *from, Vertex *)
+{
+    common(g, from);
 }
 
-void BFS::visit(FlowGraph *g, Vertex *from, Vertex *) {
-    if (g->isNull()) {
-        _G = new FlowGraph;
-        return;
-    }
-
-    FlowGraph *gClone = g->clone();
-    _G = gClone->emptyClone();
-
-    _distances.assign(gClone->V(), -1);
-    vector<Vertex*> p;
-    p.assign(gClone->V(), nullptr);
-    _distances[from->id()] = 0;
-
-    stack<Vertex*> Q;
-    // Initialize stack with from
-    for (Vertex *v : gClone->vertexList()) {
-        if (*v == *from) {
-            Q.push(v);
-            break;
-        }
-    }
-
-    while (!Q.empty()) {
-        Vertex *u = Q.top(); Q.pop();
-        _G->assignVertex(u);
-
-        gClone->forEachAdjacentEdge(u, [&p, &Q, this, &u](IEdge *ie) {
-            Vertex *v = ie->to();
-            if (_distances[v->id()] == -1) {
-                _distances[v->id()] = _distances[u->id()] + 1;
-                p[v->id()] = u;
-                Q.push(v);
-
-                _G->assignVertex(v);
-                _G->assignEdge(ie);
-            }
-        });
-    }
+void BFS::visit(FlowGraph *g, Vertex *from, Vertex *)
+{
+    common(g, from);
 }
 
-BFS::~BFS() {
-
-}
-
-IGraph* BFS::G() const {
+IGraph* BFS::G() const
+{
     return _G;
 }
 
-std::vector<double> BFS::table() {
+std::vector<double> BFS::table()
+{
     return _distances;
 }

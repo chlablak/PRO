@@ -1,12 +1,15 @@
-//
-// Created by sebri on 27.05.2016.
-//
+/*! \brief Ford Fulkerson Edmond Karps' algorithm
+ *
+ * \file FFEK.cpp
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #include <stdexcept>
 #include <map>
 #include "FFEK.h"
 #include "../graphs/FlowGraph.h"
-
+// TODO
 //struct Key
 //{
 //    Vertex *i;
@@ -43,35 +46,35 @@
 //    };
 //}
 
-void FFEK::visit(Graph *, Vertex *, Vertex *) {
+void FFEK::visit(Graph *, Vertex *, Vertex *)
+{
     throw runtime_error("Error. A graph can't be applied to 'FFEK' algorithm."
                                 " Use a flow graph instead.");
 }
 
-void FFEK::visit(DiGraph *, Vertex *, Vertex *) {
+void FFEK::visit(DiGraph *, Vertex *, Vertex *)
+{
     throw runtime_error("Error. A directed graph can't be applied to 'FFEK'"
                                 " algorithm. Use a flow graph instead.");
 }
 
-void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to) {
-    if (!g->hasPositiveCapacity()) {
+void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
+{
+    if (!g->hasPositiveCapacity())
         throw runtime_error("Error in 'FFEK' algorithm. The flow graph must "
                                     "have a positive capacity");
-    }
 
     Vertex *fromCpy;
     Vertex *toCpy;
     FlowGraph *gClone = g->clone();
     for (Vertex *v : gClone->vertexList()) {
-        if (*v == *from) {
+        if (*v == *from)
             fromCpy = v;
-        }
-        if (*v == *to) {
+        if (*v == *to)
             toCpy = v;
-        }
     }
 
-    for(int i = 0; i < _V; ++i) {
+    for (int i = 0; i < _V; ++i) {
         _x.at(i).assign(_V,0);
         _u.at(i).assign(_V,0);
     }
@@ -97,7 +100,7 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to) {
 
     do {
 
-        gClone->forEachVertex([this, &fromCpy](Vertex *v){
+        gClone->forEachVertex([this, &fromCpy](Vertex *v) {
             _p[v->id()].first = nullptr;
             _p[v->id()].second = false;
             _cap[v->id()] = 0;
@@ -112,34 +115,39 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to) {
         while(!_L.empty()) {
             Vertex *i = _L.front(); _L.pop_front();
 
-            gClone->forEachSuccessor(i, [this, &i, &toCpy, &out](Vertex *j){
+            gClone->forEachSuccessor(i, [this, &i, &toCpy, &out](Vertex *j) {
                 if (_p[j->id()].first == nullptr && _x[i->id()][j->id()] < _u[i->id()][j->id()]) {
+
                     _p[j->id()].first = i;
                     _p[j->id()].second = true;
                     _cap[j->id()] = min(_cap[i->id()], _u[i->id()][j->id()] - _x[i->id()][j->id()]);
-                    if (*j == *toCpy) {
+
+                    if (*j == *toCpy)
                         out = true;
-                    } else {
+                    else
                         _L.push_back(j);
-                    }
                 }
             });
 
-            if (out) {break;}
-            gClone->forEachPredecessor(i, [this, &i, &toCpy, &out](Vertex *j){
+            if (out)
+                break;
+
+            gClone->forEachPredecessor(i, [this, &i, &toCpy, &out](Vertex *j) {
                 if (_p[j->id()].first == nullptr && _x[j->id()][i->id()] > 0) {
+
                     _p[j->id()].first = i;
                     _p[j->id()].second = false;
                     _cap[j->id()] = min(_cap[i->id()], _x[j->id()][i->id()]);
-                    if (*j == *toCpy) {
+
+                    if (*j == *toCpy)
                         out = true;
-                    } else {
+                    else
                         _L.push_back(j);
-                    }
                 }
             });
 
-            if (out) {break;}
+            if (out)
+                break;
         }
 
         if (_p[toCpy->id()].first == nullptr) {
@@ -154,16 +162,14 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to) {
             while (*j != *fromCpy && j != nullptr) {
                 auto p = _p[j->id()];
                 Vertex *i = p.first;
-                if (p.second) {
+                if (p.second)
                     _x[i->id()][j->id()] += _cap[toCpy->id()];
-                } else {
+                else
                     _x[j->id()][i->id()] -= _cap[toCpy->id()];
-                }
 
                 for (vector<int> v : _x) {
-                    for (int i : v) {
+                    for (int i : v)
                         cout << i << " ";
-                    }
                     cout << endl;
                 }
 
@@ -177,9 +183,8 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to) {
 
     cout << "caca" << endl;
     for (vector<int> v : _x) {
-        for (int i : v) {
+        for (int i : v)
             cout << i << " ";
-        }
         cout << endl;
     }
 }

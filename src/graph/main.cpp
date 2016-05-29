@@ -1,3 +1,10 @@
+/*! \brief Main file testing all graphs
+ *
+ * \file main.cpp
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
+
 #include <iostream>
 
 #include "tests/DTestGraph.h"
@@ -11,7 +18,8 @@
 
 using namespace std;
 
-int main() {
+int main()
+{
 
 //    // Tests Djomo
 //    DTestGraph testGraph;
@@ -20,8 +28,8 @@ int main() {
 
     // Tests Richoz
 //    RTestGraph testGraph;
-//    RTestDiGraph testDiGraph;
-//    RTestFlowGraph testFlowGraph;
+    RTestDiGraph testDiGraph;
+    RTestFlowGraph testFlowGraph;
 
     return 0;
 }

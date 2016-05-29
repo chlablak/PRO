@@ -6,7 +6,6 @@
       <sourceFolder url="file://$MODULE_DIR$/algorithms/SCCTarjan.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Kruskal.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/UnionFind.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/Prim.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BellmanFordSP.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/SCCTarjan.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToDiGraph.h" isTestSource="false" />
@@ -18,7 +17,6 @@
       <sourceFolder url="file://$MODULE_DIR$/algorithms/PushRelabel.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/ConnectedComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/Prim.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/GraphAlgorithm.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DijkstraSP.cpp" isTestSource="false" />

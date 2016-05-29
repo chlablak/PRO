@@ -101,6 +101,7 @@ perso/*
 # Exception
 !doc/Planification/gantt.pdf
 !doc/Conception/*.pdf
+!doc/Conception/graph/*.pdf
 
 # Created by https://www.gitignore.io/api/jetbrains
 

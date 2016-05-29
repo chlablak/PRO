@@ -17,8 +17,6 @@ set(SOURCE_FILES
         algorithms/GraphAlgorithm.h
         algorithms/Kruskal.cpp
         algorithms/Kruskal.h
-        algorithms/Prim.cpp
-        algorithms/Prim.h
         algorithms/UnionFind.cpp
         algorithms/UnionFind.h
         algorithms/DijkstraSP.cpp
