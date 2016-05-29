@@ -31,8 +31,9 @@ private:
     /*! \brief Relax an edge
      *
      * \param ie - The edge to relax
+     * \param u - The source vertex
      */
-    void relax(IEdge *ie);
+    void relax(IEdge *ie, Vertex *u);
 
     /*! \brief Common method for code factoring
      *

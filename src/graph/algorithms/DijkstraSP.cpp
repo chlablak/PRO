@@ -12,20 +12,26 @@
 #include "../graphs/DiGraph.h"
 #include "../graphs/FlowGraph.h"
 
-void DijkstraSP::relax(IEdge *ie)
+void DijkstraSP::relax(IEdge *ie, Vertex *u)
 {
     Vertex *w = ie->to();
+    if (*w == *u)
+        w = ie->from();
 
     if (!_marques[w->id()]) {
         Vertex *v = ie->from();
+        if (*v == *w)
+            v = ie->to();
+
         double distThruE = _distanceTo[v->id()] + ie->weight();
 
         if (_distanceTo[w->id()] > distThruE) {
             _pq.erase(std::make_pair(_distanceTo[w->id()], w));
             _distanceTo[w->id()] = distThruE;
-            if (_edgeTo[w->id()] != nullptr) {
+
+            if (_edgeTo[w->id()] != nullptr)
                 _G->removeEdge(_edgeTo[w->id()]);
-            }
+
             _edgeTo[w->id()] = ie;
 
             _G->assignVertex(v);
@@ -71,12 +77,13 @@ void DijkstraSP::sp(T* g, U *, Vertex *from) {
     // Get the min vertex, then treat his adjacent edges to progressively find
     // the shortest path
     while (!_pq.empty()) {
+
         Vertex *u = _pq.begin()->second;
         _pq.erase(_pq.begin());
         _marques[u->id()] = true;
 
-        gClone->forEachAdjacentEdge(u, [this](IEdge *ie){
-            relax(ie);
+        gClone->forEachAdjacentEdge(u, [this, &u](IEdge *ie){
+            relax(ie, u);
         });
     }
 }

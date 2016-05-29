@@ -15,7 +15,9 @@
 
 void BellmanFordSP::relax(IEdge *ie)
 {
-    Vertex *v = ie->from(), *w = ie->to();
+    Vertex *v = ie->from();
+    Vertex *w = ie->to();
+
     double distThruE = _distanceTo[v->id()]+ie->weight();
 
     if(_distanceTo[w->id()] > distThruE) {

@@ -20,31 +20,31 @@ private:
 public:
     RTestGraph() : _G(nullptr)
     {
-        // Create vertices
-        Vertex *v1 = new Vertex("v1");
-        Vertex *v2 = new Vertex("v2");
-        Vertex *v3 = new Vertex("v3");
-        Vertex *v4 = new Vertex("v4");
-        Vertex *v5 = new Vertex("v5");
-        Vertex *v6 = new Vertex("v6");
-        Vertex *v7 = new Vertex("v7");
-
-        // Associate Edges to vertices
-        IEdge *e1 = new Edge(v1, v2, "e1", 3);
-        IEdge *e2 = new Edge(v1, v4, "e2", 2);
-        IEdge *e3 = new Edge(v1, v6, "e3", 1);
-        //IEdge *e4 = new Edge(v2, v1, "e4", 4);
-        IEdge *e5 = new Edge(v2, v5, "e5", 3);
-        IEdge *e6 = new Edge(v3, v2, "e6", 2);
-        IEdge *e7 = new Edge(v3, v5, "e7", 1);
-        IEdge *e8 = new Edge(v4, v5, "e8", 3);
-        //IEdge *e9 = new Edge(v5, v4, "e9", 2);
-        IEdge *e10 = new Edge(v6, v4, "e10", 6);
-        IEdge *e11 = new Edge(v6, v7, "e11", 5);
-        IEdge *e12 = new Edge(v7, v1, "e12", 4);
-
-        vector<Vertex*> vertices = {v1, v2, v3, v4, v5, v6, v7};
-        vector<IEdge*> edges = {e1, e2, e3, e5, e6, e7, e8, e10, e11, e12};
+//        // Create vertices
+//        Vertex *v1 = new Vertex("v1");
+//        Vertex *v2 = new Vertex("v2");
+//        Vertex *v3 = new Vertex("v3");
+//        Vertex *v4 = new Vertex("v4");
+//        Vertex *v5 = new Vertex("v5");
+//        Vertex *v6 = new Vertex("v6");
+//        Vertex *v7 = new Vertex("v7");
+//
+//        // Associate Edges to vertices
+//        IEdge *e1 = new Edge(v1, v2, "e1", 3);
+//        IEdge *e2 = new Edge(v1, v4, "e2", 2);
+//        IEdge *e3 = new Edge(v1, v6, "e3", 1);
+//        //IEdge *e4 = new Edge(v2, v1, "e4", 4);
+//        IEdge *e5 = new Edge(v2, v5, "e5", 3);
+//        IEdge *e6 = new Edge(v3, v2, "e6", 2);
+//        IEdge *e7 = new Edge(v3, v5, "e7", 1);
+//        IEdge *e8 = new Edge(v4, v5, "e8", 3);
+//        //IEdge *e9 = new Edge(v5, v4, "e9", 2);
+//        IEdge *e10 = new Edge(v6, v4, "e10", 6);
+//        IEdge *e11 = new Edge(v6, v7, "e11", 5);
+//        IEdge *e12 = new Edge(v7, v1, "e12", 4);
+//
+//        vector<Vertex*> vertices = {v1, v2, v3, v4, v5, v6, v7};
+//        vector<IEdge*> edges = {e1, e2, e3, e5, e6, e7, e8, e10, e11, e12};
 
 //        // Create vertices
 //        Vertex *v1 = new Vertex("v1");
@@ -62,6 +62,29 @@ public:
 //
 //        vector<Vertex*> vertices = {v1, v2, v3, v4};
 //        vector<IEdge*> edges = {e1, e2, e3, e4, e5, e6};
+
+        // Create vertices
+        Vertex *v0 = new Vertex("v0");
+        Vertex *v1 = new Vertex("v1");
+        Vertex *v2 = new Vertex("v2");
+        Vertex *v3 = new Vertex("v3");
+        Vertex *v4 = new Vertex("v4");
+        Vertex *v5 = new Vertex("v5");
+
+        // Associate Edges to vertices
+        IEdge *e0 = new Edge(v0, v1, 1);
+        IEdge *e1 = new Edge(v0, v2, 1);
+        IEdge *e2 = new Edge(v0, v3, 1);
+        IEdge *e3 = new Edge(v0, v4, 1);
+        IEdge *e4 = new Edge(v1, v2, 1);
+        IEdge *e5 = new Edge(v1, v3, 1);
+        IEdge *e6 = new Edge(v1, v4, 1);
+        IEdge *e7 = new Edge(v2, v3, 1);
+        IEdge *e8 = new Edge(v2, v4, 1);
+        IEdge *e9 = new Edge(v3, v4, 1);
+
+        vector<Vertex*> vertices = {v0, v1, v2, v3, v4, v5};
+        vector<IEdge*> edges = {e0, e1, e2, e3, e4, e5, e6, e7, e8, e9};
 
         // Create the graph structure with those vertices and edges
         _G = new Graph(vertices, edges);
@@ -147,19 +170,19 @@ public:
 //        IGraph *gKruskal = GraphAlgorithm::kruskal(_G);
 //        gKruskal->print();
 
-        // Test Bellman-Ford
-        cout << "Bellman-Ford" << endl;
-        vector<double> distancesBF;
-        IGraph *gBellmanFord = GraphAlgorithm::bellmanFord(_G, v1, distancesBF);
-        cout << *gBellmanFord << endl;
-        for (double d : distancesBF)
-            cout << d << " ";
-        cout << endl << endl;
+//        // Test Bellman-Ford
+//        cout << "Bellman-Ford" << endl;
+//        vector<double> distancesBF;
+//        IGraph *gBellmanFord = GraphAlgorithm::bellmanFord(_G, v1, distancesBF);
+//        cout << *gBellmanFord << endl;
+//        for (double d : distancesBF)
+//            cout << d << " ";
+//        cout << endl << endl;
 
         // Test Dijkstra
         cout << "Dijkstra" << endl;
         vector<double> distancesDijkstra;
-        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v1, distancesDijkstra);
+        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v2, distancesDijkstra);
         cout << *gDijkstra << endl;
         for (double d : distancesDijkstra)
             cout << d << " ";
