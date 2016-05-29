@@ -30,7 +30,7 @@ MainBrowser* MainBrowser::getInstance(QWidget *parent, QString *baseUrl)
 
 void MainBrowser::displaySearch(const QString &resultHtml)
 {
-    setSource(QUrl("search.html"));
+    setSource(QUrl("search.html?asdf"));
     setHtml(toHtml() + resultHtml);
 }
 
@@ -49,5 +49,6 @@ void MainBrowser::forward()
     QUrl next = historyUrl(1);
     if (!next.isEmpty()) {
         setSource(next);
+        std::cout << "URL: " << next.toString().toStdString() << std::endl;
     }
 }
