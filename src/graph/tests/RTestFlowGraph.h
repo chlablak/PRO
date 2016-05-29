@@ -20,34 +20,34 @@ private:
 public:
     RTestFlowGraph() : _G(nullptr)
     {
-        // Create vertices
-        Vertex *v1 = new Vertex("v1");
-        Vertex *v2 = new Vertex("v2");
-        Vertex *v3 = new Vertex("v3");
-        Vertex *v4 = new Vertex("v4");
-        Vertex *v5 = new Vertex("v5");
-        Vertex *v6 = new Vertex("v6");
-        Vertex *v7 = new Vertex("v7");
-
-        // Associate Edges to vertices
-        IEdge *e1 = new FlowEdge(v1, v2, "e1", 3);
-        IEdge *e2 = new FlowEdge(v1, v4, "e2", 2);
-        IEdge *e3 = new FlowEdge(v1, v6, "e3", 1);
-        //IEdge *e4 = new FlowEdge(v2, v1, "e4", 4);
-        IEdge *e5 = new FlowEdge(v2, v5, "e5", 2);
-        IEdge *e6 = new FlowEdge(v3, v2, "e6", 2);
-        IEdge *e7 = new FlowEdge(v3, v5, "e7", 1);
-        IEdge *e8 = new FlowEdge(v4, v5, "e8", 3);
-        //IEdge *e9 = new FlowEdge(v5, v4, "e9", 2);
-        IEdge *e10 = new FlowEdge(v6, v4, "e10", 6);
-        IEdge *e11 = new FlowEdge(v6, v7, "e11", 5);
-        IEdge *e12 = new FlowEdge(v7, v1, "e12", 4);
-
-        vector<Vertex*> vertices = {v1, v2, v3, v4, v5, v6, v7};
-        vector<IEdge*> edges = {e1, e2, e3, e5, e6, e7, e8, e10, e11, e12};
-
-        // Create the graph structure with those vertices and edges
-        _G = new FlowGraph(vertices, edges);
+//        // Create vertices
+//        Vertex *v1 = new Vertex("v1");
+//        Vertex *v2 = new Vertex("v2");
+//        Vertex *v3 = new Vertex("v3");
+//        Vertex *v4 = new Vertex("v4");
+//        Vertex *v5 = new Vertex("v5");
+//        Vertex *v6 = new Vertex("v6");
+//        Vertex *v7 = new Vertex("v7");
+//
+//        // Associate Edges to vertices
+//        IEdge *e1 = new FlowEdge(v1, v2, "e1", 3);
+//        IEdge *e2 = new FlowEdge(v1, v4, "e2", 2);
+//        IEdge *e3 = new FlowEdge(v1, v6, "e3", 1);
+//        //IEdge *e4 = new FlowEdge(v2, v1, "e4", 4);
+//        IEdge *e5 = new FlowEdge(v2, v5, "e5", 2);
+//        IEdge *e6 = new FlowEdge(v3, v2, "e6", 2);
+//        IEdge *e7 = new FlowEdge(v3, v5, "e7", 1);
+//        IEdge *e8 = new FlowEdge(v4, v5, "e8", 3);
+//        //IEdge *e9 = new FlowEdge(v5, v4, "e9", 2);
+//        IEdge *e10 = new FlowEdge(v6, v4, "e10", 6);
+//        IEdge *e11 = new FlowEdge(v6, v7, "e11", 5);
+//        IEdge *e12 = new FlowEdge(v7, v1, "e12", 4);
+//
+//        vector<Vertex*> vertices = {v1, v2, v3, v4, v5, v6, v7};
+//        vector<IEdge*> edges = {e1, e2, e3, e5, e6, e7, e8, e10, e11, e12};
+//
+//        // Create the graph structure with those vertices and edges
+//        _G = new FlowGraph(vertices, edges);
 //
 //        assert(_G->isSimple() == 1);
 //        assert(_G->isNegativeWeighted() == 0);
@@ -101,23 +101,23 @@ public:
 //        cout << "_G" << endl;
 //        cout << *_G << endl;
 //
-        // Test BFS
-        cout << "Test BFS" << endl;
-        vector<double> distances;
-        IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
-        gBFS->print();
-        for (double d : distances)
-            cout << d << " ";
-        cout << endl;
-
-        // Test DFS
-        cout << "Test DFS" << endl;
-        vector<double> dfsnum;
-        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
-        gDFS->print();
-        for (double d : dfsnum)
-            cout << d << " ";
-        cout << endl;
+//        // Test BFS
+//        cout << "Test BFS" << endl;
+//        vector<double> distances;
+//        IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
+//        gBFS->print();
+//        for (double d : distances)
+//            cout << d << " ";
+//        cout << endl;
+//
+//        // Test DFS
+//        cout << "Test DFS" << endl;
+//        vector<double> dfsnum;
+//        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
+//        gDFS->print();
+//        for (double d : dfsnum)
+//            cout << d << " ";
+//        cout << endl;
 //
 //        // Test Composantes fortement Connexes
 //        cout << "Test Composantes fortement connexes" << endl;
@@ -141,43 +141,45 @@ public:
 //        }
 //        cout << endl << endl;
 
-        // Test Dijkstra
-        cout << "Dijkstra" << endl;
-        vector<double> distancesDijkstra;
-        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v1, distancesDijkstra);
-        cout << *gDijkstra << endl;
-        for (double d : distancesDijkstra)
-                cout << d << " ";
-        cout << endl << endl;
+//        // Test Dijkstra
+//        cout << "Dijkstra" << endl;
+//        vector<double> distancesDijkstra;
+//        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v1, distancesDijkstra);
+//        cout << *gDijkstra << endl;
+//        for (double d : distancesDijkstra)
+//                cout << d << " ";
+//        cout << endl << endl;
 
-//        // Test Flow max
-//        Vertex *vv1 = new Vertex("v1");
-//        Vertex *vv2 = new Vertex("v2");
-//        Vertex *vv3 = new Vertex("v3");
-//        Vertex *vv4 = new Vertex("v4");
-//        Vertex *vv5 = new Vertex("v5");
-//        Vertex *vv6 = new Vertex("v6");
-//        IEdge *ee1 = new FlowEdge(vv1, vv2, 4);
-//        IEdge *ee2 = new FlowEdge(vv1, vv3, 4);
-//        IEdge *ee3 = new FlowEdge(vv2, vv3, 2);
-//        IEdge *ee4 = new FlowEdge(vv2, vv4, 2);
-//        IEdge *ee5 = new FlowEdge(vv3, vv5, 6);
-//        IEdge *ee6 = new FlowEdge(vv4, vv5, 2);
-//        IEdge *ee7 = new FlowEdge(vv4, vv6, 5);
-//        IEdge *ee8 = new FlowEdge(vv5, vv4, 2);
-//        IEdge *ee9 = new FlowEdge(vv5, vv6, 3);
-//        vector<Vertex*> vvs = {vv1, vv2, vv3, vv4, vv5, vv6};
-//        vector<IEdge*> vve = {ee1, ee2, ee3, ee4, ee5, ee6, ee7, ee8, ee9};
-//
-//        IGraph *fg = new FlowGraph(vvs, vve);
-//        for (IEdge *ie : fg->edgeList()) {
-//            cout << *ie << endl;
-//        }
-//
-//        cout << *fg << endl;
-//        cout << "Max flow" << endl;
-//
-//        int maxFlow = GraphAlgorithm::maxFlow(fg, vv1, vv6);
+        // Test Flow max
+        Vertex *vv0 = new Vertex("v0");
+        Vertex *vv1 = new Vertex("v1");
+        Vertex *vv2 = new Vertex("v2");
+        Vertex *vv3 = new Vertex("v3");
+        Vertex *vv4 = new Vertex("v4");
+        Vertex *vv5 = new Vertex("v5");
+        Vertex *vv6 = new Vertex("v6");
+        Vertex *vv7 = new Vertex("v7");
+        IEdge *ee0 = new FlowEdge(vv0, vv1, 3);
+        IEdge *ee1 = new FlowEdge(vv0, vv2, 2);
+        IEdge *ee2 = new FlowEdge(vv0, vv3, 4);
+        IEdge *ee3 = new FlowEdge(vv1, vv2, 2);
+        IEdge *ee4 = new FlowEdge(vv1, vv4, 2);
+        IEdge *ee5 = new FlowEdge(vv2, vv4, 1);
+        IEdge *ee6 = new FlowEdge(vv2, vv5, 4);
+        IEdge *ee7 = new FlowEdge(vv3, vv4, 2);
+        IEdge *ee8 = new FlowEdge(vv3, vv6, 2);
+        IEdge *ee9 = new FlowEdge(vv4, vv7, 2);
+        IEdge *ee10 = new FlowEdge(vv5, vv4, 1);
+        IEdge *ee11 = new FlowEdge(vv5, vv7, 4);
+        IEdge *ee12 = new FlowEdge(vv6, vv4, 1);
+        IEdge *ee13 = new FlowEdge(vv6, vv7, 3);
+        vector<Vertex*> vvs = {vv0, vv1, vv2, vv3, vv4, vv5, vv6, vv7};
+        vector<IEdge*> vve = {ee0, ee1, ee2, ee3, ee4, ee5, ee6, ee7, ee8, ee9, ee10, ee11, ee12, ee13};
+
+        IGraph *fg = new FlowGraph(vvs, vve);
+
+        cout << "Max flow" << endl;
+        int maxFlow = GraphAlgorithm::maxFlow(fg, vv0, vv7);
     }
 
     ~RTestFlowGraph()

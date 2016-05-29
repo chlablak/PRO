@@ -27,9 +27,11 @@ int main()
 //    DTestFlowGraph testFlowGraph;
 
     // Tests Richoz
-    RTestGraph testGraph;
+//    RTestGraph testGraph;
 //    RTestDiGraph testDiGraph;
 //    RTestFlowGraph testFlowGraph;
+
+
 
     return 0;
 }
