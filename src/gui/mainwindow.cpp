@@ -54,8 +54,8 @@ void MainWindow::newConsole()
 
 void MainWindow::newTab(const QString& name)
 {
-    QString graphName = name;
-    int newIndex = ui->tabWidget->addTab(new Console("", this), graphName);
+    QString tabName = name;
+    int newIndex = ui->tabWidget->addTab(new Console("", this), tabName);
     ui->tabWidget->setCurrentIndex(newIndex);
     ui->tabWidget->setTabToolTip(ui->tabWidget->count()-1,name);
     ((Console*)ui->tabWidget->currentWidget())->setFocus();

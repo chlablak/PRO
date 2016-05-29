@@ -126,15 +126,24 @@ void egli::GraphWrapper::insert(detail::RealType<Type::Edge>::cref edge)
                         detail::builtins::toString_e(edge));
 
     // Transform the Graph if necessary
+    bool transformed = false;
     GraphType type = graphType();
     if (type != GraphType::FlowGraph
         && (edge.maxCapacity.hasValue() || edge.minCapacity.hasValue())) {
         transformTo(GraphType::FlowGraph);
         type = GraphType::FlowGraph;
+        transformed = true;
     } else if (type == GraphType::Graph
                && edge.connection == egli::Edge::Connection::Unidirectional) {
         transformTo(GraphType::DiGraph);
         type = GraphType::DiGraph;
+        transformed = true;
+    }
+
+    // Transformation allocate new vertices
+    if (transformed) {
+        v = getVertexById(edge.v);
+        w = getVertexById(edge.w);
     }
 
     // Edge to 2 DiEdge case

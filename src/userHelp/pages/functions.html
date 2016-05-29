@@ -20,7 +20,7 @@
     <ul>
       <li><code>toString (a : T) : String</code> returns a string
         describing the element <code>a</code>. <br></li>
-      <li><code>save (g : Graph) : Boolean</code> saves the graph in the
+      <li><code>save (g : Graph, file : String) : Boolean</code> saves the graph in the
         current directory.<br></li>
       <li><code>load (file : String) : Graph</code> loads a graph with
         file name from current directory.<br></li>
@@ -33,7 +33,7 @@ href="http://icdt.tu-dortmund.de/proceedings/edbticdt2011proc/WebProceedings/pap
     </ul>
     <h2><br>GUI functions</h2>
     <ul>
-      <li><code>draw (g : Graph) : Boolean</code> draws g in a new
+      <li><code>draw (g : Graph) : Boolean</code> draws <code>g</code> in a new
         window.<br></li>
       <li><code>exportAsSvg (g : Graph) : Boolean</code> exports the <code>Graph
         </code>in SVG format.<br></li>
@@ -60,7 +60,7 @@ href="http://icdt.tu-dortmund.de/proceedings/edbticdt2011proc/WebProceedings/pap
         vertices <code>0</code> and <code>1</code> are in the same
         component, <code>2</code> and <code>3</code> also while vertex
         <code>4</code> is alone.<br></li>
-      <li><code>detectCycle (g : Graph) : Graph;</code> returns a cycle
+      <li><code>detectCycle (g : Graph) : Graph</code> returns a cycle
         of the graph if there is one.<br></li>
       <li><code>dfs (g : Graph, from : Integer) : Array</code> applies
         the depth-first search algorithm to the graph and returns an <code>Array
@@ -76,7 +76,7 @@ href="http://icdt.tu-dortmund.de/proceedings/edbticdt2011proc/WebProceedings/pap
         Algorithm to <code>g</code> (a directed <code>Graph</code>)
         and returns an <code>Array</code> containing the resulting
         graph at index <code>0</code> and an <code>Array </code>of
-        connected component at index <code>1</code> (see <code>bfs </code>for
+        connected component at index <code>1</code> (see <code>cc </code>for
         an example).<br></li>
       <li><code>topologicalSort (g : Graph) : Array</code> applies a
         topological sort to g (which must be directed and not contain
@@ -117,9 +117,11 @@ href="http://icdt.tu-dortmund.de/proceedings/edbticdt2011proc/WebProceedings/pap
       modifying a vertex after having added it to the graph will not
       change its properties in the graph, for instance if you write: </p>
     <p><code>g = { };</code></p>
-    <code>v = (0::5);</code><code> </code><code> </code><code>g += v;</code><code>
-    </code><code> </code><code>v = (0::3);</code> the vertex with ID <code>0</code>
-    in the graph will still have a weight of <code>5</code>.
+    <p><code>v = (0::5);</code></p>
+	<p><code>g += v;</code></p>
+	<p><code>v = (0::3);</code></p>
+	<p>the vertex with ID <code>0</code>
+    in the graph will still have a weight of <code>5</code>.</p>
     <h2><br>Links</h2>
     <ul>
       <li><a href="home.html">Home</a></li>

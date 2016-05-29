@@ -130,6 +130,50 @@
 	\section{Arcs}
 	Il est également possible d'ajouter des arcs à un graphe. Ceux-ci sont représentés avec les symboles \texttt{->} et \texttt{<-}. Ajouter un arc à un graphe transforme tous les arcs présents en deux arcs de sens opposé. Exécuter \texttt{dg = \{\#3, 0-{}-1\};} et \texttt{dg += (1->2);} créera donc le même graphe que la commande \texttt{dg = \{\#3, 0->1, 1->0, 1->2\};}. Toutes les règles mentionnées pour les arêtes s'appliquent également pour les arcs.
 	
-	
+	\section{Fonctions}
+		\subsection{Mode de passage des paramètres}
+		Tous les paramètres dans \textit{Graphy} sont passés par valeur. Cela veut dire que modifier un sommet après l'avoir ajouté à un graphe n'aura aucune influence sur ce dernier. Par exemple en tapant: \texttt{g = \{ \};}, puis \texttt{v = (0::5);}, ensuite \texttt{g += v;} et enfin \texttt{v = (0::3);}, le sommet avec l'ID \texttt{0} aura un poids de \texttt{5} et non pas de \texttt{3}.
+		
+		\subsection{Appel de fonctions}
+		Toutes les transformations sont faites en passant un graphe à une fonction. Dès qu'une fonction a été appelée, le résultat peut être assigné à un graphe existant, au même graphe, ou encore à un nouveau graphe. La notation est semblable à celle de beaucoup de langages de programmation: \texttt{resultat = dijkstra(g, 1);}. Remarque: plusieurs fonctions retournent un booléen pour savoir si l'opération a pu être effectuée ou pas.
+		
+		\subsection{Fonctions standards}
+		\begin{itemize}
+			\item \texttt{toString (a : T) : String} retourne un String décrivant a.
+			\item \texttt{save (g : Graph, file : String) : Boolean} sauvegarde le graphe en paramètre dans le répertoire courant.
+			\item \texttt{load (file : String) : Graph} charge un graphe spécifié du répertoire courant.
+			\item \texttt{type (a : T) : String} retourne le type de a.
+			\item \texttt{er (V : Integer, p : float) : Graph} génère un graphe aléatoire avec \texttt{T} sommets et une probabilité \texttt{p} d'avoir une arête, selon le modèle de Erdős–Rényi.
+		\end{itemize}
+		
+		\subsection{Fonctions de l'interface utilisateur}
+		\begin{itemize}
+			\item \texttt{draw (g : Graph) : Boolean} dessine \texttt{g} dans une nouvelle fenêtre.
+			\item \texttt{exportAsSvg (g : Graph) : Boolean} exporte le graphe en format SVG dans le répertoire courant.
+			\item \texttt{exportAsSvg (g : Graph) : Boolean} exporte le graphe en format SVG dans le répertoire courant avec le nom passé en paramètre.
+		\end{itemize}
+		
+		\subsection{Algorithmes}
+		\begin{itemize}
+			\item \texttt{bellmanFord (g : Graph, from : Integer) : Array} applique l'algorithme de Bellman-Ford au graphe \texttt{g} depuis le sommet \texttt{from}. Le tableau (\texttt{Array}) retourné contient le graphe résultant à l'index \texttt{0} et la matrice des distances à l'index \texttt{1}.
+			\item \texttt{bfs (g : Graph, from : Integer) : Array} applique l'algorithme de parcours en largeur depuis le sommet spécifié. Le tableau de retour contient le graphe résultant à l'index 0 et la matrice des distances à l'index 1.
+			\item \texttt{cc (g : Graph) : Array} applique l'algorithme des composantes connexes au graphe depuis le sommet spécifié et retourne un tableau associant chaque sommet avec une composante, par exemple: \texttt{[1,1,2,2,3]} indique que les sommets \texttt{0} et \texttt{1} sont dans la même composante, ainsi que les sommets \texttt{2} et \texttt{3}, alors que le sommet \texttt{4} est seul dans une composante.
+			\item \texttt{detectCycle (g : Graph) : Graph} retourne le cycle d'un graphe s'il y en a un.
+			\item \texttt{dfs (g : Graph, from : Integer) : Array} applique l'algorithme de parcours en profondeur et retourne un tableau avec le graphe résultant à l'index \texttt{0} et la matrice des distances à l'index \texttt{1}.
+			\item \texttt{dijkstra (g : Graph, from : Integer) : Array} applique l'algorithmes de Dijkstra et retourne un tableau contenant le graphe résultant à l'index \texttt{0} et la matrice des distances à l'index \texttt{1}.
+			\item \texttt{kruskal (g : Graph) : Graph} applique l'algorithme de Kruskal à \texttt{g} et retourne le graphe résultant.
+			\item \texttt{tarjan (g : Graph) : Array} applique l'algorithme de Tarjan au graphe \texttt{g} (qui doit être orienté) et retourne un tableau, contenant le graphe résultant à l'index \texttt{0} et un tableau contenant les composantes connexes à l'index \texttt{1} (voir \texttt{cc} pour un exemple).
+			\item \texttt{topologicalSort (g : Graph) : Array} applique l'algorithme de tri topologique au graphe \texttt{g} (qui doit être orienté et acyclique) et retourne un tableau contenant l'ordre de visite des sommets.
+			\item \texttt{isConnected (g : Graph) : Boolean} indique si le graphe est connexe.
+			\item \texttt{isDirected (g : Graph) : Boolean} indique si le graphe est orienté
+			\item \texttt{isEmpty (g : Graph) : Boolean} indique si le graphe est vide (sans arête ou arc).
+			\item \texttt{isNegativeWeighted (g : Graph) : Boolean} indique si le graphe contient des arêtes ou arcs avec une pondération négative.
+			\item \texttt{isNull (g : Graph) : Boolean} indique si le graphe est nul (sans sommets, ni arêtes).
+			\item \texttt{isPlanar (g : Graph) : Boolean} indique si le graphe est planaire.
+			\item \texttt{isSimple (g : Graph) : Boolean} indique si le graphe est simple (sans arête/arcs doublés).
+			\item \texttt{isStronglyConnected (g : Graph) : Boolean} indique si le graphe est fortement connexe (pour les graphes orientés uniquement).
+			\item \texttt{isWeighted (g : Graph) : Boolean} indique si le graphe contient des arêtes ou arcs pondérés.
+			
+		\end{itemize}
 		
 \end{document}

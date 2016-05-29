@@ -164,6 +164,13 @@ public:
      */
     virtual Edges getEdges(Vertex *v1, Vertex *v2) const = 0;
 
+    /*! \brief Get the vertex corresponding to the id passed in parameter
+     *
+     * \param id - The id of vertex
+     * \return a pointer to the corresponding vertex
+     */
+    virtual Vertex *getVertex(int id) const = 0;
+
     /*! \brief Make a new copy of the graph
      *
      * \return a copy of the graph, iindependentfrom it
