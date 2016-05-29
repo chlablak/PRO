@@ -21,15 +21,16 @@ using namespace std;
 int main()
 {
 
-//    // Tests Djomo
-//    DTestGraph testGraph;
-//    DTestDiGraph testDiGraph;
-//    DTestFlowGraph testFlowGraph;
+     // Tests Djomo
+     // DTestGraph testGraph;
+        DTestDiGraph testDiGraph;
+
+  //   DTestFlowGraph testFlowGraph;
 
     // Tests Richoz
-//    RTestGraph testGraph;
-    RTestDiGraph testDiGraph;
-    RTestFlowGraph testFlowGraph;
+   // RTestGraph testGraph;
+//    RTestDiGraph testDiGraph;
+//    RTestFlowGraph testFlowGraph;
 
     return 0;
 }

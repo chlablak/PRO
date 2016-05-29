@@ -1,3 +1,10 @@
+/*! \brief Window to get a string from the user
+ *
+ * \file dialogstring.cpp
+ * \author Alain Hardy
+ * \date 2.05.2016
+ */
+
 #include "dialogstring.h"
 #include "ui_dialogstring.h"
 

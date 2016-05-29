@@ -77,7 +77,6 @@ SOURCES += main.cpp\
     ../graph/algorithms/DijkstraSP.cpp \
     ../graph/algorithms/GraphAlgorithm.cpp \
     ../graph/algorithms/Kruskal.cpp \
-    ../graph/algorithms/Prim.cpp \
     ../graph/algorithms/SCCTarjan.cpp \
     ../graph/algorithms/TopologicalSort.cpp \
     ../graph/algorithms/UnionFind.cpp \
@@ -175,7 +174,6 @@ HEADERS  += mainwindow.h \
     ../graph/algorithms/DijkstraSP.h \
     ../graph/algorithms/GraphAlgorithm.h \
     ../graph/algorithms/Kruskal.h \
-    ../graph/algorithms/Prim.h \
     ../graph/algorithms/SCCTarjan.h \
     ../graph/algorithms/TopologicalSort.h \
     ../graph/algorithms/UnionFind.h \

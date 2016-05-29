@@ -13,9 +13,15 @@
 #include "../graphs/DiGraph.h"
 #include "../graphs/FlowGraph.h"
 
-void BellmanFordSP::relax(IEdge *ie)
+void BellmanFordSP::relax(IEdge *ie, Vertex *u)
 {
-    Vertex *v = ie->from(), *w = ie->to();
+    Vertex *v = ie->from();
+    Vertex *w = ie->to();
+    if (*w == *u) {
+        w = v;
+        v = u;
+    }
+
     double distThruE = _distanceTo[v->id()]+ie->weight();
 
     if(_distanceTo[w->id()] > distThruE) {
@@ -59,8 +65,8 @@ void BellmanFordSP::sp(T *g, U *, Vertex *from)
     _distanceTo[fromCpy->id()] = 0.;
 
     for (size_t i = 0; i < nVertex; ++i)
-        gClone->forEachEdge([this](IEdge *ie) {
-            relax(ie);
+        gClone->forEachEdge([this, &fromCpy](IEdge *ie) {
+            relax(ie, fromCpy);
         });
 }
 

@@ -63,6 +63,29 @@ public:
 //        vector<Vertex*> vertices = {v1, v2, v3, v4};
 //        vector<IEdge*> edges = {e1, e2, e3, e4, e5, e6};
 
+//        // Create vertices
+//        Vertex *v0 = new Vertex("v0");
+//        Vertex *v1 = new Vertex("v1");
+//        Vertex *v2 = new Vertex("v2");
+//        Vertex *v3 = new Vertex("v3");
+//        Vertex *v4 = new Vertex("v4");
+//        Vertex *v5 = new Vertex("v5");
+//
+//        // Associate Edges to vertices
+//        IEdge *e0 = new Edge(v0, v1, 1);
+//        IEdge *e1 = new Edge(v0, v2, 1);
+//        IEdge *e2 = new Edge(v0, v3, 1);
+//        IEdge *e3 = new Edge(v0, v4, 1);
+//        IEdge *e4 = new Edge(v1, v2, 1);
+//        IEdge *e5 = new Edge(v1, v3, 1);
+//        IEdge *e6 = new Edge(v1, v4, 1);
+//        IEdge *e7 = new Edge(v2, v3, 1);
+//        IEdge *e8 = new Edge(v2, v4, 1);
+//        IEdge *e9 = new Edge(v3, v4, 1);
+//
+//        vector<Vertex*> vertices = {v0, v1, v2, v3, v4, v5};
+//        vector<IEdge*> edges = {e0, e1, e2, e3, e4, e5, e6, e7, e8, e9};
+
         // Create the graph structure with those vertices and edges
         _G = new Graph(vertices, edges);
 
@@ -156,14 +179,14 @@ public:
             cout << d << " ";
         cout << endl << endl;
 
-        // Test Dijkstra
-        cout << "Dijkstra" << endl;
-        vector<double> distancesDijkstra;
-        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v1, distancesDijkstra);
-        cout << *gDijkstra << endl;
-        for (double d : distancesDijkstra)
-            cout << d << " ";
-        cout << endl << endl;
+//        // Test Dijkstra
+//        cout << "Dijkstra" << endl;
+//        vector<double> distancesDijkstra;
+//        IGraph *gDijkstra = GraphAlgorithm::dijkstra(_G, v2, distancesDijkstra);
+//        cout << *gDijkstra << endl;
+//        for (double d : distancesDijkstra)
+//            cout << d << " ";
+//        cout << endl << endl;
     }
 
     ~RTestGraph()

@@ -1,4 +1,10 @@
-#include <iostream>
+/*! \brief Implementation of a console re-implementing QTextEdit
+ *
+ * \file console.cpp
+ * \author Alain Hardy
+ * \date 30.04.2016
+ */
+
 #include <QMenu>
 #include <QApplication>
 #include <QClipboard>
@@ -8,8 +14,6 @@
 #include <QAbstractItemView>
 #include <QScrollBar>
 #include <QMessageBox>
-
-
 #include "graphwindow.h"
 #include "console.h"
 #include "../visualization/GraphWidget.h"
@@ -28,7 +32,7 @@ Console* Console::currentConsole = nullptr;
 Console::Console() : Console("") {}
 
 
-Console::Console(const QString& s, QWidget *parent) : prompt(s),
+Console::Console(const QString& prompt, QWidget *parent) : prompt(prompt),
                                                       cursor(textCursor()),
                                                       completer(nullptr),
                                                       completerWordList(nullptr)
@@ -36,6 +40,7 @@ Console::Console(const QString& s, QWidget *parent) : prompt(s),
     cursorPosition = 0;
     insertPlainText(prompt + " > ");
     setAcceptDrops(false);
+    setFont(QFont("Courier New", 9));
 
     filename = "";
 
@@ -65,12 +70,12 @@ void Console::processKeyboardInput(QKeyEvent *event)
             event->ignore();
 
         if( event->key() == Qt::Key_Escape) {
-            clearDisplay();
+            clearCommand();
             currentCommand = commandHistory.end();
         }
         else if( event->key() == Qt::Key_Up) {
             if(commandHistory.size() > 0 && currentCommand != --(commandHistory.end())) {
-                clearDisplay();
+                clearCommand();
 
                 if(currentCommand == commandHistory.end()) {
                     currentCommand = commandHistory.begin();
@@ -88,7 +93,7 @@ void Console::processKeyboardInput(QKeyEvent *event)
         }
         else if( event->key() == Qt::Key_Down) {
             if(commandHistory.size() > 0 && currentCommand != commandHistory.begin() && currentCommand != commandHistory.end()) {
-                clearDisplay();
+                clearCommand();
 
                 setTextCursor(cursor);
                 buffer = *(--currentCommand);
@@ -148,10 +153,7 @@ void Console::processKeyboardInput(QKeyEvent *event)
         }
         else if( event->key() == Qt::Key_Backtab && event->modifiers() & Qt::ControlModifier) {
             emit requestTabChange(-1);
-        }/*
-        else if( event->key() == Qt::Key_S && event->modifiers() & Qt::ControlModifier) {
-            save();
-        }*/
+        }
         else {
             if(event->text() != "") {
                 if(currentCommand != commandHistory.end())
@@ -202,7 +204,7 @@ void Console::save()
     }
 }
 
-void Console::clearDisplay()
+void Console::clearCommand()
 {
     cursor.movePosition(QTextCursor::End);
     cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor, buffer.size());
@@ -243,7 +245,8 @@ void QTextEdit::contextMenuEvent(QContextMenuEvent *event)
     delete menu;
 }
 
-void Console::saveConsole() {
+void Console::saveConsole()
+{
     if(!hasChanged)
         return;
     QString fname = filename;

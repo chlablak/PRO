@@ -7,15 +7,13 @@
   <body>
     <h1>Getting started</h1>
     <hr size="2" width="100%">
-    <h2>Declaring a new graph
-    </h2>
+    <h2>Declaring a new graph </h2>
     <p>The first thing you will need to do when using <i>Graph</i> is
       declare a new graph. An empty graph is simply declared by typing:</p>
     <p><code>[graph name] = {};</code></p>
     <p><code></code>You can also declare a graph with vertices and edges
       like so:</p>
-    <p><code>g = {0,1,2,0--1,0--2};</code>
-    </p>
+    <p><code>g = {0,1,2,0--1,0--2};</code> </p>
     <p>The numbers alone (<code>0</code>, <code>1</code> and <code>2</code>)
       represent vertices, whereas the numbers linked with two hyphens (<code>0--1</code>
       and <code>0--2</code>) are edges. More on this in the <a
@@ -23,23 +21,26 @@
       pages.</p>
     <p>Once your graph is declared, you can apply an algorithm to it by
       typing the name of a new graph, followed by an equal sign and the
-      method you wish to apply e.g.:
-    </p>
-    <p><code>h = dijkstra(g, 1);</code>
-    </p>
+      method you wish to apply e.g.: </p>
+    <p><code>h = dijkstra(g, 1);</code> </p>
     <p>In this example, the second argument (<code>1</code>) is the edge
       from which to start.
     </p>
-    <h2><br>Links</h2>
+    <p><code>l = h[0];</code></p>
+	<p><code>draw(l);</code></p>
+    <p>To finish the <code>draw </code>function draws the newly
+      generated graph.
+    </p>
+    <h2><br>
+      Links</h2>
     <ul>
       <li><a href="home.html">Home</a></li>
-      <li><a href="graph.html">Graph</a>
-      </li>
+      <li><a href="graph.html">Graph</a> </li>
       <li><a href="edge.html">Edge</a></li>
-      <li><a href="vertex.html">Vertex</a>
+      <li><a href="vertex.html">Vertex</a></li>
+      <li><a href="functions.html">Functions</a><br>
       </li>
     </ul>
-    <p>
-    </p>
+    <p> </p>
   </body>
 </html>
