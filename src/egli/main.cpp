@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 #include <cassert>
+#include <list>
 
 #include "egli.h"
 
@@ -80,6 +81,9 @@ ostream &operator<<(ostream &os, egli::VariableTable const &v)
  */
 int main()
 {
+    list<string> commands;
+    commands.push_back("g = {#2, 0->1};");
+
     string in;
     egli::Parser p;
     egli::Statement s;
@@ -88,6 +92,9 @@ int main()
     egli::detail::interfaceBasics(func);
     egli::detail::interfaceBuiltins(func);
     egli::detail::interfaceAlgorithms(func);
+    for (string c : commands)
+        data.preprocessor().stream() << c;
+    cin.putback('\n');
     while (getline(cin, in)) {
         if (in == "q")
             break;
@@ -96,7 +103,9 @@ int main()
         while (data.preprocessor().available()) {
             utility::Timer timer;
             try {
-                s = p.parse(data.preprocessor().next());
+                string command = data.preprocessor().next();
+                cout << "COMMAND:\n" << command << endl;
+                s = p.parse(command);
                 cout << "PARSED(in " << timer.elapsed() << "s):\n" << s;
                 timer.reset();
                 egli::ProcessingUnit::check(s, func, data.variables());

@@ -1444,7 +1444,94 @@
 			
 		\subsection{Exemples}
 		\label{subsec:egli-exemple}
-			\textcolor{red}{faire un exemple d'utilisation classique, et une section sur les tests}
+			Dans cette section, nous allons voir un exemple d'utilisation de EGLI. Un code valant plus qu'un long discours, voici une utilisation en console qui prend les commandes en entrée et qui affiche les sorties correspondantes. On y voit également un exemple d'interfaçage d'une fonction.
+			
+			\begin{lstlisting}
+					// main.cpp
+					// Exemple d'utilisation de EGLI
+					
+					#include <iostream>
+					#include <string>
+					#include <cstdlib>
+					#include <ctime>
+					
+					// Fichier d'inculsion de EGLI
+					#include "egli/egli.h"
+					
+					using namespace std;
+					
+					// Fonction que l'on souhaite interfacer
+					int random(int min, int max)
+					{
+						return min + rand() / (RAND_MAX / (max - min + 1) + 1);
+					}
+					
+					int main()
+					{
+						srand(time(nullptr));
+						
+						// On cree l'interpreteur
+						egli::Interpreter interpreter;
+						
+						// On interface notre fonction
+						interpreter.functions().interface("rand", random);
+						
+						// On a besoin de donnees sur lesquelles travailler
+						egli::Data data;
+						
+						// On indique a l'interpreteur quelles donnees il doit utiliser
+						interpreter.setData(&data);
+						
+						// On lit l'entree utilisateur
+						string input;
+						while (getline(cin, input)) {
+						
+							// On quitte si input == "q"
+							if (input == "q")
+								break;
+							
+							// On ecrit l'entree dans l'interpreteur
+							// (writer() retourne un std::ostream&)
+							interpreter.writer() << input;
+							
+							// Tant que des commandes sont disponibles
+							while (interpreter.available()) {
+								try {
+								
+									// On execute la commande en recuperant son resultat
+									// (statement.value contiendra le nom de la variable generee)
+									egli::Statement statement = interpreter.next();
+									
+									// On verifie si la variable existe
+									// (elle n'existe pas dans le cas ou c'etait une variable temporaire)
+									if (data.variables().exists(statement.value)) {
+									
+										// Elle existe! On affiche sa valeur
+										string value = data.variables().toString(statement.value);
+										string type = egli::toString(data.variables().typeOf(statement.value));
+										if (value.size() > 50) { // mise en page
+											value.resize(50);
+											value.append("...");
+										}
+										cout << ">> " << statement.value << " (" << type << ") <- " << value 
+										     << endl;
+									}
+									else
+										cout << ">> temporary returned" << endl;
+								
+								// Les erreurs sont gerees grace aux exceptions
+								} catch(const exception &ex) {
+									cout << ex.what() << endl;
+								}
+							}
+							
+							cout << endl; // mise en page
+						}
+						
+						// Fin
+						return 0;
+					}
+			\end{lstlisting}
 		
 	\section{Graphes}
 	\label{sec:graphes}
@@ -2080,7 +2167,7 @@
 					\texttt{String toString(T a)} & Retourne la représentation de \texttt{a} sous forme de chaîne & \textit{built-in}\\
 					\texttt{Boolean save(Graph g, String file)} & Sauvegarde le graphe \texttt{g} dans le fichier \texttt{file} & \textit{built-in}\\
 					\texttt{Graph load(String file)} & Charge le graphe contenu dans le fichier \texttt{file} & \textit{built-in}\\
-					\texttt{String type(T a)} & Retourne le type de \texttt{a} sous forme de chaîne & \textit{built-in}\\
+					\texttt{String typeOf(T a)} & Retourne le type de \texttt{a} sous forme de chaîne & \textit{built-in}\\
 					\texttt{Graph er(Integer V, Float p)} & Génère un graphe aléatoire à \texttt{V} sommets et une probabilité d'inclusion des arêtes de \texttt{p} & \textit{built-in} \\
 					
 					\texttt{Boolean draw(Graph g)} & Dessine le graphe \texttt{g} & \textit{GUI}\\
@@ -2109,8 +2196,6 @@
 					\texttt{Array topologicalSort(Graph g)} & Applique un tri topologique au graphe \texttt{g} & \textit{algo}\\
 				\end{longtable}
 			\end{figure}
-			
-			\textcolor{red}{mettre à jour, voir avec alain si il a ajouter une autre "GUI"}
 	
 	\begin{thebibliography}{9}
 		\bibitem{qtStyle}

@@ -22,10 +22,6 @@
 #include "../../toString.h"
 #include "../../../utility/uniform01.h"
 
-#warning D
-#include <iostream>
-#define D(v) std::cerr << #v << "=" << v << std::endl;
-
 egli::detail::RealType<egli::Type::Boolean>::type
     egli::detail::builtins::save(RealType<Type::Graph>::cref g,
                                  RealType<Type::String>::cref file)
@@ -244,7 +240,6 @@ egli::detail::RealType<egli::Type::String>::type
 egli::detail::RealType<egli::Type::String>::type
     egli::detail::builtins::toString_s(RealType<Type::String>::cref var)
 {
-    D(var)
     RealType<Type::String>::type tmp = "\"";
     return tmp + var + "\"";
 }
