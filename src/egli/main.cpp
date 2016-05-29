@@ -63,7 +63,12 @@ ostream &operator<<(ostream &os, egli::VariableTable const &v)
     for (auto it : v.find("")) {
         os << it << "(";
         os << egli::toString(v.typeOf(it));
-        os << ", value=" << v.toString(it);
+        string str = v.toString(it);
+        if (str.size() > 60) {
+            str.resize(60);
+            str.append("...");
+        }
+        os << ", value=" << str;
         os << ")" << endl;
     }
     return os;
@@ -78,29 +83,33 @@ int main()
     string in;
     egli::Parser p;
     egli::Statement s;
-    egli::detail::Preprocessor pp;
-    egli::VariableTable var;
+    egli::Data data;
     egli::FunctionTable func;
     egli::detail::interfaceBasics(func);
     egli::detail::interfaceBuiltins(func);
     egli::detail::interfaceAlgorithms(func);
-
     while (getline(cin, in)) {
         if (in == "q")
             break;
-        pp.stream() << in;
-        while (pp.available()) {
+        data.preprocessor().stream() << in;
+//        cout << "RAW:\n" << data.preprocessor().raw() << endl;
+        while (data.preprocessor().available()) {
             utility::Timer timer;
             try {
-                s = p.parse(pp.next());
+                s = p.parse(data.preprocessor().next());
                 cout << "PARSED(in " << timer.elapsed() << "s):\n" << s;
                 timer.reset();
-                egli::ProcessingUnit::check(s, func, var);
+                egli::ProcessingUnit::check(s, func, data.variables());
                 cout << "CHECKED(in " << timer.elapsed() << "s)\n";
                 timer.reset();
-                egli::ProcessingUnit::process(s, func, var);
+                egli::ProcessingUnit::process(s, func, data.variables());
                 cout << "PROCESSED(in " << timer.elapsed() << "s):\n" << s;
-                cout << "TABLE:\n" << var;
+                cout << "TABLE:\n" << data.variables();
+//                cout << "SERIALIZED:\n" << egli::serialize(data) << endl;
+//                egli::Data tmp;
+//                egli::deserialize(tmp, egli::serialize(data));
+//                cout << "COPY-TABLE:\n" << tmp.variables();
+//                cout << "COPY-SERIALIZE:\n" << egli::serialize(tmp) << endl;
                 cout << endl;
             } catch (const runtime_error &e) {
                 cout << e.what() << endl;

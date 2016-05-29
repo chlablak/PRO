@@ -53,6 +53,12 @@ public:
      */
     GraphWrapper(const GraphWrapper &o);
 
+    /*! \brief Move constructor
+     *
+     * \param o - The GraphWrapper to move
+     */
+    GraphWrapper(GraphWrapper &&o);
+
     /*! \brief Destructor
      *
      * \note delete the underlying wrapped graph pointer
@@ -74,6 +80,13 @@ public:
      * \note The underlying wrapped graph pointer is cloned
      */
     GraphWrapper &operator=(const GraphWrapper &o);
+
+    /*! \brief Move assignment
+     *
+     * \param o - The GraphWrapper to move
+     * \return *this
+     */
+    GraphWrapper &operator=(GraphWrapper &&o);
 
     /*! \brief Get the underlying wrapped graph pointer
      *
@@ -145,10 +158,20 @@ public:
      *
      * \param id - The vertex ID
      * \return A pointer to the Vertex
-     *
-     * \throw Exception if id >= graph()->V()
      */
     vertex_t *getVertexById(size_t id) const;
+
+    /*! \brief Get the number of Vertex
+     *
+     * \return Number of vertices
+     */
+    size_t V() const;
+
+    /*! \brief Get the number of Edge
+     *
+     * \return Number of edges
+     */
+    size_t E() const;
 
 private:
 

@@ -18,6 +18,7 @@
 #include "Number.h"
 #include "Parser.h"
 #include "ProcessingUnit.h"
+#include "serialize.h"
 #include "Statement.h"
 #include "TEdge.h"
 #include "toString.h"

@@ -1146,14 +1146,19 @@
 			\subsubsection{Fonctions internes}
 				La transformation nécessite plusieurs fonctions pour que la suite puisse correctement fonctionner. Nous allons lister ici toutes ces fonctions qui seront par la suite interfacées dans la table des fonctions.\\
 				
-				Note: les paramètres de type \texttt{T} indiquent qu'il existe une surcharge de la fonction pour chacun des types disponible dans le langage.
+				Note: les types de retour ainsi que les paramètres sont définis par l'implémentation.
 				
 				\begin{figure}[H]
 					\centering
 					\begin{tabular}{lll}
 						Prototype & Description\\
 						\hline
-						\texttt{} & \\
+						\texttt{\_\_edge\_create} & Création d'un Edge, ex: \texttt{e = (0->1:3::5);}\\
+						\texttt{\_\_graph\_add} & Ajout/Modif. sur un Graph, ex: \texttt{g += [v5, e45];}\\
+						\texttt{\_\_graph\_create} & Création d'un Graph, ex: \texttt{g = \{\#2, 0--1\};}\\
+						\texttt{\_\_graph\_sub} & Suppression dans un Graph, ex: \texttt{g -= [v0, v1];}\\
+						\texttt{\_\_negate} & Négation d'un Number, ex: \texttt{n = -n;}\\
+						\texttt{\_\_vertex\_create} & Création d'un Vertex, ex: \texttt{v = (0:"Yverdon");}\\
 					\end{tabular}
 				\end{figure}
 			
@@ -1385,103 +1390,172 @@
 				\textcolor{red}{bla bla todo ...}
 			
 		\subsection{Exemples}
+			\textcolor{red}{faire un exemple d'utilisation classique, et une section sur les tests}
 		
 	\section{Graphes}
 	\label{sec:graphes}
 		\subsection{Préface}
-		Un graphe est une structure composée d'un ensemble de sommets et d'arêtes/arcs. Il existe différentes familles de graphe, comme les graphes orientés, à flot, biparti, etc., ainsi que différents moyen de les représenter.
+		Un graphe est une structure composée d'un ensemble de sommets et d'arêtes/arcs. Il existe différents moyen de les représenter.
 		
-		Cette section a pour but dans un premier temps de présenter les interfaces à disposition de l'utilisateur pour manipuler des graphes, et dans un second temps, de montrer nos choix de modélisation et d'implémentation de ceux-ci.
+		Cette section a pour de présenter les interfaces à disposition de l'utilisateur pour manipuler des graphes, ainsi que de montrer nos choix de modélisation et d'implémentation de ceux-ci.
 		
 		\subsection{Architecture}
-		
 		
 			\subsubsection{La classe "Vertex"}
 			Les sommets sont les mêmes pour tous les types de graphe (orienté, à flot, ou non-orienté). Les informations suivantes y sont stockées :
 			\begin{itemize}
-				\item un identifiant généré par la classe pour identifier rapidement le sommet lors des opérations avec les algorithmes
+				\item un identifiant géré par la classe "Graph" ci-après
 				\item un label pour spécifier un nom au sommet
-				\item un poids qui pourra être ensuite redistribué sur les arêtes par exemple. Ce poids est numérique.
-				\item une capacité minimale de type numérique entière strictement positive.
-				\item une capacité maximale de type numérique entière strictement positive. 
+				\item un poids de type numérique qui pourra être ensuite redistribué sur les arêtes par exemple
+				\item une capacité minimale de type numérique entière
+				\item une capacité maximale de type numérique entière 
 			\end{itemize}
-			En réutilisant le type "Optional" défini dans l'interpréteur, on peut rendre certains attributs optionnels
+			Voici un aperçu des attributs de la classe en question
 			\begin{lstlisting}
 						// Apercu de la classe Vertex
 						public class Vertex {
 							private:
-								int id;
-								Optional<string> label;
-								Optional<double> weight;
-								Optional<size_t> minCapacity;
-								Optional<size_t> maxCapacity;
+								int _id;
+								string _label;
+								double _weight;
+								int _minCapacity;
+								int _maxCapacity;
 								
-							// Quelques methodes a disposition
 							public:
+								// Constructeur vide. Valeurs par defaut.
+								Vertex() : _id(-1), _label(""), _weight(numeric_limits<double>::max()),
+											_minCapacity(-1), _maxCapacity(-1) {}
 								// setter et getter...
 								// ...
 						};
 			\end{lstlisting}
+			Les capacités sont des entiers signés uniquement pour leur donner une valeur par défaut de -1. On aurait pu les déclarer avec un type non-signé mais nous trouvions plus léger au niveau du code de le faire de cette manière.
 			
 			\subsubsection{La classe "Edge"}
-			Les arcs/arêtes sont plus délicats car ils diffèrent entre les types de graphe. Les trois types principaux sont les suivants :
+			Les arcs/arêtes sont plus délicats car ils diffèrent entre les types de graphe. Les trois types présents dans l'application sont les suivants :
 			\begin{itemize}
-				\item arête pondérée ou non
-				\item arc pondéré ou non
-				\item arc à flot pondéré ou non
+				\item arête, type \lstinline[basicstyle=\ttfamily\color{blue}]|Edge|
+				\item arc, type \lstinline[basicstyle=\ttfamily\color{blue}]|DiEdge| pour Directed Edge
+				\item arc à flot, type \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge|\\
 			\end{itemize}
 			
-			Nous sommes donc partis sur une première approche qui consiste à avoir une class Edge commune qui se fera hériter par des Edge spécifiques selon le type de graphe, en factorisant au mieux les attributs.
+			Les attributs communs aux trois types sont :
+			\begin{itemize}
+				\item un id pour identifier l'Edge de façon unique au sein d'un graphe donné
+				\item un pointeur sur le sommet source nommé $a$
+				\item un pointeur sur le sommet destination nommé $b$
+				\item un label pour nommer l'Edge
+				\item un poids de type numérique pour lui associer un poids
+				\item En plus pour les \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| : une capacité minimum de type numérique entière
+				\item En plus pour les \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| : une capacité maximum de type numérique entière
+				\item En plus pour les \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| : le flot courant de type numérique entier\\
+			\end{itemize}
+			
+			Notons que pour un \lstinline[basicstyle=\ttfamily\color{blue}]|Edge|, les sommets $a$ et $b$ ne font pas office de "source" et "destination" puisque l'arc n'est pas orienté.\\
+			
+			Nous sommes donc partis sur une première approche qui consiste à avoir une class Edge commune dont les Edge spécifiques hériteront selon le type de graphe.
 			\begin{figure}[H]
 				\centering
-				\includegraphics[scale=3.0]{Conception/classedgesol1.pdf}
-				\caption{Class Edge solution 1}
+				\includegraphics[scale=4.0]{Conception/graph/classedgesol1.pdf}
+				\caption{Classe Edge solution 1}
 			\end{figure}
-			Avec cette approche, une redondance au niveau des attributs "weight" apparait, ainsi qu'un problème de redéfinition conceptuel des méthodes getMinCapacity() et getMaxCapacity() dans les classes qui ne contiennent pas l'attribut en question (les méthodes doivent retourner NULL ? une exception ? zéro?).
-			Pour corriger celà, on peut remonter les attributs définis dans les sous-classe dans la classe commune et déclarer leur type comme pointeur pour les rendre optionnels.\\
-			On supprime alors toutes les sous-classes et on ramène la classe Edge à une unique classe.
+			Cette approche est optimale car elle permet une bonne factorisation du code. Seulement nous avons rencontré un problème lors de la mise en place de la classe Graph où les types de Edge sont passés par template (expliqué dans le chapitre "class Graph"). Avec la solution ci-dessus nous n'avons pas trouvé le moyen de spécifier explicitement le type \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| au graphe sans générer d'erreur de compilation : \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| étant un sous-type de \lstinline[basicstyle=\ttfamily\color{blue}]|DiEdge|, le compilateur ne parvenait pas à faire le lien sur le bon type. Nous nous sommes donc résiliés à modifier l'architecture de la classe "Edge" pour n'avoir que des types distincts.
 			\begin{figure}[H]
 				\centering
-				\includegraphics[scale=3.0]{Conception/classedgesol2.pdf}
-				\caption{Class Edge solution 1}
+				\includegraphics[scale=4.0]{Conception/graph/classedgesol2.pdf}
+				\caption{Classe Edge solution 2}
 			\end{figure}
-			Les opérations sont maintenant centralisées et on a simplifié notre type Edge.
+			
+			Une interface \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge| est ensuite ajoutée pour fournir à l'utilisateur un moyen unique de manipuler tout type de Edge.
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=4.0]{Conception/graph/classedgesol3.pdf}
+				\caption{Classe Edge solution finale}
+			\end{figure}
+			
+			Ainsi, grâce à la covariance des variables, l'utilisateur peut voir n'importe quel type de Edge en tant qu'IEdge et la manipuler de la sorte.
 			\begin{lstlisting}
-						// Apercu de la classe Edge
-						public class Edge {
-							private:
-								int id;
-								Optional<string> label;
-								Optional<double> weight;
-								Optional<size_t> minCapacity;
-								Optional<size_t> maxCapacity;
-								
-								// methodes a disposition
-								public:
-								size_t* getMinCapacity();
-								// ...
-						};
+						// Edge entre le sommet v1 et v2
+						IEdge *edge = new Edge(v1, v2, 4.5);
+						
+						// DiEdge du sommet v1 au sommet v2
+						IEdge *diEdge = new DiEdge(v1, v2, 6.0);
+						
+						// FlowEdge de capacite 3 du sommet v1 au sommet v2
+						IEdge *flowEdge = new FlowEdge(v1, v2, 5.2, 3);
+						
+						// exemple de methode
+						cout << edge->weight() << endl; // Affiche 4.5
+						cout << diEdge->weight() << endl; // Affiche 6
+						cout << flowEdge->weight() << endl; // Affiche 5.2
 			\end{lstlisting}
-		
-			\subsubsection{Interface utilisateur}
-			Dans l'optique d'un code modulable, nous avons décidé d'offrir à l'utilisateur une interface lui permettant la manipulation de graphes. Par exemple, la vue aura besoin de récupérer les sommets et les arêtes d'un graphe pour le dessiner, le parseur voudra probablement créer un graphe après avoir parsé des données, ou encore un algorithme devra parcourir ce graphe pour trouver un plus court chemin.
-			Voici une ébauche de l'interface permettant la manipulation de graphes :
+						
+			\subsubsection{classe "Graph"}
+			Cette classe est étroitement liée à la classe "Edge". Sachant qu'il existe trois types d'Edge, il existe donc 3 types de graphe :
+			\begin{itemize}
+				\item Graphe non-orienté
+				\item Graphe orienté
+				\item Graphe orienté à flot
+			\end{itemize}
+			Nous gardons la même architecture que la classe "Edge". Les trois types doivent être distincts (un graphe à flot ne doit pas hériter directement d'un graphe orienté) pour expliciter clairement le type de Edge.
+			Une première approche nous avait mené à déclarer les classes "Edge" internes aux classes "Graph" correspondantes mais cette méthode s'est avérée trop complexe. Une deuxième approche consistait plutôt à passer le type de Edge en template à la classe graphe lui correspondant. Cette deuxième approche nous paraissait plus simple et avons donc opté pour celle-ci.
+			Voici à à quoi ressemble le modèle conceptuel de la classe "Graph".
 			\begin{figure}[H]
 				\centering
-				\includegraphics[scale=3.0]{Conception/igraph.pdf}
+				\includegraphics[scale=4.0]{Conception/graph/classgraphsol1.pdf}
+				\caption{Classe Graph solution finale}
+			\end{figure}
+			Et voici comment expliciter le type de Edge avec les template
+			\begin{lstlisting}
+						template <typename T>
+						class GraphCommon {
+							//...
+						}
+						
+						template <typename T>
+						class DiGraphCommon : public GraphCommon<T> {
+							//...
+						}
+						
+						class Graph : public GraphCommon<Edge> {
+							//...
+						}
+						
+						class DiGraph : public DiGraphCommon<DiEdge> {
+							//...
+						}
+						
+						class FlowGraph : public GraphCommon<FlowEdge> {
+							//...
+						}
+			\end{lstlisting}
+			Ainsi, \lstinline[basicstyle=\ttfamily\color{blue}]|Graph| contient des \lstinline[basicstyle=\ttfamily\color{blue}]|Edge|, \lstinline[basicstyle=\ttfamily\color{blue}]|DiGraph| contient des \lstinline[basicstyle=\ttfamily\color{blue}]|DiEdge|, et \lstinline[basicstyle=\ttfamily\color{blue}]|FlowGraph| contient des \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge|. Lors d'un appel à une méthode implémentée dans \lstinline[basicstyle=\ttfamily\color{blue}]|GraphCommon| qui traite des \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|, la méthode effectuera le lien sur le bon type de Edge au travers de la liaison dynamique.
+		
+			Pour abstraire tout ce contenu à l'utilisateur, une interface lui permettant la manipulation de tout type de graphes est créée au-dessus de l'architecture actuelle.
+			Voici une ébauche de cette interface permettant la manipulation de graphes :
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=4.0]{Conception/graph/classGraph.pdf}
 				\caption{Interface IGraph}
 			\end{figure}
-			Tout part de cette interface et le but que nous recherchons est qu'elle soit la plus complète possible afin de répondre à tous les besoins de nos utilisateurs. \\
+			Cette interface fournit les méthodes nécessaires aux utilisateurs pour manipuler n'importe quel type de graphe. La création d'un graphe se fait alors de la manière suivante :\\
+			\begin{lstlisting}
+						// Creation d'un graphe non-oriente vide (sans sommet)
+						IGraph *graph = new Graph;
+						
+						// Creation d'un graphe oriente vide (sans sommet)
+						IGraph *diGraph = new DiGraph;
+						
+						// Creation d'un graphe a flot vide (sans sommet)
+						IGraph *flowGraph = new FlowGraph;
+						
+						// exemple de methode
+						cout << graph->isDirected() << endl; // Affiche false
+						cout << diGraph->isDirected() << endl; // Affiche true
+						cout << flowGraph->isDirected() << endl; // Affiche true
+			\end{lstlisting}
 			
-			\subsubsection{Types de graphe}
-			Concrètement, n'importe quel graphe doit pouvoir implémenter cette interface, d'où la présence d'une classe commune aux graphes. Cette classe nous est utile pour factoriser au maximum les fonctions communes à tout type de graphe.
-			\begin{figure}[H]
-				\centering
-				\includegraphics[scale=3.0]{Conception/typesGraph.pdf}
-				\caption{Types de graphe}
-			\end{figure}
-			
-			\subsubsection{Structure de donnée}
+			\subsubsection{Structure de donnée de la classe "Graph"}
 			On peut distinguer deux approches principales pour représenter et stocker un graphe :
 			\begin{enumerate}
 				\item à l'aide de matrices
@@ -1525,7 +1599,7 @@
 				\caption{Matrcide d'adjacence de bit}
 			\end{figure}
 			
-			Ces deux premières approches ne permettent pas de stocker beaucoup d'informations concernant les Edge, c'est pourquoi nous nous tournons vers une troisième approche qui consiste à stocker des pointeurs de Edge (Edge = arc ou arête), ou nullptr lorsque l'arc/arête n'est pas présent. Pour pouvoir stocker plusieurs Edge, chaque case contient un pointeur vers une collection d'objets Edge.
+			Ces deux premières approches ne permettent pas de stocker beaucoup d'informations concernant les Edge, c'est pourquoi nous nous tournons vers une troisième approche qui consiste à stocker des pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|, ou nullptr lorsque l'arc/arête n'est pas présent. Pour pouvoir stocker plusieurs Edge, chaque case contient un pointeur vers une collection d'objets \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|.
 			Cette troisième approche nécessite néanmoins 32 bits par case donc une taille mémoire de 4 $*$ $n^2$ octets.\\
 			\begin{figure}[H]
 				\centering
@@ -1545,7 +1619,7 @@
 			
 			Cependant, après avoir suivi le cours de GRE, nous nous sommes rendus compte qu'il était rare d'obtenir des graphes complets. La majorité des cas d'utilisation requièrent des graphes de faible densité, ce qui nous amène vers une quatrième approche : stocker les graphes sous forme de liste d'adjacence.\\
 			
-			Mis à part les aspects liés au gain de mémoire, les listes d'adjacences facilitent la plupart des opérations présentes dans nos algorithmes (discutés en section \textbf{\color{red}SECTION ALGOS}).
+			Mis à part les aspects liés au gain de mémoire, les listes d'adjacences facilitent la plupart des opérations présentes dans nos algorithmes.
 			Trouver tous les sommets adjacents à un certain sommet est aussi simple que lire la liste et prend un temps proportionnel au nombre de voisins. Avec une matrice, toute une ligne doit être lue, ce qui prend un temps beaucoup plus long égal au nombre de sommet présent dans l'entièreté du graphe.
 			
 			Cette quatrième et dernière approche est celle que nous avons choisie car elle est la plus adaptée à nos besoins. \textbf{Nos graphes sont donc stockés sous forme de liste d'adjacence}.
@@ -1559,9 +1633,20 @@
 			\end{enumerate}
 			La solution (1) ne permet pas de stocker d'informations sur les arcs/arêtes. La solution (2) le permet pour autant qu'on choisisse une liste d'Edge adjacents. Dans ce cas, on ne peut pas stocker d'information sur les sommets.\\
 			
-			Nous avons donc opté pour la solution (3). Un tableau de sommet, où chaque sommet possède une variable pointant vers une listes de pointeurs de Edge.\\
+			Nous avons donc opté pour la solution (3). Un tableau de sommet, où chaque sommet possède une variable pointant vers une listes de pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|, et où chaque \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge| possède un pointeur sur chacun de ses deux sommets qui la constitue. Nous aurions également pu stocker des pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|T| (\lstinline[basicstyle=\ttfamily\color{blue}]|T| étant le typename du template, donc le type de l'Edge) mais pour avoir une visibilité plus globale sur les Edge, nous avons décidé de stocker des pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|.\\
 			À noter que pour un graphe non orienté, les Edge se répéteront à double et c'est précisément ce que nous voulons car nous souhaitons préserver la logique de la liste d'adjacence pour nos algorithmes.\\
 			
+			Le choix de stocker les éléments par pointeur ou par copie a été longuement réfléchis. L'un comme l'autre a ses avantages et désavantages.\\ \\
+			\begin{tabular}{p{0.1\textwidth}|p{0.4\textwidth}|p{0.4\textwidth}}
+				 &Avantages&Désavantages\\
+				\hline
+				Copie& On peut passer le même Vertex déclaré une seule fois à plusieurs graphes. Même chose pour les Edge. & Prend beaucoup de place mémoire, surtout que la structure peut vite devenir grande. Un vertex ne peut pas être modifié en dehors de la structure (peut aussi être un avantage...)\\
+				\hline
+				Pointeur& Le sommet ou l'edge manipulé n'existe qu'une seule fois et peut être modifié depuis n'importe où (peut être dangereux) & Nécessite de gérer soi-même la désallocation de mémoire \\
+			\end{tabular}
+			
+			L'argument de l'espace mémoire alloué a porté notre choix final sur l'utilisation de pointeurs pour stocker les éléments.			
+		
 			Voici un exemple de liste d'adjacence. *e$\{chiffre\}$ est un pointeur sur l'Edge $\{chiffre\}$. Les chiffres en marge à gauche sont les index des sommets.
 			\begin{figure}[H]
 				\centering
@@ -1592,76 +1677,106 @@
 			\begin{itemize}
 				\item le sommet 1 possède deux Edge adjacents e2 et e5.
 				\item le sommet 2 possède quatre Edge adjacents e1, e5, e3, e4.
-				\item le sommet 3 possède deux Edge adjacents e3 et e4.
+				\item le sommet 3 possède deux Edge adjacents e2 et e4.
 				\item etc.
 			\end{itemize}
 			
-			Et voici à quoi représenterait le code de cette structure. À noter que nous avons besoin de garder un tableau des sommets et des edges.
+			Et voici à quoi ressemble le code de cette structure. À noter que nous avons besoin de garder un tableau des sommets.
 			\begin{lstlisting}
-						public class GraphCommon {
+						template <typename T>
+						class GraphCommon : public IGraph {
 							private:
-								vector<Vertex> vertices;
-								vector<Edge> edges;
-								vector<list<Edge*>> adjacentList;
+								vector<Vertex*> _vertices;
+								vector<list<IEdge*>> _adjacentList;
 							public:
-								void forEachAdjacentEdge(Vertex v) {
-									for (Edge* e : adjacentList[v->getId()]) {
-										// operations sur les edges adjacents au sommet v ...
-									}
+								template <typename Func>
+								void forEachAdjacentEdge(Vertex v, Func f) {
+									for (Edge* e : adjacentList[v->getId()]) 
+										f(e); // operation sur les edges adjacents au sommet v
 								}
 						};
 			\end{lstlisting}
 			
-			\subsubsection{La class "Graph"}
-			La mise en commun des sections ci-dessus nous amène à une première ébauche de la classe Graph.
-			\begin{figure}[H]
-				\centering
-				\includegraphics[scale=2.8]{Conception/classGraph.pdf}
-				\caption{Ebauche de la classe Graph}
-			\end{figure}
-			
 			\subsubsection{Création de graphes}
-			La création de graphe peut maintenant s'effectuer en utilisant la classe Graph. Voici un exemple d'utilisation suivant le type de graphe à créer.
+			La création de graphe peut maintenant s'effectuer de la manière suivante :
 			\begin{lstlisting}
+						// Creer un graphe non oriente
 						public static void main() {
-							// creer quelques sommets
-							Vertex v1, v2, v3;
-							Edge e1(v1, v2);
-							Edge e2(v1, v3);
+							// creer quelques sommets et edges
+							Vertex *v1 = new Vertex;
+							Vertex *v2 = new Vertex;
+							Vertex *v3 = new Vertex;
+							IEdge *e1 = new Edge(v1, v2);
+							IEdge *e2 = new Edge(v1, v3);
+							
+							vector<Vertex*> vertices = {v1, v2, v3};
+							vector<IEdge*> edges = {e1, e2};
 							
 							// Creation d'un graphe non oriente
-							IGraph *myGraph = new Graph({v1, v2, v3}, {e1, e2});
-							
-							DiEdge de1(v1, v2);
-							DiEdge de2(v2, v3);
-							
-							// Creation d'un graphe oriente
-							IGraph *myDiGraph = new DiGraph({v1, v2, v3}, {de1, de2});
-							
-							// Creation d'un graphe a flot
-							IGraph *myFlowGraph = new FlowGraph({v1, v2, v3}, {de1, de2});
+							IGraph *myGraph = new Graph(vertices, edges);
 							
 							// Utilisation d'une methode de l'interface
-							if (myGraph->isSimple()) {
+							if (myGraph->isSimple())
 								cout << "myGraph est simple" << endl;
-							}
+						}
+			\end{lstlisting}
+			\begin{lstlisting}
+						// Creer un graphe oriente
+						public static void main() {
+							// creer quelques sommets et edges
+							Vertex *v1 = new Vertex;
+							Vertex *v2 = new Vertex;
+							Vertex *v3 = new Vertex;
+							IEdge *e1 = new DiEdge(v1, v2);
+							IEdge *e2 = new DiEdge(v1, v3);
+							
+							vector<Vertex*> vertices = {v1, v2, v3};
+							vector<IEdge*> edges = {e1, e2};
+							
+							// Creation d'un graphe oriente
+							IGraph *myGraph = new DiGraph(vertices, edges);
+							
+							// Utilisation d'une methode de l'interface
+							if (myGraph->isSimple())
+								cout << "myGraph est simple" << endl;
+						}
+			\end{lstlisting}
+			\begin{lstlisting}
+						// Creer un graphe oriente a flot
+						public static void main() {
+							// creer quelques sommets et edges
+							Vertex *v1 = new Vertex;
+							Vertex *v2 = new Vertex;
+							Vertex *v3 = new Vertex;
+							IEdge *e1 = new FlowEdge(v1, v2);
+							IEdge *e2 = new FlowEdge(v1, v3);
+							
+							vector<Vertex*> vertices = {v1, v2, v3};
+							vector<IEdge*> edges = {e1, e2};
+							
+							// Creation d'un graphe oriente a flot
+							IGraph *myGraph = new FlowGraph(vertices, edges);
+							
+							// Utilisation d'une methode de l'interface
+							if (myGraph->isSimple())
+								cout << "myGraph est simple" << endl;
 						}
 			\end{lstlisting}
 			
-		
 		\subsection{Algorithmes}
 			\subsubsection{Pattern Visitor}
-			Le patron de conception Visiteur permet d'appliquer facilement un algorithme à un graphe. L'utilisation est la suivante :
+			Le patron de conception Visiteur permet d'appliquer efficacement un algorithme à un graphe. L'utilisation est la suivante :
 			\begin{itemize}
 				\item L'algorithme est le visiteur
 				\item Le graphe représente la structure de donnée à visiter
 			\end{itemize}
+			% TODO
 			Le résultat de nos algorithmes retourne toujours un graphe. La recherche d'un plus court chemin par exemple, retournera un chemin de racine r (sommet source du parcours) qui est donc un graphe.\\
 			
 			% TODO corriger UML et code d'exemple
 			\begin{figure}[H]
 				\centering
-				\includegraphics[scale=2.4]{Conception/visitor.pdf}
+				\includegraphics[scale=2.4]{Conception/graph/visitor.pdf}
 				\caption{Pattern Visitor pour l'application des algos aux graphes}
 			\end{figure}
 			
@@ -1902,15 +2017,43 @@
 			
 			\begin{figure}[H]
 				\centering
-				\begin{tabular}{lll}
+				\begin{longtable}{p{0.45\textwidth}p{0.45\textwidth}p{0.1\textwidth}}
 					Prototype & Description & Origine\\
 					\hline
 					\texttt{String toString(T a)} & Retourne la représentation de \texttt{a} sous forme de chaîne & \textit{built-in}\\
 					\texttt{Boolean save(Graph g, String file)} & Sauvegarde le graphe \texttt{g} dans le fichier \texttt{file} & \textit{built-in}\\
-					\texttt{Graph load(String file)} & Charge le graphe contenu dans le fichier \texttt{file} & \texttt{built-in}\\
-					\texttt{Boolean draw(Graph g)} & Dessine le graphe \texttt{g} & \texttt{GUI}\\
-				\end{tabular}
+					\texttt{Graph load(String file)} & Charge le graphe contenu dans le fichier \texttt{file} & \textit{built-in}\\
+					\texttt{String type(T a)} & Retourne le type de \texttt{a} sous forme de chaîne & \textit{built-in}\\
+					\texttt{Graph er(Integer V, Float p)} & Génère un graphe aléatoire à \texttt{V} sommets et une probabilité d'inclusion des arêtes de \texttt{p} & \textit{built-in} \\
+					
+					\texttt{Boolean draw(Graph g)} & Dessine le graphe \texttt{g} & \textit{GUI}\\
+					\texttt{Boolean exportAsSvg(Graph g)} & Exporte le graphe \texttt{g} en SVG & \textit{GUI}\\
+					\texttt{Boolean exportAsSvg(Graph g, String file)} & Exporte le graphe \texttt{g} en SVG dans le fichier \texttt{file} & \textit{GUI}\\
+					
+					\texttt{Array bellmanFord(Graph g, Integer from)} & Applique un Bellman-Ford au graphe \texttt{g} depuis le sommet \texttt{from} & \textit{algo}\\
+					\texttt{Array bfs(Graph g, Integer from)} & Applique un BFS sur le graphe \texttt{g} depuis le sommet \texttt{from} & \textit{algo}\\
+					\texttt{Array cc(Graph g)} & Cherche les composantes connexes du graphe \texttt{g} & \textit{algo}\\
+					\texttt{Graph detectCycle(Graph g)} & Retourne un cycle du graphe \texttt{g}, si il y en a un & \textit{algo}\\
+					\texttt{Array dfs(Graph g, Integer from)} & Applique un DFS sur le graphe \texttt{g} depuis le sommet \texttt{from} & \textit{algo}\\
+					\texttt{Array dijkstra(Graph g, Integer from)} & Applique un Dijkstra au graphe \texttt{g} depuis le sommet \texttt{from} & \textit{algo}\\
+					\texttt{Boolean isConnected(Graph g)} & Vérifie si le graphe \texttt{g} est connexe & \textit{algo}\\
+					\texttt{Boolean isDirected(Graph g)} & Vérifie si le graphe \texttt{g} est orienté & \textit{algo}\\
+					\texttt{Boolean isEmpty(Graph g)} & Vérifie si le graphe \texttt{g} est vide & \textit{algo}\\
+					\texttt{Boolean isNegativeWeighted(Graph g)} & Vérifie si le graphe \texttt{g} possède des poids négatifs & \textit{algo}\\
+					\texttt{Boolean isNull(Graph g)} & Vérifie si le graphe \texttt{g} est nul & \textit{algo}\\
+					\texttt{Boolean isPlanar(Graph g)} & Vérifie si le graphe \texttt{g} est planaire & \textit{algo}\\
+					\texttt{Boolean isSimple(Graph g)} & Vérifie si le graphe \texttt{g} est simple & \textit{algo}\\
+					\texttt{Boolean isStronglyConnected(Graph g)} & Vérifie si le graphe \texttt{g} est fortement connexe & \textit{algo}\\
+					\texttt{Boolean isWeighted(Graph g)} & Vérifie si le graphe \texttt{g} est pondéré & \textit{algo}\\
+					\texttt{Graph kruskal(Graph g)} & Applique un Kruskal au graphe \texttt{g} & \textit{algo}\\
+					%\texttt{Graph prim(Graph g)} & Applique un Prim au graphe \texttt{g} & \textit{algo}\\
+					%\texttt{Graph prim(Graph g, Integer from)} & Applique un Prim au graphe \texttt{g} depuis le sommet \texttt{from} & \textit{algo}\\
+					\texttt{Array tarjan(Graph g)} & Applique un Tarjan au graphe \texttt{g} & \textit{algo}\\
+					\texttt{Array topologicalSort(Graph g)} & Applique un tri topologique au graphe \texttt{g} & \textit{algo}\\
+				\end{longtable}
 			\end{figure}
+			
+			\textcolor{red}{mettre à jour, voir avec alain si il a ajouter une autre "GUI"}
 	
 	\begin{thebibliography}{9}
 		\bibitem{qtStyle}

@@ -1,14 +1,21 @@
-//
-// Created by PatrickDesle on 16.05.2016.
-//
+/*! \brief Common class for directed graphs
+ *
+ * \file DiGraphCommon.hpp
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #include "DiGraphCommon.h"
+#include "../algorithms/GraphAlgorithm.h"
+#include "DiGraph.h"
 
 template<typename T>
-DiGraphCommon<T>::DiGraphCommon(const DiGraphCommon &g) : GraphCommon<T>::GraphCommon(g) {
-    for (Vertex *v : g.vertexList()) {
+DiGraphCommon<T>::DiGraphCommon(const DiGraphCommon &g)
+        : GraphCommon<T>::GraphCommon(g)
+{
+    for (Vertex *v : g.vertexList())
         this->_vertices.at(v->id()) = new Vertex(*v);
-    }
+
     for (IEdge *ie : g.edgeList()) {
         T *e = (T*)ie;
         T *copy = new T(*e);
@@ -19,17 +26,10 @@ DiGraphCommon<T>::DiGraphCommon(const DiGraphCommon &g) : GraphCommon<T>::GraphC
 }
 
 template<typename T>
-DiGraphCommon<T>::~DiGraphCommon() {
-    for (IEdge *e : edgeList()) {
-        delete e;
-    }
-}
-
-template<typename T>
-bool DiGraphCommon<T>::isSimple() const {
-    if(this->isNull() || this->isEmpty()) {
+bool DiGraphCommon<T>::isSimple() const
+{
+    if(this->isNull() || this->isEmpty())
         return true;
-    }
 
     list<IEdge*> edgeList = this->edgeList();
     bool first = false;
@@ -39,9 +39,8 @@ bool DiGraphCommon<T>::isSimple() const {
     while (it != edgeList.end()) {
 
         // Search for edgeloop
-        if (*(*it)->from() == *(*it)->to()) {
+        if (*(*it)->from() == *(*it)->to())
             return false;
-        }
 
         // Search for multiple directed edges
         first = true;
@@ -50,9 +49,8 @@ bool DiGraphCommon<T>::isSimple() const {
                 first = false;
                 continue;
             }
-            if (*(*it)->from() == *(*it2)->from() && *(*it)->to() == *(*it2)->to()) {
+            if (*(*it)->from() == *(*it2)->from() && *(*it)->to() == *(*it2)->to())
                 return false;
-            }
         }
         it++;
     }
@@ -61,51 +59,14 @@ bool DiGraphCommon<T>::isSimple() const {
 }
 
 template<typename T>
-bool DiGraphCommon<T>::isConnected() const {
-    // TODO
-    return false;
-}
-
-template<typename T>
-bool DiGraphCommon<T>::isStronglyConnected() const {
-    // TODO
-    return false;
-}
-
-template<typename T>
-bool DiGraphCommon<T>::isDirected() const {
+bool DiGraphCommon<T>::isDirected() const
+{
     return true;
 }
 
 template<typename T>
-typename IGraph::Edges DiGraphCommon<T>::edgeList() const {
-    IGraph::Edges list;
-    size_t size = this->_adjacentList.size();
-    for(size_t i = 0; i < size; ++i){
-        for(IEdge* ie : this->_adjacentList.at(i)){
-            list.push_back(ie);
-        }
-    }
-    return list;
-}
-
-template<typename T>
-void DiGraphCommon<T>::addEdge(IEdge *e) {
-    e->setId(this->_edgeId++);
-    assignEdge((T*)e);
-}
-
-/**
- *  this->_adjacentList.erase(this->_adjacentList.begin() + v->id());
-
-    for (vector<Vertex *>::iterator itVertex = this->_vertices.begin() + v->id(); itVertex != this->_vertices.end(); ++itVertex) {
-        (*itVertex)->setId((*itVertex)->id());
-    }
-    this->_vertices.erase(this->_vertices.begin() + v->id());
-    this->resetEdgeId();
- */
-template<typename T>
-void DiGraphCommon<T>::removeVertex(Vertex *v) {
+void DiGraphCommon<T>::removeVertex(Vertex *v)
+{
 
     // Remove all edges that are connected to v
     for (size_t i = 0; i < this->V(); ++i) {
@@ -122,43 +83,54 @@ void DiGraphCommon<T>::removeVertex(Vertex *v) {
     // Remove all edges from v
     this->_adjacentList.erase(this->_adjacentList.begin() + v->id());
 
-    for (vector<Vertex*>::iterator it = this->_vertices.begin() + v->id() + 1; it != this->_vertices.end(); it++) {
+    for (vector<Vertex*>::iterator it = this->_vertices.begin() + v->id() + 1; it != this->_vertices.end(); it++)
         (*it)->setId( (*it)->id() - 1 );
-    }
-    this->_vertices.erase(this->_vertices.begin() + v->id());
 
+    this->_vertices.erase(this->_vertices.begin() + v->id());
     GraphCommon<T>::resetEdgeId();
 
     delete v;
 }
 
 template<typename T>
-void DiGraphCommon<T>::removeEdge(IEdge *e) {
+void DiGraphCommon<T>::removeEdge(IEdge *e)
+{
     this->_adjacentList.at(((T*)e)->from()->id()).remove(e);
     this->resetEdgeId();
 }
 
 template<typename T>
-size_t DiGraphCommon<T>::E() const {
-    return this->_edgeId;
+void DiGraphCommon<T>::addEdge(IEdge *e) {
+    e->setId(this->_edgeId++);
+    assignEdge((T*)e);
 }
 
 template<typename T>
-void DiGraphCommon<T>::assignEdge(IEdge *ie) {
+void DiGraphCommon<T>::assignEdge(IEdge *ie)
+{
     T *e = (T*)ie;
     this->_adjacentList.at(e->from()->id()).push_back(e);
 }
 
 template<typename T>
-IGraph::Edges DiGraphCommon<T>::getEdges(Vertex *from, Vertex *to) const {
+IGraph::Edges DiGraphCommon<T>::getEdges(Vertex *from, Vertex *to) const
+{
     std::list<IEdge*> edges;
     for (IEdge *ie : this->_adjacentList.at(from->id())) {
         T *e = (T*)ie;
-        if (e->to() == to) {
+        if (e->to() == to)
             edges.push_back(e);
-        }
     }
     return edges;
+}
+
+template<typename T>
+DiGraphCommon<T>::DiGraphCommon(vector<Vertex *> &vertices,
+                             vector<IEdge *> &edges)
+        : GraphCommon<T>::GraphCommon(vertices)
+{
+    for (IEdge* ie: edges)
+        addEdge((T*)ie);
 }
 
 

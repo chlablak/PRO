@@ -5,7 +5,6 @@
  * \date 22.04.2016
  */
 
-
 #include "helppage.h"
 
 HelpPage::HelpPage(QString page, QString name, QStringList keywords) :

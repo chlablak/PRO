@@ -34,22 +34,24 @@ void egli::detail::interfaceBuiltins(FunctionTable &table)
     table.interface("toString", builtins::toString_a);
     table.interface("toString", builtins::toString_b);
     table.interface("toString", builtins::toString_e);
+    table.interface("toString", builtins::toString_i); // i before f
     table.interface("toString", builtins::toString_f);
     table.interface("toString", builtins::toString_g);
-    table.interface("toString", builtins::toString_i);
     table.interface("toString", builtins::toString_n);
     table.interface("toString", builtins::toString_s);
     table.interface("toString", builtins::toString_v);
-    table.interface("type", builtins::typeOf_a);
-    table.interface("type", builtins::typeOf_b);
-    table.interface("type", builtins::typeOf_e);
-    table.interface("type", builtins::typeOf_f);
-    table.interface("type", builtins::typeOf_g);
-    table.interface("type", builtins::typeOf_i);
-    table.interface("type", builtins::typeOf_n);
-    table.interface("type", builtins::typeOf_s);
-    table.interface("type", builtins::typeOf_v);
+    table.interface("typeOf", builtins::typeOf_a);
+    table.interface("typeOf", builtins::typeOf_b);
+    table.interface("typeOf", builtins::typeOf_e);
+    table.interface("typeOf", builtins::typeOf_i); // i before f
+    table.interface("typeOf", builtins::typeOf_f);
+    table.interface("typeOf", builtins::typeOf_g);
+    table.interface("typeOf", builtins::typeOf_n);
+    table.interface("typeOf", builtins::typeOf_s);
+    table.interface("typeOf", builtins::typeOf_v);
     table.interface("er", builtins::originalErdosRenyi);
+    table.interface("size", builtins::size_a);
+    table.interface("size", builtins::size_g);
 }
 
 void egli::detail::interfaceAlgorithms(FunctionTable &table)
@@ -59,8 +61,8 @@ void egli::detail::interfaceAlgorithms(FunctionTable &table)
     table.interface("cc", algorithms::cc);
     table.interface("tarjan", algorithms::tarjan);
     table.interface("kruskal", algorithms::kruskal);
-    table.interface("prim", algorithms::prim_1);
-    table.interface("prim", algorithms::prim_2);
+//    table.interface("prim", algorithms::prim_1);
+//    table.interface("prim", algorithms::prim_2);
     table.interface("isConnected", algorithms::isConnected);
     table.interface("isDirected", algorithms::isDirected);
     table.interface("isEmpty", algorithms::isEmpty);
@@ -73,4 +75,5 @@ void egli::detail::interfaceAlgorithms(FunctionTable &table)
     table.interface("bellmanFord", algorithms::bellmanFord);
     table.interface("detectCycle", algorithms::detectCycle);
     table.interface("dijkstra", algorithms::dijkstra);
+    table.interface("topologicalSort", algorithms::topologicalSort);
 }

@@ -92,14 +92,24 @@ public:
      */
     std::string next();
 
+    /*! \brief Clear the stream and all queued statements
+     */
+    void clear();
+
+    /*! \brief Get the raw data contained
+     *
+     * \return All statement writed
+     */
+    std::string raw() const;
+
 private:
 
     // Extract statements from the buffer and put them in the queue
     void sync();
 
     // data members
-    PreprocessorBuffer m_buffer;
-    std::iostream m_stream;
+    mutable PreprocessorBuffer m_buffer; // mutable for raw() method
+    mutable std::ostream m_stream;       // mutable for raw() method
     std::list<std::string> m_queue;
     char m_delimiter;
 };

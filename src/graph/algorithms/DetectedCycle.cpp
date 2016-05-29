@@ -1,21 +1,22 @@
 //
 // Created by PatrickDesle on 23.05.2016.
 //
+// TODO Djomo commentaires + QT coding style
 
 #include <stack>
+#include <stdexcept>
 #include "DetectedCycle.h"
 #include "../graphs/Graph.h"
 #include "../graphs/DiGraph.h"
 #include "../graphs/FlowGraph.h"
 
 
-void DetectedCycle::visit(Graph *g, Vertex *from) {
+void DetectedCycle::visit(Graph *g, Vertex *, Vertex *) {
 
     if (g->isNull()) {
         _G = new Graph;
         return;
     }
-    UNUSED(from);
 
     _marked.resize(g->V(), false);
     _stacked.resize(g->V(), false);
@@ -57,13 +58,12 @@ void DetectedCycle::visit(Graph *g, Vertex *from) {
 
 }
 
-void DetectedCycle::visit(DiGraph *g, Vertex *from) {
+void DetectedCycle::visit(DiGraph *g, Vertex *, Vertex *) {
 
     if (g->isNull()) {
         _G = new DiGraph;
         return;
     }
-    UNUSED(from);
 
     // Initialize _G with the an empty DiGraph
     DiGraph *gClone = g->clone();
@@ -74,7 +74,7 @@ void DetectedCycle::visit(DiGraph *g, Vertex *from) {
     commonFlowDiGraph(gClone);
 }
 
-void DetectedCycle::visit(FlowGraph *g, Vertex *from) {
+void DetectedCycle::visit(FlowGraph *g, Vertex *from, Vertex *) {
     if (g->isNull()) {
         _G = new FlowGraph;
         return;
@@ -128,7 +128,6 @@ void DetectedCycle::hasCycleDirected(Vertex *v, IGraph* g) {
 
 }
 void DetectedCycle::hasCycle(Vertex *v, int fromId, IGraph *g) {
-    cout << "la : "<< *v << endl;
     _marked.at(v->id()) = true;
     _stacked.at((v->id())) =  true;
     _cycle.push_back(v);
@@ -184,7 +183,6 @@ void DetectedCycle::commonFlowDiGraph(IGraph *g) {
 
         }
         // we add the edge to _G
-        begin = false;
         for (unsigned int i = positionBegin; i < (_cycle.size() - 1); ++i) {
             _G->assignEdge(g->getEdges(_cycle.at(i), _cycle.at(i + 1)).front());
         }

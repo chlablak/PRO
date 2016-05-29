@@ -69,6 +69,29 @@ std::string egli::detail::Preprocessor::next()
     return tmp;
 }
 
+void egli::detail::Preprocessor::clear()
+{
+    stream() << m_delimiter;
+    sync();
+    m_queue.clear();
+}
+
+std::string egli::detail::Preprocessor::raw() const
+{
+    std::string rawed;
+    for (const std::string &statement : m_queue)
+        rawed.append(statement);
+    std::string streamed;
+    std::string tmp;
+    std::istringstream iss(m_buffer.str());
+    while (std::getline(iss, tmp)) {
+        rawed.append(tmp);
+        streamed.append(tmp);
+    }
+    m_stream << streamed;
+    return rawed;
+}
+
 void egli::detail::Preprocessor::sync()
 {
     std::string tmp;

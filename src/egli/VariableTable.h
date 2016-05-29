@@ -33,10 +33,20 @@
         { \
             table.V[name] = value; \
         } \
+        static void \
+            set(VariableTable &table, name_t name, T&& value) \
+        { \
+            table.V[name] = std::move(value); \
+        } \
         static const T & \
             get(const VariableTable &table, name_t name) \
         { \
             return table.V.find(name)->second; \
+        } \
+        static T && \
+            getMove(VariableTable &table, name_t name) \
+        { \
+            return std::move(table.V.find(name)->second); \
         } \
     };
 
@@ -62,6 +72,14 @@ public:
      */
     template<typename T>
     void set(name_t name, const T &value);
+
+    /*! \brief Gave a variable a value (move)
+     *
+     * \param name - The variable name
+     * \param value - The variable value
+     */
+    template<typename T>
+    void set(name_t name, T &&value);
 
     /*! \brief Get a temporary variable with a specific value
      *
@@ -199,6 +217,12 @@ private:
     template<typename T, typename Dummy = void>
     struct TableHelperImpl;
 
+    // Remove const specifier
+    template<typename T, typename Dummy>
+    struct TableHelperImpl<const T, Dummy> :
+        TableHelperImpl<T, Dummy>
+    {};
+
     // Simplify operations on storage maps
     template<typename T>
     using TableHelper = TableHelperImpl<T>;
@@ -282,10 +306,17 @@ void egli::VariableTable::set(name_t name, const T &value)
 {
     if (exists(name) && typeOf(name) != detail::EnumValue<T>::value)
         erase(name);
-    else
-        names[name] = detail::EnumValue<T>::value;
-
+    names[name] = detail::EnumValue<T>::value;
     TableHelper<T>::set(*this, name, value);
+}
+
+template<typename T>
+void egli::VariableTable::set(name_t name, T &&value)
+{
+    if (exists(name) && typeOf(name) != detail::EnumValue<T>::value)
+        erase(name);
+    names[name] = detail::EnumValue<T>::value;
+    TableHelper<T>::set(*this, name, std::move(value));
 }
 
 template<typename T>

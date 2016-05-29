@@ -76,9 +76,9 @@ RealType<Type::Graph>::type kruskal(RealType<Type::Graph>::cref g);
  *
  * \throw Exception if an error occurs
  */
-RealType<Type::Graph>::type prim_1(RealType<Type::Graph>::cref g);
+/*RealType<Type::Graph>::type prim_1(RealType<Type::Graph>::cref g);
 RealType<Type::Graph>::type prim_2(RealType<Type::Graph>::cref g,
-                                   RealType<Type::Integer>::cref from);
+                                   RealType<Type::Integer>::cref from);*/
 
 /*! \brief Check if a Graph is ...
  *
@@ -129,6 +129,15 @@ RealType<Type::Graph>::type detectCycle(RealType<Type::Graph>::cref g);
  */
 RealType<Type::Array>::type dijkstra(RealType<Type::Graph>::cref g,
                                      RealType<Type::Integer>::cref from);
+
+/*! \brief Apply the Topological sort visitor
+ *
+ * \param g - The Graph
+ * \return An Array with the Vertex position in the topological sort
+ *
+ * \throw Exception if an error occurs
+ */
+RealType<Type::Array>::type topologicalSort(RealType<Type::Graph>::cref g);
 } // namespace algorithms
 } // namespace detail
 } // namespace egli

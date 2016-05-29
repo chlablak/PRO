@@ -1,3 +1,11 @@
+/*! \brief main window for the help GUI
+ *
+ * \file helpwindow.cpp
+ * \author Christopher Browne
+ * \date 22.04.2016
+ */
+
+
 #include "helpwindow.h"
 
 HelpWindow *HelpWindow::instance = nullptr;

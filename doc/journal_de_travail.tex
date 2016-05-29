@@ -10,6 +10,7 @@
 \usepackage{ragged2e}
 \usepackage{enumitem}
 \usepackage[normalem]{ulem}
+\usepackage{longtable}
 
 \geometry{
 	a4paper,
@@ -37,7 +38,7 @@
 	\justify
 	
 	\section*{\huge \textit{Exemple}}
-	\begin{tabular}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
 		Date&Heures&Tâche&Description\\
 		\hline
 		01.01.2016&2.5&Implémentation class FooBar()&Implémentation des fonctions principales de la classe FooBar, tel que \textit{Lorem ipsum dolor sit}.\\
@@ -45,68 +46,102 @@
 		02.01.2016&1&Documentation&Description de quelque chose\\
 		\hline
 		02.01.2016&1.5&etc...&etc...
-	\end{tabular}
+	\end{longtable}
 	
 	\section*{Christopher Browne}
-	\begin{tabular}{p{0.11\textwidth}|p{0.07\textwidth}|p{0.3\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.11\textwidth}|p{0.07\textwidth}|p{0.3\textwidth}|p{0.4\textwidth}}
 		Date&Heures&Tâche&Description\\
 		\hline \hline
-		21.03.2016 & 1.0 & Modélisation de la classe Graphe & Propositions de modélisation avec le groupe \\
+		21.03.2016 & 1.0 & Modélisation de la classe Graphe & Propositions avec le groupe \\
 		21.03.2016 & 0.5 & Organisation groupe & \\
 		21.03.2016 & 0.5 & Relecture & Cadre de développement, normalisation du langage, analyse des types et des opérations \\
 		23.03.2016 & 1.0 & Étude des widgets Qt & \\
-		23.03.2016 & 1.0 & Conception interface aide\\
+		23.03.2016 & 2.0 & Conception interface aide & \\
+		\textbf{Total} & \textbf{5.0} &&\\
 		\hline
+		04.04.2016 & 0.5 & Documentation & Structure de base du rapport \\
 		04.04.2016 & 1.5 & Implémentation interface aide & Création de la GUI pour l'aide \\
 		06.04.2016 & 0.5 & Relecture & Grammaire EBNF, Conception de l'interpréteur\\
-		08.04.2016 & 0.5 & Relecture tout & Suite à un conflit git\\
-		08.04.2016 & 2.5 & Implémentation interface aide & \\
+		08.04.2016 & 1.0 & Relecture tout & Suite à un conflit git\\
+		08.04.2016 & 2.5 & Implémentation interface aide & Navigation \\
+		\textbf{Total} & \textbf{6.0} &&\\
 		\hline
-		11.04.2016 & 1.0 & Implémentation interface aide & \\
+		11.04.2016 & 3.0 & Implémentation interface aide & Navigation \\
 		11.04.2016 & 0.5 & Relecture & \\
-		15.04.2015 & 1.5 & Implémentation interface aide & Départ à 0: utilisation QTextBrowser.\\
+		15.04.2015 & 1.0 & Implémentation de la navigation & Départ à 0: utilisation QTextBrowser.\\
+		\textbf{Total} & \textbf{4.5} &&\\
 		\hline
-		18.04.2016 & 1.0 & Conception interface aide & \\
-		18.04.2016 & 1.0 & Implémentation interface aide & Fenêtre principale\\
-		22.04.2016 & 1.0 & Implémentation interface aide & Navigation html\\
-		22.04.2016 & 0.5 & Implémentation recherche & \\
+		18.04.2016 & 1.0 & Implémentation interface aide & Ajout barre de recherche et fenêtre principale \\
+		18.04.2016 & 1.0 & Conception pages aide & Template HTML\\
+		22.04.2016 & 2.5 & Implémentation recherche & \\
 		23.04.2016 & 2.0 & Implémentation recherche & \\
-		23.04.2016 & 1.0 & Préparation présentation & \\
+		23.04.2016 & 2.0 & Préparation présentation & Discussion groupe + powerpoint\\
+		\textbf{Total} & \textbf{8.5} &&\\
 		\hline
 		25.04.2016 & 0.5 & Discussion groupe & \\
 		25.04.2016 & 0.5 & Présentation intermédiaire & \\
 		25.04.2016 & 2.0 & Conception dictionnaires & Recherche de la structure adéquate\\
-		29.04.2016 & 2.0 & Implémentation dictionnaire & \\
+		29.04.2016 & 2.0 & Implémentation dictionnaire & Sous forme de Ternary search Try\\
+		\textbf{Total} & \textbf{5.0} &&\\
 		\hline
 		02.05.2016 & 1.5 & Implémentation dictionnaire & \\
 		04.05.2016 & 1.0 & Implémentation dictionnaire & \\
 		06.05.2016 & 1.0 & Tests dictionnaire & \\
 		06.05.2016 & 1.0 & Corrections dictionnaire & \\
+		08.05.2016 & 1.0 & Relecture rapport & \\
+		\textbf{Total} & \textbf{5.5} &&\\
 		\hline
-		09.05.2016 & 1.5 & Implémentation interface aide & Ajout du volet de navigation \\
+		09.05.2016 & 2.5 & Implémentation interface aide & Ajout du volet de navigation \\
 		13.05.2016 & 2.5 & Rédaction aide utilisateur & \\
-		16.05.2016 & 2.0 & Rédaction aide utilisateur & \\
-		16.05.2016 & 1.0 & Documentation & \\
-	\end{tabular}
+		15.05.2016 & 4.5 & Implémentation auto-complétion & Adaptation QCompleter pour le QTextBrowser\\
+		\textbf{Total} & \textbf{9.5} &&\\
+		\hline
+		16.05.2016 & 4.0 & Implémentation auto-complétion & \\
+		18.05.2016 & 2.0 & Rédaction aide utilisateur & \\
+		18.05.2016 & 1.5 & Documentation & section Interface\\
+		20.05.2016 & 3.5 & Rédaction aide utilisateur & \\
+		\textbf{Total} & \textbf{11.0} &&\\
+		\hline
+		23.05.2016 & 1.5 & Aide intégration GUI & \\
+		23.05.2016 & 1.5 & Tests GUI/application & Recherche et documentation de bugs\\
+		23.05.2016 & 1.5 & Correction auto-complétion & \\
+		25.05.2016 & 5.5 & Correction de bugs & Aide utilisateur: problème lié aux signaux/slots\\
+		26.05.2016 & 2.5 & Recherche/corrections bugs & \\
+		27.05.2016 & 1.5 & Traduction aide utilisateur & \\
+		27.05.2016 & 2.5 & Relecture rapport & \\
+		29.05.2016 & 2.5 & Traduction aide utilisateur & \\
+		29.05.2016 & 5.0 & Mise en commun et documentation & \\
+		\textbf{Total} & \textbf{24.0} &&\\
+		\hline
+		30.05.2016 & 1.5 & Rendu & Impression, reliure... \\
+		\textbf{Total} & \textbf{1.5} &&\\
+		\hline
+		\hline
+		\textbf{Total} & \textbf{80.5} &&\\	
+	\end{longtable}
 	
 	\section*{Patrick Champion}
-	\begin{tabular}{p{0.11\textwidth}|p{0.07\textwidth}|p{0.3\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.11\textwidth}|p{0.07\textwidth}|p{0.3\textwidth}|p{0.4\textwidth}}
 		Date & Heures & Tâche & Description\\ 
 		\hline \hline
-		18.03.2016 & 2.0 & Normalisation du langage & Début de l'analyse\\ 
+		18.03.2016 & 3.0 & Normalisation du langage & Début de l'analyse\\ 
+		\textbf{Total} & \textbf{3.0} &&\\
 		\hline
-		21.03.2016 & 1.0 & Normalisation du langage & Suite de l'analyse\\
-		23.03.2016 & 1.0 & Normalisation du langage & Suite de l'analyse\\
+		21.03.2016 & 1.5 & Normalisation du langage & Suite de l'analyse\\
+		23.03.2016 & 1.5 & Normalisation du langage & Suite de l'analyse\\
 		24.03.2016 & 2.0 & Normalisation du langage & Grammaire EBNF\\  
+		\textbf{Total} & \textbf{5.0} &&\\
 		\hline
-		04.04.2016 & 1.5 & Conception de l'interpréteur & Diagramme de flux des données\\
+		04.04.2016 & 2.5 & Conception de l'interpréteur & Diagramme de flux des données\\
 		05.04.2016 & 1.5 & Conception de l'interpréteur & Flux des données et début de la mémoire virtuelle\\
 		06.04.2016 & 2.0 & Conception de l'interpréteur & Conception des types dans la mémoire virtuelle (TDH)\\
-		08.04.2016 & 1.0 & Conception de l'interpréteur & Conception des types dans la mémoire virtuelle (Edge et Vertex)\\ 
+		08.04.2016 & 1.0 & Conception de l'interpréteur & Conception des types dans la mémoire virtuelle (Edge et Vertex)\\   
+		\textbf{Total} & \textbf{7.0} &&\\
 		\hline
 		14.04.2016 & 3.0 & Conception de l'interpréteur & Tables des variables et des fonctions\\
 		15.04.2016 & 1.5 & Conception de l'interpréteur & Transformation et arbre d'appels\\
-		16.04.2016 & 1.5 & Conception de l'interpréteur & Modifications dans le rapport et interfaçage de fonction surchargée\\ 
+		16.04.2016 & 1.5 & Conception de l'interpréteur & Modifications dans le rapport et interfaçage de fonction surchargée\\   
+		\textbf{Total} & \textbf{6.0} &&\\
 		\hline
 		18.04.2016 & 2.0 & Conception de l'interpréteur & Fonctions surchargées, vérification des types et début de l'architecture\\
 		19.04.2016 & 1.5 & Conception de l'interpréteur & Fin de l'architecture, diagramme de classes\\ 
@@ -114,39 +149,57 @@
 		21.04.2016 & 1.0 & Implémentation & Grammaire en cours\\
 		22.04.2016 & 1.0 & Implémentation & Grammaire presque finie, à tester\\
 		23.04.2016 & 2.0 & Implémentation & Grammaire finie, mais à tester et corriger\\
-		24.04.2016 & 1.5 & Implémentation & Grammaire ok mais améliorable, édition du rapport\\ 
+		24.04.2016 & 1.5 & Implémentation & Grammaire ok mais améliorable, édition du rapport\\   
+		\textbf{Total} & \textbf{11.0} &&\\
 		\hline
 		25.04.2016 & 0.5 & Présentation & Présentation intermédiaire de l'état du projet\\
 		25.04.2016 & 1.0 & Implémentation & Début de la classe Optional\\
 		26.04.2016 & 3.0 & Implémentation & Types ok (Array, Edge, Vertex, Number), VariableTable (manque Graph et TSTMap)\\
-		27.04.2016 & & Implémentation & FunctionCaller ok, FunctionTable commencée\\
-		28.04.2016 & & Implémentation & Preprocessor ok, FunctionTable presque finie\\
-		29.04.2016 & & Implémentation & FunctionTable finie, à tester\\
+		27.04.2016 & 2.0 & Implémentation & FunctionCaller ok, FunctionTable commencée\\
+		28.04.2016 & 1.5 & Implémentation & Preprocessor ok, FunctionTable presque finie\\
+		29.04.2016 & 1.0 & Implémentation & FunctionTable finie, à tester\\  
+		\textbf{Total} & \textbf{9.0} &&\\
 		\hline
 		02.05.2016 & 1.5 & Implémentation & ProcessingUnit commencée\\
-		03.05.2016 & 2.0 & Implémentation & ProcessingUnit finie, à tester\\
-		04.05.2016 & 1.0 & Implémentation & Début des fonctions 'basics'\\
+		03.05.2016 & 2.5 & Implémentation & ProcessingUnit finie, à tester\\
+		04.05.2016 & 2.0 & Implémentation & Début des fonctions 'basics'\\  
+		\textbf{Total} & \textbf{6.0} &&\\
 		\hline 
 		09.05.2016 & 2.0 & Implémentation & Debugging et fonctions interfaçées\\
 		10.05.2016 & 1.5 & Implémentation & Classes Data et Interpreter\\
 		11.05.2016 & 0.5 & Discussion & Voir comment on créer des IGraph\\
 		12.05.2016 & 1.5 & Implémentation & GraphWrapper et correction de la grammaire (+=, -=)\\
-		13.05.2016 & 0.5 & Implémentation & basics pour les graphes, à impl.\\
+		13.05.2016 & 0.5 & Implémentation & basics pour les graphes, à impl.\\  
+		\textbf{Total} & \textbf{6.0} &&\\
 		\hline
-		19.05.2016 & 2.0 & Implémentation & IGraph* et Vertex insertion\\
-		20.05.2016 & 1.0 & Implémentation & toString générique\\
+		19.05.2016 & 3.0 & Implémentation & IGraph* et Vertex insertion\\
+		20.05.2016 & 1.0 & Implémentation & toString générique\\  
+		\textbf{Total} & \textbf{4.0} &&\\
 		\hline
-		23.05.2016 & 5.0 & Implémentation & GraphWrapper ok, load/save, interfacage des algos, utilisation dans la GUI\\
-	\end{tabular}
+		23.05.2016 & 6.0 & Implémentation & GraphWrapper ok, load/save, interfaçage des algos, utilisation dans la GUI\\
+		24.05.2016 & 3.0 & Implémentation & Correction de bugs, ajout de la génération aléatoire de graphe, interfaçage\\
+		25.05.2016 & 5.0 & Implémentation & Création d'un timer (profiling), performances générales améliorées, interfaçags, ajout de l'export SVG dans la GUI, correction de bugs\\
+		26.05.2016 & 5.0 & Implémentation & (Dé-)Sérialisation des données, interfaçage, mise à jour du rapport, performances améliorées (évite certaines copies inutiles), ajout d'un fonction size() pour les graphes et les arrays\\
+		27.05.2016 & 3.0 & Implémentation & Correction de la fonction size(), insertions dans GraphWrapper améliorées, correctif sur draw() pour garder la même représentation\\
+		28.05.2016 & 1.0 & Documentation & Amélioration du JT, mise à jour du rapport\\
+		29.05.2016 & 6.0 & Documentation & Mise à jour du rapport (finale), préparation du déploiement de l'application, derniers tests, relecture, ...\\  
+		\textbf{Total} & \textbf{29.0} &&\\
+		\hline
+		30.05.2016 & 2.0 & Rendu & Impression, reliure, ...\\
+		\textbf{Total} & \textbf{2.0} && \\
+		\hline
+		\hline
+		\textbf{Total} & \textbf{88.0} &&\\
+	\end{longtable}
 	
 	\section*{Patrick Djomo}
-	\begin{tabular}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
 		Date&Heures&Tâche&Description\\
 		\hline
-	\end{tabular}
+	\end{longtable}
 	
 	\section*{Alain Hardy}
-	\begin{tabular}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
 		Date&Heures&Tâche&Description\\
 		\hline\hline
 		22.03.2016 & 1.0 & Apprentissage de QtDesigner & Apprentissage et étude des composants mis à disposition par QtDesigner\\
@@ -172,73 +225,61 @@
 		24.04.2016 & 1.0 & Modélisation des sessions de travail & Réflexion sur l'implémentation du fonctionnement des sessions de travail\\
 		
 		
-	\end{tabular}
+	\end{longtable}
 	
 	\section*{Sébastien Richoz}
-	\begin{tabular}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
 		Date&Heures&Tâche&Description\\
 		\hline \hline
-		25.03.2016&0.5&Etude des pattern Strategy et Visitor&Découverte des patterns\\
+		25.03.2016 & 0.5 &Etude des pattern Strategy et Visitor&Découverte des patterns\\
+		25.03.2016 & 0.75&Enumération des algos à traiter&Liste des algos à traiter, classés par catégorie\\
+		25.03.2016 & 1.5 &Modélisation du diagramme UML&Première ébauche du diagramme en appliquant le pattern Visitor\\
 		\hline
-		25.03.2016&0.75&Enumération des algos à traiter&Liste des algos à traiter, classés par catégorie\\
+		04.04.2016 & 1.5 &Conception de la classe Graph&Différents types de graphes\\
+		05.04.2016 & 1   &Conception de la classe Graph&Différents types de graphes\\
 		\hline
-		25.03.2016&1.5&Modélisation du diagramme UML&Première ébauche du diagramme en appliquant le pattern Visitor\\
+		11.04.2016 & 1.5 &Conception de la classe Graph&Restructuration\\
 		\hline
-		04.04.2016&1.5&Conception de la classe Graph&Différents types de graphes\\
+		14.04.2016 & 3   &Rapport&Rédaction du chapitre sur l'architecture des graphes\\
 		\hline
-		05.03.2016&1&Conception de la classe Graph&Différents types de graphes\\
-		\hline
-		11.04.2016&1.5&Conception de la classe Graph&Restructuration\\
-		\hline
-		14.04.2016&3&Rapport&Rédaction du chapitre sur l'architecture des graphes\\
-		\hline
-		18.04.2016&1.5&Conception de la classe Graph&Sommets et edges, liste d'adjacence et factories\\
-		\hline
-		24.04.2016&4&Déclarations des classes et de leurs méthodes&Classes Graph, Vertex, Edge et interface IGraph\\
-		\hline
-		24.04.2016&0.5&Conception du pattern Visitor&Application du pattern Visitor aux graphes\\
+		18.04.2016 & 1.5&Conception de la classe Graph&Sommets et edges, liste d'adjacence et factories\\
+		24.04.2016 & 4   &Déclarations des classes et de leurs méthodes&Classes Graph, Vertex, Edge et interface IGraph\\
+		24.04.2016 & 0.5&Conception du pattern Visitor&Application du pattern Visitor aux graphes\\
 		\hline
 		25.04.2016 & 0.5 & Présentation & Présentation intermédiaire de l'état du projet\\
-		\hline
 		01.05.2016 & 0.5 & Réalisation & BFS non-orienté\\
-		\hline
 		01.05.2016 & 5 & Réalisation & Corrections de la classe CommonGraph\\
 		\hline
 		02.05.2016 & 3 & Conception & Restructuration de la classe Graph avec Patrick\\
-		\hline
 		06.05.2016 & 0.3 & Documentation Algorithmes & Explication sur choix du type de retour des algos\\
-		\hline
 		06.05.2016 & 1 & Implémentation des algorithmes & DFS non-orienté\\
 		\hline
 		10.05.2016 & 1.5 & Implémentation classe Graph & Tentative de résolution d'une erreur de compilation\\
-		\hline
 		11.05.2016 & 4 & Implémentation classe Graph & Finalisation de la classe Graph et tests unitaires de celle-ci \\
-		\hline
 		12.05.2016 & 6 & Implémentation classe Graph & Fournir une interface IGraph non templatée \\
-		\hline
 		14.05.2016 & 2 & Implémentations algorithmes & Organisation des classes \\
-		\hline
 		15.05.2016 & 2 & Implémentations algorithmes & tests des algos BFS, DFS, et création d'une classe pour appeler les algos \\
 		\hline
 		18.05.2016 & 2 & Implémentations algorithmes & Kruskal et test\\
-		\hline
 		18.05.2016 & 1 & Implémentations algorithmes & Prim et test\\
-		\hline
 		19.05.2016 & 3 & Correctif & Correction de warnings de compilation\\
-		\hline
 		19.05.2016 & 1 & Implémentations algorithmes & Visiteur pour transformer un graphe en un autre (toutes les combinaisons possibles)\\
-		\hline
 		20.05.2016 & 2 & Classe graphe & Complétion des classes edges (Edge, DiEdge, FlowEdge)\\
-		\hline
 		21.05.2016 & 2 & Classe graphe & Complétion des classes graphes (Graph, DiGraph, FlowGraph)\\
-		\hline
 		21.05.2016 & 3 & Implémentations algorithmes & BFS et DFS pour tous types de graphe\\
-		\hline
 		22.05.2016 & 4 & Implémentations algorithmes & Composante connexe, composante fortement connexe, Dijkstra, Bellman-Ford\\
-	\end{tabular}
+		\hline
+		23.05.2016 & 8 & Tests algorithmes & Correctifs amenés à différentes méthodes\\
+		24.05.2016 & 2.5 & Tests algorithmes & Correction d'un bug sur Prim\\
+		25.05.2015 & 6 & Implémentations algorithmes & Version orientés/non orientées des algos\\
+		26.05.2015 & 7 & Implémentations algorithmes & Push-relabel, FFEK (non fonctionnels)\\
+		27.05.2015 & 6 & Implémentations algorithmes & Push-relabel, FFEK (non fonctionnels)\\
+		28.05.2015 & 3 & Classe graphe & Commentaires et refactoring\\
+		28.05.2015 & 3 & Documentation & Mise à jour de la section Graphe\\
+	\end{longtable}
 	
 	\section*{Damien Rochat}
-	\begin{tabular}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
 		Date & Heures & Tâche & Description \\
 		\hline \hline
 		21.03.2016 & 1.5 & Séance de groupe & Modélisation d'un graphe \\	
@@ -287,6 +328,6 @@
 		\hline
 		24.06.2016 & 2 & Documentation & Création des diagrammes de classe et rédaction de la documentation \\
 		\hline
-	\end{tabular}
+	\end{longtable}
 	
 \end{document}

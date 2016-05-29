@@ -77,11 +77,27 @@ RealType<Type::String>::type typeOf_v(RealType<Type::Vertex>::cref var);
  * \return A Erdos-Renyi Graph
  *
  * \throw Exception if V < 0 or if !(0 <= p <= 1)
+ * \note If p == 1, return a complete graph (e.g. K10 if V == 10)
  * \note See http://icdt.tu-dortmund.de/proceedings/edbticdt2011proc/WebProceedings/papers/edbt/a30-nobari.pdf
  *       (algorithm 1)
  */
 RealType<Type::Graph>::type originalErdosRenyi(RealType<Type::Integer>::cref V,
                                                RealType<Type::Float>::cref p);
+
+/*! \brief Get the size of an Array
+ *
+ * \param var - The Array
+ * \return The number of element in var
+ */
+RealType<Type::Integer>::type size_a(RealType<Type::Array>::cref var);
+
+/*! \brief Get the size of a Graph
+ *
+ * \param var - The Graph
+ * \return [0] => The number of Vertex
+ *         [1] => The number of Edge
+ */
+RealType<Type::Array>::type size_g(RealType<Type::Graph>::cref var);
 } // namespace builtins
 } // namespace detail
 } // namespace egli

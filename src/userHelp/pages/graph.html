@@ -9,13 +9,10 @@
     <hr size="2" width="100%">
     <h2>Declaring a new graph</h2>
     <p>There are many ways to declare a graph, from a simple empty
-      graph:
-    </p>
-    <p><code>g = { };
-      </code> </p>
+      graph: </p>
+    <p><code>g = { }; </code> </p>
     <p>to a graph containing a certain number of elements:</p>
-    <p><code>g = {#3};</code>
-    </p>
+    <p><code>g = {#3};</code> </p>
     <p>to more complex declarations with labels, weights and capacities.
       One important rule to note, is that the use of the <code>#</code>
       shortcut for multiple vertices must be the first element in the <code>{
@@ -23,19 +20,13 @@
     <p>If you wish to declare a graph with <a href="vertex.html">vertices</a>
       and <a href="edge.html">edges</a>, it can be done by including
       them between the <code>{ }</code> braces:</p>
-    <p><code>g = {0,1,2,0--1,1--2};</code>
-    </p>
-    <p>or by adding them with the <code>+=</code> operator;
-    </p>
-    <p><code>g += (3);</code>
-    </p>
-    <p>for a vertex with the ID <code>3</code>, or
-    </p>
-    <p><code>g += (1--2);</code>
-    </p>
+    <p><code>g = {0,1,2,0--1,1--2};</code> </p>
+    <p>or by adding them with the <code>+=</code> operator; </p>
+    <p><code>g += (3);</code> </p>
+    <p>for a vertex with the ID <code>3</code>, or </p>
+    <p><code>g += (1--2);</code> </p>
     <p>for an edge joining the edges <code>1</code> and <code>2</code>.
-      There are two important rules adding elements to a graph:
-    </p>
+      There are two important rules adding elements to a graph: </p>
     <ul>
       <li>When adding a vertex to a graph, all the previous IDs up the
         the current one must be already used (e.g. one can only add the
@@ -49,8 +40,8 @@
           = {0,1,2,2--3}</code> and <code>g = {0,1,1--2,2}</code> are
         both incorrect.</li>
     </ul>
-    <h2><br>Declaring a graph with vertices or edges
-    </h2>
+    <h2><br>
+      Declaring a graph with vertices or edges </h2>
     <p>For now, it is only possible to declare a non-empty graph with
       anonymous edges and vertices, therefore:</p>
     <p><code>g = {0,1,2};</code></p>
@@ -60,17 +51,13 @@
     <p><code>g = {v,w};</code></p>
     <p>is not. This possibility will hopefully be implemented in the
       future. For now, you should declare an empty graph and add element
-      with the <code>+=</code> operator.
-    </p>
-    <p>
-    </p>
+      with the <code>+=</code> operator. </p>
+    <h2><br>
+      Links</h2>
     <ul>
-    </ul>
-    <h2><br>Links</h2>
-    <ul>
+      <li><a href="home.html">Home</a></li>
       <li><a href="edge.html">Edge</a></li>
-      <li><a href="vertex.html">Vertex</a>
-      </li>
+      <li><a href="vertex.html">Vertex</a> </li>
     </ul>
   </body>
 </html>

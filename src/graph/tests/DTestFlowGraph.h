@@ -6,10 +6,7 @@
 #define GRAPH_TESTFLOWGRAPH_H
 
 #include <cassert>
-#include "../graphs/IGraph.h"
-#include "../graphs/FlowEdge.h"
-#include "../graphs/FlowGraph.h"
-#include "../algorithms/GraphAlgorithm.h"
+#include "../includes.h"
 
 class DTestFlowGraph
 {
@@ -44,23 +41,23 @@ public:
 
         // Create the graph structure with those vertices and edges
         _G = new FlowGraph(vertices, edges);
-            FlowGraph *g = new FlowGraph(vertices, edges);
+//        FlowGraph *g = new FlowGraph(vertices, edges);
 
         assert(_G->isSimple() == 0);
         assert(_G->isNegativeWeighted() == 0);
         assert(_G->isPlanar() == 0);
         assert(_G->V() == 5);
         assert(_G->E() == 5);
-        DetectedCycle detectedCycle;
-        detectedCycle.visit(g, g->vertexList().front());
+//        DetectedCycle detectedCycle;
+//        detectedCycle.visit(g, g->vertexList().front());
 
-        if(detectedCycle.hasCycle()) {
-            cout << "FlowGraph possedant de cycle" << endl;
-            cout << *g << endl;
-            cout << "Test de detectedCycle pour les FlowGraph" << endl;
-            IGraph *cycle = detectedCycle.G();
-            cout << *cycle << endl;
-        }
+//        if(detectedCycle.hasCycle()) {
+//            cout << "FlowGraph possedant de cycle" << endl;
+//            cout << *g << endl;
+//            cout << "Test de detectedCycle pour les FlowGraph" << endl;
+//            IGraph *cycle = detectedCycle.G();
+//            cout << *cycle << endl;
+//        }
 
 
         cout << "Avant ponderation :" << endl;
@@ -109,25 +106,25 @@ public:
         cout << "_G" << endl;
         cout << *_G << endl;
 
-        // ALGOS NOT WORKING YET WITH FLOWGRAPH
-        // Test BFS
-        cout << "Test BFS" << endl;
-        vector<int> distances;
-        IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
-        gBFS->print();
+//        // ALGOS NOT WORKING YET WITH FLOWGRAPH
+//        // Test BFS
+//        cout << "Test BFS" << endl;
+//        vector<int> distances;
+//        IGraph *gBFS = GraphAlgorithm::bfs(_G, v1, distances);
+//        gBFS->print();
+//
+//        // Test DFS
+//        cout << "Test DFS" << endl;
+//        vector<int> dfsnum;
+//        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
+//        gDFS->print();
 
-        // Test DFS
-        cout << "Test DFS" << endl;
-        vector<int> dfsnum;
-        IGraph *gDFS = GraphAlgorithm::dfs(_G, v1, dfsnum);
-        gDFS->print();
-
-        // Test Composantes fortement Connexes
-        cout << "Test Composantes fortement connexes" << endl;
-        vector<int> scc = GraphAlgorithm::stronglyConnectedComponent(_G);
-        for (int i : scc)
-            cout << i << " ";
-        cout << endl << endl;
+//        // Test Composantes fortement Connexes
+//        cout << "Test Composantes fortement connexes" << endl;
+//        vector<int> scc = GraphAlgorithm::stronglyConnectedComponent(_G);
+//        for (int i : scc)
+//            cout << i << " ";
+//        cout << endl << endl;
 //
 //        // Test Kruskal
 //        cout << "Kruskal" << endl;
@@ -139,10 +136,10 @@ public:
 //        IGraph *gPrim = GraphAlgorithm::kruskal(_G);
 //        gPrim->print();
 
-        // Test Bellman-Ford
-        cout << "Bellman-Ford" << endl;
-        IGraph *gBellmanFord = GraphAlgorithm::bellmanFord(_G, v3);
-        cout << *gBellmanFord << endl;
+//        // Test Bellman-Ford
+//        cout << "Bellman-Ford" << endl;
+//        IGraph *gBellmanFord = GraphAlgorithm::bellmanFord(_G, v3);
+//        cout << *gBellmanFord << endl;
     }
 
     ~DTestFlowGraph() { delete _G; }

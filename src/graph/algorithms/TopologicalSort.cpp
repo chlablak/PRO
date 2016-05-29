@@ -2,6 +2,7 @@
 // Created by PatrickDesle on 23.05.2016.
 //
 
+#include <stdexcept>
 #include "TopologicalSort.h"
 #include "GraphAlgorithm.h"
 
@@ -60,11 +61,11 @@ void TopologicalSort::order(IGraph *g) {
     }
 }
 
-void TopologicalSort::visit(Graph *g, Vertex *from) {
+void TopologicalSort::visit(Graph *, Vertex *, Vertex *) {
     throw std::runtime_error("A topological sort can't be apply to a graph. The graph should be directed");
 }
 
-void TopologicalSort::visit(DiGraph *g, Vertex *from) {
+void TopologicalSort::visit(DiGraph *g, Vertex *from, Vertex *) {
     if (g->isNull()) {
         _G = new Graph;
         return;
@@ -85,7 +86,7 @@ void TopologicalSort::visit(DiGraph *g, Vertex *from) {
 
 }
 
-void TopologicalSort::visit(FlowGraph *g, Vertex *from) {
+void TopologicalSort::visit(FlowGraph *g, Vertex *from, Vertex *) {
 
     if (g->isNull()) {
      _G = new Graph;

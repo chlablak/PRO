@@ -26,3 +26,14 @@ egli::detail::Preprocessor &egli::Data::preprocessor()
 {
     return m_preprocessor;
 }
+
+const egli::detail::Preprocessor &egli::Data::preprocessor() const
+{
+    return m_preprocessor;
+}
+
+void egli::Data::clear()
+{
+    m_variables.clear();
+    m_preprocessor.clear();
+}

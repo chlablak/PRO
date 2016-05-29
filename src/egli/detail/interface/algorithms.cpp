@@ -54,7 +54,8 @@ egli::detail::RealType<egli::Type::Graph>::type
     return RealType<Type::Graph>::type(GraphAlgorithm::kruskal(g.graph()));
 }
 
-egli::detail::RealType<egli::Type::Graph>::type
+//Prim not yet used
+/*egli::detail::RealType<egli::Type::Graph>::type
     egli::detail::algorithms::prim_1(RealType<Type::Graph>::cref g)
 {
     return RealType<Type::Graph>::type(GraphAlgorithm::prim(g.graph()));
@@ -66,7 +67,7 @@ egli::detail::RealType<egli::Type::Graph>::type
 {
     ::Vertex *f = g.getVertexById(from);
     return RealType<Type::Graph>::type(GraphAlgorithm::prim(g.graph(), f));
-}
+}*/
 
 egli::detail::RealType<egli::Type::Boolean>::type
     egli::detail::algorithms::isConnected(RealType<Type::Graph>::cref g)
@@ -150,4 +151,12 @@ egli::detail::RealType<egli::Type::Array>::type
     result.add(GraphAlgorithm::dijkstra(g.graph(), f, d));
     result.add(RealType<Type::Array>::type(d));
     return result;
+}
+
+egli::detail::RealType<egli::Type::Array>::type
+    egli::detail::algorithms::topologicalSort(RealType<Type::Graph>::cref g)
+{
+    std::vector<double> sortedd = GraphAlgorithm::topologicalSort(g.graph());
+    std::vector<int> sortedi(sortedd.cbegin(), sortedd.cend());
+    return RealType<Type::Array>::type(sortedi);
 }

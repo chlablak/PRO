@@ -1,3 +1,11 @@
+/*! \brief main window for the help GUI
+ *
+ * \file helpwindow.h
+ * \author Christopher Browne
+ * \date 22.04.2016
+ */
+
+
 #ifndef HELPWINDOW_H
 #define HELPWINDOW_H
 

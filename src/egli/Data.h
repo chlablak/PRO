@@ -47,6 +47,18 @@ public:
      */
     detail::Preprocessor &preprocessor();
 
+    /*! \brief Get the underlying Preprocessor
+     *
+     * \return The preprocessor
+     *
+     * \note Not intended to be used directly by the user
+     */
+    const detail::Preprocessor &preprocessor() const;
+
+    /*! \brief Clear all datas
+     */
+    void clear();
+
 private:
 
     // data members
