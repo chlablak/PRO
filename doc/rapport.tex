@@ -71,7 +71,7 @@
 % Entêtes
 \lhead{Browne, Champion, Djomo,\\Hardy, Richoz, Rochat}
 \chead{}
-\rhead{PRO}
+\rhead{PRO: rapport}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
@@ -1021,14 +1021,14 @@
 			
 		\subsection{Aide utilisateur}
 			\subsubsection{Conception générale}
-			Les fichiers d'aide utilisateur ont été écrit au format HTML, afin qu'ils soient rapidement écrits et que l'utilisateur puisse naviguer d'une page à l'autre.
+			Les fichiers d'aide utilisateur ont été écrit au format HTML, afin qu'ils soient rapidement écrits et que l'utilisateur puisse naviguer d'une page à l'autre. L'interface de l'aide contient également une barre de recherche qui utilise un fichier de mots-clés pour effectuer ces recherches. Ceci a été fait, plutôt que de chercher le texte dans les fichiers afin qu'une recherche avec un mot commun du langage, tel que \textit{graph}, \textit{edge} ou \textit{vertex} n'affiche pas toutes les pages de l'aide, puisque ces mots se trouvent dans la majorité des fichiers.
 	
 	\section{Représentation graphique des graphes}
 		\subsection{Widget de visualisation}
 			\subsubsection{Fonctionnement de QT}
 				QT possède un système de dessin complexe, le \textit{Graphics View Framework}. Cet outil est basé sur le principe suivante : trois types d'éléments se partagent différentes responsabilités. \\
 				
-				\noindent \textbf{La scène (classe QGraphicsScene)} :
+				\textbf{La scène (classe QGraphicsScene)} :
 				\begin{itemize}
 					\item Fournit une interface afin de gérer les éléments graphiques.
 					\item Gère les états des éléments graphiques.
@@ -1037,11 +1037,11 @@
 				
 				La scène est donc un conteneur pour tout ce qui sera visible par l'utilisateur. Qt fournit des méthodes pour ajouter, supprimer des éléments, mais aussi pour trouver un élément à une certaine coordonnée. Lors de la sélection d'un élément, c'est également la scène qui s'occupe de l'informer d'une action. \\
 				
-				\noindent \textbf{La vue (classe QGraphicsView)} : \\
+				\textbf{La vue (classe QGraphicsView)} : \\
 				La vue se charge d'afficher le contenu d'une scène (plusieurs vues peuvent très bien afficher la même scène). Ici, la scène peut être perçue comme un modèle du design MVC. \\
 				Elle s'occupe d'afficher tout ou une partie de la scène, c'est à dire que si cette dernière est grande, trop grande pour la fenêtre ou pour la zone à disposition, la vue s'occuper d'ajouter des barres de défilement. Ceci engendre que les coordonnées peuvent différer entre une vue et sa scène. La vue recevant en premier les actions de l'utilisateur, va les transmettre à la scène en prenant soin d'adapter les coordonnées si besoin. Par exemple, un clic en haut à gauche de la fenêtre sera en coordonnées (0,0) pour la vue, mais si l'utilisateur a auparavant scrollé horizontalement et/ou verticalement, la coordonnées réelle du clic sur la scène pourrait être (0,100), (130, 10), etc. Cette adaptation est donc extrêmement importante. Des méthodes peuvent sont également mises à disposition par QT afin de manuellement demander la correspondance d'une coordonnée vue -> scène ou scène -> vue. \\
 				
-				\noindent \textbf{Les éléments graphiques (classe QGraphicsItem et sous-classes)} : \\
+				\textbf{Les éléments graphiques (classe QGraphicsItem et sous-classes)} : \\
 				Ces classes représentes des éléments graphiques de base, une ellipse (QGaphicsEllipseItem), une rectangle (QGraphicsRectItem), un texte (QGraphicsTextItem), etc. Il est possible de les paramétrer en leur fournissant un objet QPen personnalisé (pour le contour) et/ou un objet QBrush (pour le fond) et en utilisant leur interface publique respective. Il est également possible de spécialiser une classe de QT afin de créer ses propres éléments.
 				Ces objets possèdent une fois de plus leur propre système de coordonnées. La position qu'il leur est attribuée par la scène devient leur point d'origine et là aussi des méthodes permettent des conversions.
 				
