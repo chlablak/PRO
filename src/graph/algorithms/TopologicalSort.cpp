@@ -32,11 +32,7 @@ void TopologicalSort::order(IGraph *g) {
     // we calculate the input degree of each vertex
     for(auto v : g->vertexList())
     {
-        degree = 0;
-        for(auto u : _predessessorsList.at(v->id()))
-        {
-            degree++;
-        }
+        degree = _predessessorsList.at(v->id()).size();
         inputDegree.at(v->id()) = degree;
         if(inputDegree.at(v->id()) == 0)
         {
@@ -72,7 +68,7 @@ void TopologicalSort::visit(DiGraph *g, Vertex *from, Vertex *) {
     }
     if(!isDAG(g))
     {
-        throw std::runtime_error("A topological sort can't be apply to a directed cyclic graph. The graph should be acyclic");
+        throw std::runtime_error("A topological sort can't be apply to a direchted cyclic graph. The graph should be acyclic");
     }
     UNUSED(from);
     IGraph * gClone = g->clone();
