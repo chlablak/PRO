@@ -49,9 +49,9 @@ public:
         _G = new DiGraph(vertices, edges);
 
         cout << "Test du tri topoloque" << endl;
-        vector<double> orderSort = GraphAlgorithm::topoloqicalSort(_G);
+        vector<double> orderSort = GraphAlgorithm::topologicalSort(_G);
         cout << "ordre des sommet " << endl;
-        for(auto i : GraphAlgorithm::topoloqicalSort(_G))
+        for(auto i : orderSort)
         {
             cout << i << " " ;
         }

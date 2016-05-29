@@ -100,7 +100,7 @@ IGraph *GraphAlgorithm::detectCycle(IGraph *g) {
     return v->G();
 }
 
-vector<double> GraphAlgorithm::topoloqicalSort(IGraph *g) {
+vector<double> GraphAlgorithm::topologicalSort(IGraph *g) {
     Visitor *v = new TopologicalSort;
     g->accept(v, g->vertexList().front());
     return v->table();

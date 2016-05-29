@@ -128,6 +128,7 @@ void DetectedCycle::hasCycleDirected(Vertex *v, IGraph* g) {
 
 }
 void DetectedCycle::hasCycle(Vertex *v, int fromId, IGraph *g) {
+    cout << "la : "<< *v << endl;
     _marked.at(v->id()) = true;
     _stacked.at((v->id())) =  true;
     _cycle.push_back(v);
