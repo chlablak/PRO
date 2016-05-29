@@ -126,9 +126,9 @@ private:
      */
     void consoleHasChanged();
 
-    static bool drawGraph(const IGraph* graph);
-    static bool exportSvg_1(const IGraph* graph);
-    static bool exportSvg_2(const IGraph* graph, const string& filename);
+    static bool drawGraph(const egli::GraphWrapper& graph);
+    static bool exportSvg_1(const egli::GraphWrapper& graph);
+    static bool exportSvg_2(const egli::GraphWrapper& graph, const string& filename);
     static Console* currentConsole;
 
     /*!

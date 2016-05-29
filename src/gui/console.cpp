@@ -418,22 +418,22 @@ void Console::loadDataToConsole(QByteArray& data, bool ignoreFilename)
     dataBuffer.close();
 }
 
-bool Console::drawGraph(const IGraph* graph)
+bool Console::drawGraph(const egli::GraphWrapper& graph)
 {
-    GraphWindow *g = new GraphWindow(currentConsole, graph, QString());
+    GraphWindow *g = new GraphWindow(currentConsole, graph.graph(), QString());
     g->show();
     return true;
 }
 
-bool Console::exportSvg_1(const IGraph* graph)
+bool Console::exportSvg_1(const egli::GraphWrapper& graph)
 {
-    GraphExporter::SVG(graph);
+    GraphExporter::SVG(graph.graph());
     return true;
 }
 
-bool Console::exportSvg_2(const IGraph* graph, const string& filename)
+bool Console::exportSvg_2(const egli::GraphWrapper& graph, const string& filename)
 {
-    GraphExporter::SVG(graph, QString::fromStdString(filename));
+    GraphExporter::SVG(graph.graph(), QString::fromStdString(filename));
     return true;
 }
 
