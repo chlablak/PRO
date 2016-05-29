@@ -1,6 +1,6 @@
-/*! \brief main help window, acts as controller for all signals/slots
+/*! \brief primary layout for the help GUI
  *
- * \file helpwindow.h
+ * \file helpmainlayout.h
  * \author Christopher Browne
  * \date 14.05.2016
  */

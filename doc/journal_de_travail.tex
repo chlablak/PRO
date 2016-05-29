@@ -38,7 +38,7 @@
 	\justify
 	
 	\section*{\huge \textit{Exemple}}
-	\begin{tabular}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
 		Date&Heures&Tâche&Description\\
 		\hline
 		01.01.2016&2.5&Implémentation class FooBar()&Implémentation des fonctions principales de la classe FooBar, tel que \textit{Lorem ipsum dolor sit}.\\
@@ -46,49 +46,61 @@
 		02.01.2016&1&Documentation&Description de quelque chose\\
 		\hline
 		02.01.2016&1.5&etc...&etc...
-	\end{tabular}
+	\end{longtable}
 	
 	\section*{Christopher Browne}
-	\begin{tabular}{p{0.11\textwidth}|p{0.07\textwidth}|p{0.3\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.11\textwidth}|p{0.07\textwidth}|p{0.3\textwidth}|p{0.4\textwidth}}
 		Date&Heures&Tâche&Description\\
 		\hline \hline
-		21.03.2016 & 1.0 & Modélisation de la classe Graphe & Propositions de modélisation avec le groupe \\
+		21.03.2016 & 1.0 & Modélisation de la classe Graphe & Propositions avec le groupe \\
 		21.03.2016 & 0.5 & Organisation groupe & \\
 		21.03.2016 & 0.5 & Relecture & Cadre de développement, normalisation du langage, analyse des types et des opérations \\
 		23.03.2016 & 1.0 & Étude des widgets Qt & \\
-		23.03.2016 & 1.0 & Conception interface aide\\
+		23.03.2016 & 2.0 & Conception interface aide\\
 		\hline
+		04.04.2016 & 0.5 & Documentation & Structure de base du rapport \\
 		04.04.2016 & 1.5 & Implémentation interface aide & Création de la GUI pour l'aide \\
 		06.04.2016 & 0.5 & Relecture & Grammaire EBNF, Conception de l'interpréteur\\
 		08.04.2016 & 0.5 & Relecture tout & Suite à un conflit git\\
-		08.04.2016 & 2.5 & Implémentation interface aide & \\
+		08.04.2016 & 2.5 & Implémentation interface aide & Navigation \\
 		\hline
-		11.04.2016 & 1.0 & Implémentation interface aide & \\
+		11.04.2016 & 3.0 & Implémentation interface aide & Navigation\\
 		11.04.2016 & 0.5 & Relecture & \\
-		15.04.2015 & 1.5 & Implémentation interface aide & Départ à 0: utilisation QTextBrowser.\\
+		15.04.2015 & 1.0 & Implémentation de la navigation & Départ à 0: utilisation QTextBrowser.\\
 		\hline
-		18.04.2016 & 1.0 & Conception interface aide & \\
-		18.04.2016 & 1.0 & Implémentation interface aide & Fenêtre principale\\
-		22.04.2016 & 1.0 & Implémentation interface aide & Navigation html\\
-		22.04.2016 & 0.5 & Implémentation recherche & \\
+		18.04.2016 & 1.0 & Implémentation interface aide & Ajout barre de recherche et fenêtre principale \\
+		18.04.2016 & 1.0 & Conception pages aide & \\
+		22.04.2016 & 1.5 & Implémentation recherche & \\
 		23.04.2016 & 2.0 & Implémentation recherche & \\
-		23.04.2016 & 1.0 & Préparation présentation & \\
+		23.04.2016 & 2.0 & Préparation présentation & \\
 		\hline
 		25.04.2016 & 0.5 & Discussion groupe & \\
 		25.04.2016 & 0.5 & Présentation intermédiaire & \\
 		25.04.2016 & 2.0 & Conception dictionnaires & Recherche de la structure adéquate\\
-		29.04.2016 & 2.0 & Implémentation dictionnaire & \\
+		29.04.2016 & 2.0 & Implémentation dictionnaire & Sous forme de Ternary search Try\\
 		\hline
 		02.05.2016 & 1.5 & Implémentation dictionnaire & \\
 		04.05.2016 & 1.0 & Implémentation dictionnaire & \\
 		06.05.2016 & 1.0 & Tests dictionnaire & \\
 		06.05.2016 & 1.0 & Corrections dictionnaire & \\
+		08.05.2016 & 1.0 & Relecture rapport & \\
 		\hline
 		09.05.2016 & 1.5 & Implémentation interface aide & Ajout du volet de navigation \\
 		13.05.2016 & 2.5 & Rédaction aide utilisateur & \\
-		16.05.2016 & 2.0 & Rédaction aide utilisateur & \\
-		16.05.2016 & 1.0 & Documentation & \\
-	\end{tabular}
+		15.05.2016 & 3.5 & Implémentation auto-complétion & \\
+		\hline
+		16.05.2016 & 4.0 & Implémentation auto-complétion & \\
+		18.05.2016 & 2.0 & Rédaction aide utilisateur & \\
+		18.05.2016 & 1.5 & Documentation & section Interface\\
+		20.05.2016 & 3.5 & Rédaction aide utilisateur & \\
+		\hline
+		23.05.2016 & 1.5 & Aide intégration GUI & \\
+		23.05.2016 & 1.5 & Tests GUI/application & Recherche et documentation de bugs\\
+		25.05.2016 & 4.5 & Correction de bugs & Recherche de l'aide utilisateur\\
+		27.05.2016 & 1.5 & Traduction aide utilisateur & \\
+		27.05.2016 & 2.5 & Relecture rapport & \\
+		
+	\end{longtable}
 	
 	\section*{Patrick Champion}
 	\begin{longtable}{p{0.11\textwidth}|p{0.07\textwidth}|p{0.3\textwidth}|p{0.4\textwidth}}
@@ -144,13 +156,13 @@
 	\end{longtable}
 	
 	\section*{Patrick Djomo}
-	\begin{tabular}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
 		Date&Heures&Tâche&Description\\
 		\hline
-	\end{tabular}
+	\end{longtable}
 	
 	\section*{Alain Hardy}
-	\begin{tabular}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
 		Date&Heures&Tâche&Description\\
 		\hline\hline
 		22.03.2016 & 1.0 & Apprentissage de QtDesigner & Apprentissage et étude des composants mis à disposition par QtDesigner\\
@@ -176,10 +188,10 @@
 		24.04.2016 & 1.0 & Modélisation des sessions de travail & Réflexion sur l'implémentation du fonctionnement des sessions de travail\\
 		
 		
-	\end{tabular}
+	\end{longtable}
 	
 	\section*{Sébastien Richoz}
-	\begin{tabular}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
 		Date&Heures&Tâche&Description\\
 		\hline \hline
 		25.03.2016 & 0.5 &Etude des pattern Strategy et Visitor&Découverte des patterns\\
@@ -227,10 +239,10 @@
 		27.05.2015 & 6 & Implémentations algorithmes & Push-relabel, FFEK (non fonctionnels)\\
 		28.05.2015 & 3 & Classe graphe & Commentaires et refactoring\\
 		28.05.2015 & 3 & Documentation & Mise à jour de la section Graphe\\
-	\end{tabular}
+	\end{longtable}
 	
 	\section*{Damien Rochat}
-	\begin{tabular}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
+	\begin{longtable}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
 		Date & Heures & Tâche & Description \\
 		\hline \hline
 		21.03.2016 & 1.5 & Séance de groupe & Modélisation d'un graphe \\	
@@ -279,6 +291,6 @@
 		\hline
 		24.06.2016 & 2 & Documentation & Création des diagrammes de classe et rédaction de la documentation \\
 		\hline
-	\end{tabular}
+	\end{longtable}
 	
 \end{document}

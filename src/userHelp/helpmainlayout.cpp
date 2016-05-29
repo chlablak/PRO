@@ -1,6 +1,6 @@
-/*! \brief main help window, acts as controller for all signals/slots
+/*! \brief primary layout for the help GUI
  *
- * \file helpwindow.cpp
+ * \file helpmainlayout.cpp
  * \author Christopher Browne
  * \date 14.05.2016
  */
@@ -30,13 +30,8 @@ HelpMainLayout::HelpMainLayout(QWidget *parent) : parent(parent)
 
     QObject::connect(rightPane->getSearchBar(),
                      SIGNAL(returnPressed()),
-                     rightPane,
-                     SLOT(searchAsked()));
-
-    QObject::connect(rightPane,
-                     SIGNAL(searchResultsRequested(QString)),
                      rightPane->getMainBrowser(),
-                     SLOT(displaySearch(QString)));
+                     SLOT(displaySearch()));
 
     QObject::connect(leftPane->getNavMenu(),
                      SIGNAL(anchorClicked(QUrl)),

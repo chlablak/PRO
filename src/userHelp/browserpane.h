@@ -44,25 +44,11 @@ private:
 
     static BrowserPane *instance;
     static QString *_baseUrl;
-    static QString keywordFile;
-	
+
     QWidget *parent;
     
     SearchBar *searchBar;
     MainBrowser *mainBrowser;
-
-signals:
-    /*!
-     * \brief emitted to the HelpBrowser when a user enters a search
-     * \param searchWord
-     */
-    void searchResultsRequested(QString searchWord);
-
-public slots:
-    /*!
-     * \brief called when user presses enter to start a searchAsked
-     */
-    void searchAsked();
 };
 
 #endif // BROWSERPANE_H
