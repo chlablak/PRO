@@ -1854,6 +1854,13 @@
 			\subsubsection{Utilisation}
 			
 	\section{Interface}
+		\subsection{Fenêtre principale}
+			\subsubsection{Conception générale}
+				Afin de mettre en place un principe de session de travail, un système d'onglets multiples est proposé, chacun contant une console, afin de pouvoir travailler en parallèle sur plusieurs graphes.
+			\subsubsection{Console}
+				Qt ne proposant pas directement de Widget faisant office de console, il a fallu en créer une adapté au besoin de l'application. La base de la console est un QTextEdit, un composant permettant la saisie libre de texte. Le QTextEdit autorisant justement de saisir du texte où bon nous semble, il a fallu mettre en place des fonctionnalité limitant l'utilisateur dans les endroits où il peut saisir du texte. Dans un premier temps, un buffer contenant le texte saisi par l'utilisateur a été implémentés.\\
+				Ensuite, pour synchroniser les données réellement saisie et l'affichage, un curseur géré manuellement a été mis en place. En effet le curseur de base est sensible au clic de la souris, ce qui lui permettrait de pouvoir insérer du n'importe où. Grâce au curseur crée, on s'assure que le texte sera inséré au bon endroit dans l'affichage.\\
+				Le menu contextuelle par défaut aussi posait problème, car il implémentait des fonctionnalités allant à l'encontre de l'intégrité de la console, comme par exemple la fonction "couper" ou encore "supprimer" qui permettait d'enlever du texte de la console. Un nouveau menu, proposant uniquement des fonctionnalités ne supprimant pas l'affichage actuelle, a été crée. Ainsi, grâce à celui-ci, il est possible de "Copier", "Coller", et "Sélectionner tout" du texte d'une console. La fonction "Coller" insère le texte à partir du curseur gérée manuellement pour empêcher des incohérences dans l'application.
 		\subsection{Auto complétion}
 			\subsubsection{Implémentation du dictionnaire}
 			La première étape pour permettre l'implémentation de l'auto complétion est le choix d'une structure de donnée adéquate. Après quelques recherches, le \textit{ternary search try} se montre le plus adéquat. En effet, sa mise en œuvre permet une recherche très rapide. Pour une recherche réussie (\textit{search hit}), sa complexité est de l'ordre de $O(L + ln(N))$ avec $L$ la longueur de la chaine recherchée et $N$ le nombre de mots dans le dictionnaire \cite{tries}. Une recherche ratée (\textit{search miss}) prend quant à elle $O(ln(N))$. Il est vrai qu'une hash map effectue toutes ses opérations en moyenne en $O(L)$, mais le temps de hachage et non-négligeable et la performance globale en temps et en espace mémoire est souvent moins bonne \cite{sedgewick}.
