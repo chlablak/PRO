@@ -216,7 +216,5 @@ void MainWindow::setTabName(const QString& name)
 
 void MainWindow::closeWindow()
 {
-    if(helpWindow != nullptr)
-        helpWindow->close();
     this->close();
 }
