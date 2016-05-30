@@ -229,33 +229,32 @@
 	Voici un exemple d'utilisation :
 	
 	\begin{lstlisting}
-	// Surchage d'une methode de creation
-	// pour retourner une instance de la famille
-	EdgeItem *DiGraphItemFactory::createEdge(const IEdge *edge, VertexItem *source,
-	VertexItem *dest)
-	{
-	return new DiEdgeItem(edge, source, dest);
-	}
+					// Surchage d'une methode de creation
+					// pour retourner une instance de la famille
+					EdgeItem *DiGraphItemFactory::createEdge(const IEdge *edge, VertexItem *source,
+					VertexItem *dest)
+					{
+						return new DiEdgeItem(edge, source, dest);
+					}
 	\end{lstlisting}
 	
 	\begin{lstlisting}
-	// Creation de la factory correspondante a la bonne famille
-	AbstractGraphItemFactory *factory;
-	if (dynamic_cast<const FlowGraph *>(graph)) {
-	factory = new FlowGraphItemFactory();
-	}
-	else if (dynamic_cast<const DiGraph *>(graph)) {
-	factory = new DiGraphItemFactory();
-	}
-	...
-	
-	// Creation d'un objet EdgeItem sans se soucier de son reel type
-	EdgeItem *edgeItem = factory->createEdge(
-	pointeurDeEdge,
-	sommetSource,
-	sommetDestination
-	);
-	
+					// Creation de la factory correspondante a la bonne famille
+					AbstractGraphItemFactory *factory;
+					if (dynamic_cast<const FlowGraph *>(graph)) {
+						factory = new FlowGraphItemFactory();
+					}
+					else if (dynamic_cast<const DiGraph *>(graph)) {
+						factory = new DiGraphItemFactory();
+					}
+					...
+					
+					// Creation d'un objet EdgeItem sans se soucier de son reel type
+					EdgeItem *edgeItem = factory->createEdge(
+						pointeurDeEdge,
+						sommetSource,
+						sommetDestination
+					);
 	\end{lstlisting}
 	
 	\pagebreak
@@ -287,9 +286,9 @@
 	Le générateur s'utilise ensuite simplement en appelant l'une de ses méthodes statiques.
 	
 	\begin{lstlisting}
-	GraphExporter::SVG(myGraph);
-	// ou
-	GraphExporter::SVG(myGraph, "/path/to/svg/file.svg");
+					GraphExporter::SVG(myGraph);
+					// ou
+					GraphExporter::SVG(myGraph, "/path/to/svg/file.svg");
 	\end{lstlisting}
 	
 	\subsection{Réutilisation}
