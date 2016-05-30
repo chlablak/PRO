@@ -1,6 +1,8 @@
-//
-// Created by PatrickDesle on 23.05.2016.
-//
+/*! brief Apply a topological sort algorithm
+ * \file TopologicalSort.cpp
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #include <stdexcept>
 #include "TopologicalSort.h"
