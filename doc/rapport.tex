@@ -20,6 +20,7 @@
 \usepackage{caption} % figure et subfigure pour mettre les images côtes à côtes
 \usepackage{subcaption}
 \usepackage{dirtree}
+\usepackage{pdfpages}
 
 % Grammaire EBNF
 \usepackage{syntax}
@@ -70,7 +71,7 @@
 % Entêtes
 \lhead{Browne, Champion, Djomo,\\Hardy, Richoz, Rochat}
 \chead{}
-\rhead{PRO}
+\rhead{PRO: rapport}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
@@ -98,8 +99,7 @@
 	% Tables des matières
 	\tableofcontents
 	
-	% Tables des figures
-	\listoffigures
+
 	
 	% Pour tout le document
 	\justify
@@ -115,6 +115,27 @@
 		\subsection{Conception générale}
 		La conception générale de l'application a été faite en couche pour deux raisons. Premièrement, cette décomposition permet de répartir le travail plus facilement et de manière plus efficace entre les personnes. En effet, cela réduit les dépendances au niveau du développement et donc le nombre de conflits sur le gestionnaire de versions. Deuxièmement, cette approche permet d'avoir des composants indépendants et donc réutilisables, puisque les couches inférieures n'ont pas connaissance des couches supérieures et proposent des interfaces facilement accessibles.\\
 		La première couche à mentionner et celle avec laquelle l'utilisateur interagit est l'interface graphique (GUI). Celle-ci propose une console pour saisir des commandes, ainsi que quelques menus. Elle est également liée à l'aide utilisateur, qui comporte une fenêtre de navigation HTML. La GUI est interfacée avec l'interpréteur qui vérifie la validité des commandes tapées et renvoie un message d'erreur en cas de mauvaise saisie. Si, au contraire, la commande est correcte l'interpréteur la transmet soit à la couche graphe, soit à la couche algorithme. En parallèle à cet interpréteur réside la couche de dessin, qui accède également à la couche graphe pour en dessiner une représentation.
+		
+		\begin{figure}[H]
+			\centering
+			\begin{tikzpicture}
+			\draw (0,0) rectangle (4,1) node[pos=.5] {Algorithms};
+			\draw (0,-2) rectangle (12,-1) node[pos=.5] {Graphs};
+			\draw (0,2) rectangle (7,3) node[pos=.5] {\textit{EGLI}};
+			\draw (0,4) rectangle (7,7) node[pos=.5] {\textit{GUI}};
+			\draw (8,4) rectangle (12,5) node[pos=.5] {Visualization};
+			\draw (8,6) rectangle (12,7) node[pos=.5] {User help};
+			
+			\draw[->] (3.5,4) -- (3.5,3);
+			\draw[->] (2,2) -- (2,1);
+			\draw[->] (2,0) -- (2,-1);
+			\draw[->] (5.5,2) -- (5.5,-1);
+			\draw[->] (10,4) -- (10,-1);
+			\draw[->] (7,4.5) -- (8,4.5);
+			\draw[->] (7,6.5) -- (8,6.5);
+			\end{tikzpicture}
+			\caption{Couches logicielles}
+		\end{figure}
 	
 	\section{Cadre de développement} 
 		L'application est développée à l'aide du langage C++ (standard C++11) et de la bibliothèque Qt (version 5.5.1). Elle est compilée avec MinGW 4.9.2 32 bits sur Windows. La version de la librairie Boost utilisée pour le parseur est la 1.60.0. Afin que le code source soit écrit dans le même style par tous les membres du groupe, nous avons décidé d'utiliser le Coding Style de Qt \cite{qtStyle} qui correspond bien à nos besoins. Nous avons également utilisé GitHub pour gérer la mise en commun du code.
@@ -1040,14 +1061,14 @@
 			
 		\subsection{Aide utilisateur}
 			\subsubsection{Conception générale}
-			Les fichiers d'aide utilisateur ont été écrit au format HTML, afin qu'ils soient rapidement écrits et que l'utilisateur puisse naviguer d'une page à l'autre.
+			Les fichiers d'aide utilisateur ont été écrit au format HTML, afin qu'ils soient rapidement écrits et que l'utilisateur puisse naviguer d'une page à l'autre. L'interface de l'aide contient également une barre de recherche qui utilise un fichier de mots-clés pour effectuer ces recherches. Ceci a été fait, plutôt que de chercher le texte dans les fichiers afin qu'une recherche avec un mot commun du langage, tel que \textit{graph}, \textit{edge} ou \textit{vertex} n'affiche pas toutes les pages de l'aide, puisque ces mots se trouvent dans la majorité des fichiers.
 	
 	\section{Représentation graphique des graphes}
 		\subsection{Widget de visualisation}
 			\subsubsection{Fonctionnement de QT}
 				QT possède un système de dessin complexe, le \textit{Graphics View Framework}. Cet outil est basé sur le principe suivante : trois types d'éléments se partagent différentes responsabilités. \\
 				
-				\noindent \textbf{La scène (classe QGraphicsScene)} :
+				\textbf{La scène (classe QGraphicsScene)} :
 				\begin{itemize}
 					\item Fournit une interface afin de gérer les éléments graphiques.
 					\item Gère les états des éléments graphiques.
@@ -1056,11 +1077,11 @@
 				
 				La scène est donc un conteneur pour tout ce qui sera visible par l'utilisateur. Qt fournit des méthodes pour ajouter, supprimer des éléments, mais aussi pour trouver un élément à une certaine coordonnée. Lors de la sélection d'un élément, c'est également la scène qui s'occupe de l'informer d'une action. \\
 				
-				\noindent \textbf{La vue (classe QGraphicsView)} : \\
+				\textbf{La vue (classe QGraphicsView)} : \\
 				La vue se charge d'afficher le contenu d'une scène (plusieurs vues peuvent très bien afficher la même scène). Ici, la scène peut être perçue comme un modèle du design MVC. \\
 				Elle s'occupe d'afficher tout ou une partie de la scène, c'est à dire que si cette dernière est grande, trop grande pour la fenêtre ou pour la zone à disposition, la vue s'occuper d'ajouter des barres de défilement. Ceci engendre que les coordonnées peuvent différer entre une vue et sa scène. La vue recevant en premier les actions de l'utilisateur, va les transmettre à la scène en prenant soin d'adapter les coordonnées si besoin. Par exemple, un clic en haut à gauche de la fenêtre sera en coordonnées (0,0) pour la vue, mais si l'utilisateur a auparavant scrollé horizontalement et/ou verticalement, la coordonnées réelle du clic sur la scène pourrait être (0,100), (130, 10), etc. Cette adaptation est donc extrêmement importante. Des méthodes peuvent sont également mises à disposition par QT afin de manuellement demander la correspondance d'une coordonnée vue -> scène ou scène -> vue. \\
 				
-				\noindent \textbf{Les éléments graphiques (classe QGraphicsItem et sous-classes)} : \\
+				\textbf{Les éléments graphiques (classe QGraphicsItem et sous-classes)} : \\
 				Ces classes représentes des éléments graphiques de base, une ellipse (QGaphicsEllipseItem), une rectangle (QGraphicsRectItem), un texte (QGraphicsTextItem), etc. Il est possible de les paramétrer en leur fournissant un objet QPen personnalisé (pour le contour) et/ou un objet QBrush (pour le fond) et en utilisant leur interface publique respective. Il est également possible de spécialiser une classe de QT afin de créer ses propres éléments.
 				Ces objets possèdent une fois de plus leur propre système de coordonnées. La position qu'il leur est attribuée par la scène devient leur point d'origine et là aussi des méthodes permettent des conversions.
 				
@@ -2291,32 +2312,68 @@
 		Cela est possible car les tables des variables et des fonctions nous permet d'obtenir des informations sur leurs contenus. L'algorithme consiste à nouveau en une simple récursion dans l'arbre, et à chaque noeud on vérifie les types.\\
 		
 		NB: cette vérification ne verra pas tous les problèmes de types, typiquement à cause des tableaux dynamiques hétérogènes.
-	
-	\begin{thebibliography}{9}
-		\bibitem{qtStyle}
-		Qt wiki, Qt coding style,\\ \url{https://wiki.qt.io/Qt_Coding_Style}
 		
-		\bibitem{vutbr.cz} 
-		Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
+	\section{Conclusion}
+		\subsection{Application fournie}
 		
-		\bibitem{plantuml}
-		PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
-
-		\bibitem{Graph data wikipedia.org}
-		Graphs data structures,\\ \url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
+		\subsection{Travail de groupe}
 		
-		\bibitem{boost.spirit}
-		Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
+		\begin{figure}[H]
+			\includegraphics[width=\textwidth]{Planification/comparaisonheures.pdf}
+			\caption{Comparaison entre le temps prévu et temps effectif des tâches
+				principales}
+			\label{fig:comparaisonheures}
+		\end{figure}
 		
-		\bibitem{tries}
-		Robert Sedgewick, Kevin Wayne.\\
-		\emph{Algorithms, fourth edition}\\
-		\url{http://algs4.cs.princeton.edu/lectures/52Tries.pdf}
+		\begin{figure}[H]
+			\includegraphics[width=\textwidth]{Planification/comparaisondates.pdf}
+			\caption{Comparaison entre les dates prévues et effectives des tâches principales}
+			\label{fig:comparaisondates}
+		\end{figure}
 		
-		\bibitem{sedgewick}
-		Robert Sedgewick.\\
-		\emph{Course on ternary search tries}
-		\url{https://www.youtube.com/watch?v=CIGyewO7868}
-	\end{thebibliography}			
+		
+		% Tables des figures
+		\listoffigures
+		
+		% References
+		\begin{thebibliography}{9}
+			\bibitem{qtStyle}
+			Qt wiki, Qt coding style,\\ \url{https://wiki.qt.io/Qt_Coding_Style}
+			
+			\bibitem{vutbr.cz} 
+			Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
+			
+			\bibitem{plantuml}
+			PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
+			
+			\bibitem{Graph data wikipedia.org}
+			Graphs data structures,\\ \url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
+			
+			\bibitem{boost.spirit}
+			Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
+			
+			\bibitem{tries}
+			Robert Sedgewick, Kevin Wayne.\\
+			\emph{Algorithms, fourth edition}\\
+			\url{http://algs4.cs.princeton.edu/lectures/52Tries.pdf}
+			
+			\bibitem{sedgewick}
+			Robert Sedgewick.\\
+			\emph{Course on ternary search tries}
+			\url{https://www.youtube.com/watch?v=CIGyewO7868}
+		\end{thebibliography}	
+		
+	\section{Annexes projet}
+		\subsection{Cahier des charges}
+			\includepdf[pages=-,width=\textwidth]{cahierdescharges}
+		\subsection{Journaux de travail}
+			\includepdf[pages=-,width=\textwidth]{journaldetravail}
+		\subsection{Planification initiale}
+			\includepdf[pages=1,angle=90,width=\textwidth]{Planification/gantt}	
+			\includepdf[pages=2,angle=90,width=\textwidth]{Planification/gantt}	
+			\includepdf[pages=3,angle=90,width=\textwidth]{Planification/gantt}	
+			\includepdf[pages=4,angle=90,width=\textwidth]{Planification/gantt}	
+			\includepdf[pages=5,angle=90,width=\textwidth]{Planification/gantt}	
+			\includepdf[pages=6,width=\textwidth]{Planification/gantt}	
 
 \end{document}

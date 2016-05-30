@@ -156,7 +156,7 @@
 		\subsection{Algorithmes}
 		\begin{itemize}
 			\item \texttt{bellmanFord (g : Graph, from : Integer) : Array} applique l'algorithme de Bellman-Ford au graphe \texttt{g} depuis le sommet \texttt{from}. Le tableau (\texttt{Array}) retourné contient le graphe résultant à l'index \texttt{0} et la matrice des distances à l'index \texttt{1}.
-			\item \texttt{bfs (g : Graph, from : Integer) : Array} applique l'algorithme de parcours en largeur depuis le sommet spécifié. Le tableau de retour contient le graphe résultant à l'index 0 et la matrice des distances à l'index 1.
+			\item \texttt{bfs (g : Graph, from : Integer) : Array} applique l'algorithme de parcours en largeur depuis le sommet spécifié. Le tableau de retour contient le graphe résultant à l'index \texttt{0} et la matrice des distances à l'index \texttt{1}.
 			\item \texttt{cc (g : Graph) : Array} applique l'algorithme des composantes connexes au graphe depuis le sommet spécifié et retourne un tableau associant chaque sommet avec une composante, par exemple: \texttt{[1,1,2,2,3]} indique que les sommets \texttt{0} et \texttt{1} sont dans la même composante, ainsi que les sommets \texttt{2} et \texttt{3}, alors que le sommet \texttt{4} est seul dans une composante.
 			\item \texttt{detectCycle (g : Graph) : Graph} retourne le cycle d'un graphe s'il y en a un.
 			\item \texttt{dfs (g : Graph, from : Integer) : Array} applique l'algorithme de parcours en profondeur et retourne un tableau avec le graphe résultant à l'index \texttt{0} et la matrice des distances à l'index \texttt{1}.

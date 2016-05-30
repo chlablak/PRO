@@ -1,0 +1,104 @@
+\documentclass[french]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lipsum}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{babel}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage[normalem]{ulem}
+\usepackage{hyperref} % pour \url{URL}
+\usepackage{color} % pour \textcolor{color}{text}
+\usepackage{listings} % pour afficher du code
+\usepackage{longtable} % pour l'environnement longtable
+\usepackage{float} % pour des figures non flottantes
+\usepackage{amsmath}
+\usepackage{verbatim} % pour les graphes
+\usepackage{caption} % figure et subfigure pour mettre les images côtes à côtes
+\usepackage{subcaption}
+
+% Grammaire EBNF
+\usepackage{syntax}
+\setlength{\grammarparsep}{5pt plus 1pt minus 1pt}
+\setlength{\grammarindent}{11em}
+
+% Dessin avec tikz
+\usepackage{tikz}
+\usepackage{forest}
+\usetikzlibrary{shapes,arrows,positioning,shadows,matrix,automata}
+
+% Matrices
+\usepackage{kbordermatrix}% http://www.hss.caltech.edu/~kcb/TeX/kbordermatrix.sty
+
+% Largeur de colonnes de tableau fixes
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% Style C++
+\lstset{
+	language=C++,
+	tabsize=2,
+	basicstyle=\small\ttfamily,
+	keywordstyle=\color{blue},
+	stringstyle=\color{red},
+	commentstyle=\color{black!40},
+	morecomment=[l][\color{black!50}]{\#},
+	gobble=10,
+	frame=single,
+	otherkeywords={constexpr,std,string,vector,map,pair,size\_t,function,remove\_const,remove\_reference}
+}
+
+\geometry{
+	a4paper,
+	total={210mm,297mm},
+	left=20mm,
+	right=20mm,
+	top=20mm,
+	bottom=20mm,
+}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlist[enumerate,1]{leftmargin=2cm}
+
+% Entêtes
+\lhead{Browne, Champion, Djomo,\\Hardy, Richoz, Rochat}
+\chead{}
+\rhead{PRO: Guide d'installation}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\begin{document}
+	\centering
+	\large{\textbf{ANNEXE: Guide d'installation}}
+	
+	\justifying
+	\normalsize
+	
+	\section{Utilisation du logiciel Graphy}
+	L'application peut normalement être lancée depuis un support read-only (par exemple un CD), mais il ne sera pas possible de sauvegarder ou charger des graphes, puisque cela est fait dans le répertoire courant. Ces fonctionnalités sont uniquement disponibles si les dossiers de l'application sont copiés vers un dossier pour lequel l'application a des droits d'écriture. Pour lancer l'application, il faut simplement double-cliquer sur le fichier \texttt{graphy.exe}. Un guide d'utilisation qui explique les commandes du langage avec quelques exemples est également disponible en annexe.
+	
+	\section{Installation de l'environnement}
+		\subsection{Qt creator}
+		L'environnement principal de travail pour le projet est Qt Creator 3.5.1. Celui-ci est basé sur Qt 5.5.1, utilisé en lien avec MinGW 4.9.2. Toutes les versions de Qt Creator sont disponibles sur le site officiel \cite{qt}. Le compilateur C++ est disponible sur le site du projet MinGW \cite{minGW}. Toutes les instructions pour l'installation de ces deux logiciels est disponible sur leur site respectif.
+	
+		\subsection{Boost}
+		La librairie Boost a été utilisée pour implémenter les règles grammaticales du langage de saisie des graphes. Pour le projet, nous avons utilisé la version 1.60.0. Celle-ci est disponible sur le site web officiel \cite{boost}. Pour lancer le projet directement, il faut déposer les fichiers décompressés à \texttt{C:/Program Files/boost/boost_1_60_0/} ou modifier la dernière ligne du makefile \texttt{gui.pro} pour chercher les fichiers dans le bon dossier.
+	
+	\begin{thebibliography}{9}
+		\bibitem{qt}
+		Site officiel de Qt, https://www.qt.io/download/
+		
+		\bibitem{minGW}
+		Site de téléchargement de MinGW, https://sourceforge.net/projects/mingw/files/
+		
+		\bibitem{boost}
+		Site officiel de Boost, http://www.boost.org/users/download/
+	\end{thebibliography}
+	
+\end{document}

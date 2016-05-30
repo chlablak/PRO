@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>functions</title>
+  </head>
+  <body>
+    <h1>Functions </h1>
+    <hr size="2" width="100%">
+    <h2>Calling functions</h2>
+    <p>All graph transformations are done by passing a graph to a
+      function. Once a function is called, the result can be assigned to
+      an existing graph, the same graph or even a new graph. The
+      notation is similar to many programming languages: </p>
+    <p><code>result = dijkstra(g, 1);</code></p>
+    <p><code></code>Note: Many functions return a <code>Boolean </code>type
+      to inform you if the function or operation was successful or not.
+    </p>
+    <h2><br>Built-in functions</h2>
+    <ul>
+      <li><code>toString (a : T) : String</code> returns a string
+        describing the element <code>a</code>. <br></li>
+      <li><code>save (g : Graph, file : String) : Boolean</code> saves the graph in the
+        current directory.<br></li>
+      <li><code>load (file : String) : Graph</code> loads a graph with
+        file name from current directory.<br></li>
+      <li><code>type (a : T) : String</code> returns the type of <code>a</code>.<br></li>
+      <li><code>er (V : Integer, p : float) : Graph</code> generates a
+        random graph with <code>V</code> vertices and a <code>p</code>
+        probability of edges, according to <a
+href="http://icdt.tu-dortmund.de/proceedings/edbticdt2011proc/WebProceedings/papers/edbt/a30-nobari.pdf">Erdős–Rényi
+          model</a>.</li>
+    </ul>
+    <h2><br>GUI functions</h2>
+    <ul>
+      <li><code>draw (g : Graph) : Boolean</code> draws <code>g</code> in a new
+        window.<br></li>
+      <li><code>exportAsSvg (g : Graph) : Boolean</code> exports the <code>Graph
+        </code>in SVG format.<br></li>
+      <li><code>exportAsSvg (g : Graph, file : String) : Boolean</code>
+        exports the <code>Graph </code>in SVG format with <code>file</code>
+        name.<br></li>
+    </ul>
+    <h2>Algorithms</h2>
+    <ul>
+      <li><code>bellmanFord (g : Graph, from : Integer) : Array</code>
+        applies the Bellman-Ford algorithms to <code>g</code> from
+        vertex <code>from</code>. The <code>Array </code>returned
+        contains the new graph at index <code>0</code> and the distance
+        matrix at index <code>1</code>.<br></li>
+      <li><code>bfs (g : Graph, from : Integer) : Array</code> applies
+        the breadth-first search algorithm to <code>g</code> from
+        specified vertex. The returned <code>Array </code>contains the
+        new graph at index <code>0 </code>and the distance matrix at
+        index <code>1</code>.<br>
+      </li>
+      <li><code>cc (g : graph) : Array</code> applies the connected
+        component algorithms to <code>g</code> and returns an <code>Array</code>
+        associating each vertex with its component. e.g.: <code>[1,1,2,2,3]</code>means
+        vertices <code>0</code> and <code>1</code> are in the same
+        component, <code>2</code> and <code>3</code> also while vertex
+        <code>4</code> is alone.<br></li>
+      <li><code>detectCycle (g : Graph) : Graph</code> returns a cycle
+        of the graph if there is one.<br></li>
+      <li><code>dfs (g : Graph, from : Integer) : Array</code> applies
+        the depth-first search algorithm to the graph and returns an <code>Array
+        </code>with the resulting graph at index <code>0</code> and the
+        visit order at index <code>1</code>.<br></li>
+      <li><code>dijkstra (g : Graph, from : Integer) : Array</code>
+        applies Dijkstra's algorithm and returns an <code>Array</code>
+        containing the new graph at index <code>0</code> and the
+        distance matrix at index <code>1</code>.<br></li>
+      <li><code>kruskal (g : Graph) : Graph</code> applies Kruskal's
+        algorithm and returns the resulting graph.<br></li>
+      <li><code>tarjan (g : Graph) : Array</code> applies Tarjan's
+        Algorithm to <code>g</code> (a directed <code>Graph</code>)
+        and returns an <code>Array</code> containing the resulting
+        graph at index <code>0</code> and an <code>Array </code>of
+        connected component at index <code>1</code> (see <code>cc </code>for
+        an example).<br></li>
+      <li><code>topologicalSort (g : Graph) : Array</code> applies a
+        topological sort to g (which must be directed and not contain
+        any cycles) and returns an <code>Array</code> with vertices in
+        order of visit.<br></li>
+      <li><code>isConnected (g : Graph) : Boolean</code> indicates if
+        the graph is connected.<br>
+      </li>
+      <li><code>isDirected (g : Graph) : Boolean</code> indicates if the
+        graph is directed.<br>
+      </li>
+      <li><code>isEmpty (g : Graph) : Boolean</code> indicates if the
+        graph is empty (without edges).<br>
+      </li>
+      <li><code>isNegativeWeighted (g : Graph) : Boolean</code>
+        indicates if there are any negative weights.<br>
+      </li>
+      <li><code>isNull (g : Graph) : Boolea</code><code>n</code>
+        indicates if the graph is null (without any edge or vertex).<br>
+      </li>
+      <li><code>isPlanar (g : Graph) : Boolean</code> indicates if the
+        graph is planar.<br>
+      </li>
+      <li><code>isSimple (g : Graph) : Boolean</code> indicates if the
+        graph is simple (no doubled edges).<br>
+      </li>
+      <li><code>isStronglyConnected (g : Graph) : Boolean</code>
+        indicates if the graph is strongly connected (for directed
+        graphs only).<br>
+      </li>
+      <li><code>isWeighted (g : Graph) : Boolean</code> indicated if the
+        graph has any weighted edges or vertices.
+      </li>
+    </ul>
+    <h2><br>
+      Parameter passing mode</h2>
+    <p>All parameters in <i>Graphy</i> are passed by value. This means
+      modifying a vertex after having added it to the graph will not
+      change its properties in the graph, for instance if you write: </p>
+    <p><code>g = { };</code></p>
+    <p><code>v = (0::5);</code></p>
+	<p><code>g += v;</code></p>
+	<p><code>v = (0::3);</code></p>
+	<p>the vertex with ID <code>0</code>
+    in the graph will still have a weight of <code>5</code>.</p>
+    <h2><br>Links</h2>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="graph.html">Graph</a><br>
+      </li>
+    </ul>
+    <p> </p>
+  </body>
+</html>

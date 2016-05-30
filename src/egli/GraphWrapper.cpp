@@ -35,6 +35,7 @@ egli::GraphWrapper::GraphWrapper(GraphWrapper &&o) :
 egli::GraphWrapper::~GraphWrapper()
 {
     delete m_graph;
+    m_graph = nullptr;
 }
 
 egli::GraphWrapper &egli::GraphWrapper::operator=(igraph_ptr_t g)

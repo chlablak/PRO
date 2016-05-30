@@ -23,8 +23,8 @@
 #include "DiGraphItemFactory.h"
 #include "FlowGraphItemFactory.h"
 
-GraphScene::GraphScene(const IGraph *graph, QObject *parent)
-    : QGraphicsScene(parent)
+GraphScene::GraphScene(const IGraph *graph_, QObject *parent)
+    : QGraphicsScene(parent), graph(graph_)
 {
     // Init the corresponding factory
     AbstractGraphItemFactory *factory;
@@ -85,5 +85,6 @@ GraphScene::~GraphScene()
     for (EdgeItem *e : edgeItems) {
         delete e;
     }
+    delete graph;
 }
 

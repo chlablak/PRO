@@ -42,10 +42,12 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
     }
 
     for (Vertex *v : gClone->vertexList()) {
-        if (*v == *from)
+        if (*v == *from) {
             source = v;
-        else if (*v == *to)
+        }
+        else if (*v == *to) {
             sink = v;
+        }
     }
 
     for (int i = 0; i < _V; ++i) {
@@ -76,8 +78,9 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
         _cap[source->id()] = numeric_limits<int>::max();
         _L.push(source);
 
-        bool out = false;
+       // bool out = false;
         while (!_L.empty()) {
+            bool out = false;
             Vertex *i = _L.front();
             _L.pop();
 

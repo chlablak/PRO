@@ -28,5 +28,4 @@ GraphWidget::GraphWidget(const IGraph *graph, QWidget *parent)
 GraphWidget::~GraphWidget() {
     delete layout;
     delete view;
-    delete scene;
 }
