@@ -1,6 +1,6 @@
 home.html:Home:homes%helps%helping%starting%started
 getting_started.html:Getting Started:getting%started%tutorials
 graph.html:Graph:graphs%main
-functions.html:Functions:functions%fcts%algorithms
+functions.html:Functions:functions%fcts%algorithms%toString%save%load%type%er%draw%exportAsSvg%SVG%bellmanFord%bellman%ford%bfs%dfs%cc%dijkstra%kruskal%tarjan%topologicalSort%topological%sort%isConnected%isDirected%isEmpty%isNegativeWeighted%isNull%isPlanar%isSimple%isStronglyConnected%isWeighted
 vertex.html:Vertex:vertex%vertices
 edge.html:Edge:edges%directed
