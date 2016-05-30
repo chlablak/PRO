@@ -150,36 +150,36 @@ public:
 //                cout << d << " ";
 //        cout << endl << endl;
 
-        // Test Flow max
-        Vertex *vv0 = new Vertex("v0");
-        Vertex *vv1 = new Vertex("v1");
-        Vertex *vv2 = new Vertex("v2");
-        Vertex *vv3 = new Vertex("v3");
-        Vertex *vv4 = new Vertex("v4");
-        Vertex *vv5 = new Vertex("v5");
-        Vertex *vv6 = new Vertex("v6");
-        Vertex *vv7 = new Vertex("v7");
-        IEdge *ee0 = new FlowEdge(vv0, vv1, 3);
-        IEdge *ee1 = new FlowEdge(vv0, vv2, 2);
-        IEdge *ee2 = new FlowEdge(vv0, vv3, 4);
-        IEdge *ee3 = new FlowEdge(vv1, vv2, 2);
-        IEdge *ee4 = new FlowEdge(vv1, vv4, 2);
-        IEdge *ee5 = new FlowEdge(vv2, vv4, 1);
-        IEdge *ee6 = new FlowEdge(vv2, vv5, 4);
-        IEdge *ee7 = new FlowEdge(vv3, vv4, 2);
-        IEdge *ee8 = new FlowEdge(vv3, vv6, 2);
-        IEdge *ee9 = new FlowEdge(vv4, vv7, 2);
-        IEdge *ee10 = new FlowEdge(vv5, vv4, 1);
-        IEdge *ee11 = new FlowEdge(vv5, vv7, 4);
-        IEdge *ee12 = new FlowEdge(vv6, vv4, 1);
-        IEdge *ee13 = new FlowEdge(vv6, vv7, 3);
-        vector<Vertex*> vvs = {vv0, vv1, vv2, vv3, vv4, vv5, vv6, vv7};
-        vector<IEdge*> vve = {ee0, ee1, ee2, ee3, ee4, ee5, ee6, ee7, ee8, ee9, ee10, ee11, ee12, ee13};
-
-        IGraph *fg = new FlowGraph(vvs, vve);
-
-        cout << "Max flow" << endl;
-        int maxFlow = GraphAlgorithm::maxFlow(fg, vv0, vv7);
+//        // Test Flow max
+//        Vertex *vv0 = new Vertex("v0");
+//        Vertex *vv1 = new Vertex("v1");
+//        Vertex *vv2 = new Vertex("v2");
+//        Vertex *vv3 = new Vertex("v3");
+//        Vertex *vv4 = new Vertex("v4");
+//        Vertex *vv5 = new Vertex("v5");
+//        Vertex *vv6 = new Vertex("v6");
+//        Vertex *vv7 = new Vertex("v7");
+//        IEdge *ee0 = new FlowEdge(vv0, vv1, 3);
+//        IEdge *ee1 = new FlowEdge(vv0, vv2, 2);
+//        IEdge *ee2 = new FlowEdge(vv0, vv3, 4);
+//        IEdge *ee3 = new FlowEdge(vv1, vv2, 2);
+//        IEdge *ee4 = new FlowEdge(vv1, vv4, 2);
+//        IEdge *ee5 = new FlowEdge(vv2, vv4, 1);
+//        IEdge *ee6 = new FlowEdge(vv2, vv5, 4);
+//        IEdge *ee7 = new FlowEdge(vv3, vv4, 2);
+//        IEdge *ee8 = new FlowEdge(vv3, vv6, 2);
+//        IEdge *ee9 = new FlowEdge(vv4, vv7, 2);
+//        IEdge *ee10 = new FlowEdge(vv5, vv4, 1);
+//        IEdge *ee11 = new FlowEdge(vv5, vv7, 4);
+//        IEdge *ee12 = new FlowEdge(vv6, vv4, 1);
+//        IEdge *ee13 = new FlowEdge(vv6, vv7, 3);
+//        vector<Vertex*> vvs = {vv0, vv1, vv2, vv3, vv4, vv5, vv6, vv7};
+//        vector<IEdge*> vve = {ee0, ee1, ee2, ee3, ee4, ee5, ee6, ee7, ee8, ee9, ee10, ee11, ee12, ee13};
+//
+//        IGraph *fg = new FlowGraph(vvs, vve);
+//
+//        cout << "Max flow" << endl;
+//        int maxFlow = GraphAlgorithm::maxFlow(fg, vv0, vv7);
     }
 
     ~RTestFlowGraph()
