@@ -71,10 +71,12 @@ public:
         closeGraph->setObjectName(QStringLiteral("closeGraph"));
         closeAllGraphs = new QAction(MainWindow);
         closeAllGraphs->setObjectName(QStringLiteral("closeAllGraphs"));
+        closeAllGraphs->setEnabled(false);
         saveGraph = new QAction(MainWindow);
         saveGraph->setObjectName(QStringLiteral("saveGraph"));
         saveAllGraphs = new QAction(MainWindow);
         saveAllGraphs->setObjectName(QStringLiteral("saveAllGraphs"));
+        saveAllGraphs->setEnabled(false);
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName(QStringLiteral("actionExit"));
         showHelp = new QAction(MainWindow);
