@@ -6,15 +6,15 @@ GraphY est un logiciel permettant la création, la manipulation et l'affichage de
 en tapant des commandes au moyen d'un langage spécifique à l'intérieur de celle-ci.
 
 # Plateformes
-L'application est fonctionnelle pour Windows 8.1/10.
+L'application est testée pour Windows 8.1/10. Cependant tout est prévu pour qu'elle puisse fonctionner sur d'autres plateformes.
 
 # Installation
-L'application se trouve dans /bin/GraphY.exe. Double-cliquez l'executable graphy.exe pour lancer l'application.
-Pour pouvoir sauvegarder vos fichiers, déplacer l'intégralité du projet dans un de vos dossiers où vous possédez les droits d'écriture.
+L'application se trouve dans /bin/GraphY.exe. Double-cliquez l'executable GraphY.exe pour lancer l'application.
+Note: certaines fonctionnalités (commande save()) nécessitent que l'application soit lancée directement sur support réinscriptible, et pas depuis ce CD.
 
 # Utilisation de l'application
-Une fois l'application lancée, pour créer un nouveau graphe, cliquer sur l'onglet Graph -> New.
-Pour savoir comment utiliser les commandes, une aide utilisateur en français est disponible dans l'onglet Help -> Show help.
+Une fois l'application lancée, pour créer un nouvel onglet de travail, cliquer sur le menu Graph -> New.
+Pour savoir comment utiliser les commandes, une aide utilisateur en français est disponible dans le menu Help -> Show help.
 Pour plus d'informations, se référer aux annexes situées dans /doc/
 
 # Structure du projet
