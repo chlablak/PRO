@@ -98,13 +98,13 @@
 	\justify
 	\normalsize
 	
-	\section*{Remerciements}
-	Nous tenons tout d'abord à remercier M. Prof. René Rentsch pour son suivi et ses conseils durant toute la période du travail. Nous voulons aussi remercier M. Prof. Claude Evéquoz pour son aide à la vérification de la grammaire de notre langage. Enfin, merci également à M. Prof. Jean-François Hêche pour ses conseils sur l'implémentation des algorithmes de graphes.\\$ $\\$ $\\$ $\\$ $\\
-	
 	% Tables des matières
 	\tableofcontents
 	
 	\newpage
+	
+	\section*{Remerciements}
+	Nous tenons tout d'abord à remercier M. Prof. René Rentsch pour son suivi et ses conseils durant toute la période du travail. Nous voulons aussi remercier M. Prof. Claude Evéquoz pour son aide à la vérification de la grammaire de notre langage. Enfin, merci également à M. Prof. Jean-François Hêche pour ses conseils sur l'implémentation des algorithmes de graphes.
 	
 	\section{Introduction}
 	Dans le cadre du cours PRO en deuxième année du cursus de Bachelor de la HEIG-VD, il a été demandé de réaliser un projet de semestre sur une période de 10 semaines. Après l'acceptation du cahier des charges à la semaine 4, le projet a pu débuter. Celui-ci porte sur une application permettant de traiter des graphes, de lancer des algorithmes dessus, de les dessiner et enfin de pouvoir les exporter en format d'image vectoriel.
@@ -1224,7 +1224,7 @@
 		% Propositions d'améliorations pour des développements futurs
 	
 		\subsection{Application fournie}			
-			Vis à vis du cahier des charges initial (disponible en annexe), l'application répond à toutes les fonctionnalités prévues hormis en ce qui concerne l'implémentation de certains algorithmes, donc voici la liste:
+			Vis à vis du cahier des charges initial (disponible en annexe), l'application répond à toutes les fonctionnalités prévues hormis l'implémentation de certains algorithmes, dont voici la liste:
 			\begin{itemize}
 				\item Arborescence recouvrante de poids min
 				\item Arborescence recouvrante de section min/max
@@ -1233,18 +1233,18 @@
 			\end{itemize}
 			Les fonctionnalités optionnelles et futures n'ont pas pu être intégrées par manque de temps, cependant leur ajout est tout à fait réalisable car la conception générale de l'application a été prévue pour être ouverte aux extensions. Notons encore que l'interface graphique n'est pas tout à fait la même que la maquette présente dans le cahier des charges, néanmoins les fonctionnalités sont les mêmes.\\
 			
-			Concernant la stabilité du programme, la majorité des bugs/crashs découverts pendant le projet ont été corrigés. Cependant certains cas posent toujours problèmes:
+			Concernant la stabilité du programme, la majorité des bugs/crashs découverts pendant le projet a été corrigée. Cependant certains cas posent toujours problème:
 			\begin{enumerate}
 				\item Un graphe ne possédant pas tous les sommets dans l'ordre (ex: \texttt{g=dfs(\{\#2\}, 1);}) pose problème à certaines fonctionnalités (ex: \texttt{draw(g);}, \texttt{egli::deserialize(...);})
 				\item Fuites mémoires détectées au niveau de la couche \textit{graphes et algorithmes}
-				\item La fenêtre d'aide ne se ferme lorsque que l'on quitte la fenêtre principale (avec la croix en haut à droite)
+				\item La fenêtre d'aide ne se ferme pas lorsque que l'on quitte la fenêtre principale (avec la croix en haut à droite)
 				\item La grammaire du langage ne permet pas de tout faire (ex: \texttt{v=(0); g=\{v\};}, \texttt{v=(0::-1);}, \texttt{draw(dfs(g, 0)[0]);})
 			\end{enumerate}
-			Les cas (1) et (2) sont des priorités absolues pour la suite du développement, nous les avons malheureusement découverts trop tard pour pouvoir les corriger en l'état. Par chance les causes des problèmes sont connues, ce qui permettra de les corriger rapidement. De plus, nous avons découvert l'existence du logiciel DrMemory \cite{drmemory} qui nous offre la possibilité de cibler les fuites mémoires très précisément.\\
+			Les cas (1) et (2) sont des priorités absolues pour la suite du développement, mais nous les avons malheureusement découvert trop tard pour pouvoir les corriger en l'état. Par chance, les causes des problèmes sont connues, ce qui permettra de les corriger rapidement. De plus, nous avons découvert l'existence du logiciel DrMemory \cite{drmemory} qui nous offre la possibilité de cibler les fuites mémoires très précisément.\\
 			
-			Un petit mot sur le langage développé spécifiquement pour l'application. Celui-ci demande un petit temps d'apprentissage mais la prise en main est assez rapide. L'aide intégrée et ses pages bien expliquées (facilement extensible), sa fonction de recherche par mots-clés, ainsi que l'auto-complétion des fonctions et variables prend l'utilisateur par la main et rend l'utilisation de l'application agréable.\\  
+			Un petit mot sur le langage développé spécifiquement pour l'application. Celui-ci demande un petit temps d'apprentissage, mais la prise en main est assez rapide. L'aide intégrée et ses pages bien expliquées (facilement extensible), sa fonction de recherche par mots-clés, ainsi que l'auto-complétion des fonctions et variables prend l'utilisateur par la main et rend l'utilisation de l'application agréable.\\  
 			
-			Au final nous sommes satisfaits du résultat final bien qu'il reste encore d'importants bugs à corriger. Le projet offre de nombreuses possibilités d'améliorations, tant au niveau de l'interface graphique que du reste, et nous sommes très content de cela. Voici une liste non-exhaustive des améliorations possibles auxquelles nous avons pensé:
+			Au final, nous sommes satisfaits du résultat final bien qu'il reste encore d'importants bugs à corriger. Le projet offre de nombreuses possibilités d'amélioration, tant au niveau de l'interface graphique que du reste, et nous sommes très content de cela. Voici une liste non-exhaustive des améliorations possibles auxquelles nous avons pensé:
 			\begin{itemize}
 				\item Meilleure visualisation des graphes
 				\item Affichage des variables créées dans une zone de l'interface graphique
@@ -1262,7 +1262,7 @@
 				\caption{Comparaison entre les dates prévues et effectives des tâches principales}
 				\label{fig:comparaisondates}
 			\end{figure}
-			On peut expliquer cela par deux choses: certains problèmes étaient plus complexes que prévus, et l'apprentissage de Qt était beaucoup plus long. En effet Qt est très puissant et offre de multiple manières d'aborder un problème, en contre-partie cela induit des pertes de temps lorsque l'on part dans la mauvaise direction. Cependant une fois que Qt est pris en main, les gains lors de l'implémentation sont conséquents.\\ 
+			On peut expliquer cela par deux choses: certains problèmes étaient plus complexes que prévus, et l'apprentissage de Qt était beaucoup plus long. En effet, Qt est très puissant et offre de multiples manières d'aborder un problème, en contre-partie cela induit des pertes de temps lorsque l'on part dans la mauvaise direction. Cependant une fois que Qt est pris en main, les gains lors de l'implémentation sont conséquents.\\ 
 			
 			Deuxièmement, la planification initiale était une suite de tâches à faire complètement avant de passer à la suivante. Dans les faits, les tâches (pour une même personne) ont été réalisées en parallèle, cela a impliqué une dissonance entre les temps prévus et les temps effectifs.\\
 			
@@ -1274,15 +1274,16 @@
 				\label{fig:comparaisonheures}
 			\end{figure}
 			
-			Pour finir, les différentes tâches, bien que mal planifiées, ont été bien cernées dès le début du projet. Cela a permit une séparation du travail correcte et indépendante, ainsi qu'une application finale utilisable. Nous sommes cependant convaincu qu'utiliser un modèle de développement itératif (et non pas en cascade) aurait apporté un plus au projet. En effet, cela nous aurait obligé à mettre les différentes couches en commun plus souvent, et ainsi détecter les problèmes plus rapidement qu'à la fin du projet. 
+			Pour finir, les différentes tâches, bien que mal planifiées, ont été bien cernées dès le début du projet. Cela a permis une séparation du travail correcte et indépendante, ainsi qu'une application finale utilisable. Nous sommes cependant convaincu qu'utiliser un modèle de développement itératif (et non pas en cascade) aurait apporté un plus au projet. En effet, cela nous aurait obligé à mettre les différentes couches en commun plus souvent, et ainsi détecter les problèmes avant la fin du projet. 
 		
 		\subsection{Travail de groupe}
-			Le principal problème, comme déjà mentionné dans la section précédente, a été le fait que nous n'avons pas assez fixé de délais intermédiaires et que la mise en commun n'a été faite qu'à la fin du projet. Cela a posé des problèmes que nous n'avons malheureusement pas pu résoudre dans les temps.\\
+			Le principal problème, comme mentionné dans la section précédente, a été le fait que nous n'avons pas assez fixé de délais intermédiaires et que la mise en commun n'a été faite qu'à la fin du projet. Cela a posé des problèmes que nous n'avons malheureusement pas pu résoudre dans les temps.\\
 			
-			Le second problème a été un laxisme en début de semestre, nous avons donc dû fournir un gros effort lors des dernières semaines. Lors de ces "rushs", où nous avons travaillé tous ensemble dans la même pièce, il a été intéressant de constater la grande efficacité avec laquelle nous avons travaillé. En effet les problèmes se résolvent beaucoup plus vite, et l'ambiance offre un cadre de travail beaucoup plus motivant et encourageant. Il nous semble donc important à l'avenir de planifier ce type de séance plus souvent tout au long d'un projet, pour une meilleure productivité.\\
+			Le second problème a été un laxisme en début de semestre, nous avons donc dû fournir un gros effort lors des dernières semaines. Lors de ces "rushs", où nous avons travaillé tous ensemble dans la même pièce, il a été intéressant de constater la grande efficacité avec laquelle nous avons travaillé. En effet les problèmes se résolvent beaucoup plus vite et l'ambiance offre un cadre de travail beaucoup plus motivant et encourageant. Il nous semble donc important à l'avenir de planifier ce type de séance plus souvent tout au long d'un projet, pour une meilleure productivité.\\
 			
-			Pour conclure, ce projet a été une expérience enrichissante, autant du point de vue technique, de la planification, et sur le travail en grand groupe. La collaboration au sein de l'équipe a été très bonne durant toute la durée du semestre, et cela même malgré la grande charge de travail avec les autres cours. Nous sommes donc au final heureux d'avoir pu participer à l'élaboration de A à Z d'un projet complet et complexe, nous profitons de cette conclusion pour nous remercier les uns les autres pour le travail accompli.
+			Pour conclure, ce projet a été une expérience enrichissante, autant du point de vue technique et de la planification, que du travail en grand groupe. La collaboration au sein de l'équipe a été très bonne durant toute la durée du semestre, et cela même malgré la grande charge de travail avec les autres cours. Nous sommes donc au final heureux d'avoir pu participer à l'élaboration de A à Z d'un projet complet et complexe, nous profitons de cette conclusion pour nous remercier les uns les autres pour le travail accompli.
 			
+			\newpage
 	% Tables des figures
 	\listoffigures
 			
