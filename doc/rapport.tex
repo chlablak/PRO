@@ -2131,12 +2131,12 @@
 		D'un point de vue structure de données cet arbre est très simple, voici un exemple:
 		
 		\begin{lstlisting}
-		struct Statement {
-		enum class Type { A, F, C, V };
-		Type type;
-		string value;
-		vector<Statement> parameters;
-		};
+					struct Statement {
+						enum class Type { A, F, C, V };
+						Type type;
+						string value;
+						vector<Statement> parameters;
+					};
 		\end{lstlisting}
 		
 		La création de cet arbre se fait grâce aux \textit{tokens} générés dans la partie \textit{Parser validation} (voir section~\ref{subsec:implementation-du-parseur}).
