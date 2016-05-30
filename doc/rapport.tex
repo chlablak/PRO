@@ -106,15 +106,15 @@
 	\normalsize
 	
 	\section{Introduction}
-	Dans le cadre du cours PRO, encadré par le Prof. René Rentsch, il a été demandé de réaliser un projet de semestre sur une période de 10 semaines. Après l'acceptation du cahier des charges à la semaine 4, le projet a pu débuter. Celui-ci porte sur une application permettant de traiter des graphes, de lancer des algorithmes dessus et des les dessiner, afin de pouvoir les exporter en format d'image vectoriel.
+	Dans le cadre du cours PRO, encadré par le Prof. René Rentsch, il a été demandé de réaliser un projet de semestre sur une période de 10 semaines. Après l'acceptation du cahier des charges à la semaine 4, le projet a pu débuter. Celui-ci porte sur une application permettant de traiter des graphes, de lancer des algorithmes dessus, de les dessiner et enfin de pouvoir les exporter en format d'image vectoriel.
 	
 		\subsection{Objectif}
-		Les objectifs principaux du rapport peuvent se décomposer en quatre parties. Premièrement, il doit être possible de saisir un graphe et qu'il soit stocker dans l'application. Ensuite, des algorithmes classiques des graphes (Dijkstra, parcours en profondeur/largeur, etc...) doivent pouvoir être appliqués au graphe précédemment saisi. Puis, il doit pouvoir être dessiné et remanié avec le curseur pour permettre de l'exporter en image vectorielle. Enfin, toutes ces parties doivent être coordonnées au moyen d'un langage spécifique à l'application.\\
+		Les objectifs principaux du rapport peuvent être décomposés en quatre parties. Premièrement, il doit être possible de saisir un graphe et qu'il soit stocké dans l'application. Ensuite, des algorithmes classiques des graphes (Dijkstra, parcours en profondeur/largeur, etc...) doivent pouvoir être appliqués au graphe précédemment saisi. Puis, il doit pouvoir être dessiné et remanié avec le curseur pour permettre de l'exporter en image vectorielle. Enfin, toutes ces parties doivent être coordonnées au moyen d'un langage spécifique à l'application.\\
 		Toutes les spécifications précises sont disponibles dans le cahier des charges fourni en annexe.
 		
 		\subsection{Conception générale}
-		La conception générale de l'application a été faite en couche pour deux raisons. Premièrement, cette décomposition permet de répartir le travail plus facilement et de manière plus efficace entre les personnes. En effet, cela réduit les dépendances au niveau du développement et donc le nombre de conflits sur le gestionnaire de versions. Deuxièmement, cette approche permet d'avoir des composants indépendants et donc réutilisables, puisque les couches inférieures n'ont pas connaissance des couches supérieures et proposent des interfaces facilement accessibles.\\
-		La première couche à mentionner et celle avec laquelle l'utilisateur interagit est l'interface graphique (GUI). Celle-ci propose une console pour saisir des commandes, ainsi que quelques menus. Elle est également liée à l'aide utilisateur, qui comporte une fenêtre de navigation HTML. La GUI est interfacée avec l'interpréteur qui vérifie la validité des commandes tapées et renvoie un message d'erreur en cas de mauvaise saisie. Si, au contraire, la commande est correcte l'interpréteur la transmet soit à la couche graphe, soit à la couche algorithme. En parallèle à cet interpréteur réside la couche de dessin, qui accède également à la couche graphe pour en dessiner une représentation.
+		La conception générale de l'application a été faite en couches pour deux raisons. Premièrement, cette décomposition permet de répartir le travail plus facilement et de manière plus efficace entre les personnes. En effet, cela réduit les dépendances au niveau du développement et donc le temps passé à attendre sur le travail d'un autre, ainsi que le nombre de conflits sur le gestionnaire de versions. Deuxièmement, cette approche permet d'avoir des composants indépendants (voir \textbf{figure \ref{couchesLogicielles}}) et donc réutilisables, puisque les couches inférieures n'ont pas connaissance des couches supérieures et proposent des interfaces indépendantes.\\
+		La première couche à mentionner, celle avec laquelle l'utilisateur interagit est l'interface graphique (GUI). Celle-ci propose une console pour saisir des commandes, ainsi que quelques menus. Elle est également liée à l'aide utilisateur, qui comporte une fenêtre de navigation HTML. La GUI est interfacée avec l'interpréteur qui vérifie la validité des commandes tapées et renvoie un message d'erreur en cas de mauvaise saisie. Si, au contraire, la commande est correcte, l'interpréteur la transmet soit à la couche graphe, soit à la couche algorithme. En parallèle à cet interpréteur, la couche de dessin accède également à la couche graphe pour en dessiner des représentations.
 		
 		\begin{figure}[H]
 			\centering
@@ -135,6 +135,7 @@
 			\draw[->] (7,6.5) -- (8,6.5);
 			\end{tikzpicture}
 			\caption{Couches logicielles}
+			\label{couchesLogicielles}
 		\end{figure}
 	
 	\section{Cadre de développement} 
@@ -249,7 +250,7 @@
 						\item Seul le premier paramètre (\texttt{connection}) est obligatoire
 						\item Le paramètre \texttt{id[Integer]} doit être positif ou nul et sa valeur par défaut est 0
 						\item Les valeurs par défaut sont \texttt{weight[Number]=0, label[String]="", max\_capacity[Number]=min\_capacity, min\_capacity[Number]=0}
-						\item L'\texttt{id} est un identifiant "local" à la \texttt{connection}, c'est-à-dire par exemple que \texttt{(0->1)} et \texttt{(1->0)} auront tout deux l'\texttt{id} à 0, et cela ne pose pas problème
+						\item L'\texttt{id} est un identifiant "local" à la \texttt{connection}, c'est-à-dire par exemple que \texttt{(0->1)} et \texttt{(1->0)} auront tous deux l'\texttt{id} à 0, et cela ne pose pas problème
 					\end{itemize}
 					\item \texttt{Graph}: 
 					\begin{itemize}
@@ -277,7 +278,7 @@
 				
 				Notons que les erreurs sont gérées au travers d'exceptions.\\
 				
-				Maintenant que les types des variables et leurs opérations de base sont définis, on veut pouvoir effectuer d'autres traitements sur ces variables (ajouter une nouvelle opération ou appliquer un algorithme). Cela va se faire via des fonctions prédéfinies (la définition de fonction n'est pas prévue).\\
+				Maintenant que les types des variables et leurs opérations de base sont définis, on veut pouvoir effectuer d'autres traitements sur ces variables (ajouter une nouvelle opération ou appliquer un algorithme). Cela va se faire via des fonctions prédéfinies (la définition de fonctions n'est pas prévue).\\
 				
 				Prototype d'une fonction: \texttt{R f(T1, T2, ...);} avec \texttt{R} le type de retour, \texttt{f} le nom de la fonction et \texttt{Tn} le type du paramètre en position \texttt{n}.\\
 				
@@ -299,6 +300,7 @@
 					\draw (5,0) node[anchor=north] {interpreter \#2} rectangle (8,3);
 					\draw[fill=black] (6,1) node[anchor=north] {datas} rectangle (7,2);
 				\end{tikzpicture}
+				\caption{Proposition d'architecture pour l'interpréteur}
 			\end{figure}
 			
 			Cette approche a cependant le désavantage de dupliquer l'interpréteur dans la mémoire, alors que celui-ci est le même. Ce qui définit l'état dans lequel l'interpréteur est, c'est les données dans la mémoires virtuelle de celui-ci, c'est-à-dire la table des variables (voir éventuellement la table des fonctions). On peut donc développer une autre solution, très proche des processeurs et de leurs registres:
@@ -341,7 +343,7 @@
 					\caption{Diagramme de classes de l'interpréteur  \cite{plantuml}}
 				\end{figure}
 				
-				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur, ou que cela surchargerait trop le diagramme. Notons les classes surlignées en jaune pétant, il s'agit des classes principales pour l'utilisateur (voir section~\ref{subsec:egli-exemple}).  
+				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur, ou que cela surchargerait trop le diagramme. Notons les classes surlignées en jaune vif, il s'agit des classes principales pour l'utilisateur (voir section~\ref{subsec:egli-exemple}).  
 			
 			\subsubsection{Répertoires}
 				L'interpréteur étant une couche indépendante de l'application GUI, nous avons décidé de mettre tout ce qui le concerne dans un \texttt{namespace} du nom de \texttt{egli}, pour \textit{Embeeded GraphY Language Interpreter}.\\
@@ -354,7 +356,7 @@
 						.1 egli/\DTcomment{répertoire de base de EGLI}.
 						.2 detail/\DTcomment{répertoire "privé", ne doit pas être utilisé par l'utilisateur}.
 						.3 interface/\DTcomment{répertoire pour les fonctions interfacées}.
-						.4 algorithms.h\DTcomment{les algorithmes venant de la couche \textit{graphes et algorithmes}}.
+						.4 algorithms.h\DTcomment{les algorithmes venant des couches \textit{graphes et algorithmes}}.
 						.4 basics.h\DTcomment{les fonctions nécessaires au fonctionnement interne}.
 						.4 builtins.h\DTcomment{les fonctions offertes de base dans l'interpréteur}.
 						.3 FunctionImpl.h\DTcomment{implémentation de \texttt{FunctionCaller}}.
@@ -362,12 +364,12 @@
 						.3 interface.h\DTcomment{interfaçage centralisé des fonctions}.
 						.3 <...>\DTcomment{autres fichiers d'implémentation}.
 						.2 Array.h\DTcomment{tableau dynamique hétérogène}.
-						.2 Data.h\DTcomment{données utilisée dans l'interpréteur}.
+						.2 Data.h\DTcomment{données utilisées dans l'interpréteur}.
 						.2 egli.h\DTcomment{fichier d'inclusion générale}.
 						.2 Exception.h\DTcomment{exception spécifique à EGLI}.
 						.2 Function.h\DTcomment{déclaration de \texttt{FunctionCaller}}.
 						.2 FunctionTable.h\DTcomment{table des fonctions}.
-						.2 GraphWrapper.h\DTcomment{\textit{wrapper} de \texttt{IGraph} venant de la couche \textit{graphes et algorithmes}}.
+						.2 GraphWrapper.h\DTcomment{\textit{wrapper} de \texttt{IGraph} venant des couches \textit{graphes et algorithmes}}.
 						.2 Interpreter.h\DTcomment{interpréteur de EGLI}.
 						.2 Parser.h\DTcomment{parseur utilisé par l'interpréteur}.
 						.2 ProcessingUnit.h\DTcomment{unité de vérification et de traitement}.
@@ -472,7 +474,7 @@
 			
 			\subsubsection{Fonctions incluses}
 			\label{subsec:annexes-fonctions-incluses}
-			Cet section recense les fonctions incluses dans l'interpréteur et disponibles pour l'utilisateur de l'application. Les fonctions \textit{built-in} viennent de l'interpréteur directement, les fonctions \textit{algo} proviennent de la couche sur les graphes et ses algorithmes, et les fonctions \texttt{GUI} sont spécifiques à la couche interface GUI.\\
+			Cette section recense les fonctions incluses dans l'interpréteur et disponibles pour l'utilisateur de l'application. Les fonctions \textit{built-in} viennent de l'interpréteur directement, les fonctions \textit{algo} proviennent de la couche sur les graphes et ses algorithmes, et les fonctions \texttt{GUI} sont spécifiques à la couche interface utilisateur.\\
 			
 			Note: les paramètres de type \texttt{T} indiquent qu'il existe une surcharge de la fonction pour chacun des types disponible dans le langage.
 			
@@ -517,9 +519,9 @@
 	\section{Graphes}
 	\label{sec:graphes}
 		\subsection{Préface}
-		Un graphe est une structure composée d'un ensemble de sommets et d'arêtes/arcs. Il existe différents moyen de les représenter.
+		Un graphe est une structure composée d'un ensemble de sommets et d'arêtes/arcs. Il existe différents moyens de les représenter.
 		
-		Cette section a pour de présenter les interfaces à disposition de l'utilisateur pour manipuler des graphes, ainsi que de montrer nos choix de modélisation et d'implémentation de ceux-ci.
+		Cette section a pour but de présenter les interfaces à disposition de l'utilisateur pour manipuler des graphes, ainsi que de montrer nos choix de modélisation et d'implémentation de ceux-ci.
 		
 		\subsection{Architecture}
 		
@@ -575,13 +577,13 @@
 			
 			Notons que pour un \lstinline[basicstyle=\ttfamily\color{blue}]|Edge|, les sommets $a$ et $b$ ne font pas office de "source" et "destination" puisque l'arc n'est pas orienté.\\
 			
-			Nous sommes donc partis sur une première approche qui consiste à avoir une class Edge commune dont les Edge spécifiques hériteront selon le type de graphe.
+			Nous sommes donc partis sur une première approche qui consiste à avoir une classe Edge commune dont les Edge spécifiques hériteront selon le type de graphe.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=4.0]{Conception/graph/classedgesol1.pdf}
 				\caption{Classe Edge solution 1}
 			\end{figure}
-			Cette approche est optimale car elle permet une bonne factorisation du code. Seulement nous avons rencontré un problème lors de la mise en place de la classe Graph où les types de Edge sont passés par template (expliqué dans le chapitre "class Graph"). Avec la solution ci-dessus nous n'avons pas trouvé le moyen de spécifier explicitement le type \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| au graphe sans générer d'erreur de compilation : \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| étant un sous-type de \lstinline[basicstyle=\ttfamily\color{blue}]|DiEdge|, le compilateur ne parvenait pas à faire le lien sur le bon type. Nous nous sommes donc résiliés à modifier l'architecture de la classe "Edge" pour n'avoir que des types distincts.
+			Cette approche est optimale car elle permet une bonne factorisation du code. Seulement, nous avons rencontré un problème lors de la mise en place de la classe Graph où les types de Edge sont passés par template (expliqué dans le chapitre "classe Graph"). Avec la solution ci-dessus nous n'avons pas trouvé le moyen de spécifier explicitement le type \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| au graphe sans générer d'erreur de compilation : \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| étant un sous-type de \lstinline[basicstyle=\ttfamily\color{blue}]|DiEdge|, le compilateur ne parvenait pas à faire le lien sur le bon type. Nous nous sommes donc résiliés à modifier l'architecture de la classe "Edge" pour n'avoir que des types distincts.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=4.0]{Conception/graph/classedgesol2.pdf}
@@ -595,7 +597,7 @@
 				\caption{Classe Edge solution finale}
 			\end{figure}
 			
-			Ainsi, grâce à la covariance des variables, l'utilisateur peut voir n'importe quel type de Edge en tant qu'IEdge et la manipuler de la sorte.
+			Ainsi, grâce à la covariance des variables, l'utilisateur peut voir n'importe quel type de Edge en tant qu'IEdge et le manipuler de la sorte.
 			\begin{lstlisting}
 						// Edge entre le sommet v1 et v2
 						IEdge *edge = new Edge(v1, v2, 4.5);
@@ -612,7 +614,7 @@
 						cout << flowEdge->weight() << endl; // Affiche 5.2
 			\end{lstlisting}
 						
-			\subsubsection{classe "Graph"}
+			\subsubsection{Classe "Graph"}
 			Cette classe est étroitement liée à la classe "Edge". Sachant qu'il existe trois types d'Edge, il existe donc 3 types de graphe :
 			\begin{itemize}
 				\item Graphe non-orienté
@@ -620,8 +622,8 @@
 				\item Graphe orienté à flot
 			\end{itemize}
 			Nous gardons la même architecture que la classe "Edge". Les trois types doivent être distincts (un graphe à flot ne doit pas hériter directement d'un graphe orienté) pour expliciter clairement le type de Edge.
-			Une première approche nous avait mené à déclarer les classes "Edge" internes aux classes "Graph" correspondantes mais cette méthode s'est avérée trop complexe. Une deuxième approche consistait plutôt à passer le type de Edge en template à la classe graphe lui correspondant. Cette deuxième approche nous paraissait plus simple et avons donc opté pour celle-ci.
-			Voici à à quoi ressemble le modèle conceptuel de la classe "Graph".
+			Une première approche nous avait mené à déclarer les classes "Edge" internes aux classes "Graph" correspondantes mais cette méthode s'est avérée trop complexe. Une deuxième approche consistait plutôt à passer le type de Edge en template à la classe Graph correspondante. Cette deuxième approche nous paraissait plus simple et nous avons donc opté pour celle-ci.
+			Voici à quoi ressemble le modèle conceptuel de la classe "Graph".
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=4.0]{Conception/graph/classgraphsol1.pdf}
