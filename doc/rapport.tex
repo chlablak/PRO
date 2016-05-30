@@ -1256,17 +1256,17 @@
 		\subsection{Planification}
 			% Les figures ne prennent pas en compte les tests et la doc, uniquement la conception et l'impl.
 			
-			temps de conception sous estimé
-			au debut pas pressé donc gros rush à la fin
-			adopter un modèle iteratif, car mise en commun plus courrante
-			temps d'analyse sous-estimé, mais impl. rapide
-			code source bcp plus complexe que prévu -> planif non respectée
-			pas assez de temps prévu pour modelisation/conception
-			fin de projet intense
-			trop laxiste au debut du projet, fin de projet intense
-			qt très puissant, mais plusieurs manières de faire, perte de temps sur l'apprentissage mais gros gain dès lors
-			taches faite en parallèle, planif non respectée
+			La planification initiale du projet (disponible en annexe) a fait ressortir plusieurs problèmes. Premièrement, les temps d'analyse et de conception ont été très largement sous-estimés, ce qui a engendré un gros décalage des tâches:
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{Planification/comparaisondates.pdf}
+				\caption{Comparaison entre les dates prévues et effectives des tâches principales}
+				\label{fig:comparaisondates}
+			\end{figure}
+			On peut expliquer cela par deux choses: certains problèmes étaient plus complexes que prévus, et l'apprentissage de Qt était beaucoup plus long. En effet Qt est très puissant et offre de multiple manières d'aborder un problème, en contre-partie cela induit des pertes de temps lorsque l'on part dans la mauvaise direction. Cependant une fois que Qt est pris en main, les gains lors de l'implémentation sont conséquents.\\ 
 			
+			Deuxièmement, la planification initiale était une suite de tâches à faire complètement avant de passer à la suivante. Dans les faits, les tâches (pour une même personne) ont été réalisées en parallèle, cela a impliqué une dissonance entre les temps prévus et les temps effectifs.\\
+			
+			Troisièmement, la partie sur les graphes et les algorithmes a été la plus largement sous-estimée, le graphique suivant le montre assez clairement:
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{Planification/comparaisonheures.pdf}
 				\caption{Comparaison entre le temps prévu et temps effectif des tâches
@@ -1274,16 +1274,10 @@
 				\label{fig:comparaisonheures}
 			\end{figure}
 			
-			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{Planification/comparaisondates.pdf}
-				\caption{Comparaison entre les dates prévues et effectives des tâches principales}
-				\label{fig:comparaisondates}
-			\end{figure}
+			Pour finir, les différentes tâches, bien que mal planifiées, ont été bien cernées dès le début du projet. Cela a permit une séparation du travail correcte et indépendante, ainsi qu'une application finale utilisable. Nous sommes cependant convaincu qu'utiliser un modèle de développement itératif (et non pas en cascade) aurait apporté un plus au projet. En effet, cela nous aurait obligé à mettre les différentes couches en commun plus souvent, et ainsi détecter les problèmes plus rapidement qu'à la fin du projet. 
 		
 		\subsection{Travail de groupe}
 			bonne collaboration tout du long
-			taches bien reparti, et indépendantes
-			tache bien reparti, independantes, couche vite separé
 			classe graphe un peu en retard
 			interfacage plus compliqué que prévu
 			au debut pas pressé, rush à la fin, rush très productif
@@ -1291,6 +1285,9 @@
 			bonne cohésion, mais plus de rush aurait du etre fait
 			manque de delais intermediaire, mise en commun trop tard
 			expérience interessante, mais mise en commun compliquée
+			au debut pas pressé donc gros rush à la fin
+			fin de projet intense
+			trop laxiste au debut du projet, fin de projet intense
 			
 	% Tables des figures
 	\listoffigures
