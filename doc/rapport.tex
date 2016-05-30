@@ -629,7 +629,7 @@
 				\includegraphics[scale=4.0]{Conception/graph/classgraphsol1.pdf}
 				\caption{Classe Graph solution finale}
 			\end{figure}
-			Et voici comment expliciter le type de Edge avec les template
+			Et voici comment expliciter le type de Edge avec les templates.
 			\begin{lstlisting}
 						template <typename T>
 						class GraphCommon {
@@ -687,11 +687,11 @@
 			\end{enumerate}	
 			L'utilisation de matrices est prépondérante dans la modélisation mathématique de nombreux problèmes et l'étude de certaines propriétés d'un graphe. Elle permet des vérifications rapides pour la présence ou non d'arcs/arêtes, mais est relativement lente lorsqu'il s'agit de les parcourir.
 			
-			Quant aux listes, notamment les listes d'adjacence, l'itération des arcs/arêtes est rapide mais la vérification de leurs présence est lente. Les listes sont une version compacte de représenter les matrices car elles stockent uniquement les arêtes existantes. Le gain de place mémoire est donc plus avantageux tant que le graphe n'est pas complet.\\
+			Quant aux listes, notamment les listes d'adjacence, l'itération des arcs/arêtes est rapide mais la vérification de leur présence est lente. Les listes sont un moyen compact de représenter les matrices car elles stockent uniquement les arêtes existantes. Le gain de place mémoire est donc plus avantageux tant que le graphe n'est pas complet.\\
 			
 			À ce stade, le choix de l'un ou l'autre présente alors ses avantages et désavantages. Une petite étude nous a permis d'orienter notre choix : \\
 			
-			Une première approche simple nous permet de déterminer qu'un graphe stocké sous forme de matrice occupera $n^2$ octets, où n est le nombre de sommet. Dans ce cas, un type char ferait amplement l'affaire pour représenter chaque case, car, en non-signé, on pourrait avoir jusqu'à 255 arcs/arêtes entre deux sommets.\\
+			Une première approche simple nous permet de déterminer qu'un graphe stocké sous forme de matrice occupera $n^2$ octets, où n est le nombre de sommet. Dans ce cas, un type char ferait amplement l'affaire pour représenter chaque case, car en non-signé, on pourrait avoir jusqu'à 255 arcs/arêtes entre deux sommets.\\
 			\begin{figure}[H]
 				\centering
 				\[
@@ -743,7 +743,7 @@
 			
 			Cependant, après avoir suivi le cours de GRE, nous nous sommes rendus compte qu'il était rare d'obtenir des graphes complets. La majorité des cas d'utilisation requièrent des graphes de faible densité, ce qui nous amène vers une quatrième approche : stocker les graphes sous forme de liste d'adjacence.\\
 			
-			Mis à part les aspects liés au gain de mémoire, les listes d'adjacences facilitent la plupart des opérations présentes dans nos algorithmes.
+			Mis à part les aspects liés au gain de mémoire, les listes d'adjacence facilitent la plupart des opérations présentes dans nos algorithmes.
 			Trouver tous les sommets adjacents à un certain sommet est aussi simple que lire la liste et prend un temps proportionnel au nombre de voisins. Avec une matrice, toute une ligne doit être lue, ce qui prend un temps beaucoup plus long égal au nombre de sommet présent dans l'entièreté du graphe.
 			
 			Cette quatrième et dernière approche est celle que nous avons choisie car elle est la plus adaptée à nos besoins. \textbf{Nos graphes sont donc stockés sous forme de liste d'adjacence}.
