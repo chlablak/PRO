@@ -106,15 +106,15 @@
 	\normalsize
 	
 	\section{Introduction}
-	Dans le cadre du cours PRO, encadré par le Prof. René Rentsch, il a été demandé de réaliser un projet de semestre sur une période de 10 semaines. Après l'acceptation du cahier des charges à la semaine 4, le projet a pu débuter. Celui-ci porte sur une application permettant de traiter des graphes, de lancer des algorithmes dessus et des les dessiner, afin de pouvoir les exporter en format d'image vectoriel.
+	Dans le cadre du cours PRO, encadré par le Prof. René Rentsch, il a été demandé de réaliser un projet de semestre sur une période de 10 semaines. Après l'acceptation du cahier des charges à la semaine 4, le projet a pu débuter. Celui-ci porte sur une application permettant de traiter des graphes, de lancer des algorithmes dessus, de les dessiner et enfin de pouvoir les exporter en format d'image vectoriel.
 	
 		\subsection{Objectif}
-		Les objectifs principaux du rapport peuvent se décomposer en quatre parties. Premièrement, il doit être possible de saisir un graphe et qu'il soit stocker dans l'application. Ensuite, des algorithmes classiques des graphes (Dijkstra, parcours en profondeur/largeur, etc...) doivent pouvoir être appliqués au graphe précédemment saisi. Puis, il doit pouvoir être dessiné et remanié avec le curseur pour permettre de l'exporter en image vectorielle. Enfin, toutes ces parties doivent être coordonnées au moyen d'un langage spécifique à l'application.\\
+		Les objectifs principaux du rapport peuvent être décomposés en quatre parties. Premièrement, il doit être possible de saisir un graphe et qu'il soit stocké dans l'application. Ensuite, des algorithmes classiques des graphes (Dijkstra, parcours en profondeur/largeur, etc...) doivent pouvoir être appliqués au graphe précédemment saisi. Puis, il doit pouvoir être dessiné et remanié avec le curseur pour permettre de l'exporter en image vectorielle. Enfin, toutes ces parties doivent être coordonnées au moyen d'un langage spécifique à l'application.\\
 		Toutes les spécifications précises sont disponibles dans le cahier des charges fourni en annexe.
 		
 		\subsection{Conception générale}
-		La conception générale de l'application a été faite en couche pour deux raisons. Premièrement, cette décomposition permet de répartir le travail plus facilement et de manière plus efficace entre les personnes. En effet, cela réduit les dépendances au niveau du développement et donc le nombre de conflits sur le gestionnaire de versions. Deuxièmement, cette approche permet d'avoir des composants indépendants et donc réutilisables, puisque les couches inférieures n'ont pas connaissance des couches supérieures et proposent des interfaces facilement accessibles.\\
-		La première couche à mentionner et celle avec laquelle l'utilisateur interagit est l'interface graphique (GUI). Celle-ci propose une console pour saisir des commandes, ainsi que quelques menus. Elle est également liée à l'aide utilisateur, qui comporte une fenêtre de navigation HTML. La GUI est interfacée avec l'interpréteur qui vérifie la validité des commandes tapées et renvoie un message d'erreur en cas de mauvaise saisie. Si, au contraire, la commande est correcte l'interpréteur la transmet soit à la couche graphe, soit à la couche algorithme. En parallèle à cet interpréteur réside la couche de dessin, qui accède également à la couche graphe pour en dessiner une représentation.
+		La conception générale de l'application a été faite en couches pour deux raisons. Premièrement, cette décomposition permet de répartir le travail plus facilement et de manière plus efficace entre les personnes. En effet, cela réduit les dépendances au niveau du développement et donc le temps passé à attendre sur le travail d'un autre, ainsi que le nombre de conflits sur le gestionnaire de versions. Deuxièmement, cette approche permet d'avoir des composants indépendants (voir \textbf{figure \ref{couchesLogicielles}}) et donc réutilisables, puisque les couches inférieures n'ont pas connaissance des couches supérieures et proposent des interfaces indépendantes.\\
+		La première couche à mentionner, celle avec laquelle l'utilisateur interagit est l'interface graphique (GUI). Celle-ci propose une console pour saisir des commandes, ainsi que quelques menus. Elle est également liée à l'aide utilisateur, qui comporte une fenêtre de navigation HTML. La GUI est interfacée avec l'interpréteur qui vérifie la validité des commandes tapées et renvoie un message d'erreur en cas de mauvaise saisie. Si, au contraire, la commande est correcte, l'interpréteur la transmet soit à la couche graphe, soit à la couche algorithme. En parallèle à cet interpréteur, la couche de dessin accède également à la couche graphe pour en dessiner des représentations.
 		
 		\begin{figure}[H]
 			\centering
@@ -135,6 +135,7 @@
 			\draw[->] (7,6.5) -- (8,6.5);
 			\end{tikzpicture}
 			\caption{Couches logicielles}
+			\label{couchesLogicielles}
 		\end{figure}
 	
 	\section{Cadre de développement} 
@@ -249,7 +250,7 @@
 						\item Seul le premier paramètre (\texttt{connection}) est obligatoire
 						\item Le paramètre \texttt{id[Integer]} doit être positif ou nul et sa valeur par défaut est 0
 						\item Les valeurs par défaut sont \texttt{weight[Number]=0, label[String]="", max\_capacity[Number]=min\_capacity, min\_capacity[Number]=0}
-						\item L'\texttt{id} est un identifiant "local" à la \texttt{connection}, c'est-à-dire par exemple que \texttt{(0->1)} et \texttt{(1->0)} auront tout deux l'\texttt{id} à 0, et cela ne pose pas problème
+						\item L'\texttt{id} est un identifiant "local" à la \texttt{connection}, c'est-à-dire par exemple que \texttt{(0->1)} et \texttt{(1->0)} auront tous deux l'\texttt{id} à 0, et cela ne pose pas problème
 					\end{itemize}
 					\item \texttt{Graph}: 
 					\begin{itemize}
@@ -277,7 +278,7 @@
 				
 				Notons que les erreurs sont gérées au travers d'exceptions.\\
 				
-				Maintenant que les types des variables et leurs opérations de base sont définis, on veut pouvoir effectuer d'autres traitements sur ces variables (ajouter une nouvelle opération ou appliquer un algorithme). Cela va se faire via des fonctions prédéfinies (la définition de fonction n'est pas prévue).\\
+				Maintenant que les types des variables et leurs opérations de base sont définis, on veut pouvoir effectuer d'autres traitements sur ces variables (ajouter une nouvelle opération ou appliquer un algorithme). Cela va se faire via des fonctions prédéfinies (la définition de fonctions n'est pas prévue).\\
 				
 				Prototype d'une fonction: \texttt{R f(T1, T2, ...);} avec \texttt{R} le type de retour, \texttt{f} le nom de la fonction et \texttt{Tn} le type du paramètre en position \texttt{n}.\\
 				
@@ -299,6 +300,7 @@
 					\draw (5,0) node[anchor=north] {interpreter \#2} rectangle (8,3);
 					\draw[fill=black] (6,1) node[anchor=north] {datas} rectangle (7,2);
 				\end{tikzpicture}
+				\caption{Proposition d'architecture pour l'interpréteur}
 			\end{figure}
 			
 			Cette approche a cependant le désavantage de dupliquer l'interpréteur dans la mémoire, alors que celui-ci est le même. Ce qui définit l'état dans lequel l'interpréteur est, c'est les données dans la mémoires virtuelle de celui-ci, c'est-à-dire la table des variables (voir éventuellement la table des fonctions). On peut donc développer une autre solution, très proche des processeurs et de leurs registres:
@@ -341,7 +343,7 @@
 					\caption{Diagramme de classes de l'interpréteur  \cite{plantuml}}
 				\end{figure}
 				
-				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur, ou que cela surchargerait trop le diagramme. Notons les classes surlignées en jaune pétant, il s'agit des classes principales pour l'utilisateur (voir section~\ref{subsec:egli-exemple}).  
+				Ce diagramme ne montre pas les attributs des classes car l'implémentation de chacune n'est pas fixée. De plus l'interface est là à titre indicative, il est possible qu'il y ait quelques modifications dans les sources. Pour finir certaines classes ont des $\dots$, cela indique que l'on ne sait pas encore à l'heure actuelle ce qu'il y aura à l'intérieur, ou que cela surchargerait trop le diagramme. Notons les classes surlignées en jaune vif, il s'agit des classes principales pour l'utilisateur (voir section~\ref{subsec:egli-exemple}).  
 			
 			\subsubsection{Répertoires}
 				L'interpréteur étant une couche indépendante de l'application GUI, nous avons décidé de mettre tout ce qui le concerne dans un \texttt{namespace} du nom de \texttt{egli}, pour \textit{Embeeded GraphY Language Interpreter}.\\
@@ -354,7 +356,7 @@
 						.1 egli/\DTcomment{répertoire de base de EGLI}.
 						.2 detail/\DTcomment{répertoire "privé", ne doit pas être utilisé par l'utilisateur}.
 						.3 interface/\DTcomment{répertoire pour les fonctions interfacées}.
-						.4 algorithms.h\DTcomment{les algorithmes venant de la couche \textit{graphes et algorithmes}}.
+						.4 algorithms.h\DTcomment{les algorithmes venant des couches \textit{graphes et algorithmes}}.
 						.4 basics.h\DTcomment{les fonctions nécessaires au fonctionnement interne}.
 						.4 builtins.h\DTcomment{les fonctions offertes de base dans l'interpréteur}.
 						.3 FunctionImpl.h\DTcomment{implémentation de \texttt{FunctionCaller}}.
@@ -362,12 +364,12 @@
 						.3 interface.h\DTcomment{interfaçage centralisé des fonctions}.
 						.3 <...>\DTcomment{autres fichiers d'implémentation}.
 						.2 Array.h\DTcomment{tableau dynamique hétérogène}.
-						.2 Data.h\DTcomment{données utilisée dans l'interpréteur}.
+						.2 Data.h\DTcomment{données utilisées dans l'interpréteur}.
 						.2 egli.h\DTcomment{fichier d'inclusion générale}.
 						.2 Exception.h\DTcomment{exception spécifique à EGLI}.
 						.2 Function.h\DTcomment{déclaration de \texttt{FunctionCaller}}.
 						.2 FunctionTable.h\DTcomment{table des fonctions}.
-						.2 GraphWrapper.h\DTcomment{\textit{wrapper} de \texttt{IGraph} venant de la couche \textit{graphes et algorithmes}}.
+						.2 GraphWrapper.h\DTcomment{\textit{wrapper} de \texttt{IGraph} venant des couches \textit{graphes et algorithmes}}.
 						.2 Interpreter.h\DTcomment{interpréteur de EGLI}.
 						.2 Parser.h\DTcomment{parseur utilisé par l'interpréteur}.
 						.2 ProcessingUnit.h\DTcomment{unité de vérification et de traitement}.
@@ -472,7 +474,7 @@
 			
 			\subsubsection{Fonctions incluses}
 			\label{subsec:annexes-fonctions-incluses}
-			Cet section recense les fonctions incluses dans l'interpréteur et disponibles pour l'utilisateur de l'application. Les fonctions \textit{built-in} viennent de l'interpréteur directement, les fonctions \textit{algo} proviennent de la couche sur les graphes et ses algorithmes, et les fonctions \texttt{GUI} sont spécifiques à la couche interface GUI.\\
+			Cette section recense les fonctions incluses dans l'interpréteur et disponibles pour l'utilisateur de l'application. Les fonctions \textit{built-in} viennent de l'interpréteur directement, les fonctions \textit{algo} proviennent de la couche sur les graphes et ses algorithmes, et les fonctions \texttt{GUI} sont spécifiques à la couche interface utilisateur.\\
 			
 			Note: les paramètres de type \texttt{T} indiquent qu'il existe une surcharge de la fonction pour chacun des types disponible dans le langage.
 			
@@ -517,9 +519,9 @@
 	\section{Graphes}
 	\label{sec:graphes}
 		\subsection{Préface}
-		Un graphe est une structure composée d'un ensemble de sommets et d'arêtes/arcs. Il existe différents moyen de les représenter.
+		Un graphe est une structure composée d'un ensemble de sommets et d'arêtes/arcs. Il existe différents moyens de les représenter.
 		
-		Cette section a pour de présenter les interfaces à disposition de l'utilisateur pour manipuler des graphes, ainsi que de montrer nos choix de modélisation et d'implémentation de ceux-ci.
+		Cette section a pour but de présenter les interfaces à disposition de l'utilisateur pour manipuler des graphes, ainsi que de montrer nos choix de modélisation et d'implémentation de ceux-ci.
 		
 		\subsection{Architecture}
 		
@@ -582,13 +584,13 @@
 			
 			Notons que pour un \lstinline[basicstyle=\ttfamily\color{blue}]|Edge|, les sommets $a$ et $b$ ne font pas office de "source" et "destination" puisque l'arc n'est pas orienté.\\
 			
-			Nous sommes donc partis sur une première approche qui consiste à avoir une class Edge commune dont les Edge spécifiques hériteront selon le type de graphe.
+			Nous sommes donc partis sur une première approche qui consiste à avoir une classe Edge commune dont les Edge spécifiques hériteront selon le type de graphe.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=4.0]{Conception/graph/classedgesol1.pdf}
 				\caption{Classe Edge solution 1}
 			\end{figure}
-			Cette approche est optimale car elle permet une bonne factorisation du code. Seulement nous avons rencontré un problème lors de la mise en place de la classe Graph où les types de Edge sont passés par template (expliqué dans le chapitre "class Graph"). Avec la solution ci-dessus nous n'avons pas trouvé le moyen de spécifier explicitement le type \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| au graphe sans générer d'erreur de compilation : \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| étant un sous-type de \lstinline[basicstyle=\ttfamily\color{blue}]|DiEdge|, le compilateur ne parvenait pas à faire le lien sur le bon type. Nous nous sommes donc résiliés à modifier l'architecture de la classe "Edge" pour n'avoir que des types distincts.
+			Cette approche est optimale car elle permet une bonne factorisation du code. Seulement, nous avons rencontré un problème lors de la mise en place de la classe Graph où les types de Edge sont passés par template (expliqué dans le chapitre "classe Graph"). Avec la solution ci-dessus nous n'avons pas trouvé le moyen de spécifier explicitement le type \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| au graphe sans générer d'erreur de compilation : \lstinline[basicstyle=\ttfamily\color{blue}]|FlowEdge| étant un sous-type de \lstinline[basicstyle=\ttfamily\color{blue}]|DiEdge|, le compilateur ne parvenait pas à faire le lien sur le bon type. Nous nous sommes donc résiliés à modifier l'architecture de la classe "Edge" pour n'avoir que des types distincts.
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=4.0]{Conception/graph/classedgesol2.pdf}
@@ -602,7 +604,7 @@
 				\caption{Classe Edge solution finale}
 			\end{figure}
 			
-			Ainsi, grâce à la covariance des variables, l'utilisateur peut voir n'importe quel type de Edge en tant qu'IEdge et la manipuler de la sorte.
+			Ainsi, grâce à la covariance des variables, l'utilisateur peut voir n'importe quel type de Edge en tant qu'IEdge et le manipuler de la sorte.
 			\begin{lstlisting}
 						// Edge entre le sommet v1 et v2
 						IEdge *edge = new Edge(v1, v2, 4.5);
@@ -619,7 +621,7 @@
 						cout << flowEdge->weight() << endl; // Affiche 5.2
 			\end{lstlisting}
 						
-			\subsubsection{classe "Graph"}
+			\subsubsection{Classe "Graph"}
 			Cette classe est étroitement liée à la classe "Edge". Sachant qu'il existe trois types d'Edge, il existe donc 3 types de graphe :
 			\begin{itemize}
 				\item Graphe non-orienté
@@ -627,14 +629,14 @@
 				\item Graphe orienté à flot
 			\end{itemize}
 			Nous gardons la même architecture que la classe "Edge". Les trois types doivent être distincts (un graphe à flot ne doit pas hériter directement d'un graphe orienté) pour expliciter clairement le type de Edge.
-			Une première approche nous avait mené à déclarer les classes "Edge" internes aux classes "Graph" correspondantes mais cette méthode s'est avérée trop complexe. Une deuxième approche consistait plutôt à passer le type de Edge en template à la classe graphe lui correspondant. Cette deuxième approche nous paraissait plus simple et avons donc opté pour celle-ci.
-			Voici à à quoi ressemble le modèle conceptuel de la classe "Graph".
+			Une première approche nous avait mené à déclarer les classes "Edge" internes aux classes "Graph" correspondantes mais cette méthode s'est avérée trop complexe. Une deuxième approche consistait plutôt à passer le type de Edge en template à la classe Graph correspondante. Cette deuxième approche nous paraissait plus simple et nous avons donc opté pour celle-ci.
+			Voici à quoi ressemble le modèle conceptuel de la classe "Graph".
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=4.0]{Conception/graph/classgraphsol1.pdf}
 				\caption{Classe Graph solution finale}
 			\end{figure}
-			Et voici comment expliciter le type de Edge avec les template
+			Et voici comment expliciter le type de Edge avec les templates.
 			\begin{lstlisting}
 						template <typename T>
 						class GraphCommon {
@@ -692,11 +694,11 @@
 			\end{enumerate}	
 			L'utilisation de matrices est prépondérante dans la modélisation mathématique de nombreux problèmes et l'étude de certaines propriétés d'un graphe. Elle permet des vérifications rapides pour la présence ou non d'arcs/arêtes, mais est relativement lente lorsqu'il s'agit de les parcourir.
 			
-			Quant aux listes, notamment les listes d'adjacence, l'itération des arcs/arêtes est rapide mais la vérification de leurs présence est lente. Les listes sont une version compacte de représenter les matrices car elles stockent uniquement les arêtes existantes. Le gain de place mémoire est donc plus avantageux tant que le graphe n'est pas complet.\\
+			Quant aux listes, notamment les listes d'adjacence, l'itération des arcs/arêtes est rapide mais la vérification de leur présence est lente. Les listes sont un moyen compact de représenter les matrices car elles stockent uniquement les arêtes existantes. Le gain de place mémoire est donc plus avantageux tant que le graphe n'est pas complet.\\
 			
 			À ce stade, le choix de l'un ou l'autre présente alors ses avantages et désavantages. Une petite étude nous a permis d'orienter notre choix : \\
 			
-			Une première approche simple nous permet de déterminer qu'un graphe stocké sous forme de matrice occupera $n^2$ octets, où n est le nombre de sommet. Dans ce cas, un type char ferait amplement l'affaire pour représenter chaque case, car, en non-signé, on pourrait avoir jusqu'à 255 arcs/arêtes entre deux sommets.\\
+			Une première approche simple nous permet de déterminer qu'un graphe stocké sous forme de matrice occupera $n^2$ octets, où n est le nombre de sommet. Dans ce cas, un type char ferait amplement l'affaire pour représenter chaque case, car en non-signé, on pourrait avoir jusqu'à 255 arcs/arêtes entre deux sommets.\\
 			\begin{figure}[H]
 				\centering
 				\[
@@ -748,24 +750,24 @@
 			
 			Cependant, après avoir suivi le cours de GRE, nous nous sommes rendus compte qu'il était rare d'obtenir des graphes complets. La majorité des cas d'utilisation requièrent des graphes de faible densité, ce qui nous amène vers une quatrième approche : stocker les graphes sous forme de liste d'adjacence.\\
 			
-			Mis à part les aspects liés au gain de mémoire, les listes d'adjacences facilitent la plupart des opérations présentes dans nos algorithmes.
-			Trouver tous les sommets adjacents à un certain sommet est aussi simple que lire la liste et prend un temps proportionnel au nombre de voisins. Avec une matrice, toute une ligne doit être lue, ce qui prend un temps beaucoup plus long égal au nombre de sommet présent dans l'entièreté du graphe.
+			Mis à part les aspects liés au gain de mémoire, les listes d'adjacence facilitent la plupart des opérations présentes dans nos algorithmes.
+			Trouver tous les sommets adjacents à un certain sommet est aussi simple que lire la liste et prend un temps proportionnel au nombre de voisins. Avec une matrice, toute une ligne doit être lue, ce qui prend un temps beaucoup plus long, égal au nombre de sommets présents dans le graphe entier.
 			
-			Cette quatrième et dernière approche est celle que nous avons choisie car elle est la plus adaptée à nos besoins. \textbf{Nos graphes sont donc stockés sous forme de liste d'adjacence}.
+			Cette quatrième et dernière approche est celle que nous avons choisie car elle est la plus adaptée à nos besoins. Nos graphes sont donc stockés sous forme de liste d'adjacence.
 			
 			\subsubsection{Détails d'implémentation de la structure}
 			Dans cette partie, nous définissons comment la liste d'adjacence est implémentée. Il existe trois manières de représenter une telle liste :
 			\begin{enumerate}
 				\item Pour chaque sommet, lui associer un tableau des sommets adjacents. Il n'y a pas de représentation explicite des arcs/arêtes.
 				\item Un tableau indexé par les numéros de sommet, où chaque case contient une simple liste chainée constituée des sommets adjacents, ou des arcs/arêtes adjacent(e)s.
-				\item Une approche plus orientée objet consiste à avoir une variable d'instance pour chaque sommet, pointant vers une collection d'objet qui liste les arcs/arêtes voisin(e)s. À l'opposé, chaque arc/arête pointe vers ses deux sommets qui la compose. 
+				\item Une approche plus orientée objet consiste à avoir une variable d'instance pour chaque sommet, pointant vers une collection d'objets qui liste les arcs/arêtes voisin(e)s. À l'opposé, chaque arc/arête pointe vers les sommets qui la compose. 
 			\end{enumerate}
-			La solution (1) ne permet pas de stocker d'informations sur les arcs/arêtes. La solution (2) le permet pour autant qu'on choisisse une liste d'Edge adjacents. Dans ce cas, on ne peut pas stocker d'information sur les sommets.\\
+			La solution (1) ne permet pas de stocker d'informations sur les arcs/arêtes. La solution (2) le permet, pour autant qu'on choisisse une liste d'Edge adjacents. Dans ce cas, on ne peut pas stocker d'information sur les sommets.\\
 			
-			Nous avons donc opté pour la solution (3). Un tableau de sommet, où chaque sommet possède une variable pointant vers une listes de pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|, et où chaque \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge| possède un pointeur sur chacun de ses deux sommets qui la constitue. Nous aurions également pu stocker des pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|T| (\lstinline[basicstyle=\ttfamily\color{blue}]|T| étant le typename du template, donc le type de l'Edge) mais pour avoir une visibilité plus globale sur les Edge, nous avons décidé de stocker des pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|.\\
+			Nous avons donc opté pour la solution (3). Un tableau de sommets, où chaque sommet possède une variable pointant vers une liste de pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|, et où chaque \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge| possède un pointeur sur chacun des sommets qui la constitue. Nous aurions également pu stocker des pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|T| (\lstinline[basicstyle=\ttfamily\color{blue}]|T| étant le typename du template, donc le type de l'Edge) mais pour avoir une visibilité plus globale sur les Edge, nous avons décidé de stocker des pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|.\\
 			À noter que pour un graphe non orienté, les Edge se répéteront à double et c'est précisément ce que nous voulons car nous souhaitons préserver la logique de la liste d'adjacence pour nos algorithmes.\\
 			
-			Le choix de stocker les éléments par pointeur ou par copie a été longuement réfléchis. L'un comme l'autre a ses avantages et désavantages.\\ \\
+			Le choix de stocker les éléments par pointeur ou par copie a été longuement réfléchi. L'un comme l'autre a ses avantages et désavantages.\\ \\
 			\begin{tabular}{p{0.1\textwidth}|p{0.4\textwidth}|p{0.4\textwidth}}
 				 &Avantages&Désavantages\\
 				\hline
@@ -913,7 +915,7 @@
 				\caption{Pattern Visitor pour l'application des algorithmes aux graphes}
 			\end{figure}
 			
-			Les algorithmes ne sont pas les mêmes pour tous les types de graphes : un parcours en largeur sera quelque peu différent entre un graphe orienté et non-orienté. Le pattern Visiteur est précisément fait pour répondre à ce genre de problème. De plus, l'avantage du pattern est qu'il est facilement extensible : un nouvel algorithme s'ajoute tout bonnement en tant que visiteur. Par contre, la structure de donnée doit être complète et tout changement de cette dernière demandera, selon le changement, une adaptation chez tous les visiteurs.\\
+			Les algorithmes ne sont pas les mêmes pour tous les types de graphe : un parcours en largeur sera quelque peu différent entre un graphe orienté et non-orienté. Le pattern Visiteur est précisément fait pour répondre à ce genre de problème. De plus, l'avantage du pattern est qu'il est facilement extensible : un nouvel algorithme s'ajoute tout bonnement en tant que visiteur. Par contre, la structure de donnée doit être complète et tout changement de cette dernière demandera, selon le changement, une adaptation chez tous les visiteurs.\\
 			
 			\begin{lstlisting}
 						// Code d'un objet visite
@@ -988,17 +990,15 @@
 					\hline
 					DFS & IGraph & Depth First Search : effectue une exploration en profondeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(V+E)$\\
 					\hline
-					Composante connexe & vector<double> & Calcul les composantes connexes d'un graphe et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
+					Composante connexe & vector<double> & Calcule les composantes connexes d'un graphe et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
 					\hline
-					Composante fortement connexe & vector<double> &Calcul les composantes fortement connexes d'un graphe orienté et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
+					Composante fortement connexe & vector<double> &Calcule les composantes fortement connexes d'un graphe orienté et retourne un tableau dont l'index représente le sommet et la valeur de la composante à laquelle appartient le sommet. & $O(V+E)$\\
 					\hline
-					Kruskal & IGraph et vector<double> en paramètre  &Implémenté avec UnionFind, recherche de l'arbre recouvrant de poids min. & $O(E * log(V))$\\
+					Kruskal & IGraph et vector<double> en paramètre  &Implémenté avec UnionFind, recherche de l'arbre recouvrant de poids minimum. & $O(E * log(V))$\\
 					\hline
 					Bellman-Ford & IGraph et vector<double> en paramètre &Recherche les plus courts chemins depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré. & $O(E*V)$\\
 					\hline
 					Dijkstra & IGraph et vector<double> en paramètre & Implémenté à l'aide d'une queue de priorité, recherche d'un plus court chemin depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré positivement (ou nul). & $O(E * log(V))$\\
-					
-					% TODO FFEK ?
 				\end{tabular}
 			\end{figure}
 			
@@ -1007,7 +1007,7 @@
 			\begin{enumerate}
 				\item Créer un graphe (avec des sommets et des edges) 
 				\item Appeler l'algorithme voulu
-				\item Récupérer le graphe résultant de l'algorithme (si l'algorithme retourne un graphe), sinon récupérer le tableau de double (et éventuellement le tableau de double passé préalablement en paramètre)
+				\item Récupérer le graphe résultant de l'algorithme (si l'algorithme retourne un graphe), sinon récupérer le tableau de double (et éventuellement le tableau de doubles passé préalablement en paramètre)
 			\end{enumerate}
 			
 			\begin{lstlisting}
@@ -1047,26 +1047,26 @@
 	\section{Interface}
 		\subsection{Fenêtre principale}
 			\subsubsection{Conception générale}
-				Afin de mettre en place un principe de session de travail, un système d'onglets multiples est proposé, chacun contant une console, afin de pouvoir travailler en parallèle sur plusieurs graphes.
+				Afin de mettre en place un principe de session de travail, un système d'onglets multiples est proposé, chacun contenant une console, afin de pouvoir travailler en parallèle sur plusieurs graphes.
 			\subsubsection{Console}
-				Qt ne proposant pas directement de Widget faisant office de console, il a fallu en créer une adapté au besoin de l'application. La base de la console est un QTextEdit, un composant permettant la saisie libre de texte. Le QTextEdit autorisant justement de saisir du texte où bon nous semble, il a fallu mettre en place des fonctionnalité limitant l'utilisateur dans les endroits où il peut saisir du texte. Dans un premier temps, un buffer contenant le texte saisi par l'utilisateur a été implémentés.\\
-				Ensuite, pour synchroniser les données réellement saisie et l'affichage, un curseur géré manuellement a été mis en place. En effet le curseur de base est sensible au clic de la souris, ce qui lui permettrait de pouvoir insérer du n'importe où. Grâce au curseur crée, on s'assure que le texte sera inséré au bon endroit dans l'affichage.\\
-				Le menu contextuelle par défaut aussi posait problème, car il implémentait des fonctionnalités allant à l'encontre de l'intégrité de la console, comme par exemple la fonction "couper" ou encore "supprimer" qui permettait d'enlever du texte de la console. Un nouveau menu, proposant uniquement des fonctionnalités ne supprimant pas l'affichage actuelle, a été crée. Ainsi, grâce à celui-ci, il est possible de "Copier", "Coller", et "Sélectionner tout" du texte d'une console. La fonction "Coller" insère le texte à partir du curseur gérée manuellement pour empêcher des incohérences dans l'application.
+				Qt ne proposant pas directement de Widget faisant office de console, il a fallu en créer un adapté au besoin de l'application. La base de la console est un QTextEdit, un composant permettant la saisie libre de texte. Le QTextEdit autorisant justement de saisir du texte où bon nous semble, il a fallu mettre en place des fonctionnalités limitant l'utilisateur dans les endroits où il peut saisir du texte. Dans un premier temps, un buffer contenant le texte saisi par l'utilisateur a été implémenté.\\
+				Ensuite, pour synchroniser les données réellement saisies et l'affichage, un curseur géré manuellement a été mis en place. En effet le curseur de base est sensible au clic de la souris, ce qui lui permettrait de pouvoir insérer du texte n'importe où. Grâce au curseur créé, on s'assure que le texte sera inséré au bon endroit dans l'affichage.\\
+				Le menu contextuel par défaut aussi posait problème, car il implémentait des fonctionnalités allant à l'encontre de l'intégrité de la console, comme par exemple la fonction "couper" ou encore "supprimer" qui permettait d'enlever du texte de la console. Un nouveau menu, proposant uniquement des fonctionnalités ne supprimant pas l'affichage actuel, a été créé. Ainsi, grâce à celui-ci, il est possible de "Copier", "Coller", et "Sélectionner tout" du texte d'une console. La fonction "Coller" insère le texte à partir du curseur géré manuellement pour empêcher des incohérences dans l'application.
 		\subsection{Auto complétion}
 			\subsubsection{Implémentation du dictionnaire}
-			La première étape pour permettre l'implémentation de l'auto complétion est le choix d'une structure de donnée adéquate. Après quelques recherches, le \textit{ternary search try} se montre le plus adéquat. En effet, sa mise en œuvre permet une recherche très rapide. Pour une recherche réussie (\textit{search hit}), sa complexité est de l'ordre de $O(L + ln(N))$ avec $L$ la longueur de la chaine recherchée et $N$ le nombre de mots dans le dictionnaire \cite{tries}. Une recherche ratée (\textit{search miss}) prend quant à elle $O(ln(N))$. Il est vrai qu'une hash map effectue toutes ses opérations en moyenne en $O(L)$, mais le temps de hachage et non-négligeable et la performance globale en temps et en espace mémoire est souvent moins bonne \cite{sedgewick}.
+			La première étape pour permettre l'implémentation de l'auto complétion est le choix d'une structure de données adéquate. Après quelques recherches, le \textit{ternary search tries} se montre le plus adéquat. En effet, sa mise en œuvre permet une recherche très rapide. Pour une recherche réussie (\textit{search hit}), sa complexité est de l'ordre de $O(L + ln(N))$ avec $L$ la longueur de la chaine recherchée et $N$ le nombre de mots dans le dictionnaire \cite{tries}. Une recherche ratée (\textit{search miss}) prend quant à elle $O(ln(N))$. Il est vrai qu'une hash map effectue toutes ses opérations en moyenne en $O(L)$, mais le temps de hachage et non-négligeable et la performance globale en temps et en espace mémoire est souvent moins bonne \cite{sedgewick}.
 			
 			\subsubsection{Auto-complétion dans la GUI}
-			Au final, l'auto-complétion proposée par Qt a pu être adaptée à l'utilisation dans la console principale, ce qui a rendu les efforts consacrés à l'implémentation d'un dictionnaire efficace inutiles. Le comportement de l'auto-complétion n'est pas exactement celle initialement prévue, mais son utilisation a permis un gain de temps global.
+			Au final, l'auto-complétion proposée par Qt a pu être adaptée à l'utilisation dans la console principale, ce qui a rendu les efforts consacrés à l'implémentation d'un dictionnaire efficace inutiles. Le comportement de l'auto-complétion n'est pas exactement celui initialement prévu, mais son utilisation a permis un gain de temps global.
 			
 		\subsection{Aide utilisateur}
 			\subsubsection{Conception générale}
-			Les fichiers d'aide utilisateur ont été écrit au format HTML, afin qu'ils soient rapidement écrits et que l'utilisateur puisse naviguer d'une page à l'autre. L'interface de l'aide contient également une barre de recherche qui utilise un fichier de mots-clés pour effectuer ces recherches. Ceci a été fait, plutôt que de chercher le texte dans les fichiers afin qu'une recherche avec un mot commun du langage, tel que \textit{graph}, \textit{edge} ou \textit{vertex} n'affiche pas toutes les pages de l'aide, puisque ces mots se trouvent dans la majorité des fichiers.
+			Les fichiers d'aide utilisateur ont été écrits au format HTML, afin qu'ils soient rapidement rédigés et que l'utilisateur puisse naviguer d'une page à l'autre. L'interface de l'aide contient également une barre de recherche qui utilise un fichier de mots-clés pour effectuer ces recherches. Ceci a été fait, plutôt que de chercher le texte dans les fichiers, afin qu'une recherche avec un mot commun du langage, tel que \textit{graph}, \textit{edge} ou \textit{vertex} n'affiche pas toutes les pages de l'aide, puisque ces mots se trouvent dans la majorité des fichiers.
 	
 	\section{Représentation graphique des graphes}
 		\subsection{Widget de visualisation}
 			\subsubsection{Fonctionnement de QT}
-				QT possède un système de dessin complexe, le \textit{Graphics View Framework}. Cet outil est basé sur le principe suivante : trois types d'éléments se partagent différentes responsabilités. \\
+				QT possède un système de dessin complexe, le \textit{Graphics View Framework}. Cet outil est basé sur le principe suivant : trois types d'éléments se partagent différentes responsabilités. \\
 				
 				\textbf{La scène (classe QGraphicsScene)} :
 				\begin{itemize}
@@ -1079,10 +1079,10 @@
 				
 				\textbf{La vue (classe QGraphicsView)} : \\
 				La vue se charge d'afficher le contenu d'une scène (plusieurs vues peuvent très bien afficher la même scène). Ici, la scène peut être perçue comme un modèle du design MVC. \\
-				Elle s'occupe d'afficher tout ou une partie de la scène, c'est à dire que si cette dernière est grande, trop grande pour la fenêtre ou pour la zone à disposition, la vue s'occuper d'ajouter des barres de défilement. Ceci engendre que les coordonnées peuvent différer entre une vue et sa scène. La vue recevant en premier les actions de l'utilisateur, va les transmettre à la scène en prenant soin d'adapter les coordonnées si besoin. Par exemple, un clic en haut à gauche de la fenêtre sera en coordonnées (0,0) pour la vue, mais si l'utilisateur a auparavant scrollé horizontalement et/ou verticalement, la coordonnées réelle du clic sur la scène pourrait être (0,100), (130, 10), etc. Cette adaptation est donc extrêmement importante. Des méthodes peuvent sont également mises à disposition par QT afin de manuellement demander la correspondance d'une coordonnée vue -> scène ou scène -> vue. \\
+				Elle s'occupe d'afficher tout ou une partie de la scène, c'est à dire que si cette dernière est grande, trop grande pour la fenêtre ou pour la zone à disposition, la vue va s'occuper d'ajouter des barres de défilement. Ceci engendre que les coordonnées peuvent différer entre une vue et sa scène. La vue recevant en premier les actions de l'utilisateur, va les transmettre à la scène en prenant soin d'adapter les coordonnées si besoin. Par exemple, un clic en haut à gauche de la fenêtre sera en coordonnées (0,0) pour la vue, mais si l'utilisateur a auparavant scrollé horizontalement et/ou verticalement, la coordonnée réelle du clic sur la scène pourrait être (0,100), (130, 10), etc. Cette adaptation est donc extrêmement importante. Des méthodes sont également mises à disposition par QT afin de manuellement demander la correspondance d'une coordonnée vue -> scène ou scène -> vue. \\
 				
 				\textbf{Les éléments graphiques (classe QGraphicsItem et sous-classes)} : \\
-				Ces classes représentes des éléments graphiques de base, une ellipse (QGaphicsEllipseItem), une rectangle (QGraphicsRectItem), un texte (QGraphicsTextItem), etc. Il est possible de les paramétrer en leur fournissant un objet QPen personnalisé (pour le contour) et/ou un objet QBrush (pour le fond) et en utilisant leur interface publique respective. Il est également possible de spécialiser une classe de QT afin de créer ses propres éléments.
+				Ces classes représentent des éléments graphiques de base, une ellipse (QGaphicsEllipseItem), un rectangle (QGraphicsRectItem), un texte (QGraphicsTextItem), etc. Il est possible de les paramétrer en leur fournissant un objet QPen personnalisé (pour le contour) et/ou un objet QBrush (pour le fond) et en utilisant leur interface publique respective. Il est également possible de spécialiser une classe de QT afin de créer ses propres éléments.
 				Ces objets possèdent une fois de plus leur propre système de coordonnées. La position qu'il leur est attribuée par la scène devient leur point d'origine et là aussi des méthodes permettent des conversions.
 				
 				\pagebreak
@@ -1097,26 +1097,26 @@
 				\pagebreak
 				
 				Afin de respecter la philosophie de QT, j'ai créé des classes spécialisées pour chaque partie. La classe \textbf{GraphView} n'a pas forcément d'utilité pour l'instant, mais pour l'éventuel avenir du projet, celle-ci permettra de gérer des événements plus précis (actuellement nous n'avons implémenté que le drag and drop des sommets et ceci est automatiquement géré par QT). \\
-				La classe \textbf{GraphScene} prend en paramètre un pointeur de IGraph. C'est cette objet qui va s'occuper des créer tous les éléments graphiques nécessaires à sa représentation. \\
-				Puis les éléments graphiques \textbf{VertexItem} et \textbf{EdgeItem} (ainsi que ses sous-classes \textbf{DiEdgeItem} et \textbf{FlowEdgeItem}) permettent respectivement de dessiner les sommets et les arcs/arêtes. Ces classes ne sont pas directement de type QGraphcsItem, mais de QGraphicsItemGroup qui est en faite un conteneur de plusieurs QGraphcsItem. En effet, une sommet est composé d'un cercle (réellement d'une ellipse) d'un texte pour l'identifiant affiché et d'un autre texte pour son label. Les arêtes (EdgeItem) qui sont des simple lignes avec un label, les arcs (DiEdge) qui ajoutent une flèche pour la direction et les flux (FlowEdge) qui ajout également une flèche, mais aussi les capacité. Chacun des éléments graphiques ajoutent et gèrent tous les autres éléments graphiques dont il a besoin. \\
+				La classe \textbf{GraphScene} prend en paramètre un pointeur de IGraph. C'est cette objet qui va s'occuper de créer tous les éléments graphiques nécessaires à sa représentation. \\
+				Puis les éléments graphiques \textbf{VertexItem} et \textbf{EdgeItem} (ainsi que ses sous-classes \textbf{DiEdgeItem} et \textbf{FlowEdgeItem}) permettent respectivement de dessiner les sommets et les arcs/arêtes. Ces classes ne sont pas directement de type QGraphcsItem, mais de QGraphicsItemGroup qui est en fait un conteneur de plusieurs QGraphcsItem. En effet, un sommet est composé d'un cercle (réellement d'une ellipse) d'un texte pour l'identifiant affiché et d'un autre texte pour son label. Les arêtes (EdgeItem) qui sont des simple lignes avec un label, les arcs (DiEdge) qui ajoutent une flèche pour la direction et les flux (FlowEdge) qui ajout également une flèche, mais aussi les capacités. Chacun des éléments graphiques ajoute et gère tous les autres éléments graphiques dont il a besoin. \\
 				
-				Finalement, la scène se charge de donner une position aux sommets. Pour ce projet, le but était de placer les éléments simplement sur une grille et de laisser la possibilité aux utilisateurs de modifier cette disposition. La scène calcule donc une coordonnées basé sur une grille de quatre pour chaque sommet. Les arcs/arêtes eux, se placent automatiquement en fonction des sommets qu'ils relient. \\
-				La classe Graphe mets à disposition des identifiants uniques croissants. Ceci m'a permis de pouvoir faire le lien entre un sommet et un sommet graphique afin de savoir, d'après un IEdge, quels sommets graphiques relier.
+				Finalement, la scène se charge de donner une position aux sommets. Pour ce projet, le but était de placer les éléments simplement sur une grille et de laisser la possibilité aux utilisateurs de modifier cette disposition. La scène calcule donc une coordonnée basée sur une grille de quatre pour chaque sommet. Les arcs/arêtes eux, se placent automatiquement en fonction des sommets qu'ils relient. \\
+				La classe Graphe met à disposition des identifiants uniques croissants. Ceci m'a permis de pouvoir faire le lien entre un sommet et un sommet graphique afin de savoir, d'après un IEdge, quels sommets graphiques relier.
 		
 			\subsubsection{Drag \& drop des sommets}
 				La classe \textbf{VertexItem} représentant un sommet, utilise une fonctionnalité de QT qui permet d'automatiquement implémenter le drag \& drop, au travers de méthodes appelées dans le constructeur de la classe. Tout est donc automatique. \\
 				J'ai néanmoins dû faire en sorte que si un sommet est déplacé, les arcs/arêtes liées s'adaptent. Qt met à disposition une méthode \textbf{itemChange()} sur les éléments graphiques afin d'être averti lors d'événements. Surcharger cette méthode a permis d'effectuer une action si le type d'événement est un drag \& drop, à savoir ajuster tous les arcs/arêtes liés.
 				
 			\subsubsection{Ajustement des arcs/arêtes}
-				Les objets de type \textbf{EdgeItem} possèdent une méthode \textbf{adjust()} lui permettant de s'ajuster aux sommets source et de destination. Cette méthode est donc appelée à la construction de l'élément et lorsque qu'un sommet lié a été déplacé (comme expliqué précédemment). Les lignes ne reliant pas le centre des cercles représentants les sommets, mais s'arrêtant à l'extérieur de ces derniers, il a fallu effectuer quelques calculs à l'aide du théorème de Thalès afin de déplacer les points dans le plan.
+				Les objets de type \textbf{EdgeItem} possèdent une méthode \textbf{adjust()} lui permettant de s'ajuster aux sommets source et destination. Cette méthode est donc appelée à la construction de l'élément et lorsque qu'un sommet lié a été déplacé (comme expliqué précédemment). Les lignes ne reliant pas le centre des cercles représentant les sommets, mais s'arrêtant à l'extérieur de ces derniers, il a fallu effectuer quelques calculs à l'aide du théorème de Thalès afin de déplacer les points dans le plan.
 				
 			\subsubsection{Notion de "Bounding rect"}
-				La notion de \textbf{Bounding rect} est importante lors du dessin des différents éléments. Il s'agit d'une zone indiquant à la vue qu'est-ce qui doit être dessiné et effacé. Elle doit être la plus précise possible afin de ne pas demander au programme de redessiner quelque chose qui n'a pas changé (un arrière-plan par exemple), mais elle doit également englober totalement l'élément. C'est par exemple important pour lors du déplacement d'un élément graphique. La vue va redessiner ce qui se trouvait dans la zone précédente et dans la nouvelle zone, afin de faire disparaitre l'élément de son ancien emplacement et de le dessiner dans son nouvel emplacement. Si la zone ne couvre pas tout l'élément, des parties de celui-ci pourrait ne pas être mises à jour et laisser des résidus visuels.
+				La notion de \textbf{Bounding rect} est importante lors du dessin des différents éléments. Il s'agit d'une zone indiquant à la vue qu'est-ce qui doit être dessiné et effacé. Elle doit être la plus précise possible afin de ne pas demander au programme de redessiner quelque chose qui n'a pas changé (un arrière-plan par exemple), mais elle doit également englober totalement l'élément. C'est par exemple important lors du déplacement d'un élément graphique. La vue va redessiner ce qui se trouvait dans la zone précédente et dans la nouvelle zone, afin de faire disparaitre l'élément de son ancien emplacement et de le dessiner dans son nouvel emplacement. Si la zone ne couvre pas tout l'élément, des parties de celui-ci pourraient ne pas être mises à jour et laisser des résidus visuels.
 			
-		\subsection{Fabriques des éléments graphique}
-			Revenons sur la classe \textbf{GraphScene}. Celle-ci peut recevoir en paramètres tous types de graphes (normaux, dirigés et de flot). Elle doit être capable de créer les bons éléments graphiques. Pour ce faire, elle essaie de caster dynamiquement le IGraph en Graph, DiGraph et FlowGraph ce qui permet d'en connaître le type réel. \\
+		\subsection{Fabriques des éléments graphiques}
+			Revenons sur la classe \textbf{GraphScene}. Celle-ci peut recevoir en paramètres tout types de graphes (normaux, dirigés et de flot). Elle doit être capable de créer les bons éléments graphiques. Pour ce faire, elle essaie de caster dynamiquement le IGraph en Graph, DiGraph et FlowGraph ce qui permet d'en connaître le type réel. \\
 			
-			La scène parcours ensuite chaque sommet, puis chaque noeud. Les sommets ne changent pas en fonction du type de graphe, en revanche les noeuds nécessites de créer les bons types d'éléments graphiques. J'ai donc décidé d'appliquer le design pattern \textbf{Abstract Factory} qui permet de créer une factory d'un certain type, puis d'appeler des méthodes de création qui vont se charger d'instancier directement les bonnes classes.
+			La scène parcours ensuite chaque sommet, puis chaque noeud. Les sommets ne changent pas en fonction du type de graphe, en revanche les noeuds nécessitent de créer les bons types d'éléments graphiques. J'ai donc décidé d'appliquer le design pattern \textbf{Abstract Factory} qui permet de créer une factory d'un certain type, puis d'appeler des méthodes de création qui vont se charger d'instancier directement les bonnes classes.
 			
 			\begin{figure}[H]
 				\centering
@@ -1124,7 +1124,7 @@
 				\caption{Diagramme de classes de la fabrication des éléments graphiques}
 			\end{figure}
 			
-			Les factories sont donc toutes du même type de base, une classe abstraite qui définit les méthodes de création. Il y a ensuite une classe spécialisée par type de graphe, par famille (normal, dirigé et de flot). Ces sous-classes ont ensuite simplement à retourner une instance de l'éléments graphique correspondant à ce type. \\
+			Les factories sont donc toutes du même type de base, une classe abstraite qui définit les méthodes de création. Il y a ensuite une classe spécialisée par type de graphe, par famille (normal, dirigé et de flot). Ces sous-classes ont ensuite simplement à retourner une instance de l'élément graphique correspondant à ce type. \\
 			
 			Voici un exemple d'utilisation :
 		
@@ -1139,7 +1139,7 @@
 			\end{lstlisting}
 			
 			\begin{lstlisting}
-						// Creation de la factory correspondance a la bonne famille
+						// Creation de la factory correspondante a la bonne famille
 						AbstractGraphItemFactory *factory;
 						if (dynamic_cast<const FlowGraph *>(graph)) {
 						  factory = new FlowGraphItemFactory();
@@ -1149,7 +1149,7 @@
 						}
 						...
 						
-						// Creation d'un objet EdgeItem sans ce soucier de son reel type
+						// Creation d'un objet EdgeItem sans se soucier de son reel type
 						EdgeItem *edgeItem = factory->createEdge(
 						  pointeurDeEdge,
 						  sommetSource,
@@ -1194,9 +1194,9 @@
 		
 		\subsection{Réutilisation}
 			Un problème se posait quant à la génération des graphes. Si un utilisateur affichait un graphe, déplaçait les sommets pour obtenir un affichage plus lisible et qu'il souhaitait ensuite l'exporter, le fichier contiendrait l'affichage par défaut (en grille actuellement) et pas ces modifications. Ceci représente également une perte de temps de régénérer l'affichage entier, alors que celui-ci a déjà été fait. \\
-			Nous avons donc décidé d'implémenter une manageur de scènes (GraphScene) qui se charge de créer une nouvelle scène à partir d'un IGraph seulement si nécessaire. Ce manageur devait donc avoir connaissance des changements survenus sur les graphes. En clair, un graphe qui n'a pas changé (sommets, arêtes, etc.) doit utiliser la même scène d'un affichage à l'autre. \\
+			Nous avons donc décidé d'implémenter un manageur de scènes (GraphScene) qui se charge de créer une nouvelle scène à partir d'un IGraph seulement si nécessaire. Ce manageur devait donc avoir connaissance des changements survenus sur les graphes. En clair, un graphe qui n'a pas changé (sommets, arêtes, etc.) doit utiliser la même scène d'un affichage à l'autre. \\
 			
-			Il n'était pas facile de mémoriser l'état de graphe. Nous avons donc créé une méthode de hashage d'un IGraph, prenant en compte tous les attributs des graphes. Le hash obtenu permet de distinguer un graphe avant et après une modification. Les scènes sont donc stockées par le manageur et liées à un hash. Lors de la demande de création d'une scène, les hashs sont comparés et s'il y a une concordance, la scène existante et retournée à la place qu'une nouvelle soit créée.
+			Il n'était pas facile de mémoriser l'état des graphes. Nous avons donc créé une méthode de hashage d'un IGraph, prenant en compte tous les attributs des graphes. Le hash obtenu permet de distinguer un graphe avant et après une modification. Les scènes sont donc stockées par le manageur et liées à un hash. Lors de la demande de création d'une scène, les hashs sont comparés et s'il y a une concordance, la scène existante est retournée à la place qu'une nouvelle soit créée.
 			
 			\begin{figure}[H]
 				\centering
@@ -1207,7 +1207,64 @@
 			Cela permet donc d'économiser du temps et permet aux utilisateurs de garder en mémoire les modifications qu'ils apportent visuellement aux graphes. \\
 			
 			Les objets désirant une instance de la classe GraphScene doivent donc maintenant toujours passer par le manageur.
+			
+	\section{Conclusion}
+		% Conclusion critique sur l'application fournie et le travail de groupe
+		% Indications précises de ce qui ne fonctionne pas correctement
+		% Propositions d'améliorations pour des développements futurs
 	
+		\subsection{Application fournie}
+		
+		\subsection{Travail de groupe}
+		
+		\subsection{Planification}
+			% Les figures ne prennent pas en compte les tests et la doc, uniquement la conception et l'impl.
+		
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{Planification/comparaisonheures.pdf}
+				\caption{Comparaison entre le temps prévu et temps effectif des tâches
+					principales}
+				\label{fig:comparaisonheures}
+			\end{figure}
+			
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{Planification/comparaisondates.pdf}
+				\caption{Comparaison entre les dates prévues et effectives des tâches principales}
+				\label{fig:comparaisondates}
+			\end{figure}
+			
+			% Tables des figures
+			\listoffigures
+			
+			% References
+			\begin{thebibliography}{9}
+				\bibitem{qtStyle}
+				Qt wiki, Qt coding style,\\ \url{https://wiki.qt.io/Qt_Coding_Style}
+				
+				\bibitem{vutbr.cz} 
+				Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
+				
+				\bibitem{plantuml}
+				PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
+				
+				\bibitem{Graph data wikipedia.org}
+				Graphs data structures,\\ \url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
+				
+				\bibitem{boost.spirit}
+				Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
+				
+				\bibitem{tries}
+				Robert Sedgewick, Kevin Wayne.\\
+				\emph{Algorithms, fourth edition}\\
+				\url{http://algs4.cs.princeton.edu/lectures/52Tries.pdf}
+				
+				\bibitem{sedgewick}
+				Robert Sedgewick.\\
+				\emph{Course on ternary search tries}
+				\url{https://www.youtube.com/watch?v=CIGyewO7868}
+			\end{thebibliography}
+			
+	\newpage
 	\section{Annexes EGLI}
 	\label{sec:annexes-egli}
 	
@@ -2311,57 +2368,7 @@
 		
 		Cela est possible car les tables des variables et des fonctions nous permet d'obtenir des informations sur leurs contenus. L'algorithme consiste à nouveau en une simple récursion dans l'arbre, et à chaque noeud on vérifie les types.\\
 		
-		NB: cette vérification ne verra pas tous les problèmes de types, typiquement à cause des tableaux dynamiques hétérogènes.
-		
-	\section{Conclusion}
-		\subsection{Application fournie}
-		
-		\subsection{Travail de groupe}
-		
-		\begin{figure}[H]
-			\includegraphics[width=\textwidth]{Planification/comparaisonheures.pdf}
-			\caption{Comparaison entre le temps prévu et temps effectif des tâches
-				principales}
-			\label{fig:comparaisonheures}
-		\end{figure}
-		
-		\begin{figure}[H]
-			\includegraphics[width=\textwidth]{Planification/comparaisondates.pdf}
-			\caption{Comparaison entre les dates prévues et effectives des tâches principales}
-			\label{fig:comparaisondates}
-		\end{figure}
-		
-		
-		% Tables des figures
-		\listoffigures
-		
-		% References
-		\begin{thebibliography}{9}
-			\bibitem{qtStyle}
-			Qt wiki, Qt coding style,\\ \url{https://wiki.qt.io/Qt_Coding_Style}
-			
-			\bibitem{vutbr.cz} 
-			Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
-			
-			\bibitem{plantuml}
-			PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
-			
-			\bibitem{Graph data wikipedia.org}
-			Graphs data structures,\\ \url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
-			
-			\bibitem{boost.spirit}
-			Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
-			
-			\bibitem{tries}
-			Robert Sedgewick, Kevin Wayne.\\
-			\emph{Algorithms, fourth edition}\\
-			\url{http://algs4.cs.princeton.edu/lectures/52Tries.pdf}
-			
-			\bibitem{sedgewick}
-			Robert Sedgewick.\\
-			\emph{Course on ternary search tries}
-			\url{https://www.youtube.com/watch?v=CIGyewO7868}
-		\end{thebibliography}	
+		NB: cette vérification ne verra pas tous les problèmes de types, typiquement à cause des tableaux dynamiques hétérogènes.	
 		
 	\section{Annexes projet}
 		\subsection{Cahier des charges}
