@@ -94,19 +94,20 @@
 	$ $
 	\newpage
 	
-
-	
-	% Tables des matières
-	\tableofcontents
-	
-
-	
 	% Pour tout le document
 	\justify
 	\normalsize
 	
+	\section*{Remerciements}
+	Nous tenons tout d'abord à remercier M. Prof. René Rentsch pour son suivi et ses conseils durant toute la période du travail. Nous voulons aussi remercier M. Prof. Claude Evéquoz pour son aide à la vérification de la grammaire de notre langage. Enfin, merci également à M. Prof. Jean-François Hêche pour ses conseils sur l'implémentation des algorithmes de graphes.\\$ $\\$ $\\$ $\\$ $\\
+	
+	% Tables des matières
+	\tableofcontents
+	
+	\newpage
+	
 	\section{Introduction}
-	Dans le cadre du cours PRO, encadré par le Prof. René Rentsch, il a été demandé de réaliser un projet de semestre sur une période de 10 semaines. Après l'acceptation du cahier des charges à la semaine 4, le projet a pu débuter. Celui-ci porte sur une application permettant de traiter des graphes, de lancer des algorithmes dessus, de les dessiner et enfin de pouvoir les exporter en format d'image vectoriel.
+	Dans le cadre du cours PRO en deuxième année du cursus de Bachelor de la HEIG-VD, il a été demandé de réaliser un projet de semestre sur une période de 10 semaines. Après l'acceptation du cahier des charges à la semaine 4, le projet a pu débuter. Celui-ci porte sur une application permettant de traiter des graphes, de lancer des algorithmes dessus, de les dessiner et enfin de pouvoir les exporter en format d'image vectoriel.
 	
 		\subsection{Objectif}
 		Les objectifs principaux du rapport peuvent être décomposés en quatre parties. Premièrement, il doit être possible de saisir un graphe et qu'il soit stocké dans l'application. Ensuite, des algorithmes classiques des graphes (Dijkstra, parcours en profondeur/largeur, etc...) doivent pouvoir être appliqués au graphe précédemment saisi. Puis, il doit pouvoir être dessiné et remanié avec le curseur pour permettre de l'exporter en image vectorielle. Enfin, toutes ces parties doivent être coordonnées au moyen d'un langage spécifique à l'application.\\
@@ -1222,38 +1223,50 @@
 		% Indications précises de ce qui ne fonctionne pas correctement
 		% Propositions d'améliorations pour des développements futurs
 	
-		\subsection{Application fournie}
-			repond à la plupart des fonc. du CDC
-			egli demande un court apprentissage mais bien
-			futur. amélioration de la gui
-			certain algo pas impl.
-			interface pas tout a fait comme le CDC
-			bugs généraux corrigés
-			encore des bugs possibles, mais cause connue 
-			memory leaks présent, mais drmemory
-			grammaire à améliorer
-			algo présent ok, mais temps de conception sous-estimé
-			CDC respecté, mais fonc. simplifiées/limitées
-			bugs detectés mais trop tard pour etre corriger
-			fenetre d'aide ne ferme pas lors du quit general
-			visuel pas parfait en l'état
-			futur. visuel mieux
-			appli finale bien mais merite des améliorations
+		\subsection{Application fournie}			
+			Vis à vis du cahier des charges initial (disponible en annexe), l'application répond à toutes les fonctionnalités prévues hormis en ce qui concerne l'implémentation de certains algorithmes, donc voici la liste:
+			\begin{itemize}
+				\item Arborescence recouvrante de poids min
+				\item Arborescence recouvrante de section min/max
+				\item Flot de capacité fixée (ou min)
+				\item Flot de capacité fixée (ou min) de poids min
+			\end{itemize}
+			Les fonctionnalités optionnelles et futures n'ont pas pu être intégrées par manque de temps, cependant leur ajout est tout à fait réalisable car la conception générale de l'application a été prévue pour être ouverte aux extensions. Notons encore que l'interface graphique n'est pas tout à fait la même que la maquette présente dans le cahier des charges, néanmoins les fonctionnalités sont les mêmes.\\
+			
+			Concernant la stabilité du programme, la majorité des bugs/crashs découverts pendant le projet ont été corrigés. Cependant certains cas posent toujours problèmes:
+			\begin{enumerate}
+				\item Un graphe ne possédant pas tous les sommets dans l'ordre (ex: \texttt{g=dfs(\{\#2\}, 1);}) pose problème à certaines fonctionnalités (ex: \texttt{draw(g);}, \texttt{egli::deserialize(...);})
+				\item Fuites mémoires détectées au niveau de la couche \textit{graphes et algorithmes}
+				\item La fenêtre d'aide ne se ferme lorsque que l'on quitte la fenêtre principale (avec la croix en haut à droite)
+				\item La grammaire du langage ne permet pas de tout faire (ex: \texttt{v=(0); g=\{v\};}, \texttt{v=(0::-1);}, \texttt{draw(dfs(g, 0)[0]);})
+			\end{enumerate}
+			Les cas (1) et (2) sont des priorités absolues pour la suite du développement, nous les avons malheureusement découverts trop tard pour pouvoir les corriger en l'état. Par chance les causes des problèmes sont connues, ce qui permettra de les corriger rapidement. De plus, nous avons découvert l'existence du logiciel DrMemory \cite{drmemory} qui nous offre la possibilité de cibler les fuites mémoires très précisément.\\
+			
+			Un petit mot sur le langage développé spécifiquement pour l'application. Celui-ci demande un petit temps d'apprentissage mais la prise en main est assez rapide. L'aide intégrée et ses pages bien expliquées (facilement extensible), sa fonction de recherche par mots-clés, ainsi que l'auto-complétion des fonctions et variables prend l'utilisateur par la main et rend l'utilisation de l'application agréable.\\  
+			
+			Au final nous sommes satisfaits du résultat final bien qu'il reste encore d'importants bugs à corriger. Le projet offre de nombreuses possibilités d'améliorations, tant au niveau de l'interface graphique que du reste, et nous sommes très heureux de cela. Voici une liste non-exhaustive des améliorations possibles auxquelles nous avons pensé:
+			\begin{itemize}
+				\item Meilleure visualisation des graphes
+				\item Affichage des variables créées dans une zone de l'interface graphique
+				\item Coloration syntaxique
+				\item Fonctionnalités optionnelles et futures du cahier des charges
+				\item ... et pleins d'autres
+			\end{itemize}
 		
 		\subsection{Planification}
 			% Les figures ne prennent pas en compte les tests et la doc, uniquement la conception et l'impl.
 			
-			temps de conception sous estimé
-			au debut pas pressé donc gros rush à la fin
-			adopter un modèle iteratif, car mise en commun plus courrante
-			temps d'analyse sous-estimé, mais impl. rapide
-			code source bcp plus complexe que prévu -> planif non respectée
-			pas assez de temps prévu pour modelisation/conception
-			fin de projet intense
-			trop laxiste au debut du projet, fin de projet intense
-			qt très puissant, mais plusieurs manières de faire, perte de temps sur l'apprentissage mais gros gain dès lors
-			taches faite en parallèle, planif non respectée
+			La planification initiale du projet (disponible en annexe) a fait ressortir plusieurs problèmes. Premièrement, les temps d'analyse et de conception ont été très largement sous-estimés, ce qui a engendré un gros décalage des tâches:
+			\begin{figure}[H]
+				\includegraphics[width=\textwidth]{Planification/comparaisondates.pdf}
+				\caption{Comparaison entre les dates prévues et effectives des tâches principales}
+				\label{fig:comparaisondates}
+			\end{figure}
+			On peut expliquer cela par deux choses: certains problèmes étaient plus complexes que prévus, et l'apprentissage de Qt était beaucoup plus long. En effet Qt est très puissant et offre de multiple manières d'aborder un problème, en contre-partie cela induit des pertes de temps lorsque l'on part dans la mauvaise direction. Cependant une fois que Qt est pris en main, les gains lors de l'implémentation sont conséquents.\\ 
 			
+			Deuxièmement, la planification initiale était une suite de tâches à faire complètement avant de passer à la suivante. Dans les faits, les tâches (pour une même personne) ont été réalisées en parallèle, cela a impliqué une dissonance entre les temps prévus et les temps effectifs.\\
+			
+			Troisièmement, la partie sur les graphes et les algorithmes a été la plus largement sous-estimée, le graphique suivant le montre assez clairement:
 			\begin{figure}[H]
 				\includegraphics[width=\textwidth]{Planification/comparaisonheures.pdf}
 				\caption{Comparaison entre le temps prévu et temps effectif des tâches
@@ -1261,16 +1274,10 @@
 				\label{fig:comparaisonheures}
 			\end{figure}
 			
-			\begin{figure}[H]
-				\includegraphics[width=\textwidth]{Planification/comparaisondates.pdf}
-				\caption{Comparaison entre les dates prévues et effectives des tâches principales}
-				\label{fig:comparaisondates}
-			\end{figure}
+			Pour finir, les différentes tâches, bien que mal planifiées, ont été bien cernées dès le début du projet. Cela a permit une séparation du travail correcte et indépendante, ainsi qu'une application finale utilisable. Nous sommes cependant convaincu qu'utiliser un modèle de développement itératif (et non pas en cascade) aurait apporté un plus au projet. En effet, cela nous aurait obligé à mettre les différentes couches en commun plus souvent, et ainsi détecter les problèmes plus rapidement qu'à la fin du projet. 
 		
 		\subsection{Travail de groupe}
 			bonne collaboration tout du long
-			taches bien reparti, et indépendantes
-			tache bien reparti, independantes, couche vite separé
 			classe graphe un peu en retard
 			interfacage plus compliqué que prévu
 			au debut pas pressé, rush à la fin, rush très productif
@@ -1278,6 +1285,9 @@
 			bonne cohésion, mais plus de rush aurait du etre fait
 			manque de delais intermediaire, mise en commun trop tard
 			expérience interessante, mais mise en commun compliquée
+			au debut pas pressé donc gros rush à la fin
+			fin de projet intense
+			trop laxiste au debut du projet, fin de projet intense
 			
 	% Tables des figures
 	\listoffigures
@@ -1308,6 +1318,10 @@
 		Robert Sedgewick.\\
 		\emph{Course on ternary search tries}
 		\url{https://www.youtube.com/watch?v=CIGyewO7868}
+		
+		\bibitem{drmemory}
+		DrMemory,\\
+		\url{http://drmemory.org/}
 	\end{thebibliography}
 			
 	\newpage
