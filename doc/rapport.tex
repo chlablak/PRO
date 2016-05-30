@@ -1222,23 +1222,35 @@
 		% Indications précises de ce qui ne fonctionne pas correctement
 		% Propositions d'améliorations pour des développements futurs
 	
-		\subsection{Application fournie}
-			repond à la plupart des fonc. du CDC
-			egli demande un court apprentissage mais bien
-			futur. amélioration de la gui
-			certain algo pas impl.
-			interface pas tout a fait comme le CDC
-			bugs généraux corrigés
-			encore des bugs possibles, mais cause connue 
-			memory leaks présent, mais drmemory
-			grammaire à améliorer
-			algo présent ok, mais temps de conception sous-estimé
-			CDC respecté, mais fonc. simplifiées/limitées
-			bugs detectés mais trop tard pour etre corriger
-			fenetre d'aide ne ferme pas lors du quit general
-			visuel pas parfait en l'état
-			futur. visuel mieux
-			appli finale bien mais merite des améliorations
+		\subsection{Application fournie}			
+			Vis à vis du cahier des charges initial (disponible en annexe), l'application répond à toutes les fonctionnalités prévues hormis en ce qui concerne l'implémentation de certains algorithmes, donc voici la liste:
+			\begin{itemize}
+				\item Arborescence recouvrante de poids min
+				\item Arborescence recouvrante de section min/max
+				\item Flot de capacité fixée (ou min)
+				\item Flot de capacité fixée (ou min) de poids min
+			\end{itemize}
+			Les fonctionnalités optionnelles et futures n'ont pas pu être intégrées par manque de temps, cependant leur ajout est tout à fait réalisable car la conception générale de l'application a été prévue pour être ouverte aux extensions. Notons encore que l'interface graphique n'est pas tout à fait la même que la maquette présente dans le cahier des charges, néanmoins les fonctionnalités sont les mêmes.\\
+			
+			Concernant la stabilité du programme, la majorité des bugs/crashs découverts pendant le projet ont été corrigés. Cependant certains cas posent toujours problèmes:
+			\begin{enumerate}
+				\item Un graphe ne possédant pas tous les sommets dans l'ordre (ex: \texttt{g=dfs(\{\#2\}, 1);}) pose problème à certaines fonctionnalités (ex: \texttt{draw(g);}, \texttt{egli::deserialize(...);})
+				\item Fuites mémoires détectées au niveau de la couche \textit{graphes et algorithmes}
+				\item La fenêtre d'aide ne se ferme lorsque que l'on quitte la fenêtre principale (avec la croix en haut à droite)
+				\item La grammaire du langage ne permet pas de tout faire (ex: \texttt{v=(0); g=\{v\};}, \texttt{v=(0::-1);}, \texttt{draw(dfs(g, 0)[0]);})
+			\end{enumerate}
+			Les cas (1) et (2) sont des priorités absolues pour la suite du développement, nous les avons malheureusement découverts trop tard pour pouvoir les corriger en l'état. Par chance les causes des problèmes sont connues, ce qui permettra de les corriger rapidement. De plus, nous avons découvert l'existence du logiciel DrMemory \cite{drmemory} qui nous offre la possibilité de cibler les fuites mémoires très précisément.\\
+			
+			Un petit mot sur le langage développé spécifiquement pour l'application. Celui-ci demande un petit temps d'apprentissage mais la prise en main est assez rapide. L'aide intégrée et ses pages bien expliquées (facilement extensible), sa fonction de recherche par mots-clés, ainsi que l'auto-complétion des fonctions et variables prend l'utilisateur par la main et rend l'utilisation de l'application agréable.\\  
+			
+			Au final nous sommes satisfaits du résultat final bien qu'il reste encore d'importants bugs à corriger. Le projet offre de nombreuses possibilités d'améliorations, tant au niveau de l'interface graphique que du reste, et nous sommes très heureux de cela. Voici une liste non-exhaustive des améliorations possibles auxquelles nous avons pensé:
+			\begin{itemize}
+				\item Meilleure visualisation des graphes
+				\item Affichage des variables créées dans une zone de l'interface graphique
+				\item Coloration syntaxique
+				\item Fonctionnalités optionnelles et futures du cahier des charges
+				\item ... et pleins d'autres
+			\end{itemize}
 		
 		\subsection{Planification}
 			% Les figures ne prennent pas en compte les tests et la doc, uniquement la conception et l'impl.
@@ -1308,6 +1320,10 @@
 		Robert Sedgewick.\\
 		\emph{Course on ternary search tries}
 		\url{https://www.youtube.com/watch?v=CIGyewO7868}
+		
+		\bibitem{drmemory}
+		DrMemory,\\
+		\url{http://drmemory.org/}
 	\end{thebibliography}
 			
 	\newpage
