@@ -412,13 +412,15 @@
 					\item \texttt{Vertex}:
 					\begin{itemize}
 						\item Seul le premier paramètre (\texttt{id[Integer]}) est obligatoire, et il ne doit pas être négatif (\texttt{id} est le nom, et entre \texttt{[]} c'est son type)
-						\item Les valeurs par défaut sont \texttt{label[String]="", weight[Number]=0, max\_capacity[Number]=min\_capacity, min\_capacity[Number]=0}
+						\item Les valeurs par défaut sont \texttt{label[String]="", weight[Number]=0, }\\
+						\texttt{max\_capacity[Number]=min\_capacity, min\_capacity[Number]=0}
 					\end{itemize}
 					\item \texttt{Edge}: 
 					\begin{itemize}
 						\item Seul le premier paramètre (\texttt{connection}) est obligatoire
 						\item Le paramètre \texttt{id[Integer]} doit être positif ou nul et sa valeur par défaut est 0
-						\item Les valeurs par défaut sont \texttt{weight[Number]=0, label[String]="", max\_capacity[Number]=min\_capacity, min\_capacity[Number]=0}
+						\item Les valeurs par défaut sont \texttt{weight[Number]=0, label[String]="", }\\
+						\texttt{max\_capacity[Number]=min\_capacity, min\_capacity[Number]=0}
 						\item L'\texttt{id} est un identifiant "local" à la \texttt{connection}, c'est-à-dire par exemple que \texttt{(0->1)} et \texttt{(1->0)} auront tous deux l'\texttt{id} à 0, et cela ne pose pas problème
 					\end{itemize}
 					\item \texttt{Graph}: 
@@ -1169,9 +1171,9 @@
 					\hline
 					Dijkstra & IGraph et vector<double> en paramètre & Implémenté à l'aide d'une queue de priorité, recherche d'un plus court chemin depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré positivement (ou nul). & $O(E * log(V))$\\
                                        \hline
-					Detection des cycles & IGraph & Détermine si un graphe contient un cycle ou un circuit pour les graphes orientés et retourne le cycle trouvé. & $O(E+V))$\\
+					Detection des cycles & IGraph & Détermine si un graphe contient un cycle ou un circuit pour les graphes orientés et retourne le cycle trouvé. & $O(E+V)$\\
                                       \hline
-				      Tri Topologique & vector<double> & recherche l'ordre par lequel il faut parcourir le graphe topologiquement. Le graphe doit être orienté ou à flow. & $O(E+V))$\\
+				      Tri Topologique & vector<double> & recherche l'ordre par lequel il faut parcourir le graphe topologiquement. Le graphe doit être orienté ou à flow. & $O(E+V)$\\
 
 				\end{tabular}
 			\end{figure}
