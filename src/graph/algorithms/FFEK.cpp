@@ -10,75 +10,6 @@
 #include <queue>
 #include "FFEK.h"
 #include "../graphs/FlowGraph.h"
-// TODO
-//struct Key
-//{
-//    Vertex *i;
-//    Vertex *j;
-//
-//    Key(Vertex *i, Vertex *j) : i(i), j(j) {}
-//
-//    bool operator<(const Key &k) {
-//        return true;
-//    }
-//};
-//
-//namespace std
-//{
-//    template <>
-//    struct less<Key>
-//    {
-//        bool operator()(const Key& a, const Key& b) const
-//        {
-//            return a.i->id() < b.i->id();
-//        }
-//    };
-//}
-
-//namespace std
-//{
-//    template <>
-//    struct less<std::map<Key,FlowEdge*>>
-//    {
-//        bool operator()(const std::map<Key,FlowEdge*>& a, const std::map<Key,FlowEdge*>& b) const
-//        {
-//            return true;
-//        }
-//    };
-//}
-
-int FFEK::bfs(int startNode, int endNode)
-{
-//    queue<int> q;
-//    q.push(startNode);
-//
-//    _parentsList[startNode] = -1;
-//    _currentPathCapacity[startNode] = 999;
-//
-//    while (!q.empty()) {
-//        int currentNode = q.front();
-//        q.pop();
-//
-//        for (int i = 0; i < _graph[currentNode].size(); i++) {
-//            int to = _graph[currentNode][i];
-//            if(_parentsList[to] == -1)
-//            {
-//                if(_capacities[currentNode][to] - _flowPassed[currentNode][to] > 0)
-//                {
-//                    _parentsList[to] = currentNode;
-//                    _currentPathCapacity[to] = min(_currentPathCapacity[currentNode],
-//                                                  _capacities[currentNode][to] - _flowPassed[currentNode][to]);
-//                    if(to == endNode)
-//                    {
-//                        return _currentPathCapacity[endNode];
-//                    }
-//                    q.push(to);
-//                }
-//            }
-//        }
-//    }
-    return 0;
-}
 
 void FFEK::visit(Graph *, Vertex *, Vertex *)
 {
@@ -94,54 +25,6 @@ void FFEK::visit(DiGraph *, Vertex *, Vertex *)
 
 void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
 {
-//    if (!g->hasPositiveCapacity())
-//        throw runtime_error("Error in 'FFEK' algorithm. The flow graph must "
-//                                    "have a positive capacity");
-//
-//    g->forEachEdge([this, &from, &to](IEdge *ie){
-//        FlowEdge *fe = (FlowEdge*)ie;
-//        _capacities[fe->from()->id()][fe->to()->id()] = fe->maxCapacity();
-//        _graph[from->id()].push_back(to->id());
-//        _graph[to->id()].push_back(from->id());
-//    });
-//
-//    for (vector<int> v : _capacities) {
-//        for (int i : v) {
-//            cout << i << " ";
-//        }
-//        cout << endl;
-//    }
-//
-//    int maxFlow = 0;
-//    while (true) {
-//        int flow = bfs(from->id(), to->id());
-//
-//        cout << "flow " << flow << endl;
-//        if (flow == 0)
-//            break;
-//
-//        maxFlow += flow;
-//        int currentNode = to->id();
-//        while(currentNode != from->id())
-//        {
-//            int previousNode = _parentsList[currentNode];
-//            _flowPassed[previousNode][currentNode] += flow;
-//            _flowPassed[currentNode][previousNode] -= flow;
-//            currentNode = previousNode;
-//        }
-//    }
-//
-//    cout << "_flowPassed" << endl;
-//    for (vector<int> v : _flowPassed) {
-//        for (int i : v) {
-//            cout << i << " ";
-//        }
-//        cout << endl;
-//    }
-//
-//    cout << "maxFlow = " <<  maxFlow << endl;
-
-
     if (!g->hasPositiveCapacity())
         throw runtime_error("Error in 'FFEK' algorithm. The flow graph must "
                                     "have a positive capacity");
@@ -159,10 +42,12 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
     }
 
     for (Vertex *v : gClone->vertexList()) {
-        if (*v == *from)
+        if (*v == *from) {
             source = v;
-        else if (*v == *to)
+        }
+        else if (*v == *to) {
             sink = v;
+        }
     }
 
     for (int i = 0; i < _V; ++i) {
@@ -175,39 +60,27 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
         _u[fe->from()->id()][fe->to()->id()] = fe->maxCapacity();
     });
 
-    cout << "_u" << endl;
-    for (vector<int> v : _u) {
-        for (int i : v) {
-            cout << i << " ";
-        }
-        cout << endl;
-    }
-
     do {
 
-        cout << "_x" << endl;
-        for (vector<int> v : _x) {
-            for (int i : v)
+        cout << "_u" << endl;
+        for (vector<int> v : _u) {
+            for (int i : v) {
                 cout << i << " ";
+            }
             cout << endl;
         }
 
-        gClone->forEachVertex([this, &source](Vertex *i) {
-            _p[i->id()] = -1;
-            _mark[i->id()] = true;
-            _cap[i->id()] = 0;
-        });
-
-//        if (!_L.empty())
-//            source = _L.front();
+        _p.assign(_V, -1);
+        _mark.assign(_V, true);
+        _cap.assign(_V, 0);
 
         _p[source->id()] = source->id();
-        _mark[source->id()] = true;
         _cap[source->id()] = numeric_limits<int>::max();
         _L.push(source);
 
-        bool out = false;
+       // bool out = false;
         while (!_L.empty()) {
+            bool out = false;
             Vertex *i = _L.front();
             _L.pop();
 
@@ -220,7 +93,7 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
                     _mark[j->id()] = true;
                     _cap[j->id()] = min(_cap[i->id()], _u[i->id()][j->id()] - _x[i->id()][j->id()]);
 
-                    if (j == sink) {
+                    if (*j == *sink) {
                         out = true;
                         break;
                     } else {
@@ -242,7 +115,7 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
                         _cap[j->id()] = min(_cap[i->id()],
                                             _x[j->id()][i->id()]);
 
-                        if (j == sink) {
+                        if (*j == *sink) {
                             out = true;
                             break;
                         } else {
@@ -261,15 +134,15 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
             cout << i << " ";
         cout << endl;
 
+        cout << "_cap" << endl;
+        for (int c : _cap)
+            cout << c << " ";
+        cout << endl;
+
         if (_p[sink->id()] == -1) {
             _end = true; // There is no path from source to sink
         } else {
             int j = sink->id();
-
-            cout << "_cap" << endl;
-            for (int c : _cap)
-                cout << c << " ";
-            cout << endl;
 
             while (j != source->id()) {
                 int p = _p[j];
@@ -280,6 +153,39 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
                     _x[j][i] -= _cap[sink->id()];
 
                 j = i;
+            }
+        }
+
+        cout << "_x" << endl;
+        for (vector<int> v : _x) {
+            for (int i : v)
+                cout << i << " ";
+            cout << endl;
+        }
+
+        for(size_t i = 0; i<_u.size(); ++i){
+            for(size_t j = 0; j<_u.at(i).size() ; ++j){
+                if(_u[i][j] -_x[i][j] != _u[i][j]){
+                    Vertex *s = nullptr, *t = nullptr;
+                    s = gClone->getVertex(i);
+                    t = gClone->getVertex(j);
+
+                    if(_u[i][j] -_x[i][j]>0){
+
+                        ((FlowEdge*)gClone->getEdges(s,t).front())->setMaxCapacity(_u[i][j] -_x[i][j]);
+                        FlowEdge *newEd = new FlowEdge(t, s, _x[i][j]);
+
+                        _u[i][j] = _u[i][j] -_x[i][j];
+                        _u[j][i] = _x[i][j];
+                        gClone->addEdge(newEd);
+                    }
+                    else if(_u[i][j] -_x[i][j] == 0){
+                        gClone->getEdges(s,t).front()->setA(t);
+                        gClone->getEdges(s,t).front()->setB(s);
+                        _u[j][i] = _x[i][j];
+                        _u[i][j] = 0;
+                    }
+                }
             }
         }
 

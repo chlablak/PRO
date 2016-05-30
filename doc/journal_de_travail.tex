@@ -27,15 +27,26 @@
 
 \lhead{Browne, Champion, Djomo,\\Hardy, Richoz, Rochat}
 \chead{}
-\rhead{PRO: Journaux de travail}
+\rhead{}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
 \begin{document}
 	\centering
-	\large{\textbf{ANNEXE: Journaux de travail}}
+	\large{\textbf{PRO: Journal de travail}}
 	
 	\justify
+	
+	\section*{\huge \textit{Exemple}}
+	\begin{longtable}{p{0.15\textwidth}|p{0.08\textwidth}|p{0.25\textwidth}|p{0.4\textwidth}}
+		Date&Heures&Tâche&Description\\
+		\hline
+		01.01.2016&2.5&Implémentation class FooBar()&Implémentation des fonctions principales de la classe FooBar, tel que \textit{Lorem ipsum dolor sit}.\\
+		\hline
+		02.01.2016&1&Documentation&Description de quelque chose\\
+		\hline
+		02.01.2016&1.5&etc...&etc...
+	\end{longtable}
 	
 	\section*{Christopher Browne}
 	\begin{longtable}{p{0.11\textwidth}|p{0.07\textwidth}|p{0.3\textwidth}|p{0.4\textwidth}}
@@ -186,41 +197,55 @@
 		Date&Heures&Tâche&Description\\
 		\hline\hline
                 26.03.2016 & 4.0 &Etude des pattern Strategy et Visitor&Découverte des patterns\\
+                \textbf{Total} & \textbf{4.0} &&\\
                \hline
 		28.03.2016 & 1.0&Enumération des algos à traiter&Liste des algos à traiter, classés par catégorie\\
 		02.04.2016 &3.0&Modélisation du diagramme UML&Première ébauche du diagramme en appliquant le pattern Visitor\\
-		\hline
+		\textbf{Total} & \textbf{4.0} &&\\
+                \hline
 		04.04.2016 & 2.0 &Conception de la classe Graph&Différents types de graphes\\
 		07.04.2016 & 2.0   &Conception de la classe Graph&Différents types de graphes\\
+                \textbf{Total} & \textbf{4.0} &&\\
 		\hline
 		11.04.2016 & 4.0 &Conception de la classe Graph&Restructuration\\
+                \textbf{Total} & \textbf{4.0} &&\\
                 \hline
                 18.04.2016 &4.0&Conception de la classe Graph&Sommets et edges, liste d'adjacence et factories\\
 		26.04.2016 & 4.0 &Déclarations des classes et de leurs méthodes&Classes Graph, Vertex, Edge, interface IGraph, FlowGraph,
                 la classe abstraite EdgeCommon et FlowEdge\\
+                \textbf{Total} & \textbf{8.0} &&\\
 		\hline
                 02.05.2016 & 4.0 & Conception & Restructuration de la classe Graph avec Sébastien\\
+                \textbf{Total} & \textbf{4.0} &&\\
                 \hline
                 08.05.2016 & 4.0 & Implémentation classe GraphCommon &  Implémentation des méthodes communes à tout type de graphes(celles de la classe CommonGraph)\\
                  09.05.2016 & 4.0 & Implémentation classe GraphCommon &  Implémentation des méthodes spécifiques aux gaphes(celles de la classe Graph)\\
+                \textbf{Total} & \textbf{8.0} &&\\
                 \hline
                  10.05.2016 & 4.0 & Implémentation classe DiGraphCommon &  Implémentation des méthodes propres aux graphes orientés et à flow(celles de la classe DiGraphCommon)\\
                 11.05.2016 & 2.0 & Implémentation classe DiGraph &  Implémentation des méthodes spécifiques au graphes orientés(celles de la classe DiGraph)\\
                 12.05.2016 & 2.0 & Implémentation classe FlowGraph &  Implémentation des méthodes spécifiques au graphes à  flow(celles de la classe DiGraph)\\
                 15.05.2016 & 6.0 & Implémentation classe GraphCommon & tests et corrections des burgs \\
+                \textbf{Total} & \textbf{14.0} &&\\
                 \hline
                 16.05.2016 & 5.0 & Implémentation classe &  Finalisation avec les classes IEdge, CommonEdge, DiEgeCommon, Edge et FlowEdge \\
 		17.05.2016 & 2.0 & Implémentation classe EdgeCommon & Implémentation des méthodes communes aux edges \\
                 18.05.2016 & 5.0 & Implémentation classe Graph & corrections des burg de conception et des burgs du aux conflix sur gitHub \\
                 19.05.2016 & 5.0 & Docummentation algorithmes  & Recherche et études sur des algorithmes sur la detection des cycles et du tri topologique \\
                 20.05.2016 & 8.0 & Implémentations algorithmes & Implémentation des classes DetectedCycle et TopologicalSort ainsi leurs différentes méthodes Ok \\
-		21.05.2016 & 3.0 & Implémentations algorithmes & tests des algos detecteCycle et topologiqueSort et création d'une classe pour appeler les algos \\
+		21.05.2016 & 3.0 & Implémentations algorithmes & tests des algos detecteCycle et topologiqueSort et création d'une classe pour appeler les algos \\          
+                \textbf{Total} & \textbf{28.0} &&\\
 		\hline
                 22.05.2016 & 3.0& Implémentations algorithmes &Détection et correction d'une erreur logique sur les algo \\
                 24.05.2016 & 1.5 & Implémentations algorithmes &Ajout des commentaires sur les classes ainsi que les méthodes au style Qt \\
                 25.05.2016 & 3.0 & Implémentations algorithmes &Tests des algo BFS, DFS, BellMan, Djikstra Ok\\
                 26.05.2016 & 7.0 & Implémentations de tout type de graphes &Correctifs apportés au différentes méthodes des classe afin de reduire certaines compléxités\\
+                29.05.2016 & 3.0 & Implémentations algorithmes &Implementation de Prim pour les graphés mais test pas Ok\\
+                29.05.2016 & 2.0 & Implémentations algorithmes &Implementation de FFEK -FlotMax pour les graphes à flow  pas Ok\\
+                29.05.2015 & 2.0 & Documentation & clotûre avec la section graphe\\
+               \textbf{Total} & \textbf{21.5} &&\\
 		\hline
+                \textbf{Total} & \textbf{90.5} &&\\
                 \hline 
                 \hline
 	\end{longtable}
@@ -237,9 +262,9 @@
 		\hline
 		04.04.2016 & 1.0 & Apprentissage de QtDesigner & Apprentissage et étude des composants mis à disposition par QtDesigner.\\
 		05.04.2016 & 1.0 & Apprentissage de QtDesigner & Apprentissage et étude des composants mis à disposition par QtDesigner.\\
-		07.04.2016 & 1.0 & Modélisation de l'interface graphique & Réalisation d'une ébauche de l'interface graphique de l'application.\\
-		09.04.2016 & 1.5 & Modélisation de l'interface graphique & Réalisation d'une ébauche de l'interface graphique de l'application.\\
-		10.04.2016 & 1.5 & Modélisation de l'interface graphique & Réalisation d'une ébauche de l'interface graphique de l'application.\\
+		07.04.2016 & 1.0 & Modélisation de l'interface graphique & Réalisation d'une maquette de l'interface graphique de l'application.\\
+		09.04.2016 & 1.5 & Modélisation de l'interface graphique & Réalisation d'une maquette de l'interface graphique de l'application.\\
+		10.04.2016 & 1.5 & Modélisation de l'interface graphique & Réalisation d'une maquette de l'interface graphique de l'application.\\
 		\textbf{Total} & \textbf{6.0} &&\\
 		\hline
 		11.04.2016 & 1.5 & Création de l'interface graphique & Création de la fenêtre et des composants de base, telle que les onglets de fenêtres et les onglets pour les consoles multiples.\\
@@ -262,9 +287,10 @@
 		\textbf{Total} & \textbf{7.5} &&\\
 		\hline
 		02.05.2016 & 1.5 & Création de l'interface graphique & Mise en place de la fermeture des onglets.\\
+		04.05.2016 & 2.0 & Modélisation de l'importation/exportation des sessions de travail & Réflexion sur l'implémentation de l'importation/exportation des sessions de travail. Les sessions de travails étant une sauvegarde toutes les console présentes dans l'applications, il faudrait en premier lieu implémentés la sauvegarde individuelle de console.\\
 		06.05.2016 & 2.0 & Modélisation de l'importation/exportation des sessions de travail & Réflexion sur l'implémentation de l'importation/exportation des sessions de travail. Les sessions de travails étant une sauvegarde toutes les console présentes dans l'applications, il faudrait en premier lieu implémentés la sauvegarde individuelle de console.\\
 		06.05.2016 & 2.0 & Modélisation de l'importation/exportation des sessions de travail & Réflexion sur l'implémentation de sauvegarde de console.\\
-		\textbf{Total} & \textbf{5.5} &&\\
+		\textbf{Total} & \textbf{7.5} &&\\
 		\hline
 		09.05.2016 & 2.0 & Implémentation de l'importation/exportation des sessions de travail & Implémentation de la sauvegarde de console dans un fichier.\\
 		11.05.2016 & 1.5 & Implémentation de l'importation/exportation des sessions de travail & Fin de l'implémentation de la sauvegarde de console dans un fichier.\\
@@ -292,7 +318,7 @@
 		\textbf{Total} & \textbf{20.0} &&\\
 		\hline
 		\hline
-		\textbf{Total} & \textbf{71.0} &&\\
+		\textbf{Total} & \textbf{73.0} &&\\
 	\end{longtable}
 	
 	\section*{Sébastien Richoz}
