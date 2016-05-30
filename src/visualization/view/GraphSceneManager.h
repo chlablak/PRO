@@ -58,6 +58,11 @@ public:
      * \brief Private constructor
      */
     GraphScene *scene(const IGraph *graph);
+
+    /*!
+     * \brief Destructor
+     */
+    virtual ~GraphSceneManager();
 };
 
 #endif // VISUALIZATION_GRAPHSCENEMANAGER_H

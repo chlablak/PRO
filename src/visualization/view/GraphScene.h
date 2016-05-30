@@ -26,6 +26,7 @@ private:
      */
     QList<VertexItem *> vertexItems;
     QList<EdgeItem *> edgeItems;
+    IGraph *graph;
 
 public:
 

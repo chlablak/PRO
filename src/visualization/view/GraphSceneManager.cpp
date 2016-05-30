@@ -11,6 +11,13 @@
 GraphSceneManager::GraphSceneManager()
 {}
 
+GraphSceneManager::~GraphSceneManager()
+{
+    for(auto& it: scenes) {
+        delete it.second;
+    }
+}
+
 GraphSceneManager *GraphSceneManager::getInstance()
 {
     if (instance == nullptr) {
@@ -25,8 +32,10 @@ GraphScene *GraphSceneManager::scene(const IGraph *graph)
     if (it != scenes.end()) {
         return (*it).second;
     }
+
     GraphScene *scene = new GraphScene(graph->clone());
     scenes[graph] = scene;
+
     return scene;
 }
 
