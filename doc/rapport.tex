@@ -751,23 +751,23 @@
 			Cependant, après avoir suivi le cours de GRE, nous nous sommes rendus compte qu'il était rare d'obtenir des graphes complets. La majorité des cas d'utilisation requièrent des graphes de faible densité, ce qui nous amène vers une quatrième approche : stocker les graphes sous forme de liste d'adjacence.\\
 			
 			Mis à part les aspects liés au gain de mémoire, les listes d'adjacence facilitent la plupart des opérations présentes dans nos algorithmes.
-			Trouver tous les sommets adjacents à un certain sommet est aussi simple que lire la liste et prend un temps proportionnel au nombre de voisins. Avec une matrice, toute une ligne doit être lue, ce qui prend un temps beaucoup plus long égal au nombre de sommet présent dans l'entièreté du graphe.
+			Trouver tous les sommets adjacents à un certain sommet est aussi simple que lire la liste et prend un temps proportionnel au nombre de voisins. Avec une matrice, toute une ligne doit être lue, ce qui prend un temps beaucoup plus long, égal au nombre de sommets présents dans le graphe entier.
 			
-			Cette quatrième et dernière approche est celle que nous avons choisie car elle est la plus adaptée à nos besoins. \textbf{Nos graphes sont donc stockés sous forme de liste d'adjacence}.
+			Cette quatrième et dernière approche est celle que nous avons choisie car elle est la plus adaptée à nos besoins. Nos graphes sont donc stockés sous forme de liste d'adjacence.
 			
 			\subsubsection{Détails d'implémentation de la structure}
 			Dans cette partie, nous définissons comment la liste d'adjacence est implémentée. Il existe trois manières de représenter une telle liste :
 			\begin{enumerate}
 				\item Pour chaque sommet, lui associer un tableau des sommets adjacents. Il n'y a pas de représentation explicite des arcs/arêtes.
 				\item Un tableau indexé par les numéros de sommet, où chaque case contient une simple liste chainée constituée des sommets adjacents, ou des arcs/arêtes adjacent(e)s.
-				\item Une approche plus orientée objet consiste à avoir une variable d'instance pour chaque sommet, pointant vers une collection d'objet qui liste les arcs/arêtes voisin(e)s. À l'opposé, chaque arc/arête pointe vers ses deux sommets qui la compose. 
+				\item Une approche plus orientée objet consiste à avoir une variable d'instance pour chaque sommet, pointant vers une collection d'objets qui liste les arcs/arêtes voisin(e)s. À l'opposé, chaque arc/arête pointe vers les sommets qui la compose. 
 			\end{enumerate}
-			La solution (1) ne permet pas de stocker d'informations sur les arcs/arêtes. La solution (2) le permet pour autant qu'on choisisse une liste d'Edge adjacents. Dans ce cas, on ne peut pas stocker d'information sur les sommets.\\
+			La solution (1) ne permet pas de stocker d'informations sur les arcs/arêtes. La solution (2) le permet, pour autant qu'on choisisse une liste d'Edge adjacents. Dans ce cas, on ne peut pas stocker d'information sur les sommets.\\
 			
-			Nous avons donc opté pour la solution (3). Un tableau de sommet, où chaque sommet possède une variable pointant vers une listes de pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|, et où chaque \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge| possède un pointeur sur chacun de ses deux sommets qui la constitue. Nous aurions également pu stocker des pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|T| (\lstinline[basicstyle=\ttfamily\color{blue}]|T| étant le typename du template, donc le type de l'Edge) mais pour avoir une visibilité plus globale sur les Edge, nous avons décidé de stocker des pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|.\\
+			Nous avons donc opté pour la solution (3). Un tableau de sommets, où chaque sommet possède une variable pointant vers une liste de pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|, et où chaque \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge| possède un pointeur sur chacun des sommets qui la constitue. Nous aurions également pu stocker des pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|T| (\lstinline[basicstyle=\ttfamily\color{blue}]|T| étant le typename du template, donc le type de l'Edge) mais pour avoir une visibilité plus globale sur les Edge, nous avons décidé de stocker des pointeurs de \lstinline[basicstyle=\ttfamily\color{blue}]|IEdge|.\\
 			À noter que pour un graphe non orienté, les Edge se répéteront à double et c'est précisément ce que nous voulons car nous souhaitons préserver la logique de la liste d'adjacence pour nos algorithmes.\\
 			
-			Le choix de stocker les éléments par pointeur ou par copie a été longuement réfléchis. L'un comme l'autre a ses avantages et désavantages.\\ \\
+			Le choix de stocker les éléments par pointeur ou par copie a été longuement réfléchi. L'un comme l'autre a ses avantages et désavantages.\\ \\
 			\begin{tabular}{p{0.1\textwidth}|p{0.4\textwidth}|p{0.4\textwidth}}
 				 &Avantages&Désavantages\\
 				\hline
@@ -915,7 +915,7 @@
 				\caption{Pattern Visitor pour l'application des algorithmes aux graphes}
 			\end{figure}
 			
-			Les algorithmes ne sont pas les mêmes pour tous les types de graphes : un parcours en largeur sera quelque peu différent entre un graphe orienté et non-orienté. Le pattern Visiteur est précisément fait pour répondre à ce genre de problème. De plus, l'avantage du pattern est qu'il est facilement extensible : un nouvel algorithme s'ajoute tout bonnement en tant que visiteur. Par contre, la structure de donnée doit être complète et tout changement de cette dernière demandera, selon le changement, une adaptation chez tous les visiteurs.\\
+			Les algorithmes ne sont pas les mêmes pour tous les types de graphe : un parcours en largeur sera quelque peu différent entre un graphe orienté et non-orienté. Le pattern Visiteur est précisément fait pour répondre à ce genre de problème. De plus, l'avantage du pattern est qu'il est facilement extensible : un nouvel algorithme s'ajoute tout bonnement en tant que visiteur. Par contre, la structure de donnée doit être complète et tout changement de cette dernière demandera, selon le changement, une adaptation chez tous les visiteurs.\\
 			
 			\begin{lstlisting}
 						// Code d'un objet visite
@@ -990,11 +990,11 @@
 					\hline
 					DFS & IGraph & Depth First Search : effectue une exploration en profondeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(V+E)$\\
 					\hline
-					Composante connexe & vector<double> & Calcul les composantes connexes d'un graphe et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
+					Composante connexe & vector<double> & Calcule les composantes connexes d'un graphe et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
 					\hline
-					Composante fortement connexe & vector<double> &Calcul les composantes fortement connexes d'un graphe orienté et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
+					Composante fortement connexe & vector<double> &Calcule les composantes fortement connexes d'un graphe orienté et retourne un tableau dont l'index représente le sommet et la valeur de la composante à laquelle appartient le sommet. & $O(V+E)$\\
 					\hline
-					Kruskal & IGraph et vector<double> en paramètre  &Implémenté avec UnionFind, recherche de l'arbre recouvrant de poids min. & $O(E * log(V))$\\
+					Kruskal & IGraph et vector<double> en paramètre  &Implémenté avec UnionFind, recherche de l'arbre recouvrant de poids minimum. & $O(E * log(V))$\\
 					\hline
 					Bellman-Ford & IGraph et vector<double> en paramètre &Recherche les plus courts chemins depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré. & $O(E*V)$\\
 					\hline
@@ -1009,7 +1009,7 @@
 			\begin{enumerate}
 				\item Créer un graphe (avec des sommets et des edges) 
 				\item Appeler l'algorithme voulu
-				\item Récupérer le graphe résultant de l'algorithme (si l'algorithme retourne un graphe), sinon récupérer le tableau de double (et éventuellement le tableau de double passé préalablement en paramètre)
+				\item Récupérer le graphe résultant de l'algorithme (si l'algorithme retourne un graphe), sinon récupérer le tableau de double (et éventuellement le tableau de doubles passé préalablement en paramètre)
 			\end{enumerate}
 			
 			\begin{lstlisting}
