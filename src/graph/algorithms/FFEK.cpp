@@ -159,10 +159,12 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
     }
 
     for (Vertex *v : gClone->vertexList()) {
-        if (*v == *from)
+        if (*v == *from) {
             source = v;
-        else if (*v == *to)
+        }
+        else if (*v == *to) {
             sink = v;
+        }
     }
 
     for (int i = 0; i < _V; ++i) {
@@ -206,8 +208,9 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
         _cap[source->id()] = numeric_limits<int>::max();
         _L.push(source);
 
-        bool out = false;
+       // bool out = false;
         while (!_L.empty()) {
+            bool out = false;
             Vertex *i = _L.front();
             _L.pop();
 
@@ -280,6 +283,38 @@ void FFEK::visit(FlowGraph *g, Vertex *from, Vertex *to)
                     _x[j][i] -= _cap[sink->id()];
 
                 j = i;
+            }
+        }
+
+        for(size_t i = 0; i<_u.size(); ++i){
+            for(size_t j = 0; j<_u.at(i).size() ; ++j){
+                if(_u[i][j] -_x[i][j] != _u[i][j]){
+                    Vertex *sourc = nullptr, *to = nullptr;
+                    for(auto v : gClone->vertexList()){
+                        if(v->id() == i){
+                            sourc = v;
+                            continue;
+                        }
+                        if(v->id() == j){
+                            to = v;
+                        }
+                    }
+                    if(_u[i][j] -_x[i][j]>0){
+
+                        ((FlowEdge*)gClone->getEdges(sourc,to).front())->setMaxCapacity(_u[i][j] -_x[i][j]);
+                        FlowEdge *newEd = new FlowEdge(to, sourc, _x[i][j]);
+
+                        _u[i][j] = _u[i][j] -_x[i][j];
+                        _u[j][i] = _x[i][j];
+                        gClone->addEdge(newEd);
+                    }
+                    else if(_u[i][j] -_x[i][j] == 0){
+                        gClone->getEdges(sourc,to).front()->setA(to);
+                        gClone->getEdges(sourc,to).front()->setB(sourc);
+                        _u[j][i] = _x[i][j];
+                        _u[i].erase(_u[i].begin() + j);
+                    }
+                }
             }
         }
 
