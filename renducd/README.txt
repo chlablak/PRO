@@ -20,7 +20,7 @@ Pour plus d'informations, se référer aux annexes situées dans /doc/
 # Structure du projet
 	* bin/ 		: l'application et son exécutable
 	* userHelp/ 	: l'aide utilisateur
-	* doc/ 		: la documentation du projet (cahier des charges, rapport, planification)
+	* doc/ 		: la documentation du projet (cahier des charges, rapport, planification) ainsi qu'un guide d'installation et d'utilisation
 	* src.zip	: les sources du projet (/src/gui/gui.pro)
 
 # Credits

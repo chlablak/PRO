@@ -94,19 +94,20 @@
 	$ $
 	\newpage
 	
-
-	
-	% Tables des matières
-	\tableofcontents
-	
-
-	
 	% Pour tout le document
 	\justify
 	\normalsize
 	
+	\section*{Remerciements}
+	Nous tenons tout d'abord à remercier M. Prof. René Rentsch pour son suivi et ses conseils durant toute la période du travail. Nous voulons aussi remercier M. Prof. Claude Evéquoz pour son aide à la vérification de la grammaire de notre langage. Enfin, merci également à M. Prof. Jean-François Hêche pour ses conseils sur l'implémentation des algorithmes de graphes.\\$ $\\$ $\\$ $\\$ $\\
+	
+	% Tables des matières
+	\tableofcontents
+	
+	\newpage
+	
 	\section{Introduction}
-	Dans le cadre du cours PRO, encadré par le Prof. René Rentsch, il a été demandé de réaliser un projet de semestre sur une période de 10 semaines. Après l'acceptation du cahier des charges à la semaine 4, le projet a pu débuter. Celui-ci porte sur une application permettant de traiter des graphes, de lancer des algorithmes dessus, de les dessiner et enfin de pouvoir les exporter en format d'image vectoriel.
+	Dans le cadre du cours PRO en deuxième année du cursus de Bachelor de la HEIG-VD, il a été demandé de réaliser un projet de semestre sur une période de 10 semaines. Après l'acceptation du cahier des charges à la semaine 4, le projet a pu débuter. Celui-ci porte sur une application permettant de traiter des graphes, de lancer des algorithmes dessus, de les dessiner et enfin de pouvoir les exporter en format d'image vectoriel.
 	
 		\subsection{Objectif}
 		Les objectifs principaux du rapport peuvent être décomposés en quatre parties. Premièrement, il doit être possible de saisir un graphe et qu'il soit stocké dans l'application. Ensuite, des algorithmes classiques des graphes (Dijkstra, parcours en profondeur/largeur, etc...) doivent pouvoir être appliqués au graphe précédemment saisi. Puis, il doit pouvoir être dessiné et remanié avec le curseur pour permettre de l'exporter en image vectorielle. Enfin, toutes ces parties doivent être coordonnées au moyen d'un langage spécifique à l'application.\\
@@ -164,8 +165,8 @@
 
 	\section{Représentation graphique des graphes}
 	\subsection{Widget de visualisation}
-	\subsubsection{Fonctionnement de QT}
-	QT possède un système de dessin complexe, le \textit{Graphics View Framework}. Cet outil est basé sur le principe suivant : trois types d'éléments se partagent différentes responsabilités. \\
+	\subsubsection{Fonctionnement de Qt}
+	Qt possède un système de dessin complexe, le \textit{Graphics View Framework}. Cet outil est basé sur le principe suivant : trois types d'éléments se partagent différentes responsabilités. \\
 	
 	\textbf{La scène (classe QGraphicsScene)} :
 	\begin{itemize}
@@ -178,10 +179,10 @@
 	
 	\textbf{La vue (classe QGraphicsView)} : \\
 	La vue se charge d'afficher le contenu d'une scène (plusieurs vues peuvent très bien afficher la même scène). Ici, la scène peut être perçue comme un modèle du design MVC. \\
-	Elle s'occupe d'afficher tout ou une partie de la scène, c'est à dire que si cette dernière est grande, trop grande pour la fenêtre ou pour la zone à disposition, la vue va s'occuper d'ajouter des barres de défilement. Ceci engendre que les coordonnées peuvent différer entre une vue et sa scène. La vue recevant en premier les actions de l'utilisateur, va les transmettre à la scène en prenant soin d'adapter les coordonnées si besoin. Par exemple, un clic en haut à gauche de la fenêtre sera en coordonnées (0,0) pour la vue, mais si l'utilisateur a auparavant scrollé horizontalement et/ou verticalement, la coordonnée réelle du clic sur la scène pourrait être (0,100), (130, 10), etc. Cette adaptation est donc extrêmement importante. Des méthodes sont également mises à disposition par QT afin de manuellement demander la correspondance d'une coordonnée vue -> scène ou scène -> vue. \\
+	Elle s'occupe d'afficher tout ou une partie de la scène, c'est à dire que si cette dernière est grande, trop grande pour la fenêtre ou pour la zone à disposition, la vue va s'occuper d'ajouter des barres de défilement. Ceci engendre que les coordonnées peuvent différer entre une vue et sa scène. La vue recevant en premier les actions de l'utilisateur, va les transmettre à la scène en prenant soin d'adapter les coordonnées si besoin. Par exemple, un clic en haut à gauche de la fenêtre sera en coordonnées (0,0) pour la vue, mais si l'utilisateur a auparavant scrollé horizontalement et/ou verticalement, la coordonnée réelle du clic sur la scène pourrait être (0,100), (130, 10), etc. Cette adaptation est donc extrêmement importante. Des méthodes sont également mises à disposition par Qt afin de manuellement demander la correspondance d'une coordonnée vue -> scène ou scène -> vue. \\
 	
 	\textbf{Les éléments graphiques (classe QGraphicsItem et sous-classes)} : \\
-	Ces classes représentent des éléments graphiques de base, une ellipse (QGaphicsEllipseItem), un rectangle (QGraphicsRectItem), un texte (QGraphicsTextItem), etc. Il est possible de les paramétrer en leur fournissant un objet QPen personnalisé (pour le contour) et/ou un objet QBrush (pour le fond) et en utilisant leur interface publique respective. Il est également possible de spécialiser une classe de QT afin de créer ses propres éléments.
+	Ces classes représentent des éléments graphiques de base, une ellipse (QGaphicsEllipseItem), un rectangle (QGraphicsRectItem), un texte (QGraphicsTextItem), etc. Il est possible de les paramétrer en leur fournissant un objet QPen personnalisé (pour le contour) et/ou un objet QBrush (pour le fond) et en utilisant leur interface publique respective. Il est également possible de spécialiser une classe de Qt afin de créer ses propres éléments.
 	Ces objets possèdent une fois de plus leur propre système de coordonnées. La position qu'il leur est attribuée par la scène devient leur point d'origine et là aussi des méthodes permettent des conversions.
 	
 	\pagebreak
@@ -195,7 +196,7 @@
 	
 	\pagebreak
 	
-	Afin de respecter la philosophie de QT, j'ai créé des classes spécialisées pour chaque partie. La classe \textbf{GraphView} n'a pas forcément d'utilité pour l'instant, mais pour l'éventuel avenir du projet, celle-ci permettra de gérer des événements plus précis (actuellement nous n'avons implémenté que le drag and drop des sommets et ceci est automatiquement géré par QT). \\
+	Afin de respecter la philosophie de Qt, j'ai créé des classes spécialisées pour chaque partie. La classe \textbf{GraphView} n'a pas forcément d'utilité pour l'instant, mais pour l'éventuel avenir du projet, celle-ci permettra de gérer des événements plus précis (actuellement nous n'avons implémenté que le drag and drop des sommets et ceci est automatiquement géré par Qt). \\
 	La classe \textbf{GraphScene} prend en paramètre un pointeur de IGraph. C'est cette objet qui va s'occuper de créer tous les éléments graphiques nécessaires à sa représentation. \\
 	Puis les éléments graphiques \textbf{VertexItem} et \textbf{EdgeItem} (ainsi que ses sous-classes \textbf{DiEdgeItem} et \textbf{FlowEdgeItem}) permettent respectivement de dessiner les sommets et les arcs/arêtes. Ces classes ne sont pas directement de type QGraphcsItem, mais de QGraphicsItemGroup qui est en fait un conteneur de plusieurs QGraphcsItem. En effet, un sommet est composé d'un cercle (réellement d'une ellipse) d'un texte pour l'identifiant affiché et d'un autre texte pour son label. Les arêtes (EdgeItem) qui sont des simple lignes avec un label, les arcs (DiEdge) qui ajoutent une flèche pour la direction et les flux (FlowEdge) qui ajout également une flèche, mais aussi les capacités. Chacun des éléments graphiques ajoute et gère tous les autres éléments graphiques dont il a besoin. \\
 	
@@ -203,7 +204,7 @@
 	La classe Graphe met à disposition des identifiants uniques croissants. Ceci m'a permis de pouvoir faire le lien entre un sommet et un sommet graphique afin de savoir, d'après un IEdge, quels sommets graphiques relier.
 	
 	\subsubsection{Drag \& drop des sommets}
-	La classe \textbf{VertexItem} représentant un sommet, utilise une fonctionnalité de QT qui permet d'automatiquement implémenter le drag \& drop, au travers de méthodes appelées dans le constructeur de la classe. Tout est donc automatique. \\
+	La classe \textbf{VertexItem} représentant un sommet, utilise une fonctionnalité de Qt qui permet d'automatiquement implémenter le drag \& drop, au travers de méthodes appelées dans le constructeur de la classe. Tout est donc automatique. \\
 	J'ai néanmoins dû faire en sorte que si un sommet est déplacé, les arcs/arêtes liées s'adaptent. Qt met à disposition une méthode \textbf{itemChange()} sur les éléments graphiques afin d'être averti lors d'événements. Surcharger cette méthode a permis d'effectuer une action si le type d'événement est un drag \& drop, à savoir ajuster tous les arcs/arêtes liés.
 	
 	\subsubsection{Ajustement des arcs/arêtes}
@@ -268,7 +269,7 @@
 		\caption{Diagramme de la classe GraphWidget}
 	\end{figure}
 	
-	Cette classe hérite de \textbf{QWidget}, une classe de QT permettant jsutement d'être ajoutée et affichée dans un layout. Le widget possède également un layout, nécessaire pour y ajouter et afficher la vue du graphe.
+	Cette classe hérite de \textbf{QWidget}, une classe de Qt permettant jsutement d'être ajoutée et affichée dans un layout. Le widget possède également un layout, nécessaire pour y ajouter et afficher la vue du graphe.
 	
 	\subsection{Exportation}
 	L'exportation des graphes (uniquement au format SVG pour ce projet) s'effectue à l'aide de la classe \textbf{GraphExporter}. Cette classe met à disposition des méthodes statiques permettant d'exporter au format SVG. \\
@@ -280,7 +281,7 @@
 		\caption{Diagramme de la classe GraphExporter}
 	\end{figure}
 	
-	Pour l'exportation SVG, il y a deux méthodes. Une avec un chemin de fichier en paramètre, l'autre sans. La méthode sans chemin va automatiquement ouvrir une fenêtre invitant l'utilisateur à choisir l'emplacement et le nom du fichier à enregistrer (à l'aide de la classe \textbf{QFileDialog} de QT). Celle-ci va ensuite appeler la deuxième méthode avec le nom du fichier spécifié. \\
+	Pour l'exportation SVG, il y a deux méthodes. Une avec un chemin de fichier en paramètre, l'autre sans. La méthode sans chemin va automatiquement ouvrir une fenêtre invitant l'utilisateur à choisir l'emplacement et le nom du fichier à enregistrer (à l'aide de la classe \textbf{QFileDialog} de Qt). Celle-ci va ensuite appeler la deuxième méthode avec le nom du fichier spécifié. \\
 	Pour l'exportation, la scène est simplement rendue dans un objet spécifique à la place de celui gérant l'affichage. Il s'agit d'un objet \textbf{QSvgGenerator}. Ce dernier prend en paramètre le chemin du fichier et la taille du dessin SVG à créer. \\
 	
 	Le générateur s'utilise ensuite simplement en appelant l'une de ses méthodes statiques.
