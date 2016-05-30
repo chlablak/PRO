@@ -1,6 +1,8 @@
-//
-// Created by PatrickDesle on 23.05.2016.
-//
+/*! brief Apply a topological sort algorithm
+ * \file TopologicalSort.h
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 
 #ifndef GRAPH_TOPOLOGICALSORT_H
 #define GRAPH_TOPOLOGICALSORT_H
@@ -32,7 +34,7 @@ private:
 
     /*! \brief apply the topological sort algorithm to search a topological order
      * \param g - The graph on which to search the topological order
-     * 
+     *
      */
     void order(IGraph *g);
 public:

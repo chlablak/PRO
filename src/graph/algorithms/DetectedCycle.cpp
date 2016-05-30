@@ -1,8 +1,8 @@
-//
-// Created by PatrickDesle on 23.05.2016.
-//
-// TODO Djomo commentaires + QT coding style
-
+/*! brief Determine weither a graph is acyclique
+ * \file DetectedCycle.cpp
+ * \author Sébastien Richoz & Patrick Djomo
+ * \date spring 2016
+ */
 #include <stack>
 #include <stdexcept>
 #include "DetectedCycle.h"
