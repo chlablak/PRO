@@ -21,7 +21,7 @@ Pour plus d'informations, se référer aux annexes situées dans /doc/
 	* bin/ 		: l'application et son exécutable
 	* userHelp/ 	: l'aide utilisateur
 	* doc/ 		: la documentation du projet (cahier des charges, rapport, planification)
-	* src.zip	: les sources du projet
+	* src.zip	: les sources du projet (/src/gui/gui.pro)
 
 # Credits
 Application réalisée au printemps 2016 à l'HEIG-VD par des étudiants de la filière informatique en 2ème année orientation logicielle.
