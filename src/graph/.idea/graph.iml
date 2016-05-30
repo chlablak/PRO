@@ -13,14 +13,13 @@
       <sourceFolder url="file://$MODULE_DIR$/algorithms/GraphAlgorithm.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/UnionFind.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DetectedCycle.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/TopologicalSort.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/PushRelabel.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/ConnectedComponent.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/TopologicalSort.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/ConnectedComponent.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToFlowGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/GraphAlgorithm.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DijkstraSP.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Kruskal.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/PushRelabel.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/FFEK.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DetectedCycle.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/DFS.cpp" isTestSource="false" />
@@ -31,7 +30,6 @@
       <sourceFolder url="file://$MODULE_DIR$/algorithms/FFEK.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BellmanFordSP.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToFlowGraph.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToFlowGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/Visitor.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/BFS.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/algorithms/CopyToDiGraph.cpp" isTestSource="false" />
@@ -45,29 +43,29 @@
       <sourceFolder url="file://$MODULE_DIR$/Includes.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/Vertex.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/EdgeCommon.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/GraphCommon.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/EdgeCommon.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraphCommon.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraphCommon.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowGraph.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowEdge.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Vertex.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/GraphCommon.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraph.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/IEdge.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraphCommon.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/Vertex.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraph.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdge.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdgeCommon.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/DiEdgeCommon.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/FlowEdge.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/IGraph.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraph.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/graphs/DiGraphCommon.hpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/Edge.h" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/graphs/Graph.h" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">

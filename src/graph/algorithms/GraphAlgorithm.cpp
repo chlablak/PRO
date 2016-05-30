@@ -7,7 +7,6 @@
 
 #include "GraphAlgorithm.h"
 
-// TODO remove pushrelabel ?
 // Visitors
 #include "BFS.h"
 #include "DFS.h"
@@ -21,7 +20,6 @@
 #include "DijkstraSP.h"
 #include "DetectedCycle.h"
 #include "TopologicalSort.h"
-#include "PushRelabel.h"
 #include "FFEK.h"
 
 IGraph *GraphAlgorithm::bfs(IGraph *g, Vertex *from, vector<double>& distances)

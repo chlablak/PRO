@@ -523,6 +523,13 @@
 		
 		\subsection{Architecture}
 		
+			\subsubsection{Diagramme de classe}
+			\begin{figure}[H]
+				\centering
+				\includegraphics[scale=2.8]{Conception/graph/umlGraph.pdf}
+				\caption{Diagramme de classe pour les graphes}
+			\end{figure}
+		
 			\subsubsection{La classe "Vertex"}
 			Les sommets sont les mêmes pour tous les types de graphe (orienté, à flot, ou non-orienté). Les informations suivantes y sont stockées :
 			\begin{itemize}
@@ -892,88 +899,150 @@
 				\item L'algorithme est le visiteur
 				\item Le graphe représente la structure de donnée à visiter
 			\end{itemize}
-			% TODO
-			Le résultat de nos algorithmes retourne toujours un graphe. La recherche d'un plus court chemin par exemple, retournera un chemin de racine r (sommet source du parcours) qui est donc un graphe.\\
+			L'interface Visitor peut visiter un \lstinline[basicstyle=\ttfamily\color{blue}]|Graph|, un \lstinline[basicstyle=\ttfamily\color{blue}]|DiGraph|, ou un \lstinline[basicstyle=\ttfamily\color{blue}]|FlowGraph| et ce en spécifiant un sommet source "from" et un sommet destination "to". Tous nos algorithmes n'utiliseront pas "from" et "to", c'est pourquoi ils ont une valeur par défaut à nullptr.
 			
-			% TODO corriger UML et code d'exemple
+			Le résultat de nos algorithmes retournent parfois un graphe, parfois un tableau. Deux méthodes supplémentaires \lstinline[basicstyle=\ttfamily\color{blue}]|IGraph *G();| et \lstinline[basicstyle=\ttfamily\color{blue}]|vector<double> table();| ont donc été ajoutées.
+			
+			Du côté de la structure, une méthode \lstinline[basicstyle=\ttfamily\color{blue}]|accept(Visitor *v, Vertex *from, Vertex *to)| permet de spécifier au visiteur quel type de graphe manipuler au travers de la liaison dynamique.
+			
+			Finalement, une classe statique \lstinline[basicstyle=\ttfamily\color{blue}]|GraphAlgorithm| liste tous les algorithmes implémentés (voir dans la section "liste des algorithmes implémentés").
+			
 			\begin{figure}[H]
 				\centering
 				\includegraphics[scale=2.4]{Conception/graph/visitor.pdf}
-				\caption{Pattern Visitor pour l'application des algos aux graphes}
+				\caption{Pattern Visitor pour l'application des algorithmes aux graphes}
 			\end{figure}
 			
 			Les algorithmes ne sont pas les mêmes pour tous les types de graphes : un parcours en largeur sera quelque peu différent entre un graphe orienté et non-orienté. Le pattern Visiteur est précisément fait pour répondre à ce genre de problème. De plus, l'avantage du pattern est qu'il est facilement extensible : un nouvel algorithme s'ajoute tout bonnement en tant que visiteur. Par contre, la structure de donnée doit être complète et tout changement de cette dernière demandera, selon le changement, une adaptation chez tous les visiteurs.\\
 			
 			\begin{lstlisting}
 						// Code d'un objet visite
-						public class Graph {
+						class Graph {
 							private:
 								//...
 							public:
-								void accept(Visitor v) {
-									v->visitGraph(this);
+								void accept(Visitor *v, Vertex *from, Vertex *to) {
+									v->visitGraph(this, from, to);
 								}
 						};
 			\end{lstlisting}
 			\begin{lstlisting}
 						// Implementation d'un visiteur
-						public class BFS {
+						class BFS : public Visitor {
+							private:
+								vector<double> _distances;
+								IGraph *_G;
+								
 							public:
-								IGraph visitGraph(Graph g) {
-									list<Vertex> vertices;
-									list<Edge> edges;
+								BFS() : _distances(0), _G(nullptr) {}
+								void visit(Graph *g, Vertex *from, Vertex *to) {
 									// Implementation du BFS pour un graphe non-oriente...
-									return new Graph(vertices, edges);
 								}
-								IGraph visitDiGraph(DiGraph g) {
-									list<Vertex> vertices;
-									list<Edge> edges;
+								void visit(DiGraph *g, Vertex *from, Vertex *to) {
 									// Implementation du BFS pour un graphe oriente...
-									return new DiGraph(vertices, edges);
 								}
-								IGraph visitFlowGraph(FlowGraph g) {
-									list<Vertex> vertices;
-									list<Edge> edges;
+								void visit(FlowGraph *g, Vertex *from, Vertex *to) {
 									// Implementation du BFS pour un graphe a flot...
-									return new FlowGraph(vertices, edges);
+								}
+								IGraph* G() const {
+									return _G;
+								}
+								vector<double> table() {
+									return _distances;
+								}
+						};
+			\end{lstlisting}
+			\begin{lstlisting}
+						// Implementation de deux algorithmes dans GraphAlgorithm
+						#include "BFS.h"
+						#include "Dijkstra.h"
+						
+						class GraphAlgorithm {							
+							public:
+								IGraph *bfs(IGraph *g, Vertex *from, vector<double>& distances) {
+									Visitor *v = new BFS;
+									g->accept(v, from);
+									distances = v->table();
+									return v->G();
+								}
+								
+								IGraph *dijkstra(IGraph *g, Vertex *from, vector<double>& distances) {
+									Visitor *v = new DijkstraSP;
+									g->accept(v, from);
+									distances = v->table();
+									return v->G();
 								}
 						};
 			\end{lstlisting}
 			
 			Nous avons choisi ce pattern car il permet de bien séparer la structure de donnée des algorithmes et il nous permet de collaborer efficacement au sein de l'équipe.
 			
-			% TODO corriger
-			\subsubsection{Type de retour}
-			Nos algorithmes ont une chose en commun : ils retournent tous un graphe. Cependant, vu que nous codons en C++, nous pouvons nous poser la question du type de retour. Le graphe doit-il être retourné par valeur, référence, ou pointeur ?\\
-			Retourner par valeur implique une lourde copie de tout le graphe, ce qui ralentirait le système. De plus, le graphe sera progressivement dynamiquement construit tout au long de l'algorithme et le propriétaire de ce graphe sera celui qui appelle cet algorithme. Pour ces raisons, Nous avons décidé de \textbf{retourner le graphe par pointeur}.
-			
-			\subsubsection{Liste}
+			\subsubsection{Liste des algorithmes implémentés}
 			Dans le tableau ci-dessous figurent les algorithmes traités par l'application. Pour la colonne \textit{Complexité}, $V$ représente le nombre de sommet (Vertex), et $E$ le nombre d'arcs/arêtes (Edge) d'un graphe.
 			\begin{figure}[H]
 				\centering
-				\begin{tabular}{L{3cm}L{10cm}l}
-					\textbf{Nom} & \textbf{Description} & \textbf{Complexité}\\
+				\begin{tabular}{L{2cm}L{3cm}L{8cm}l}
+					\textbf{Nom} & \textbf{Valeur de retour} & \textbf{Description} & \textbf{Complexité}\\
 					\hline
-					BFS & Breadth First Search : effectue une exploration en largeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(V+E)$\\
+					BFS & IGraph & Breadth First Search : effectue une exploration en largeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(V+E)$\\
 					\hline
-					DFS & Deapth First Search : effectue une exploration en profondeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(V+E)$\\
+					DFS & IGraph & Depth First Search : effectue une exploration en profondeur d'un graphe depuis un sommet source et retourne l'arborescence du parcours. & $O(V+E)$\\
 					\hline
-					Composante connexe & Calcul les composantes connexes d'un graphe et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
+					Composante connexe & vector<double> & Calcul les composantes connexes d'un graphe et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
 					\hline
-					Composante fortement connexe & Calcul les composantes fortement connexes d'un graphe orienté et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
+					Composante fortement connexe & vector<double> &Calcul les composantes fortement connexes d'un graphe orienté et retourne un tableau dont l'index représente le sommet et la valeur la composante à laquelle appartient le sommet. & $O(V+E)$\\
 					\hline
-					Kruskal & Implémenté avec UnionFind, recherche de l'arbre recouvrant de poids min. & $O(E * log(V))$\\
+					Kruskal & IGraph et vector<double> en paramètre  &Implémenté avec UnionFind, recherche de l'arbre recouvrant de poids min. & $O(E * log(V))$\\
 					\hline
-					Prim & Version empressée de Prim, recherche de l'arbre recouvrant de poids min. & $O(E * log(V))$\\
+					Bellman-Ford & IGraph et vector<double> en paramètre &Recherche les plus courts chemins depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré. & $O(E*V)$\\
 					\hline
-					Bellman-Ford & Recherche les plus courts chemins depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré. & $O(E*V)$\\
-					\hline
-					Dijkstra & Implémenté à l'aide d'une queue de priorité, recherche d'un plus court chemin depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré positivement (ou nul). & $O(E * log(V))$\\
+					Dijkstra & IGraph et vector<double> en paramètre & Implémenté à l'aide d'une queue de priorité, recherche d'un plus court chemin depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré positivement (ou nul). & $O(E * log(V))$\\
+					
+					% TODO FFEK ?
 				\end{tabular}
 			\end{figure}
 			
-			
 			\subsubsection{Utilisation}
+			L'utilisation se fait de la manière suivante
+			\begin{enumerate}
+				\item Créer un graphe (avec des sommets et des edges) 
+				\item Appeler l'algorithme voulu
+				\item Récupérer le graphe résultant de l'algorithme (si l'algorithme retourne un graphe), sinon récupérer le tableau de double (et éventuellement le tableau de double passé préalablement en paramètre)
+			\end{enumerate}
+			
+			\begin{lstlisting}
+						// Exemple d'utilisation
+						#include "Graph.h"
+						#include "GraphAlgorithm.h"
+						
+						int main {				
+							// Creation d'un graphe non oriente
+							Vertex *v1 = new Vertex;
+							Vertex *v2 = new vertex;
+							Vertex *v3 = new vertex;
+							
+							IEdge *e1 = new Edge(v1, v2);
+							
+							IGraph *g = new Graph;
+							
+							g->addVertex(v1);
+							g->addVertex(v2);
+							g->addVertex(v3);
+							g->addEdge(e1);
+							
+							// Application d'un BFS depuis v1
+							vector<double> distances;
+							IGraph *bfs = GraphAlgorithm::bfs(g, v1, distances);
+							
+							// Resultat
+							cout << *bfs << endl;		// Affiche v1--v2
+							for (double d : distances)	
+								cout << d << " ";		// Affiche 0 1 -1
+							cout << endl;
+							
+							return EXIT_SUCCESS;
+						};
+			\end{lstlisting}
 			
 	\section{Interface}
 		\subsection{Fenêtre principale}
