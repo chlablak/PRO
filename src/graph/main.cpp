@@ -23,16 +23,16 @@ int main()
 
      // Tests Djomo
      // DTestGraph testGraph;
-        DTestDiGraph testDiGraph;
+//        DTestDiGraph testDiGraph;
 
   //   DTestFlowGraph testFlowGraph;
 
     // Tests Richoz
    // RTestGraph testGraph;
 //    RTestDiGraph testDiGraph;
-//    RTestFlowGraph testFlowGraph;
+    RTestFlowGraph testFlowGraph;
 
 
 
-    return 0;
+    return EXIT_SUCCESS;
 }

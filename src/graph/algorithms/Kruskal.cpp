@@ -27,7 +27,6 @@ namespace std
 
 void Kruskal::visit(Graph *g, Vertex *, Vertex *)
 {
-    // TODO vérifier si g doit être isSimple()
     if (!g->isConnected())
         throw std::runtime_error("Error in Kruskal algorithm. "
                                          "The graph must be connected.");
