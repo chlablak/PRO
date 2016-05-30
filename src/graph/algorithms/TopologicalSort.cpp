@@ -1,4 +1,5 @@
-/*! brief Apply a topological sort algorithm
+/*! \brief Apply a topological sort algorithm
+ *
  * \file TopologicalSort.cpp
  * \author Sébastien Richoz & Patrick Djomo
  * \date spring 2016
@@ -8,23 +9,24 @@
 #include "TopologicalSort.h"
 #include "GraphAlgorithm.h"
 
-bool TopologicalSort::isDAG(IGraph *g) const {
+bool TopologicalSort::isDAG(IGraph *g) const
+{
     IGraph *gCycle = GraphAlgorithm::detectCycle(g);
     return gCycle == nullptr;
 }
 
-void TopologicalSort::fillPredessessors(IGraph *g) {
-    for(auto v : g->vertexList())
-    {
+void TopologicalSort::fillPredessessors(IGraph *g)
+{
+    for (auto v : g->vertexList()) {
         // for each successor u of vertex v, we add v to the list of predessessor of u
-        for(auto iedge : g->adjacentEdges(v)){
+        for (auto iedge : g->adjacentEdges(v)) {
             _predessessorsList.at(iedge->to()->id()).push_back(v);
         }
     }
 }
 
-void TopologicalSort::order(IGraph *g) {
-
+void TopologicalSort::order(IGraph *g)
+{
     vector<size_t > inputDegree(g->V()); inputDegree.assign(g->V(), 0);
     list<Vertex *> L; // L will content the list of vertex without predessessor and that are not yet order
     double rang = 0;
@@ -32,69 +34,62 @@ void TopologicalSort::order(IGraph *g) {
     Vertex * current;
 
     // we calculate the input degree of each vertex
-    for(auto v : g->vertexList())
-    {
+    for (auto v : g->vertexList()) {
         degree = _predessessorsList.at(v->id()).size();
         inputDegree.at(v->id()) = degree;
         if(inputDegree.at(v->id()) == 0)
-        {
             L.push_back(v);
-        }
     }
 
-    while(!L.empty())
-    {
+    while (!L.empty()) {
         current = L.front(); L.pop_front();
         _order.at(current->id()) = rang;
         rang = rang + 1;
-        for(auto iedge : g->adjacentEdges(current))
-        {
+        for (auto iedge : g->adjacentEdges(current)) {
             inputDegree.at(iedge->to()->id()) -= 1;
             if(inputDegree.at(iedge->to()->id()) == 0)
-            {
                 L.push_back(iedge->to());
-            }
         }
-
     }
 }
 
-void TopologicalSort::visit(Graph *, Vertex *, Vertex *) {
-    throw std::runtime_error("A topological sort can't be apply to a graph. The graph should be directed");
+void TopologicalSort::visit(Graph *, Vertex *, Vertex *)
+{
+    throw std::runtime_error("A topological sort can't be apply to a graph. "
+                                     "The graph should be directed");
 }
 
-void TopologicalSort::visit(DiGraph *g, Vertex *from, Vertex *) {
+void TopologicalSort::visit(DiGraph *g, Vertex *, Vertex *)
+{
     if (g->isNull()) {
         _G = new Graph;
         return;
     }
     if(!isDAG(g))
-    {
-        throw std::runtime_error("A topological sort can't be apply to a direchted cyclic graph. The graph should be acyclic");
-    }
-    UNUSED(from);
+        throw std::runtime_error("A topological sort can't be apply to a "
+                                         "directed cyclic graph. "
+                                         "The graph should be acyclic");
+
     IGraph * gClone = g->clone();
     _predessessorsList.resize(gClone->V());
     _order.resize(gClone->V());
 
     fillPredessessors(gClone);
     order(gClone);
-
-
-
 }
 
-void TopologicalSort::visit(FlowGraph *g, Vertex *from, Vertex *) {
+void TopologicalSort::visit(FlowGraph *g, Vertex *, Vertex *)
+{
 
     if (g->isNull()) {
-     _G = new Graph;
-     return;
+         _G = new Graph;
+         return;
     }
     if(!isDAG(g))
-    {
-         throw std::runtime_error("A topological sort can't be apply to a directed cyclic graph. The graph should be acyclic");
-    }
-    UNUSED(from);
+         throw std::runtime_error("A topological sort can't be apply to a "
+                                          "directed cyclic graph. The graph "
+                                          "should be acyclic");
+
     IGraph * gClone = g->clone();
     _predessessorsList.resize(gClone->V());
     _order.resize(gClone->V());
@@ -103,11 +98,13 @@ void TopologicalSort::visit(FlowGraph *g, Vertex *from, Vertex *) {
     order(gClone);
 }
 
-IGraph *TopologicalSort::G() const {
+IGraph *TopologicalSort::G() const
+{
     return _G;
 }
 
-std::vector<double> TopologicalSort::table() {
+std::vector<double> TopologicalSort::table()
+{
     return _order;
 }
 
