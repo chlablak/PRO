@@ -1,4 +1,5 @@
-/*! brief Apply a topological sort algorithm
+/*! \brief Apply a topological sort algorithm
+ *
  * \file TopologicalSort.h
  * \author Sébastien Richoz & Patrick Djomo
  * \date spring 2016
@@ -22,26 +23,31 @@ private:
     IGraph *_G;
 
     /*! \brief Determine weither a graph is acyclique
+     *
      * \param g - The graph on which to check if it contains a cycle
      * return bool true if the graph is acyclique
      */
     bool isDAG(IGraph *g) const;
 
     /*! \brief fill the _prdessessortList attribute that contain the predessessor of each vertex of the graph
+     *
      * \param g - The graph on which make the predessessor list
      */
     void fillPredessessors(IGraph *g);
 
     /*! \brief apply the topological sort algorithm to search a topological order
-     * \param g - The graph on which to search the topological order
      *
+     * \param g - The graph on which to search the topological order
      */
     void order(IGraph *g);
+
 public:
+    /*! \brief Constructor
+     */
+    TopologicalSort(): _predessessorsList(0), _order(0), _G(nullptr) {}
 
-
-    TopologicalSort(): _predessessorsList(0), _order(0), _G(nullptr) { }
-
+    /*! \brief Destructor
+     */
     virtual ~TopologicalSort() override {}
 
     virtual void visit(Graph *g, Vertex *from, Vertex *to) override ;

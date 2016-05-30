@@ -1,8 +1,10 @@
-/*! brief Determine weither a graph is acyclique
+/*! \brief Determine wether a graph is acyclic
+ *
  * \file DetectedCycle.cpp
  * \author Sébastien Richoz & Patrick Djomo
  * \date spring 2016
  */
+
 #include <stack>
 #include <stdexcept>
 #include "DetectedCycle.h"
@@ -10,9 +12,8 @@
 #include "../graphs/DiGraph.h"
 #include "../graphs/FlowGraph.h"
 
-
-void DetectedCycle::visit(Graph *g, Vertex *, Vertex *) {
-
+void DetectedCycle::visit(Graph *g, Vertex *, Vertex *)
+{
     if (g->isNull()) {
         _G = new Graph;
         return;
@@ -25,12 +26,11 @@ void DetectedCycle::visit(Graph *g, Vertex *, Vertex *) {
 
     for(Vertex* u : gClone->vertexList()){
         hasCycle(u, u->id(), gClone);
-        if(cycleFounded){
+        if (cycleFounded)
             break;
-        }
     }
 
-    if(cycleFounded) {
+    if (cycleFounded) {
 
         _G = g->emptyClone();
         bool begin = false; // this variable will enable us to know where the cycle starts in the vector _cycle
@@ -47,19 +47,16 @@ void DetectedCycle::visit(Graph *g, Vertex *, Vertex *) {
                 begin = true; // we have find the beginning of the cycle in the vertor _cycle
             }
 
-
             // we add the edge to _G
-            for (unsigned int i= positionBegin; i < (_cycle.size() - 1); ++i) {
-                _G->assignEdge(gClone->getEdges(_cycle.at(i), _cycle.at(i + 1)).front());
+            for (unsigned int j = positionBegin; j < (_cycle.size() - 1); ++j) {
+                _G->assignEdge(gClone->getEdges(_cycle.at(j), _cycle.at(j + 1)).front());
             }
         }
     }
-
-
 }
 
-void DetectedCycle::visit(DiGraph *g, Vertex *, Vertex *) {
-
+void DetectedCycle::visit(DiGraph *g, Vertex *, Vertex *)
+{
     if (g->isNull()) {
         _G = new DiGraph;
         return;
@@ -74,12 +71,12 @@ void DetectedCycle::visit(DiGraph *g, Vertex *, Vertex *) {
     commonFlowDiGraph(gClone);
 }
 
-void DetectedCycle::visit(FlowGraph *g, Vertex *from, Vertex *) {
+void DetectedCycle::visit(FlowGraph *g, Vertex *, Vertex *)
+{
     if (g->isNull()) {
         _G = new FlowGraph;
         return;
     }
-    UNUSED(from);
 
     // Initialize _G with an empty FlowGraph
     IGraph *gClone = g->clone();
@@ -90,18 +87,20 @@ void DetectedCycle::visit(FlowGraph *g, Vertex *from, Vertex *) {
     commonFlowDiGraph(gClone);
 }
 
-IGraph *DetectedCycle::G() const {
+IGraph *DetectedCycle::G() const
+{
     return _G;
 }
 
-std::vector<double> DetectedCycle::table() {
-    throw std::runtime_error("no table in Detected Cycle");
+std::vector<double> DetectedCycle::table()
+{
+    throw std::runtime_error("Error. No table in Detected Cycle");
 }
 
 
 
-void DetectedCycle::hasCycleDirected(Vertex *v, IGraph* g) {
-
+void DetectedCycle::hasCycleDirected(Vertex *v, IGraph* g)
+{
     _marked.at(v->id()) = true;
     _stacked.at((v->id())) =  true;
     _cycle.push_back(v);
@@ -124,16 +123,15 @@ void DetectedCycle::hasCycleDirected(Vertex *v, IGraph* g) {
         _stacked.at(v->id()) = false;
         _cycle.pop_back();
     }
-
-
 }
-void DetectedCycle::hasCycle(Vertex *v, int fromId, IGraph *g) {
+
+void DetectedCycle::hasCycle(Vertex *v, int fromId, IGraph *g)
+{
     _marked.at(v->id()) = true;
     _stacked.at((v->id())) =  true;
     _cycle.push_back(v);
 
-    for(IEdge *edge : g->adjacentEdges(v)){
-
+    for (IEdge *edge : g->adjacentEdges(v)) {
         if(fromId == edge->other(v)->id()){
             continue;
         }
@@ -155,16 +153,16 @@ void DetectedCycle::hasCycle(Vertex *v, int fromId, IGraph *g) {
     }
 }
 
-void DetectedCycle::commonFlowDiGraph(IGraph *g) {
+void DetectedCycle::commonFlowDiGraph(IGraph *g)
+{
 
     for(Vertex* u : g->vertexList()){
         hasCycleDirected(u, g);
-        if(cycleFounded){
+        if (cycleFounded)
             break;
-        }
     }
 
-    if(cycleFounded) {
+    if (cycleFounded) {
         // Initialize _G with an empty graph
         _G = g->emptyClone();
         bool begin = false; // this variable will enable us to know where the cycle starts in the vector _cycle
@@ -182,6 +180,7 @@ void DetectedCycle::commonFlowDiGraph(IGraph *g) {
             }
 
         }
+
         // we add the edge to _G
         for (unsigned int i = positionBegin; i < (_cycle.size() - 1); ++i) {
             _G->assignEdge(g->getEdges(_cycle.at(i), _cycle.at(i + 1)).front());
