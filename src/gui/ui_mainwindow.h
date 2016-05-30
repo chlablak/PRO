@@ -51,6 +51,9 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
         MainWindow->resize(800, 600);
+        QIcon icon;
+        icon.addFile(QStringLiteral("favicon.png"), QSize(), QIcon::Normal, QIcon::Off);
+        MainWindow->setWindowIcon(icon);
         MainWindow->setDocumentMode(false);
         MainWindow->setDockNestingEnabled(true);
         loadSession = new QAction(MainWindow);

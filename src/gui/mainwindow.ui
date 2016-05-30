@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>GraphY</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>favicon.png</normaloff>favicon.png</iconset>
+  </property>
   <property name="documentMode">
    <bool>false</bool>
   </property>

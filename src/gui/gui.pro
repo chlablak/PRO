@@ -91,7 +91,6 @@ SOURCES += main.cpp\
     ../graph/graphs/GraphCommon.cpp \
     ../graph/graphs/Vertex.cpp \
     ../graph/algorithms/FFEK.cpp \
-    ../graph/algorithms/PushRelabel.cpp \
     ../egli/serialize.cpp
 
 HEADERS  += mainwindow.h \
@@ -194,7 +193,6 @@ HEADERS  += mainwindow.h \
     ../graph/graphs/Vertex.h \
     ../graph/Includes.h \
     ../graph/algorithms/FFEK.h \
-    ../graph/algorithms/PushRelabel.h \
     ../graph/tests/DTestDiGraph.h \
     ../graph/tests/DTestFlowGraph.h \
     ../graph/tests/DTestGraph.h \

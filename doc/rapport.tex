@@ -999,6 +999,11 @@
 					Bellman-Ford & IGraph et vector<double> en paramètre &Recherche les plus courts chemins depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré. & $O(E*V)$\\
 					\hline
 					Dijkstra & IGraph et vector<double> en paramètre & Implémenté à l'aide d'une queue de priorité, recherche d'un plus court chemin depuis un sommet source vers tous les autres sommets. Le graphe doit être orienté et pondéré positivement (ou nul). & $O(E * log(V))$\\
+                                       \hline
+					Detection des cycles & IGraph & Détermine si un graphe contient un cycle ou un circuit pour les graphes orientés et retourne le cycle trouvé. & $O(E+V))$\\
+                                      \hline
+				      Tri Topologique & vector<double> & recherche l'ordre par lequel il faut parcourir le graphe topologiquement. Le graphe doit être orienté ou à flow. & $O(E+V))$\\
+
 				\end{tabular}
 			\end{figure}
 			
@@ -1232,7 +1237,39 @@
 				\caption{Comparaison entre les dates prévues et effectives des tâches principales}
 				\label{fig:comparaisondates}
 			\end{figure}
-	
+			
+			% Tables des figures
+			\listoffigures
+			
+			% References
+			\begin{thebibliography}{9}
+				\bibitem{qtStyle}
+				Qt wiki, Qt coding style,\\ \url{https://wiki.qt.io/Qt_Coding_Style}
+				
+				\bibitem{vutbr.cz} 
+				Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
+				
+				\bibitem{plantuml}
+				PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
+				
+				\bibitem{Graph data wikipedia.org}
+				Graphs data structures,\\ \url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
+				
+				\bibitem{boost.spirit}
+				Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
+				
+				\bibitem{tries}
+				Robert Sedgewick, Kevin Wayne.\\
+				\emph{Algorithms, fourth edition}\\
+				\url{http://algs4.cs.princeton.edu/lectures/52Tries.pdf}
+				
+				\bibitem{sedgewick}
+				Robert Sedgewick.\\
+				\emph{Course on ternary search tries}
+				\url{https://www.youtube.com/watch?v=CIGyewO7868}
+			\end{thebibliography}
+			
+	\newpage
 	\section{Annexes EGLI}
 	\label{sec:annexes-egli}
 	
@@ -2131,12 +2168,12 @@
 		D'un point de vue structure de données cet arbre est très simple, voici un exemple:
 		
 		\begin{lstlisting}
-		struct Statement {
-		enum class Type { A, F, C, V };
-		Type type;
-		string value;
-		vector<Statement> parameters;
-		};
+					struct Statement {
+						enum class Type { A, F, C, V };
+						Type type;
+						string value;
+						vector<Statement> parameters;
+					};
 		\end{lstlisting}
 		
 		La création de cet arbre se fait grâce aux \textit{tokens} générés dans la partie \textit{Parser validation} (voir section~\ref{subsec:implementation-du-parseur}).
@@ -2336,39 +2373,7 @@
 		
 		Cela est possible car les tables des variables et des fonctions nous permet d'obtenir des informations sur leurs contenus. L'algorithme consiste à nouveau en une simple récursion dans l'arbre, et à chaque noeud on vérifie les types.\\
 		
-		NB: cette vérification ne verra pas tous les problèmes de types, typiquement à cause des tableaux dynamiques hétérogènes.
-		
-		
-		% Tables des figures
-		\listoffigures
-		
-		% References
-		\begin{thebibliography}{9}
-			\bibitem{qtStyle}
-			Qt wiki, Qt coding style,\\ \url{https://wiki.qt.io/Qt_Coding_Style}
-			
-			\bibitem{vutbr.cz} 
-			Faculty of Technology, Brno University of Technology, République tchèque,\\ \url{http://www.fit.vutbr.cz/study/courses/APR/public/ebnf.html}
-			
-			\bibitem{plantuml}
-			PlantUML, Open-source tool that uses simple textual descriptions to draw UML diagrams,\\ \url{http://plantuml.com/}\\ \url{http://www.planttext.com/planttext}
-			
-			\bibitem{Graph data wikipedia.org}
-			Graphs data structures,\\ \url{https://en.wikipedia.org/wiki/Adjacency_matrix#Data_structures}
-			
-			\bibitem{boost.spirit}
-			Boost.Spirit (v2.5.2), is an object-oriented, recursive-descent parser and output generation library for C++,\\ \url{http://www.boost.org/doc/libs/1_60_0/libs/spirit/doc/html/index.html}
-			
-			\bibitem{tries}
-			Robert Sedgewick, Kevin Wayne.\\
-			\emph{Algorithms, fourth edition}\\
-			\url{http://algs4.cs.princeton.edu/lectures/52Tries.pdf}
-			
-			\bibitem{sedgewick}
-			Robert Sedgewick.\\
-			\emph{Course on ternary search tries}
-			\url{https://www.youtube.com/watch?v=CIGyewO7868}
-		\end{thebibliography}	
+		NB: cette vérification ne verra pas tous les problèmes de types, typiquement à cause des tableaux dynamiques hétérogènes.	
 		
 	\section{Annexes projet}
 		\subsection{Cahier des charges}
