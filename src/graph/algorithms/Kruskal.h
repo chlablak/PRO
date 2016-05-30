@@ -32,8 +32,7 @@ public:
 
     /*! \brief Override method from Visitor interface
      *
-     * \throw runtime_error Exception if g is not connected, not weighted, or
-     * not simple
+     * \throw runtime_error Exception if g is not connected, or not weighted
      */
     virtual void visit(Graph *g, Vertex *from, Vertex *to) override;
 
@@ -41,7 +40,6 @@ public:
      *
      * \throw runtime_error Exception because this algorithm can't be applied
      * to directed graph
-     * TODO vérifier
      */
     virtual void visit(DiGraph *g, Vertex *from, Vertex *to) override;
 
@@ -49,7 +47,6 @@ public:
      *
      * \throw runtime_error Exception because this algorithm can't be applied
      * to directed graph
-     * TODO vérifier
      */
     virtual void visit(FlowGraph *g, Vertex *from, Vertex *to) override;
 
